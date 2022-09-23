@@ -1,0 +1,24 @@
+/*
+ * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
+ * @license     GNU General Public License version 3, see LICENSE.
+ */
+
+.btn_loading {
+  display: none;
+}
+
+.body_login_page {
+  .btn_loading {
+    display: block;
+  }
+
+  .btn_icon_login {
+    display: none;
+  }
+
+  .wr_btn_login {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+  }
+}
