@@ -19,6 +19,9 @@ import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 import styles from '../index.module.scss';
+import history from 'routes/history';
+import { withRouter } from 'react-router-dom';
+
 const HomeList = observer(
   class HomeList extends Component {
     homeListViewModel = null;
@@ -34,10 +37,19 @@ const HomeList = observer(
     }
 
     componentDidMount() {
-      this.homeListViewModel.initializeData();
+      const collectionId = history.location.pathname.split('/');
+      this.homeListViewModel.gotoFolder(collectionId[2] ?? 0);
     }
+
     componentWillUnmount() {
       this.homeListViewModel.resetObservableProperties();
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props.location !== prevProps.location) {
+        const collectionId = history.location.pathname.split('/');
+        this.homeListViewModel.gotoFolder(collectionId[2] ?? 0);
+      }
     }
 
     handleEdit = (e, row, page) => {
@@ -54,14 +66,14 @@ const HomeList = observer(
           return arr.concat(el);
         }, []);
     };
-    handleExpanded = (e, row) => {
-      this.homeListViewModel.getContentByIdExpanded(row[this.key]);
-    };
 
     _handleList = () => {
       this.homeListViewModel.isList = !this.homeListViewModel.isList;
     };
 
+    handleDoubleClick = (colectionId) => {
+      history.push('/root/' + colectionId);
+    };
     render() {
       const { tableStatus, assets, collections, pagination } = this.homeListViewModel;
       const { t } = this.props;
@@ -75,7 +87,9 @@ const HomeList = observer(
           Cell: ({ row, state }) => (
             <div
               {...row.getToggleRowExpandedProps()}
-              className={`d-flex ${this.homeListViewModel.isList ? '' : ' justify-content-center'}`}
+              className={`d-flex pe-none ${
+                this.homeListViewModel.isList ? '' : ' justify-content-center'
+              }`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                 <div
@@ -85,10 +99,9 @@ const HomeList = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <FontAwesomeIcon
-                    color="#3F8EFC"
-                    style={{ width: '45px', height: '37px' }}
-                    icon={faFolder}
+                  <ComponentImage
+                    alt={row.original.name}
+                    src="/assets/images/folder.svg"
                     className={this.homeListViewModel.isList ? '' : styles.folder}
                   />
                   <span className={this.homeListViewModel.isList ? 'ms-3' : ''}>
@@ -103,13 +116,14 @@ const HomeList = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <span className={this.homeListViewModel.isList ? '' : styles.folder}>
+                  <span
+                    className={this.homeListViewModel.isList ? styles.image_isList : styles.image}
+                  >
                     <ComponentImage
-                      width={56}
-                      height={56}
                       alt={row.original.name}
                       src={row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                      wrapperClassName="w-100 h-100"
                     />
                   </span>
 
@@ -160,6 +174,7 @@ const HomeList = observer(
               _handleList={this._handleList}
               view={this.view}
               thumbColumnsNumber={2}
+              onDoubleClick={this.handleDoubleClick}
             />
           ) : (
             <ComponentNoData
@@ -174,4 +189,4 @@ const HomeList = observer(
   }
 );
 
-export default withTranslation('common')(withHomeViewModel(HomeList));
+export default withTranslation('common')(withRouter(withHomeViewModel(HomeList)));

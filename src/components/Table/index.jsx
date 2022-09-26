@@ -96,31 +96,30 @@ const Table = ({
   classNameTable,
   idKey,
   view,
+  onDoubleClick,
 }) => {
   const { t } = useTranslation('common');
 
-  const [getState, setState] = useState({
-    isName: 'list',
-    isFilter: Object.keys(dataFilter.titleFilter).length > 0 ? true : false,
-    indexPagination: 0,
-    dataFilter: null,
-  });
+  // const [getState, setState] = useState({
+  //   isName: 'list',
+  //   isFilter: Object.keys(dataFilter.titleFilter).length > 0 ? true : false,
+  //   indexPagination: 0,
+  //   dataFilter: null,
+  // });
 
-  const [aisList, setIsList] = useState(isList);
-
-  const filterTypes = React.useMemo(
-    () => ({
-      text: (rows, id, filterValue) => {
-        return rows.filter((row) => {
-          const rowValue = row.values[id];
-          return rowValue !== undefined
-            ? String(rowValue).toLowerCase().startsWith(String(filterValue).toLowerCase())
-            : true;
-        });
-      },
-    }),
-    []
-  );
+  // const filterTypes = React.useMemo(
+  //   () => ({
+  //     text: (rows, id, filterValue) => {
+  //       return rows.filter((row) => {
+  //         const rowValue = row.values[id];
+  //         return rowValue !== undefined
+  //           ? String(rowValue).toLowerCase().startsWith(String(filterValue).toLowerCase())
+  //           : true;
+  //       });
+  //     },
+  //   }),
+  //   []
+  // );
 
   const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
     const defaultRef = React.useRef();
@@ -228,18 +227,17 @@ const Table = ({
     {
       columns,
       data,
-      filterTypes,
+      // filterTypes,
       onSelect,
       initialState: {
         hiddenColumns: dataFilter.columns,
-        pageIndex: getState.indexPagination,
-        // pageSize: pageSize,
-        isList: aisList,
+        // pageIndex: getState.indexPagination,
+        // pageSize: -1,
       },
-      autoResetHiddenColumns: false,
+      // autoResetHiddenColumns: false,
     },
-    useFilters,
-    useGlobalFilter,
+    // useFilters,
+    // useGlobalFilter,
     (hooks) => {
       !noSelection &&
         hooks.visibleColumns.push((columns) => [
@@ -351,10 +349,7 @@ const Table = ({
                 className={`btn text-blue-0 rounded-0 px-4 shadow-none ${
                   isList ? 'bg-blue-3' : ''
                 }`}
-                onClick={() => {
-                  _handleList('list');
-                  setIsList(true);
-                }}
+                onClick={() => _handleList('list')}
               >
                 <i>
                   <FontAwesomeIcon icon={faList} />
@@ -366,10 +361,7 @@ const Table = ({
                 className={`btn text-blue-0 rounded-0 px-4 shadow-none ${
                   !isList ? 'bg-blue-3' : ''
                 }`}
-                onClick={() => {
-                  _handleList('thumb');
-                  setIsList(false);
-                }}
+                onClick={() => _handleList('thumb')}
               >
                 <i>
                   <FontAwesomeIcon icon={faTh} />
@@ -490,8 +482,12 @@ const Table = ({
                   key={Math.random(40, 200)}
                 >
                   <div
-                    className="item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 p-3 rounded-2"
+                    className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2 `}
                     key={Math.random(40, 200)}
+                    onDoubleClick={() => {
+                      // console.log(row.original);
+                      onDoubleClick(row.original.id);
+                    }}
                   >
                     {newRowCells.map((cell) => {
                       return (
@@ -500,7 +496,7 @@ const Table = ({
                           className={`ct_cell ${styles.ct_cell} d-block`}
                           key={Math.random(40, 200)}
                         >
-                          {cell.render('Cell', isList)}
+                          {cell.render('Cell')}
                         </div>
                       );
                     })}

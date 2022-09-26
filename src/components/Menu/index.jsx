@@ -9,120 +9,169 @@ import { NavLink } from 'react-router-dom';
 
 import './index.scss';
 import { withTranslation } from 'react-i18next';
+import { observer } from 'mobx-react';
+import { withHomeViewModel } from 'containers/Homepage/HomeViewModels/HomeViewModelContextProvider';
+import history from 'routes/history';
+import { withRouter } from 'react-router-dom';
+import ComponentImage from 'components/ComponentImage';
+import { Accordion } from 'react-bootstrap';
+import PAGE_STATUS from 'constants/PageStatus';
+import Spinner from 'components/Spinner';
+const dataMenu = [
+  {
+    text: 'txt_menu_member',
+    link: '/',
+    icons: '/assets/images/member.svg',
+    icons_color: '/assets/images/member.svg',
+  },
+  {
+    text: 'txt_menu_import_export',
+    link: '/projects',
+    icons: '/assets/images/import.svg',
+    icons_color: '/assets/images/import.svg',
+  },
+  {
+    text: 'txt_menu_colection_transfer',
+    link: '/campaigns',
+    icons: '/assets/images/collection_transfer.svg',
+    icons_color: '/assets/images/collection_transfer.svg',
+  },
+  {
+    text: 'txt_menu_setting',
+    link: '/content',
+    icons: '/assets/images/setting.svg',
+    icons_color: '/assets/images/setting.svg',
+  },
+  {
+    text: 'txt_menu_trash',
+    link: '/digital-assets',
+    icons: '/assets/images/trash.svg',
+    icons_color: '/assets/images/trash.svg',
+  },
+];
+const Menu = observer(
+  class Menu extends React.Component {
+    homeListViewModel = null;
 
-class Menu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      language: 'English',
-      dataMenu: [
-        {
-          name: 'home',
-          text: 'txt_menu_calendar',
-          link: '/',
-          icons: '/assets/images/icon_calendar.svg',
-          icons_color: '/assets/images/icon_calendar_white.svg',
-        },
-        {
-          name: 'projects',
-          text: 'txt_menu_projects',
-          link: '/projects',
-          icons: '/assets/images/icon_projects.svg',
-          icons_color: '/assets/images/icon_projects_white.svg',
-        },
-        {
-          name: 'campaigns',
-          text: 'txt_menu_campaigns',
-          link: '/campaigns',
-          icons: '/assets/images/icon_campaigns.svg',
-          icons_color: '/assets/images/icon_campaigns_white.svg',
-        },
-        {
-          name: 'content',
-          text: 'txt_menu_content',
-          link: '/content',
-          icons: '/assets/images/icon_content.svg',
-          icons_color: '/assets/images/icon_content_white.svg',
-        },
-        {
-          name: 'channels',
-          text: 'txt_menu_channels',
-          link: '/channels',
-          icons: '/assets/images/icon_channles.svg',
-          icons_color: '/assets/images/icon_channles_white.svg',
-        },
-        {
-          name: 'digital',
-          text: 'txt_menu_digital_assets',
-          link: '/digital-assets',
-          icons: '/assets/images/icon_digital_assets.svg',
-          icons_color: '/assets/images/icon_digital_assets_white.svg',
-        },
-      ],
+    constructor(props) {
+      super(props);
+
+      const { viewModel } = props;
+      this.viewModel = viewModel ? viewModel : null;
+      this.homeListViewModel = this.viewModel ? this.viewModel.getHomeListViewModel() : null;
+    }
+
+    componentDidMount = () => {
+      const collectionId = history.location.pathname.split('/');
+      this.homeListViewModel.getCollection(collectionId[2] ?? 0);
     };
-  }
 
-  // checkActiveMenu = (name) => {
-  // if (window.location.pathname === '/') {
-  //   document.getElementById('wr_list_menu').classList.remove('wr_list_menu');
-  // } else {
-  //   document.getElementById('wr_list_menu').classList.add('wr_list_menu');
-  // }
-  // if (name === '/' || name === '/analytics' || name === '/calendar') {
-  //   document.getElementById('all_header').classList.add('all_header');
-  // } else {
-  //   document.getElementById('all_header').classList.remove('all_header');
-  // }
-  // };
+    componentDidUpdate(prevProps) {
+      if (this.props.location !== prevProps.location) {
+        const collectionId = history.location.pathname.split('/');
+        this.homeListViewModel.getCollection(collectionId[2] ?? 0);
+      }
+    }
 
-  // componentDidMount = () => {
-  // this.checkActiveMenu();
-  // if (window.location.pathname === '/') {
-  //   document.getElementById('all_header').classList.add('all_header');
-  // } else {
-  //   document.getElementById('all_header').classList.remove('all_header');
-  // }
-  // };
+    handleClick = (e) => {
+      e.preventDefault();
 
-  // handleCheckActive = (name) => {
-  //   this.checkActiveMenu(name);
-  // };
+      if (history.location.pathname === '/root') {
+      } else {
+        history.goBack();
+      }
+    };
 
-  render() {
-    let { dataMenu } = this.state;
-    const { t } = this.props;
-    return (
-      <nav>
-        <ul id="wr_list_menu" className="list-unstyled mb-0 p-3 pt-md-1">
-          {dataMenu.map((value, key) => {
-            return (
-              <li
-                key={key}
-                className={`item_menu ${value.className ? value.className : ''}`}
-                // onClick={(e) => this.handleCheckActive(value.link)}
-              >
+    render() {
+      const { t } = this.props;
+      const { tableStatus, collections, pagination } = this.homeListViewModel;
+
+      return (
+        <>
+          <nav>
+            <p className="text-white-50 fs-14 px-3">MAIN MENU</p>
+
+            <Accordion defaultActiveKey={'0'}>
+              <Accordion.Toggle className="item_menu" as={'div'} eventKey={'0'}>
                 <NavLink
-                  exact={value.name === 'content' ? false : true}
-                  to={value.link}
-                  className={`d-block rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
+                  onClick={this.handleClick}
+                  exact={true}
+                  to={'/root'}
+                  className={`d-flex ali rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
                   activeClassName={`active`}
                 >
-                  <span
-                    className="icon d-inline-block align-text-bottom"
-                    style={{
-                      WebkitMaskImage: `url(${value.icons_color})`,
-                      WebkitMaskRepeat: 'no-repeat',
-                    }}
-                  ></span>
-                  <span className="ms-3 text py-1 d-inline-block">{t(value.text)}</span>
+                  <ComponentImage
+                    alt={'folder'}
+                    src="/assets/images/folder-outline.svg"
+                    className=" d-inline-block align-text-bottom"
+                  />
+                  <span className="ms-3 text py-1 d-inline-block">My Assets</span>
                 </NavLink>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    );
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey={'0'} className="px-3 pb-3">
+                <>
+                  {/* <div className="position-relative">
+                    {tableStatus === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null}
+                  </div> */}
+                  <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
+                    {collections.map((value, key) => {
+                      return (
+                        <li
+                          key={key}
+                          className={`item_menu ${value.className ? value.className : ''}`}
+                          // onClick={(e) => this.handleCheckActive(value.link)}
+                        >
+                          <NavLink
+                            exact={true}
+                            to={'/root/' + value.id}
+                            className={`d-flex ali rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
+                            activeClassName={`active`}
+                          >
+                            <ComponentImage
+                              alt={'folder'}
+                              src="/assets/images/folder-outline.svg"
+                              className=" d-inline-block align-text-bottom"
+                            />
+                            <span className="ms-3 text py-1 d-inline-block">{value.name}</span>
+                          </NavLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </>
+              </Accordion.Collapse>
+            </Accordion>
+          </nav>
+          <nav>
+            <p className="text-white-50 fs-14 px-3">Set up</p>
+            <ul id="wr_list_menu" className="list-unstyled mb-0 pt-md-1">
+              {dataMenu.map((value, key) => {
+                return (
+                  <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
+                    <NavLink
+                      exact={true}
+                      to={value.link}
+                      className={`d-block rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
+                      activeClassName={`active`}
+                    >
+                      <span
+                        className="icon d-inline-block align-text-bottom"
+                        style={{
+                          WebkitMaskImage: `url(${value.icons_color})`,
+                          WebkitMaskRepeat: 'no-repeat',
+                        }}
+                      ></span>
+                      <span className="ms-3 text py-1 d-inline-block">{t(value.text)}</span>
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </>
+      );
+    }
   }
-}
+);
 
-export default withTranslation('common')(Menu);
+export default withTranslation('common')(withRouter(withHomeViewModel(Menu)));

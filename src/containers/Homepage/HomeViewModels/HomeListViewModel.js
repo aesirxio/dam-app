@@ -28,11 +28,38 @@ class HomeListViewModel {
 
   initializeData = () => {
     this.status = PAGE_STATUS.LOADING;
+    this.tableStatus = PAGE_STATUS.LOADING;
     this.homeStore.getCollections(
+      0,
       this.callbackOnCollectionsSuccessHandler,
       this.callbackOnErrorHander
     );
-    this.homeStore.getAssets(this.callbackOnAssetsSuccessHandler, this.callbackOnErrorHander);
+    this.homeStore.getAssets(0, this.callbackOnAssetsSuccessHandler, this.callbackOnErrorHander);
+  };
+
+  gotoFolder = (collectionId) => {
+    this.status = PAGE_STATUS.LOADING;
+    this.tableStatus = PAGE_STATUS.LOADING;
+    this.homeStore.getCollections(
+      collectionId,
+      this.callbackOnCollectionsSuccessHandler,
+      this.callbackOnErrorHander
+    );
+    this.homeStore.getAssets(
+      collectionId,
+      this.callbackOnAssetsSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
+
+  getCollection = (collectionId) => {
+    this.status = PAGE_STATUS.LOADING;
+    this.tableStatus = PAGE_STATUS.LOADING;
+    this.homeStore.getCollections(
+      collectionId,
+      this.callbackOnCollectionsSuccessHandler,
+      this.callbackOnErrorHander
+    );
   };
 
   resetObservableProperties = () => {
@@ -54,10 +81,13 @@ class HomeListViewModel {
     if (data) {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.READY;
-      this.collections = data.list;
+      this.collections = data?.list ?? [];
       this.paginationCollections = data.pagination;
     } else {
+      this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.ERROR;
+      this.collections = [];
+      this.paginationCollections = null;
     }
   };
 
@@ -65,10 +95,13 @@ class HomeListViewModel {
     if (data) {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.READY;
-      this.assets = data.list;
+      this.assets = data.list ?? [];
       this.paginationAssets = data.pagination;
     } else {
       this.status = PAGE_STATUS.ERROR;
+      this.tableStatus = PAGE_STATUS.READY;
+      this.assets = [];
+      this.paginationAssets = null;
     }
   };
 }
