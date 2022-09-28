@@ -2,23 +2,20 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-import HomeUtils from '../HomeUtils/HomeUtils';
 
 import { AesirxDamApiService } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
-export default class HomeStore {
-  getAssets = async (collectionId, callbackOnSuccess, callbackOnError) => {
+export default class GlobalStore {
+  getCollections = async (collectionId, callbackOnSuccess, callbackOnError) => {
     try {
       const homeService = new AesirxDamApiService();
-      const responsedDataFromLibary = await homeService.getAssets(collectionId);
+      const responsedDataFromLibary = await homeService.getCollections(collectionId);
       if (responsedDataFromLibary?.list) {
-        const homeDataModels = HomeUtils.transformPersonaResponseIntoModel(
-          responsedDataFromLibary.list
-        );
-        if (homeDataModels) {
+        const collectionDataModel = responsedDataFromLibary?.list;
+        if (collectionDataModel) {
           runInAction(() => {
             callbackOnSuccess({
-              list: homeDataModels,
+              list: collectionDataModel,
               pagination: responsedDataFromLibary.pagination,
             });
           });

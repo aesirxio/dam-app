@@ -21,10 +21,14 @@ import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 import styles from '../index.module.scss';
 import history from 'routes/history';
 import { withRouter } from 'react-router-dom';
+import { GlobalStore, withGlobalViewModel } from 'store/Store';
+import Dropzone from 'components/Dropzone';
 
 const HomeList = observer(
   class HomeList extends Component {
     homeListViewModel = null;
+    static contextType = GlobalStore;
+
     constructor(props) {
       super(props);
 
@@ -67,6 +71,8 @@ const HomeList = observer(
         }, []);
     };
 
+    handleCreateFolter = () => {};
+
     _handleList = () => {
       this.homeListViewModel.isList = !this.homeListViewModel.isList;
     };
@@ -74,10 +80,20 @@ const HomeList = observer(
     handleDoubleClick = (colectionId) => {
       history.push('/root/' + colectionId);
     };
+
+    handleRightClick = (e) => {
+      e.preventDefault();
+      const inside = e.target.closest('.col_thumb');
+      if (!inside) {
+        console.log(e);
+      }
+    };
     render() {
-      const { tableStatus, assets, collections, pagination } = this.homeListViewModel;
+      const { tableStatus, assets, pagination } = this.homeListViewModel;
+      const { status, collections } = this.context.globalViewModel;
       const { t } = this.props;
-      if (tableStatus === PAGE_STATUS.LOADING) {
+
+      if (status === PAGE_STATUS.LOADING || tableStatus === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
       const tableRowHeader = [
@@ -104,8 +120,10 @@ const HomeList = observer(
                     src="/assets/images/folder.svg"
                     className={this.homeListViewModel.isList ? '' : styles.folder}
                   />
-                  <span className={this.homeListViewModel.isList ? 'ms-3' : ''}>
+                  <span className={this.homeListViewModel.isList ? 'ms-3' : '' + 'text-center'}>
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
+                    <br />
+                    {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}
                   </span>
                 </div>
               ) : (
@@ -154,18 +172,43 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
         },
       ];
+      const collectionId = history.location.pathname.split('/');
+
+      let handleColections = [];
+      let handleAssets = [];
+      if (!isNaN(+collectionId[collectionId.length - 1])) {
+        handleColections = collections.filter(
+          (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
+        );
+        handleAssets = assets.filter(
+          (asset) => asset.collection_id === +collectionId[collectionId.length - 1]
+        );
+      } else {
+        handleColections = collections.filter((collection) => collection.parent_id === 0);
+        handleAssets = assets.filter((asset) => asset.collection_id === 0);
+      }
+
       return (
-        <>
-          {collections || assets ? (
+        <div
+          className="position-relative col d-flex flex-column"
+          id="outside"
+          onContextMenu={this.handleRightClick}
+        >
+          {handleColections || handleAssets ? (
             <Table
-              rowData={[...collections, ...assets]}
+              rowData={[...handleColections, ...handleAssets]}
               tableRowHeader={tableRowHeader}
               onEdit={this.handleEdit}
               onSelect={this.handleSelect}
               isThumb={true}
               isList={this.homeListViewModel.isList}
               pageSize={this.homeListViewModel.pageSize}
-              dataThumb={['selection', DAM_COLUMN_INDICATOR.FILE_SIZE]}
+              dataThumb={[
+                'selection',
+                DAM_COLUMN_INDICATOR.FILE_SIZE,
+                DAM_COLUMN_INDICATOR.OWNER,
+                DAM_COLUMN_INDICATOR.LAST_MODIFIED,
+              ]}
               pagination={pagination}
               listViewModel={this.homeListViewModel}
               searchFunction={this.homeListViewModel.searchProjects}
@@ -183,7 +226,7 @@ const HomeList = observer(
               width="w-50"
             />
           )}
-        </>
+        </div>
       );
     }
   }

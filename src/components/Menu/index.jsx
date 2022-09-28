@@ -17,6 +17,10 @@ import ComponentImage from 'components/ComponentImage';
 import { Accordion } from 'react-bootstrap';
 import PAGE_STATUS from 'constants/PageStatus';
 import Spinner from 'components/Spinner';
+import { withGlobalViewModel } from 'store/Store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+
 const dataMenu = [
   {
     text: 'txt_menu_member',
@@ -51,25 +55,25 @@ const dataMenu = [
 ];
 const Menu = observer(
   class Menu extends React.Component {
-    homeListViewModel = null;
+    globalViewModel = null;
 
     constructor(props) {
       super(props);
 
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-      this.homeListViewModel = this.viewModel ? this.viewModel.getHomeListViewModel() : null;
+      this.globalViewModel = this.viewModel ? this.viewModel.getGlobalViewModel() : null;
     }
 
     componentDidMount = () => {
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.getCollection(collectionId[2] ?? 0);
+      this.globalViewModel.getCollection(collectionId[2] ?? 0);
     };
 
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        this.homeListViewModel.getCollection(collectionId[2] ?? 0);
+        this.globalViewModel.getCollection(collectionId[2] ?? 0);
       }
     }
 
@@ -84,38 +88,84 @@ const Menu = observer(
 
     render() {
       const { t } = this.props;
-      const { tableStatus, collections, pagination } = this.homeListViewModel;
-
+      const { status, collections, pagination } = this.globalViewModel;
+      const collectionId = history.location.pathname.split('/');
       return (
         <>
           <nav>
             <p className="text-white-50 fs-14 px-3">MAIN MENU</p>
 
             <Accordion defaultActiveKey={'0'}>
-              <Accordion.Toggle className="item_menu" as={'div'} eventKey={'0'}>
-                <NavLink
-                  onClick={this.handleClick}
-                  exact={true}
-                  to={'/root'}
-                  className={`d-flex ali rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
-                  activeClassName={`active`}
-                >
-                  <ComponentImage
-                    alt={'folder'}
-                    src="/assets/images/folder-outline.svg"
-                    className=" d-inline-block align-text-bottom"
-                  />
-                  <span className="ms-3 text py-1 d-inline-block">My Assets</span>
-                </NavLink>
-              </Accordion.Toggle>
+              {history.location.pathname === '/root' ? (
+                <Accordion.Toggle className="item_menu" as={'div'} eventKey={'0'}>
+                  <NavLink
+                    onClick={this.handleClick}
+                    exact={true}
+                    to={'/root'}
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
+                    activeClassName={`active`}
+                  >
+                    <ComponentImage
+                      alt={'folder'}
+                      src="/assets/images/folder-outline.svg"
+                      className=" d-inline-block align-text-bottom"
+                    />
+                    <span className="ms-3 text py-1 d-inline-block">{t('txt_my_assets')}</span>
+                  </NavLink>
+                </Accordion.Toggle>
+              ) : (
+                <div className="item_menu">
+                  <NavLink
+                    onClick={this.handleClick}
+                    exact={true}
+                    to={'/root'}
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
+                    activeClassName={`active`}
+                  >
+                    {/* <ComponentImage
+                      alt={'folder'}
+                      src="/assets/images/folder-outline.svg"
+                      className=" d-inline-block align-text-bottom"
+                    /> */}
+                    <FontAwesomeIcon
+                      icon={faChevronLeft}
+                      className=" d-inline-block align-text-bottom"
+                    />
+                    <span className="ms-3 text py-1 d-inline-block">{t('txt_back')}</span>
+                  </NavLink>
+                </div>
+              )}
+
               <Accordion.Collapse eventKey={'0'} className="px-3 pb-3">
                 <>
-                  {/* <div className="position-relative">
-                    {tableStatus === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null}
-                  </div> */}
+                  <div className="position-relative">
+                    {status === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null}
+                  </div>
                   <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
                     {collections.map((value, key) => {
-                      return (
+                      return !isNaN(+collectionId[collectionId.length - 1]) ? (
+                        value.parent_id === +collectionId[collectionId.length - 1] ? (
+                          <li
+                            key={key}
+                            className={`item_menu ${value.className ? value.className : ''}`}
+                            // onClick={(e) => this.handleCheckActive(value.link)}
+                          >
+                            <NavLink
+                              exact={true}
+                              to={'/root/' + value.id}
+                              className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
+                              activeClassName={`active`}
+                            >
+                              <ComponentImage
+                                alt={'folder'}
+                                src="/assets/images/folder-outline.svg"
+                                className=" d-inline-block align-text-bottom"
+                              />
+                              <span className="ms-3 text py-1 d-inline-block">{value.name}</span>
+                            </NavLink>
+                          </li>
+                        ) : null
+                      ) : value.parent_id === 0 ? (
                         <li
                           key={key}
                           className={`item_menu ${value.className ? value.className : ''}`}
@@ -124,7 +174,7 @@ const Menu = observer(
                           <NavLink
                             exact={true}
                             to={'/root/' + value.id}
-                            className={`d-flex ali rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
+                            className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
                             activeClassName={`active`}
                           >
                             <ComponentImage
@@ -135,7 +185,7 @@ const Menu = observer(
                             <span className="ms-3 text py-1 d-inline-block">{value.name}</span>
                           </NavLink>
                         </li>
-                      );
+                      ) : null;
                     })}
                   </ul>
                 </>
@@ -174,4 +224,4 @@ const Menu = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withHomeViewModel(Menu)));
+export default withTranslation('common')(withRouter(withGlobalViewModel(Menu)));

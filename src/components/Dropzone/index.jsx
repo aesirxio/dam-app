@@ -8,41 +8,53 @@ import { useDropzone } from 'react-dropzone';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
-import ComponentImage from '../../ComponentImage';
+// import ComponentImage from '../ComponentImage';
 
-const FormImage = ({ field }) => {
-  const [file, setFile] = useState(field.value);
+const Dropzone = ({ children, noClick }) => {
+  const [file, setFile] = useState(null);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    // accept: '*',
+    noClick: noClick,
     maxFiles: 1,
     multiple: false,
+    onDragEnter: () => {
+      console.log(123);
+    },
+    onDragLeave: () => {},
     onDrop: (acceptedFiles) => {
-      setFile(URL.createObjectURL(acceptedFiles[0]));
+      console.log(acceptedFiles);
+      // setFile(URL.createObjectURL(acceptedFiles[0]));
     },
   });
 
   return (
-    <div className="position-relative cursor-pointer">
-      <div {...getRootProps()} className="d-flex align-items-center justify-content-center p-3">
-        <input {...getInputProps()} className="position-absolute start-0 top-0 bottom-0 end-0" />
-        <div className="d-flex align-items-center p-3">
+    <div className="position-relative w-100 h-100">
+      <div
+        {...getRootProps()}
+        className="cursor-auto d-flex align-items-center justify-content-center p-3 w-100 h-100"
+      >
+        <input
+          {...getInputProps()}
+          className="position-absolute start-0 top-0 bottom-0 end-0 cursor-auto"
+        />
+        {/* <div className="d-flex align-items-center p-3">
           <i className="fs-1 text-blue-0 opacity-25">
             <FontAwesomeIcon icon={faCloudUploadAlt} />
           </i>
           <div className="text-center ms-1">
-            {/* <p className="mb-0">Drag and drop a file here </p> */}
             <p className="mb-0 ms-2">
               <strong>Choose file</strong>
             </p>
           </div>
-        </div>
+        </div> */}
+        {children}
       </div>
-      <div key={field.value} className="text-center">
+      {/* <div key={field.value} className="text-center">
         <ComponentImage src={file} alt={field.value} />
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default FormImage;
+export default Dropzone;

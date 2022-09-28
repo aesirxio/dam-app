@@ -35,7 +35,7 @@ const login = async ({ username, password }) => {
     Storage.setItem('auth', true);
     document.body.classList.remove('body_login_page');
 
-    history.push('/');
+    history.push('/root');
     return true;
   } else {
     notify('Login information is incorrect', 'error');

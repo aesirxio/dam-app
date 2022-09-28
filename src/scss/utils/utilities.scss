@@ -172,4 +172,15 @@ $utilities: (
     class: cursor,
     values: none auto pointer,
   ),
+  'zindex': (
+    property: z-index,
+    class: zindex,
+    values: (
+      n1: -1,
+      0: 0,
+      1: 1,
+      2: 2,
+      5: 5,
+    ),
+  ),
 );

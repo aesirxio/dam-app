@@ -51,13 +51,13 @@ class HomeActionBar extends Component {
         <ButtonNormal
           onClick={this.createProjectHandler}
           iconStart={faPlus}
-          text="txt_create_project"
+          text="txt_upload_file"
           className="me-3 btn-success"
         />
         <ButtonNormal
           onClick={this.createProjectHandler}
           iconStart={faFolder}
-          text="txt_create_project"
+          text="txt_create_folder"
           className="btn-outline-gray-300 text-blue-0"
         />
       </div>
