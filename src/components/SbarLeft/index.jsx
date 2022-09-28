@@ -14,6 +14,7 @@ import SwitchThemes from 'components/SwitchThemes';
 import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
+
 class SbarLeft extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +32,7 @@ class SbarLeft extends React.Component {
     });
     return (
       <aside
-        className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden overflow-y-auto d-flex flex-column justify-content-between z-index-100`}
+        className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden overflow-y-auto d-flex flex-column z-index-100`}
       >
         <Menu />
 

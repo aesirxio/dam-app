@@ -23,6 +23,8 @@ import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
 import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
+import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import styles from './index.module.scss';
 // import './index.scss';
 import { withTranslation } from 'react-i18next';
@@ -33,6 +35,9 @@ import ComponentFilter from '../ComponentFilter';
 import PaginationComponent from './PaginationComponent';
 import ComponentNoData from '../ComponentNoData';
 import { useTranslation } from 'react-i18next';
+import ComponentImage from 'components/ComponentImage';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import Dropzone from 'components/Dropzone';
 
 const Select = lazy(() => import('../Select'));
 
@@ -96,31 +101,32 @@ const Table = ({
   classNameTable,
   idKey,
   view,
+  onDoubleClick,
+  createFolder,
+  createAssets,
 }) => {
   const { t } = useTranslation('common');
 
-  const [getState, setState] = useState({
-    isName: 'list',
-    isFilter: Object.keys(dataFilter.titleFilter).length > 0 ? true : false,
-    indexPagination: 0,
-    dataFilter: null,
-  });
+  // const [getState, setState] = useState({
+  //   isName: 'list',
+  //   isFilter: Object.keys(dataFilter.titleFilter).length > 0 ? true : false,
+  //   indexPagination: 0,
+  //   dataFilter: null,
+  // });
 
-  const [aisList, setIsList] = useState(isList);
-
-  const filterTypes = React.useMemo(
-    () => ({
-      text: (rows, id, filterValue) => {
-        return rows.filter((row) => {
-          const rowValue = row.values[id];
-          return rowValue !== undefined
-            ? String(rowValue).toLowerCase().startsWith(String(filterValue).toLowerCase())
-            : true;
-        });
-      },
-    }),
-    []
-  );
+  // const filterTypes = React.useMemo(
+  //   () => ({
+  //     text: (rows, id, filterValue) => {
+  //       return rows.filter((row) => {
+  //         const rowValue = row.values[id];
+  //         return rowValue !== undefined
+  //           ? String(rowValue).toLowerCase().startsWith(String(filterValue).toLowerCase())
+  //           : true;
+  //       });
+  //     },
+  //   }),
+  //   []
+  // );
 
   const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
     const defaultRef = React.useRef();
@@ -228,18 +234,17 @@ const Table = ({
     {
       columns,
       data,
-      filterTypes,
+      // filterTypes,
       onSelect,
       initialState: {
         hiddenColumns: dataFilter.columns,
-        pageIndex: getState.indexPagination,
-        // pageSize: pageSize,
-        isList: aisList,
+        // pageIndex: getState.indexPagination,
+        pageSize: -1,
       },
-      autoResetHiddenColumns: false,
+      // autoResetHiddenColumns: false,
     },
-    useFilters,
-    useGlobalFilter,
+    // useFilters,
+    // useGlobalFilter,
     (hooks) => {
       !noSelection &&
         hooks.visibleColumns.push((columns) => [
@@ -330,7 +335,7 @@ const Table = ({
   // };
   return (
     <>
-      <div className={`mb-4 ${classNameTable}`}>
+      <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
           <div className="wrapper_search_global d-flex align-items-center">
             {filterBar.map((item) => (
@@ -351,10 +356,7 @@ const Table = ({
                 className={`btn text-blue-0 rounded-0 px-4 shadow-none ${
                   isList ? 'bg-blue-3' : ''
                 }`}
-                onClick={() => {
-                  _handleList('list');
-                  setIsList(true);
-                }}
+                onClick={() => _handleList('list')}
               >
                 <i>
                   <FontAwesomeIcon icon={faList} />
@@ -366,10 +368,7 @@ const Table = ({
                 className={`btn text-blue-0 rounded-0 px-4 shadow-none ${
                   !isList ? 'bg-blue-3' : ''
                 }`}
-                onClick={() => {
-                  _handleList('thumb');
-                  setIsList(false);
-                }}
+                onClick={() => _handleList('thumb')}
               >
                 <i>
                   <FontAwesomeIcon icon={faTh} />
@@ -379,24 +378,6 @@ const Table = ({
             </div>
           )}
         </div>
-        {/* {isFilter && (
-          <>
-            <div
-              className={`py-2 px-1 bg-blue-3 wrapper_filter_select ${
-                getState.isFilter ? 'show_filter_select' : ''
-              }`}
-            >
-              {dataFormFilter && (
-                <ComponentFilter
-                  dataFormFilter={dataFormFilter}
-                  setGlobalFilter={setGlobalFilter}
-                  filter={dataFilter}
-                  setFilter={setFilter}
-                />
-              )}
-            </div>
-          </>
-        )} */}
       </div>
       {isList ? (
         <div className="bg-white p-3 rounded-3">
@@ -485,13 +466,21 @@ const Table = ({
                   {...row.getRowProps()}
                   className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
                     !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                  } mb-4`}
+                  } mb-4 zindex-2`}
                   //onClick={(e) => handerEdit(e, row.original)}
                   key={Math.random(40, 200)}
                 >
                   <div
-                    className="item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 p-3 rounded-2"
+                    className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2  flex-column`}
                     key={Math.random(40, 200)}
+                    onDoubleClick={
+                      row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                        ? () => {}
+                        : () => onDoubleClick(row.original.id)
+                    }
+                    onContextMenu={() => {
+                      console.log(123);
+                    }}
                   >
                     {newRowCells.map((cell) => {
                       return (
@@ -500,7 +489,7 @@ const Table = ({
                           className={`ct_cell ${styles.ct_cell} d-block`}
                           key={Math.random(40, 200)}
                         >
-                          {cell.render('Cell', isList)}
+                          {cell.render('Cell')}
                         </div>
                       );
                     })}
@@ -509,6 +498,7 @@ const Table = ({
               )
             );
           })}
+
           {page.length === 0 ? (
             <ComponentNoData
               icons="/assets/images/ic_project.svg"
@@ -516,7 +506,44 @@ const Table = ({
               text="Can not found any project with that keyword. Please try another keyword."
               width="w-50"
             />
-          ) : null}
+          ) : (
+            <>
+              <div
+                className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
+                  !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                } mb-4 zindex-2`}
+              >
+                <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
+                  <Dropzone createAssets={createAssets}>
+                    <div
+                      className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCloudUploadAlt}
+                        className=" d-inline-block align-text-bottom"
+                      />
+
+                      <span className="ms-3 text py-1 d-inline-block">{t('txt_upload_file')}</span>
+                    </div>
+                  </Dropzone>
+                  <div
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                    onClick={createFolder}
+                  >
+                    <FontAwesomeIcon
+                      icon={faFolder}
+                      className=" d-inline-block align-text-bottom"
+                    />
+
+                    <span className="ms-3 text py-1 d-inline-block">{t('txt_create_folder')}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="position-absolute h-100 w-100 top-0 start-0 zindex-1">
+                <Dropzone noClick={true} />
+              </div>
+            </>
+          )}
         </div>
       )}
     </>

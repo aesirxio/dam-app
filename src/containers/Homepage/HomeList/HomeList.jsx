@@ -15,13 +15,24 @@ import Table from '../../../components/Table';
 import ComponentNoData from '../../../components/ComponentNoData';
 import Spinner from '../../../components/Spinner';
 import ComponentImage from '../../../components/ComponentImage';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import {
+  DAM_ASSETS_API_FIELD_KEY,
+  DAM_ASSETS_FIELD_KEY,
+  DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
+} from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 import styles from '../index.module.scss';
+import history from 'routes/history';
+import { withRouter } from 'react-router-dom';
+import { GlobalStore, withGlobalViewModel } from 'store/Store';
+import Dropzone from 'components/Dropzone';
+
 const HomeList = observer(
   class HomeList extends Component {
     homeListViewModel = null;
+    static contextType = GlobalStore;
+
     constructor(props) {
       super(props);
 
@@ -34,10 +45,19 @@ const HomeList = observer(
     }
 
     componentDidMount() {
-      this.homeListViewModel.initializeData();
+      const collectionId = history.location.pathname.split('/');
+      this.homeListViewModel.getAssets(collectionId[2] ?? 0);
     }
+
     componentWillUnmount() {
       this.homeListViewModel.resetObservableProperties();
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props.location !== prevProps.location) {
+        const collectionId = history.location.pathname.split('/');
+        this.homeListViewModel.getAssets(collectionId[2] ?? 0);
+      }
     }
 
     handleEdit = (e, row, page) => {
@@ -54,18 +74,49 @@ const HomeList = observer(
           return arr.concat(el);
         }, []);
     };
-    handleExpanded = (e, row) => {
-      this.homeListViewModel.getContentByIdExpanded(row[this.key]);
+
+    handleCreateFolder = (data) => {
+      const collectionId = history.location.pathname.split('/');
+      this.context.globalViewModel.createCollections({
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: collectionId[2] ?? 0,
+      });
+    };
+
+    handleCreateAssets = (data) => {
+      if (data) {
+        const collectionId = history.location.pathname.split('/');
+
+        this.homeListViewModel.createAssets({
+          [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
+          [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: collectionId[2] ?? 0,
+          [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
+        });
+      }
     };
 
     _handleList = () => {
       this.homeListViewModel.isList = !this.homeListViewModel.isList;
     };
 
+    handleDoubleClick = (colectionId) => {
+      history.push('/root/' + colectionId);
+    };
+
+    handleRightClick = (e) => {
+      e.preventDefault();
+      const inside = e.target.closest('.col_thumb');
+      if (!inside) {
+        console.log(e);
+      }
+    };
     render() {
-      const { tableStatus, assets, collections, pagination } = this.homeListViewModel;
+      const { tableStatus, assets, pagination } = this.homeListViewModel;
+      const { status, collections } = this.context.globalViewModel;
       const { t } = this.props;
-      if (tableStatus === PAGE_STATUS.LOADING) {
+
+      if (status === PAGE_STATUS.LOADING || tableStatus === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
       const tableRowHeader = [
@@ -75,7 +126,9 @@ const HomeList = observer(
           Cell: ({ row, state }) => (
             <div
               {...row.getToggleRowExpandedProps()}
-              className={`d-flex ${this.homeListViewModel.isList ? '' : ' justify-content-center'}`}
+              className={`d-flex pe-none ${
+                this.homeListViewModel.isList ? '' : ' justify-content-center'
+              }`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                 <div
@@ -85,14 +138,15 @@ const HomeList = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <FontAwesomeIcon
-                    color="#3F8EFC"
-                    style={{ width: '45px', height: '37px' }}
-                    icon={faFolder}
+                  <ComponentImage
+                    alt={row.original.name}
+                    src="/assets/images/folder.svg"
                     className={this.homeListViewModel.isList ? '' : styles.folder}
                   />
-                  <span className={this.homeListViewModel.isList ? 'ms-3' : ''}>
+                  <span className={this.homeListViewModel.isList ? 'ms-3' : '' + 'text-center'}>
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
+                    <br />
+                    {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}
                   </span>
                 </div>
               ) : (
@@ -103,13 +157,14 @@ const HomeList = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <span className={this.homeListViewModel.isList ? '' : styles.folder}>
+                  <span
+                    className={this.homeListViewModel.isList ? styles.image_isList : styles.image}
+                  >
                     <ComponentImage
-                      width={56}
-                      height={56}
                       alt={row.original.name}
                       src={row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                      wrapperClassName="w-100 h-100"
                     />
                   </span>
 
@@ -140,18 +195,43 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
         },
       ];
+      const collectionId = history.location.pathname.split('/');
+
+      let handleColections = [];
+      let handleAssets = [];
+      if (!isNaN(+collectionId[collectionId.length - 1])) {
+        handleColections = collections.filter(
+          (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
+        );
+        handleAssets = assets.filter(
+          (asset) => asset.collection_id === +collectionId[collectionId.length - 1]
+        );
+      } else {
+        handleColections = collections.filter((collection) => collection.parent_id === 0);
+        handleAssets = assets.filter((asset) => asset.collection_id === 0);
+      }
+
       return (
-        <>
-          {collections || assets ? (
+        <div
+          className="position-relative col d-flex flex-column"
+          id="outside"
+          onContextMenu={this.handleRightClick}
+        >
+          {handleColections || handleAssets ? (
             <Table
-              rowData={[...collections, ...assets]}
+              rowData={[...handleColections, ...handleAssets]}
               tableRowHeader={tableRowHeader}
               onEdit={this.handleEdit}
               onSelect={this.handleSelect}
               isThumb={true}
               isList={this.homeListViewModel.isList}
               pageSize={this.homeListViewModel.pageSize}
-              dataThumb={['selection', DAM_COLUMN_INDICATOR.FILE_SIZE]}
+              dataThumb={[
+                'selection',
+                DAM_COLUMN_INDICATOR.FILE_SIZE,
+                DAM_COLUMN_INDICATOR.OWNER,
+                DAM_COLUMN_INDICATOR.LAST_MODIFIED,
+              ]}
               pagination={pagination}
               listViewModel={this.homeListViewModel}
               searchFunction={this.homeListViewModel.searchProjects}
@@ -160,6 +240,9 @@ const HomeList = observer(
               _handleList={this._handleList}
               view={this.view}
               thumbColumnsNumber={2}
+              onDoubleClick={this.handleDoubleClick}
+              createFolder={this.handleCreateFolder}
+              createAssets={this.handleCreateAssets}
             />
           ) : (
             <ComponentNoData
@@ -168,10 +251,10 @@ const HomeList = observer(
               width="w-50"
             />
           )}
-        </>
+        </div>
       );
     }
   }
 );
 
-export default withTranslation('common')(withHomeViewModel(HomeList));
+export default withTranslation('common')(withRouter(withHomeViewModel(HomeList)));

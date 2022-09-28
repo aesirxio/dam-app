@@ -3,7 +3,9 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+import { isLogin } from 'auth';
 import React, { lazy } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const LoginPage = lazy(() => import('../containers/LoginPage'));
 
@@ -14,6 +16,13 @@ const ProfilePage = lazy(() => import('../containers/ProfilePage'));
 
 const authRoutes = [
   {
+    path: '/',
+    exact: true,
+    render: () => {
+      isLogin() ? <Redirect to="/root" /> : <Redirect to="/login" />;
+    },
+  },
+  {
     path: '/login',
     exact: true,
     main: () => <LoginPage />,
@@ -22,7 +31,7 @@ const authRoutes = [
 
 const mainRoutes = [
   {
-    path: '/',
+    path: ['/root', '/root/:id'],
     exact: true,
     main: () => <DashboardPage />,
   },

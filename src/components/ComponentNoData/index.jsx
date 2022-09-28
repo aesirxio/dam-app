@@ -9,6 +9,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import ComponentImage from '../ComponentImage';
+import Dropzone from 'components/Dropzone';
 
 class ComponentNoData extends Component {
   render() {
@@ -22,7 +23,7 @@ class ComponentNoData extends Component {
             : 'text-center h-100 d-flex flex-column justify-content-center align-items-center'
         }
       >
-        <p
+        {/* <p
           style={{ width: '48px', height: '48px' }}
           className={`mb-2 d-inline-block position-relative rounded-circle ${iconBg}`}
         >
@@ -44,7 +45,8 @@ class ComponentNoData extends Component {
             </i>
             {linlText}
           </Link>
-        )}
+        )} */}
+        <Dropzone noClick={false}>asd</Dropzone>
       </div>
     );
   }

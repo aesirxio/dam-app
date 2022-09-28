@@ -9,8 +9,6 @@ import PAGE_STATUS from '../../../constants/PageStatus';
 
 class HomeListViewModel {
   homeStore = null;
-  paginationCollections = null;
-  collections = [];
   assets = [];
   paginationAssets = null;
   status = PAGE_STATUS.LOADING;
@@ -28,16 +26,34 @@ class HomeListViewModel {
 
   initializeData = () => {
     this.status = PAGE_STATUS.LOADING;
-    this.homeStore.getCollections(
-      this.callbackOnCollectionsSuccessHandler,
+    this.tableStatus = PAGE_STATUS.LOADING;
+    this.homeStore.getAssets(0, this.callbackOnAssetsSuccessHandler, this.callbackOnErrorHander);
+  };
+
+  getAssets = (collectionId) => {
+    this.status = PAGE_STATUS.LOADING;
+    this.tableStatus = PAGE_STATUS.LOADING;
+
+    this.homeStore.getAssets(
+      collectionId,
+      this.callbackOnAssetsSuccessHandler,
       this.callbackOnErrorHander
     );
-    this.homeStore.getAssets(this.callbackOnAssetsSuccessHandler, this.callbackOnErrorHander);
+  };
+
+  createAssets = (data) => {
+    // this.apiPendingStatus = PAGE_STATUS.LOADING;
+    notify(
+      this.homeStore.createAssets(
+        data,
+        this.callBackOnAssetsCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
   };
 
   resetObservableProperties = () => {
-    this.collections = [];
-    this.paginationCollections = null;
     this.assets = [];
     this.paginationAssets = null;
     this.tableRowHeader = null;
@@ -47,28 +63,44 @@ class HomeListViewModel {
     this.pageSize = 5;
   };
   callbackOnErrorHander = (error) => {
-    notify(error.message);
-  };
-
-  callbackOnCollectionsSuccessHandler = (data) => {
-    if (data) {
+    if (error.message === 'isCancle') {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.READY;
-      this.collections = data.list;
-      this.paginationCollections = data.pagination;
-    } else {
-      this.status = PAGE_STATUS.ERROR;
-    }
+    } else notify(error.message);
   };
 
   callbackOnAssetsSuccessHandler = (data) => {
     if (data) {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.READY;
-      this.assets = data.list;
+      this.assets = [...this.assets, ...data?.list];
       this.paginationAssets = data.pagination;
     } else {
       this.status = PAGE_STATUS.ERROR;
+      this.tableStatus = PAGE_STATUS.READY;
+      this.assets = this.assets;
+      this.paginationAssets = null;
+    }
+  };
+  callBackOnAssetsCreateSuccessHandler = (data) => {
+    if (data.item) {
+      // this.apiPendingStatus = PAGE_STATUS.READY;
+      if (data?.type) {
+        switch (data.type) {
+          case 'update':
+            break;
+          case 'delete':
+            break;
+          case 'create':
+            this.assets = [...this.assets, data?.item];
+            break;
+
+          default:
+            break;
+        }
+      }
+    } else {
+      // this.apiPendingStatus = PAGE_STATUS.ERROR;
     }
   };
 }
