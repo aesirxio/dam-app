@@ -237,7 +237,7 @@ const Table = ({
       initialState: {
         hiddenColumns: dataFilter.columns,
         // pageIndex: getState.indexPagination,
-        // pageSize: -1,
+        pageSize: -1,
       },
       // autoResetHiddenColumns: false,
     },

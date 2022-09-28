@@ -6,6 +6,7 @@
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
+import { toast } from 'react-toastify';
 
 class GlobalListViewModel {
   globalStore = null;
@@ -13,7 +14,7 @@ class GlobalListViewModel {
   collections = [];
   status = PAGE_STATUS.LOADING;
   dataFilter = null;
-
+  apiPendingStatus = PAGE_STATUS.READY;
   constructor(globalStore) {
     makeAutoObservable(this);
     this.globalStore = globalStore;
@@ -39,12 +40,25 @@ class GlobalListViewModel {
     );
   };
 
-  getCollection = (collectionId) => {
+  getCollections = (collectionId) => {
     this.status = PAGE_STATUS.LOADING;
     this.tableStatus = PAGE_STATUS.LOADING;
-    this.globalStore.getCollections(
-      collectionId,
-      this.callbackOnCollectionsSuccessHandler,
+    notify(
+      this.globalStore.getCollections(
+        collectionId,
+        this.callbackOnCollectionsSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
+  };
+
+  createCollections = (data) => {
+    this.apiPendingStatus = PAGE_STATUS.LOADING;
+
+    this.globalStore.createCollections(
+      data,
+      this.callBackOnCollectionCreateSuccessHandler,
       this.callbackOnErrorHander
     );
   };
@@ -55,11 +69,12 @@ class GlobalListViewModel {
     this.tableStatus = PAGE_STATUS.LOADING;
     this.dataFilter = null;
   };
+
   callbackOnErrorHander = (error) => {
     if (error.message === 'isCancle') {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.READY;
-    } else notify(error.message);
+    } else notify(error.message, 'error');
   };
 
   callbackOnCollectionsSuccessHandler = (data) => {
@@ -73,6 +88,15 @@ class GlobalListViewModel {
       this.status = PAGE_STATUS.ERROR;
       this.collections = this.collections;
       this.paginationCollections = null;
+    }
+  };
+
+  callBackOnCollectionCreateSuccessHandler = (data) => {
+    if (data) {
+      this.apiPendingStatus = PAGE_STATUS.READY;
+      this.collections = [...this.collections, ...data?.item];
+    } else {
+      this.apiPendingStatus = PAGE_STATUS.ERROR;
     }
   };
 }

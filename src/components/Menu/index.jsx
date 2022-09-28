@@ -67,13 +67,13 @@ const Menu = observer(
 
     componentDidMount = () => {
       const collectionId = history.location.pathname.split('/');
-      this.globalViewModel.getCollection(collectionId[2] ?? 0);
+      this.globalViewModel.getCollections(collectionId[2] ?? 0);
     };
 
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        this.globalViewModel.getCollection(collectionId[2] ?? 0);
+        this.globalViewModel.getCollections(collectionId[2] ?? 0);
       }
     }
 

@@ -16,17 +16,54 @@ const Toast = () => {
 const notify = (msg, type = 'success') => {
   switch (type) {
     case 'error':
-      toast.error(msg);
+      toast.error(msg, {
+        className: 'bg-danger',
+      });
       break;
     case 'warn':
-      toast.warn(msg);
+      toast.warn(msg, {
+        className: 'bg-info',
+      });
       break;
     case 'success':
-      toast.success(msg);
+      toast.success(msg, {
+        className: 'bg-success',
+      });
+      break;
+    case 'promise':
+      toast.promise(
+        msg,
+        {
+          pending: {
+            render() {
+              return (
+                <div className={`position-absolute top-50 start-50 translate-middle`}>
+                  <div
+                    className="spinner-border"
+                    style={{ width: '1rem', height: '1rem' }}
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <span className="ps-2">Loading</span>
+                </div>
+              );
+            },
+            icon: true,
+          },
+          success: 'Promise resolved 👌',
+          error: 'Promise rejected 🤯',
+        },
+        {
+          className: 'bg-dark',
+        }
+      );
       break;
 
     default:
-      toast.info(msg);
+      toast.info(msg, {
+        className: 'bg-info',
+      });
       break;
   }
 };
