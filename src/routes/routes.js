@@ -9,6 +9,8 @@ const LoginPage = lazy(() => import('../containers/LoginPage'));
 
 const WelcomePage = lazy(() => import('../containers/WelcomePage'));
 const DashboardPage = lazy(() => import('../containers/Homepage'));
+const ProfilePage = lazy(() => import('../containers/ProfilePage'));
+
 
 const authRoutes = [
   {
@@ -37,6 +39,7 @@ const settingRoutes = [
     exact: true,
     main: () => <WelcomePage />,
   },
+  
 ];
 
 export { authRoutes, mainRoutes, settingRoutes };

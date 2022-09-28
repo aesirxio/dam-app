@@ -151,7 +151,7 @@
   "txt_connecting":"Conectando",
   "txt_connect":"Conectar",
   "txt_enable":"Habilitar",
-  "txt_remove":"Remover", 
+  "txt_remove":"Remover",
   "txt_type":"Escribe",
   "txt_action":"Acción",
   "txt_profile":"Perfil",
@@ -173,11 +173,11 @@
   "txt_project": "Proyecto",
   "txt_post_now":"Publicar ahora",
   "txt_schedule":"Calendario",
-  "txt_publish_date/time":"Fecha/hora de publicación"
-
-
-
-
+  "txt_publish_date/time":"Fecha/hora de publicación",
+  "txt_your_avatar":"Your Avatar",
+  "txt_title_profilfe_setting":"Ajustes de perfil",
+  "txt_title_set_information_name":"Establezca su nombre y otra información pública",
+  "txt_cancel":"Cancelar"
 
 
 

@@ -189,5 +189,10 @@
   "txt_sort_by": "Sort By",
   "txt_date_create": "Date create",
   "txt_a_z": "A - Z",
-  "txt_z_a": "Z - A"
+  "txt_z_a": "Z - A",
+  "txt_your_avatar":"Your Avatar",
+  "txt_title_profilfe_setting":"Profile Setting",
+  "txt_title_set_information_name":"Set your name and other public-facing information",
+  "txt_cancel":"Cancel"
+
 }

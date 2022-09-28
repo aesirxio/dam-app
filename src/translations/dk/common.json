@@ -171,10 +171,11 @@
   "txt_project": "Projekt",
   "txt_post_now":"Send nu",
   "txt_schedule":"Tidsplan",
-  "txt_publish_date/time":"Udgiv dato/tid"
-
-
-
+  "txt_publish_date/time":"Udgiv dato/tid",
+  "txt_your_avatar":"Your Avatar",
+  "txt_title_profilfe_setting":"Profilindstilling",
+  "txt_title_set_information_name":"Indstil dit navn og andre offentlige oplysninger",
+  "txt_cancel":"Afbestille"
 
 
 
