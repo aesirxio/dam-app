@@ -43,23 +43,46 @@ class GlobalListViewModel {
   getCollections = (collectionId) => {
     this.status = PAGE_STATUS.LOADING;
     this.tableStatus = PAGE_STATUS.LOADING;
+    this.globalStore.getCollections(
+      collectionId,
+      this.callbackOnCollectionsSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
+
+  createCollections = (data) => {
+    // this.apiPendingStatus = PAGE_STATUS.LOADING;
     notify(
-      this.globalStore.getCollections(
-        collectionId,
-        this.callbackOnCollectionsSuccessHandler,
+      this.globalStore.createCollections(
+        data,
+        this.callBackOnCollectionCreateSuccessHandler,
         this.callbackOnErrorHander
       ),
       'promise'
     );
   };
 
-  createCollections = (data) => {
-    this.apiPendingStatus = PAGE_STATUS.LOADING;
+  updateCollections = (data) => {
+    // this.apiPendingStatus = PAGE_STATUS.LOADING;
+    notify(
+      this.globalStore.updateCollections(
+        data,
+        this.callBackOnCollectionCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
+  };
 
-    this.globalStore.createCollections(
-      data,
-      this.callBackOnCollectionCreateSuccessHandler,
-      this.callbackOnErrorHander
+  deleteCollections = (data) => {
+    // this.apiPendingStatus = PAGE_STATUS.LOADING;
+    notify(
+      this.globalStore.deleteCollections(
+        data,
+        this.callBackOnCollectionCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
     );
   };
 
@@ -92,11 +115,24 @@ class GlobalListViewModel {
   };
 
   callBackOnCollectionCreateSuccessHandler = (data) => {
-    if (data) {
-      this.apiPendingStatus = PAGE_STATUS.READY;
-      this.collections = [...this.collections, ...data?.item];
+    if (data.item) {
+      // this.apiPendingStatus = PAGE_STATUS.READY;
+      if (data?.type) {
+        switch (data.type) {
+          case 'update':
+            break;
+          case 'delete':
+            break;
+          case 'create':
+            this.collections = [...this.collections, data?.item];
+            break;
+
+          default:
+            break;
+        }
+      }
     } else {
-      this.apiPendingStatus = PAGE_STATUS.ERROR;
+      // this.apiPendingStatus = PAGE_STATUS.ERROR;
     }
   };
 }

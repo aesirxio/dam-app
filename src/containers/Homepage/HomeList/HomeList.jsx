@@ -15,7 +15,11 @@ import Table from '../../../components/Table';
 import ComponentNoData from '../../../components/ComponentNoData';
 import Spinner from '../../../components/Spinner';
 import ComponentImage from '../../../components/ComponentImage';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import {
+  DAM_ASSETS_API_FIELD_KEY,
+  DAM_ASSETS_FIELD_KEY,
+  DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
+} from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 import styles from '../index.module.scss';
@@ -42,7 +46,7 @@ const HomeList = observer(
 
     componentDidMount() {
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.gotoFolder(collectionId[2] ?? 0);
+      this.homeListViewModel.getAssets(collectionId[2] ?? 0);
     }
 
     componentWillUnmount() {
@@ -52,7 +56,7 @@ const HomeList = observer(
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        this.homeListViewModel.gotoFolder(collectionId[2] ?? 0);
+        this.homeListViewModel.getAssets(collectionId[2] ?? 0);
       }
     }
 
@@ -71,7 +75,26 @@ const HomeList = observer(
         }, []);
     };
 
-    handleCreateFolter = () => {};
+    handleCreateFolder = (data) => {
+      const collectionId = history.location.pathname.split('/');
+      this.context.globalViewModel.createCollections({
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: collectionId[2] ?? 0,
+      });
+    };
+
+    handleCreateAssets = (data) => {
+      if (data) {
+        const collectionId = history.location.pathname.split('/');
+
+        this.homeListViewModel.createAssets({
+          [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
+          [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: collectionId[2] ?? 0,
+          [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
+        });
+      }
+    };
 
     _handleList = () => {
       this.homeListViewModel.isList = !this.homeListViewModel.isList;
@@ -218,6 +241,8 @@ const HomeList = observer(
               view={this.view}
               thumbColumnsNumber={2}
               onDoubleClick={this.handleDoubleClick}
+              createFolder={this.handleCreateFolder}
+              createAssets={this.handleCreateAssets}
             />
           ) : (
             <ComponentNoData

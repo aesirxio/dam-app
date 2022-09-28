@@ -27,11 +27,10 @@ class HomeListViewModel {
   initializeData = () => {
     this.status = PAGE_STATUS.LOADING;
     this.tableStatus = PAGE_STATUS.LOADING;
-
     this.homeStore.getAssets(0, this.callbackOnAssetsSuccessHandler, this.callbackOnErrorHander);
   };
 
-  gotoFolder = (collectionId) => {
+  getAssets = (collectionId) => {
     this.status = PAGE_STATUS.LOADING;
     this.tableStatus = PAGE_STATUS.LOADING;
 
@@ -42,9 +41,19 @@ class HomeListViewModel {
     );
   };
 
+  createAssets = (data) => {
+    // this.apiPendingStatus = PAGE_STATUS.LOADING;
+    notify(
+      this.homeStore.createAssets(
+        data,
+        this.callBackOnAssetsCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
+  };
+
   resetObservableProperties = () => {
-    this.collections = [];
-    this.paginationCollections = null;
     this.assets = [];
     this.paginationAssets = null;
     this.tableRowHeader = null;
@@ -60,20 +69,6 @@ class HomeListViewModel {
     } else notify(error.message);
   };
 
-  callbackOnCollectionsSuccessHandler = (data) => {
-    if (data) {
-      this.tableStatus = PAGE_STATUS.READY;
-      this.status = PAGE_STATUS.READY;
-      this.collections = data?.list ?? [];
-      this.paginationCollections = data.pagination;
-    } else {
-      this.tableStatus = PAGE_STATUS.READY;
-      this.status = PAGE_STATUS.ERROR;
-      this.collections = [];
-      this.paginationCollections = null;
-    }
-  };
-
   callbackOnAssetsSuccessHandler = (data) => {
     if (data) {
       this.tableStatus = PAGE_STATUS.READY;
@@ -85,6 +80,27 @@ class HomeListViewModel {
       this.tableStatus = PAGE_STATUS.READY;
       this.assets = this.assets;
       this.paginationAssets = null;
+    }
+  };
+  callBackOnAssetsCreateSuccessHandler = (data) => {
+    if (data.item) {
+      // this.apiPendingStatus = PAGE_STATUS.READY;
+      if (data?.type) {
+        switch (data.type) {
+          case 'update':
+            break;
+          case 'delete':
+            break;
+          case 'create':
+            this.assets = [...this.assets, data?.item];
+            break;
+
+          default:
+            break;
+        }
+      }
+    } else {
+      // this.apiPendingStatus = PAGE_STATUS.ERROR;
     }
   };
 }

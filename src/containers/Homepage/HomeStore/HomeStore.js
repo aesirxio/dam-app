@@ -64,6 +64,7 @@ export default class HomeStore {
           runInAction(() => {
             callbackOnSuccess({
               item: getDetailAsset,
+              type: 'create',
             });
           });
         } else {

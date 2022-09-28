@@ -102,6 +102,8 @@ const Table = ({
   idKey,
   view,
   onDoubleClick,
+  createFolder,
+  createAssets,
 }) => {
   const { t } = useTranslation('common');
 
@@ -333,7 +335,7 @@ const Table = ({
   // };
   return (
     <>
-      <div className={`mb-4 ${classNameTable}`}>
+      <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
           <div className="wrapper_search_global d-flex align-items-center">
             {filterBar.map((item) => (
@@ -376,24 +378,6 @@ const Table = ({
             </div>
           )}
         </div>
-        {/* {isFilter && (
-          <>
-            <div
-              className={`py-2 px-1 bg-blue-3 wrapper_filter_select ${
-                getState.isFilter ? 'show_filter_select' : ''
-              }`}
-            >
-              {dataFormFilter && (
-                <ComponentFilter
-                  dataFormFilter={dataFormFilter}
-                  setGlobalFilter={setGlobalFilter}
-                  filter={dataFilter}
-                  setFilter={setFilter}
-                />
-              )}
-            </div>
-          </>
-        )} */}
       </div>
       {isList ? (
         <div className="bg-white p-3 rounded-3">
@@ -530,18 +514,21 @@ const Table = ({
                 } mb-4 zindex-2`}
               >
                 <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
-                  <div
-                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
-                  >
-                    <FontAwesomeIcon
-                      icon={faCloudUploadAlt}
-                      className=" d-inline-block align-text-bottom"
-                    />
+                  <Dropzone createAssets={createAssets}>
+                    <div
+                      className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCloudUploadAlt}
+                        className=" d-inline-block align-text-bottom"
+                      />
 
-                    <span className="ms-3 text py-1 d-inline-block">{t('txt_upload_file')}</span>
-                  </div>
+                      <span className="ms-3 text py-1 d-inline-block">{t('txt_upload_file')}</span>
+                    </div>
+                  </Dropzone>
                   <div
                     className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                    onClick={createFolder}
                   >
                     <FontAwesomeIcon
                       icon={faFolder}
