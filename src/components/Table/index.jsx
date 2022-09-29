@@ -325,6 +325,7 @@ const Table = ({
   //     isFilter: !getState.isFilter,
   //   });
   // };
+
   return (
     <>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
@@ -337,6 +338,9 @@ const Table = ({
                 isSearchable={false}
                 options={filterBar.options}
                 onChange={onFilter}
+                defaultValue={filterBar.options.find(
+                  (e) => e.value === listViewModel.dataFilter['filter[type]']
+                )}
               />
             </div>
             <div className={Action.className}>
@@ -354,6 +358,11 @@ const Table = ({
                 isSearchable={false}
                 options={sortBy.options}
                 onChange={onSortby}
+                defaultValue={sortBy.options.find(
+                  (e) =>
+                    e.value.ordering === listViewModel.dataFilter['list[ordering]'] &&
+                    e.value.direction === listViewModel.dataFilter['list[direction]']
+                )}
               />
             </div>
           </div>

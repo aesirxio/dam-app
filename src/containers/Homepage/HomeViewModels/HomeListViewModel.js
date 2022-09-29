@@ -14,7 +14,7 @@ class HomeListViewModel {
   status = PAGE_STATUS.LOADING;
   tableStatus = PAGE_STATUS.LOADING;
   tableRowHeader = null;
-  dataFilter = {};
+  dataFilter = { 'filter[type]': '', 'list[ordering]': '', 'list[direction]': '' };
   pageSize = 5;
   isList = false;
   damIdsSelected = null;
@@ -51,6 +51,7 @@ class HomeListViewModel {
     this.status = PAGE_STATUS.LOADING;
     this.tableStatus = PAGE_STATUS.LOADING;
     this.dataFilter = { ...this.dataFilter, ...dataFilter };
+
     this.homeStore.getAssets(
       collectionId,
       this.dataFilter,
