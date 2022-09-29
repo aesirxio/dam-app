@@ -14,11 +14,11 @@ class HomeListViewModel {
   status = PAGE_STATUS.LOADING;
   tableStatus = PAGE_STATUS.LOADING;
   tableRowHeader = null;
-  dataFilter = null;
+  dataFilter = {};
   pageSize = 5;
   isList = false;
   damIdsSelected = null;
-
+  previewData = {};
   constructor(homeStore) {
     makeAutoObservable(this);
     this.homeStore = homeStore;
@@ -27,22 +27,41 @@ class HomeListViewModel {
   initializeData = () => {
     this.status = PAGE_STATUS.LOADING;
     this.tableStatus = PAGE_STATUS.LOADING;
-    this.homeStore.getAssets(0, this.callbackOnAssetsSuccessHandler, this.callbackOnErrorHander);
-  };
-
-  getAssets = (collectionId) => {
-    this.status = PAGE_STATUS.LOADING;
-    this.tableStatus = PAGE_STATUS.LOADING;
-
     this.homeStore.getAssets(
-      collectionId,
+      0,
+      {},
       this.callbackOnAssetsSuccessHandler,
       this.callbackOnErrorHander
     );
   };
 
+  getAssets = (collectionId, dataFilter) => {
+    this.status = PAGE_STATUS.LOADING;
+    this.tableStatus = PAGE_STATUS.LOADING;
+    this.dataFilter = { ...this.dataFilter, dataFilter };
+    this.homeStore.getAssets(
+      collectionId,
+      this.dataFilter,
+      this.callbackOnAssetsSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
+
+  filterAssets = (collectionId, dataFilter) => {
+    this.status = PAGE_STATUS.LOADING;
+    this.tableStatus = PAGE_STATUS.LOADING;
+    this.dataFilter = { ...this.dataFilter, ...dataFilter };
+    this.homeStore.getAssets(
+      collectionId,
+      this.dataFilter,
+      this.callBackOnAssetsFilterSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
+
   createAssets = (data) => {
-    // this.apiPendingStatus = PAGE_STATUS.LOADING;
+    this.apiPendingStatus = PAGE_STATUS.LOADING;
+
     notify(
       this.homeStore.createAssets(
         data,
@@ -62,11 +81,11 @@ class HomeListViewModel {
     this.isList = true;
     this.pageSize = 5;
   };
-  callbackOnErrorHander = (error) => {
+  callbackOnErrorHander = (error, type) => {
     if (error.message === 'isCancle') {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.READY;
-    } else notify(error.message);
+    } else notify(error.message, 'error');
   };
 
   callbackOnAssetsSuccessHandler = (data) => {
@@ -84,7 +103,8 @@ class HomeListViewModel {
   };
   callBackOnAssetsCreateSuccessHandler = (data) => {
     if (data.item) {
-      // this.apiPendingStatus = PAGE_STATUS.READY;
+      this.apiPendingStatus = PAGE_STATUS.READY;
+
       if (data?.type) {
         switch (data.type) {
           case 'update':
@@ -93,6 +113,7 @@ class HomeListViewModel {
             break;
           case 'create':
             this.assets = [...this.assets, data?.item];
+            window.location.reload();
             break;
 
           default:
@@ -100,7 +121,20 @@ class HomeListViewModel {
         }
       }
     } else {
-      // this.apiPendingStatus = PAGE_STATUS.ERROR;
+      this.apiPendingStatus = PAGE_STATUS.READY;
+    }
+  };
+  callBackOnAssetsFilterSuccessHandler = (data) => {
+    if (data) {
+      this.tableStatus = PAGE_STATUS.READY;
+      this.status = PAGE_STATUS.READY;
+      this.assets = [...data?.list];
+      this.paginationAssets = data.pagination;
+    } else {
+      this.status = PAGE_STATUS.ERROR;
+      this.tableStatus = PAGE_STATUS.READY;
+      this.assets = this.assets;
+      this.paginationAssets = null;
     }
   };
 }

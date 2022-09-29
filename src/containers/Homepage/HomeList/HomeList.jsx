@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component } from 'react';
+import React, { Component, lazy } from 'react';
 import '../index.scss';
 
 import { observer } from 'mobx-react';
@@ -22,12 +22,14 @@ import {
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
+import { faEye } from '@fortawesome/free-regular-svg-icons/faEye';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons/faTrashAlt';
 import styles from '../index.module.scss';
 import history from 'routes/history';
 import { withRouter } from 'react-router-dom';
 import { GlobalStore, withGlobalViewModel } from 'store/Store';
 import Dropzone from 'components/Dropzone';
-
+const ModalComponent = lazy(() => import('../../../components/Modal'));
 const HomeList = observer(
   class HomeList extends Component {
     homeListViewModel = null;
@@ -36,7 +38,9 @@ const HomeList = observer(
     constructor(props) {
       super(props);
 
-      this.state = {};
+      this.state = {
+        preview: {},
+      };
 
       const { viewModel } = props;
 
@@ -86,7 +90,6 @@ const HomeList = observer(
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
-
         this.homeListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
@@ -111,8 +114,34 @@ const HomeList = observer(
         console.log(e);
       }
     };
+
+    handleRightClickItem = (e, data) => {
+      e.preventDefault();
+      this.homeListViewModel.previewData = {
+        ...data,
+        x: e.clientX,
+        y: e.clientY,
+      };
+    };
+
+    handleFilter = (data) => {
+      const collectionId = history.location.pathname.split('/');
+      this.homeListViewModel.filterAssets(collectionId[2] ?? 0, {
+        'filter[type]': data.value,
+      });
+    };
+
+    handleSortby = (data) => {
+      console.log(data);
+      const collectionId = history.location.pathname.split('/');
+      this.homeListViewModel.filterAssets(collectionId[2] ?? 0, {
+        'list[ordering]': data.value.ordering,
+        'list[direction]': data.value.direction,
+      });
+    };
+
     render() {
-      const { tableStatus, assets, pagination } = this.homeListViewModel;
+      const { tableStatus, assets } = this.homeListViewModel;
       const { status, collections } = this.context.globalViewModel;
       const { t } = this.props;
 
@@ -200,15 +229,15 @@ const HomeList = observer(
       let handleColections = [];
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
-        handleColections = collections.filter(
-          (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
-        );
         handleAssets = assets.filter(
           (asset) => asset.collection_id === +collectionId[collectionId.length - 1]
         );
+        handleColections = collections.filter(
+          (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
+        );
       } else {
-        handleColections = collections.filter((collection) => collection.parent_id === 0);
         handleAssets = assets.filter((asset) => asset.collection_id === 0);
+        handleColections = collections.filter((collection) => collection.parent_id === 0);
       }
 
       return (
@@ -218,32 +247,88 @@ const HomeList = observer(
           onContextMenu={this.handleRightClick}
         >
           {handleColections || handleAssets ? (
-            <Table
-              rowData={[...handleColections, ...handleAssets]}
-              tableRowHeader={tableRowHeader}
-              onEdit={this.handleEdit}
-              onSelect={this.handleSelect}
-              isThumb={true}
-              isList={this.homeListViewModel.isList}
-              pageSize={this.homeListViewModel.pageSize}
-              dataThumb={[
-                'selection',
-                DAM_COLUMN_INDICATOR.FILE_SIZE,
-                DAM_COLUMN_INDICATOR.OWNER,
-                DAM_COLUMN_INDICATOR.LAST_MODIFIED,
-              ]}
-              pagination={pagination}
-              listViewModel={this.homeListViewModel}
-              searchFunction={this.homeListViewModel.searchProjects}
-              searchText={t('search_your_project')}
-              hasSubRow={false}
-              _handleList={this._handleList}
-              view={this.view}
-              thumbColumnsNumber={2}
-              onDoubleClick={this.handleDoubleClick}
-              createFolder={this.handleCreateFolder}
-              createAssets={this.handleCreateAssets}
-            />
+            <>
+              <Table
+                rowData={[...handleColections, ...handleAssets]}
+                tableRowHeader={tableRowHeader}
+                onEdit={this.handleEdit}
+                onSelect={this.handleSelect}
+                isThumb={true}
+                isList={this.homeListViewModel.isList}
+                pageSize={this.homeListViewModel.pageSize}
+                dataThumb={[
+                  'selection',
+                  DAM_COLUMN_INDICATOR.FILE_SIZE,
+                  DAM_COLUMN_INDICATOR.OWNER,
+                  DAM_COLUMN_INDICATOR.LAST_MODIFIED,
+                ]}
+                // pagination={pagination}
+                listViewModel={this.homeListViewModel}
+                // searchFunction={this.homeListViewModel.searchProjects}
+                // searchText={t('search_your_project')}
+                hasSubRow={false}
+                _handleList={this._handleList}
+                view={this.view}
+                thumbColumnsNumber={2}
+                onDoubleClick={this.handleDoubleClick}
+                createFolder={this.handleCreateFolder}
+                createAssets={this.handleCreateAssets}
+                onFilter={this.handleFilter}
+                onSortby={this.handleSortby}
+                onRightClickItem={this.handleRightClickItem}
+              />
+              <div
+                className="w-248 d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed"
+                style={{
+                  top: this.homeListViewModel.previewData?.y ?? 0,
+                  left: this.homeListViewModel.previewData?.x ?? 0,
+                  transition: 'none',
+                }}
+              >
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  // onClick={createFolder}
+                >
+                  <FontAwesomeIcon icon={faEye} className=" d-inline-block align-text-bottom" />
+
+                  <span className="ms-3 text py-1 d-inline-block">{t('txt_preview')}</span>
+                </div>
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  // onClick={createFolder}
+                >
+                  <ComponentImage
+                    // alt={row.original.name}
+                    src="/assets/images/move-to-folder.svg"
+                  />
+                  <span className="ms-3 text py-1 d-inline-block">{t('txt_move_to_folder')}</span>
+                </div>
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  // onClick={createFolder}
+                >
+                  <ComponentImage
+                    // alt={row.original.name}
+                    src="/assets/images/download.svg"
+                  />
+
+                  <span className="ms-3 text py-1 d-inline-block">{t('txt_download_folder')}</span>
+                </div>
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  // onClick={createFolder}
+                >
+                  <FontAwesomeIcon
+                    icon={faTrashAlt}
+                    className=" d-inline-block align-text-bottom"
+                  />
+                  <span className="ms-3 text py-1 d-inline-block">{t('txt_delete_folder')}</span>
+                </div>
+              </div>
+              <div>
+                <ModalComponent />
+              </div>
+            </>
           ) : (
             <ComponentNoData
               icons="/assets/images/ic_project.svg"

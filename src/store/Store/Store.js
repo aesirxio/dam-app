@@ -59,11 +59,10 @@ export default class GlobalStore {
       console.warn(responsedDataFromLibary);
       if (responsedDataFromLibary) {
         const getDetailCollection = await damService.getCollection(responsedDataFromLibary);
-        console.log(getDetailCollection);
-        if (getDetailCollection) {
+        if (getDetailCollection?.item) {
           runInAction(() => {
             callbackOnSuccess({
-              item: getDetailCollection,
+              item: getDetailCollection.item,
               type: 'create',
             });
           });

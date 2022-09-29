@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 // import ComponentImage from '../ComponentImage';
 
-const Dropzone = ({ children, noClick, createAssets }) => {
+const Dropzone = ({ children, noClick, createAssets, className }) => {
   const [file, setFile] = useState(null);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -28,7 +28,7 @@ const Dropzone = ({ children, noClick, createAssets }) => {
   });
 
   return (
-    <div className="position-relative w-100 h-100">
+    <div className={`position-relative ${className ?? 'w-100 h-100'}`}>
       <div {...getRootProps()} className="cursor-auto w-100 h-100">
         <input
           {...getInputProps()}

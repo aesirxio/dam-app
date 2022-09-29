@@ -104,29 +104,11 @@ const Table = ({
   onDoubleClick,
   createFolder,
   createAssets,
+  onFilter,
+  onSortby,
+  onRightClickItem,
 }) => {
   const { t } = useTranslation('common');
-
-  // const [getState, setState] = useState({
-  //   isName: 'list',
-  //   isFilter: Object.keys(dataFilter.titleFilter).length > 0 ? true : false,
-  //   indexPagination: 0,
-  //   dataFilter: null,
-  // });
-
-  // const filterTypes = React.useMemo(
-  //   () => ({
-  //     text: (rows, id, filterValue) => {
-  //       return rows.filter((row) => {
-  //         const rowValue = row.values[id];
-  //         return rowValue !== undefined
-  //           ? String(rowValue).toLowerCase().startsWith(String(filterValue).toLowerCase())
-  //           : true;
-  //       });
-  //     },
-  //   }),
-  //   []
-  // );
 
   const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
     const defaultRef = React.useRef();
@@ -147,78 +129,88 @@ const Table = ({
 
   const data = useMemo(() => rowData, [rowData]);
 
-  const filterBar = useMemo(() => [
-    {
-      id: 'type',
-      placeholder: t('txt_type'),
-      className: styles.w_112,
-      options: [
-        {
-          label: t('txt_image'),
-          value: t('txt_image'),
+  const filterBar = useMemo(() => ({
+    id: 'type',
+    placeholder: t('txt_type'),
+    // className: styles.w_112,
+    options: [
+      {
+        label: t('txt_image'),
+        value: 'image',
+      },
+      {
+        label: t('txt_video'),
+        value: 'video',
+      },
+      {
+        label: t('txt_document'),
+        value: 'document',
+      },
+      {
+        label: t('txt_audio'),
+        value: 'audio',
+      },
+    ],
+  }));
+  const Action = useMemo(() => ({
+    id: 'action',
+    className: styles.w_272,
+    placeholder: t('choose_an_action'),
+    options: [
+      {
+        label: t('txt_preview'),
+        value: t('txt_preview'),
+      },
+      {
+        label: t('txt_move_to_folder'),
+        value: t('txt_move_to_folder'),
+      },
+      {
+        label: t('txt_download'),
+        value: t('txt_download'),
+      },
+      {
+        label: t('txt_delete'),
+        value: t('txt_delete'),
+      },
+    ],
+  }));
+  const sortBy = useMemo(() => ({
+    id: 'sort_by',
+    // className: styles.w_136,
+    placeholder: t('txt_sort_by'),
+    options: [
+      {
+        label: t('txt_date_create'),
+        value: {
+          ordering: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
+          direction: 'asc',
         },
-        {
-          label: t('txt_video'),
-          value: t('txt_video'),
+      },
+      {
+        label: t('txt_last_modified'),
+        value: {
+          ordering: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
+          direction: 'desc',
         },
-        {
-          label: t('txt_document'),
-          value: t('txt_document'),
+      },
+      {
+        label: t('txt_a_z'),
+        value: {
+          ordering: DAM_ASSETS_FIELD_KEY.NAME,
+          direction: 'asc',
         },
-        {
-          label: t('txt_audio'),
-          value: t('txt_audio'),
+      },
+      {
+        label: t('txt_z_a'),
+        value: {
+          ordering: DAM_ASSETS_FIELD_KEY.NAME,
+          direction: 'desc',
         },
-      ],
-    },
-    {
-      id: 'action',
-      className: styles.w_272,
-      placeholder: t('choose_an_action'),
-      options: [
-        {
-          label: t('txt_preview'),
-          value: t('txt_preview'),
-        },
-        {
-          label: t('txt_move_to_folder'),
-          value: t('txt_move_to_folder'),
-        },
-        {
-          label: t('txt_download'),
-          value: t('txt_download'),
-        },
-        {
-          label: t('txt_delete'),
-          value: t('txt_delete'),
-        },
-      ],
-    },
-    {
-      id: 'sort_by',
-      className: styles.w_136,
-      placeholder: t('txt_sort_by'),
-      options: [
-        {
-          label: t('txt_date_create'),
-          value: t('txt_date_create'),
-        },
-        {
-          label: t('txt_last_modified'),
-          value: t('txt_last_modified'),
-        },
-        {
-          label: t('txt_a_z'),
-          value: t('txt_a_z'),
-        },
-        {
-          label: t('txt_z_a'),
-          value: t('txt_z_a'),
-        },
-      ],
-    },
-  ]);
-
+      },
+    ],
+  }));
+  let check = 0;
   const {
     getTableProps,
     getTableBodyProps,
@@ -338,16 +330,32 @@ const Table = ({
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
           <div className="wrapper_search_global d-flex align-items-center">
-            {filterBar.map((item) => (
-              <div key={item.id} className={`${item.className}`}>
-                <Select
-                  placeholder={item.placeholder}
-                  isClearable={false}
-                  isSearchable={false}
-                  options={item.options}
-                />
-              </div>
-            ))}
+            <div className={filterBar.className}>
+              <Select
+                placeholder={filterBar.placeholder}
+                isClearable={false}
+                isSearchable={false}
+                options={filterBar.options}
+                onChange={onFilter}
+              />
+            </div>
+            <div className={Action.className}>
+              <Select
+                placeholder={Action.placeholder}
+                isClearable={false}
+                isSearchable={false}
+                options={Action.options}
+              />
+            </div>
+            <div className={sortBy.className}>
+              <Select
+                placeholder={sortBy.placeholder}
+                isClearable={false}
+                isSearchable={false}
+                options={sortBy.options}
+                onChange={onSortby}
+              />
+            </div>
           </div>
           {isThumb && (
             <div className="d-flex align-items-center">
@@ -451,7 +459,7 @@ const Table = ({
         </div>
       ) : (
         <div {...getTableBodyProps()} className="row">
-          {page.map((row) => {
+          {page.map((row, index) => {
             prepareRow(row);
             let newRowCells = row.cells;
             if (dataThumb && dataThumb.length > 0) {
@@ -459,42 +467,89 @@ const Table = ({
                 (item) => !dataThumb.some((other) => item.column.id === other)
               );
             }
-
-            return (
-              newRowCells.length > 0 && (
-                <div
-                  {...row.getRowProps()}
-                  className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
-                    !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                  } mb-4 zindex-2`}
-                  //onClick={(e) => handerEdit(e, row.original)}
-                  key={Math.random(40, 200)}
-                >
+            if (row.original[DAM_ASSETS_FIELD_KEY.TYPE] && check === 0) {
+              check = 1;
+              return (
+                <React.Fragment key={Math.random(40, 200)}>
+                  <div className="col-12">
+                    <p>{t('txt_file')}</p>
+                  </div>
                   <div
-                    className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2  flex-column`}
+                    {...row.getRowProps()}
+                    className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
+                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                    } mb-4 zindex-2`}
+                    //onClick={(e) => handerEdit(e, row.original)}
                     key={Math.random(40, 200)}
-                    onDoubleClick={
-                      row.original[DAM_ASSETS_FIELD_KEY.TYPE]
-                        ? () => {}
-                        : () => onDoubleClick(row.original.id)
-                    }
-                    onContextMenu={() => {
-                      console.log(123);
+                    onContextMenu={(e) => {
+                      onRightClickItem(e, row.original);
                     }}
                   >
-                    {newRowCells.map((cell) => {
-                      return (
-                        <div
-                          {...cell.getCellProps()}
-                          className={`ct_cell ${styles.ct_cell} d-block`}
-                          key={Math.random(40, 200)}
-                        >
-                          {cell.render('Cell')}
-                        </div>
-                      );
-                    })}
+                    <div
+                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2  flex-column`}
+                      key={Math.random(40, 200)}
+                      onDoubleClick={
+                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                          ? () => {}
+                          : () => onDoubleClick(row.original.id)
+                      }
+                      onContextMenu={() => {
+                        console.log(123);
+                      }}
+                    >
+                      {newRowCells.map((cell) => {
+                        return (
+                          <div
+                            {...cell.getCellProps()}
+                            className={`ct_cell ${styles.ct_cell} d-block`}
+                            key={Math.random(40, 200)}
+                          >
+                            {cell.render('Cell')}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                </React.Fragment>
+              );
+            }
+            return (
+              newRowCells.length > 0 && (
+                <React.Fragment key={Math.random(40, 200)}>
+                  <div
+                    {...row.getRowProps()}
+                    className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
+                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                    } mb-4 zindex-2`}
+                    //onClick={(e) => handerEdit(e, row.original)}
+                    key={Math.random(40, 200)}
+                  >
+                    <div
+                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2  flex-column`}
+                      key={Math.random(40, 200)}
+                      onDoubleClick={
+                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                          ? () => {}
+                          : () => onDoubleClick(row.original.id)
+                      }
+                      onContextMenu={(e) => {
+                        onRightClickItem(e, row.original);
+                      }}
+                    >
+                      {newRowCells.map((cell) => {
+                        return (
+                          <div
+                            {...cell.getCellProps()}
+                            className={`ct_cell ${styles.ct_cell} d-block`}
+                            key={Math.random(40, 200)}
+                          >
+                            {cell.render('Cell')}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </React.Fragment>
               )
             );
           })}

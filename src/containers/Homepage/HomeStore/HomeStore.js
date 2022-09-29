@@ -7,10 +7,10 @@ import HomeUtils from '../HomeUtils/HomeUtils';
 import { AesirxDamApiService } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
 export default class HomeStore {
-  getAssets = async (collectionId, callbackOnSuccess, callbackOnError) => {
+  getAssets = async (collectionId, dataFilter, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.getAssets(collectionId);
+      const responsedDataFromLibary = await damService.getAssets(collectionId, dataFilter);
       if (responsedDataFromLibary?.list) {
         const homeDataModels = HomeUtils.transformPersonaResponseIntoModel(
           responsedDataFromLibary.list
@@ -60,10 +60,10 @@ export default class HomeStore {
       const responsedDataFromLibary = await damService.createAssets(data);
       if (responsedDataFromLibary) {
         const getDetailAsset = await damService.getAsset(responsedDataFromLibary);
-        if (getDetailAsset) {
+        if (getDetailAsset.item) {
           runInAction(() => {
             callbackOnSuccess({
-              item: getDetailAsset,
+              item: getDetailAsset.item,
               type: 'create',
             });
           });
@@ -90,10 +90,11 @@ export default class HomeStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
         callbackOnError({
-          message: 'Something went wrong from Server response',
+          message:
+            error.response?.data?._messages[0]?.message ??
+            'Something went wrong from Server response',
         });
       });
     }

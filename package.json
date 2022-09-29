@@ -1,6 +1,6 @@
 {
   "name": "aesirx-dam-app",
-  "version": "1.4.1-alpha.1",
+  "version": "1.0.0-alpha",
   "license": "GPL-3.0-only",
   "author": "AesirX",
   "repository": "https://github.com/aesirxio/dam-app",
@@ -39,7 +39,7 @@
     "react-lazy-load-image-component": "^1.5.1",
     "react-number-format": "^4.6.4",
     "react-router-dom": "^5.2.0",
-    "react-select": "^3.1.1",
+    "react-select": "^5.4.0",
     "react-step-wizard": "^5.3.5",
     "react-table": "^7.6.2",
     "react-timezone-select": "^1.0.7",

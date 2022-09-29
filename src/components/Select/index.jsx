@@ -12,6 +12,15 @@ import { ThemesContext } from 'themes/ThemeContextProvider';
 import { withTranslation } from 'react-i18next';
 
 class SelectComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    if (this.openModal) {
+      // this.homeFormModalViewModel.openModal();
+    }
+  }
   render() {
     const { t } = this.props;
     const { theme } = this.context;
