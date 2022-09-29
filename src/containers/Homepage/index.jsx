@@ -3,13 +3,13 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component, lazy, Suspense } from 'react';
+import React, {  lazy, Suspense } from 'react';
 import Spinner from '../../components/Spinner';
 
 import HomeStore from './HomeStore/HomeStore';
 
 import HomeViewModel from './HomeViewModels/HomeViewModel';
-import GlobalStore from '../../store/Store';
+
 import { HomeViewModelContextProvider } from './HomeViewModels/HomeViewModelContextProvider';
 import { withTranslation } from 'react-i18next';
 import HomeActionBar from './HomeForm/HomeActionBar';

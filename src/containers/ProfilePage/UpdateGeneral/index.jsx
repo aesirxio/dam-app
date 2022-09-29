@@ -148,7 +148,6 @@ const UpdateGeneral = observer(
 
       return (
         <>
-
           {!memberInfo ? (
             <Spinner />
           ) : (
