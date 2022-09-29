@@ -281,7 +281,7 @@ const HomeList = observer(
                 onRightClickItem={this.handleRightClickItem}
               />
               <div
-                className="w-248 d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed"
+                className="w-248 d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed d-none"
                 style={{
                   top: this.homeListViewModel.previewData?.y ?? 0,
                   left: this.homeListViewModel.previewData?.x ?? 0,
