@@ -11,7 +11,8 @@ import { PROJECT_COLUMN_INDICATOR } from '../../../constants/ProjectModule';
 
 class HomeFormViewModel {
   show = false;
-  projectEditdata = null;
+  showContextMenu = false;
+  homeEditdata = null;
   editMode = null;
   projectListViewModel = null;
   formStatus = PAGE_STATUS.READY;
@@ -37,7 +38,7 @@ class HomeFormViewModel {
     this.formStatus = PAGE_STATUS.READY;
 
     if (data[0] !== undefined && typeof data == 'object') {
-      this.projectEditdata = data[0];
+      this.homeEditdata = data[0];
     }
 
     this.openModal();
@@ -46,6 +47,15 @@ class HomeFormViewModel {
   getProject = (id) => {
     this.formStatus = PAGE_STATUS.LOADING;
     this.projectStore.getProject(id, this.setEditProject, this.callbackOnErrorHander);
+  };
+
+  openContextMenu = () => {
+    this.showContextMenu = true;
+  };
+
+  closeContextMenu = () => {
+    // this.editMode = false;
+    this.showContextMenu = false;
   };
 
   openModal = () => {
@@ -60,7 +70,7 @@ class HomeFormViewModel {
   saveOnModal = () => {
     // const isFormValid = this.projectFormComponent.isFormValid();
     if (this.editMode) {
-      const projectID = this.projectEditdata.getId();
+      const projectID = this.homeEditdata.getId();
       this.projectFormComponent.formPropsData.id = projectID.value;
 
       let startDateParse = Date.parse(

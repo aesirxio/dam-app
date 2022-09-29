@@ -48,24 +48,33 @@ const HomeList = observer(
 
       this.viewModel = viewModel ? viewModel : null;
       this.homeListViewModel = this.viewModel ? this.viewModel.getHomeListViewModel() : null;
-      this.homeformModalViewModal = this.viewModel ? this.viewModel.getHomeListViewModel() : null;
+      this.homeformModalViewModal = this.viewModel ? this.viewModel.getHomeFormViewModel() : null;
     }
 
     componentDidMount() {
+      document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.getAssets(collectionId[2] ?? 0);
+      this.homeListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
     }
 
     componentWillUnmount() {
+      document.removeEventListener('mousedown', this.handleClickOutside);
       this.homeListViewModel.resetObservableProperties();
     }
 
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        this.homeListViewModel.getAssets(collectionId[2] ?? 0);
+        this.homeListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
       }
     }
+
+    handleClickOutside = () => {
+      if (!document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
+        document.querySelector('.main-content').classList.add('overflow-y-auto');
+      }
+      this.homeformModalViewModal.closeContextMenu();
+    };
 
     handleEdit = (e, row, page) => {
       this.formModalViewModal.loadForm(row[this.key], page);
@@ -86,7 +95,8 @@ const HomeList = observer(
       const collectionId = history.location.pathname.split('/');
       this.context.globalViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: collectionId[2] ?? 0,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]:
+          collectionId[collectionId.length - 1] ?? 0,
       });
     };
 
@@ -96,7 +106,7 @@ const HomeList = observer(
         this.homeListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: collectionId[2] ?? 0,
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: collectionId[collectionId.length - 1] ?? 0,
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
       }
@@ -120,16 +130,20 @@ const HomeList = observer(
 
     handleRightClickItem = (e, data) => {
       e.preventDefault();
-      this.homeListViewModel.previewData = {
+      if (document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
+        document.querySelector('.main-content').classList.remove('overflow-y-auto');
+      }
+      this.homeformModalViewModal.homeEditdata = {
         ...data,
         x: e.clientX,
         y: e.clientY,
       };
+      this.homeformModalViewModal.openContextMenu();
     };
 
     handleFilter = (data) => {
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.filterAssets(collectionId[2] ?? 0, {
+      this.homeListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
         'filter[type]': data.value,
       });
     };
@@ -137,7 +151,7 @@ const HomeList = observer(
     handleSortby = (data) => {
       console.log(data);
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.filterAssets(collectionId[2] ?? 0, {
+      this.homeListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
         'list[ordering]': data.value.ordering,
         'list[direction]': data.value.direction,
       });
@@ -280,54 +294,6 @@ const HomeList = observer(
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
               />
-              <div
-                className="w-248 d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed d-none"
-                style={{
-                  top: this.homeListViewModel.previewData?.y ?? 0,
-                  left: this.homeListViewModel.previewData?.x ?? 0,
-                  transition: 'none',
-                }}
-              >
-                <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  // onClick={createFolder}
-                >
-                  <FontAwesomeIcon icon={faEye} className=" d-inline-block align-text-bottom" />
-
-                  <span className="ms-3 text py-1 d-inline-block">{t('txt_preview')}</span>
-                </div>
-                <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  // onClick={createFolder}
-                >
-                  <ComponentImage
-                    // alt={row.original.name}
-                    src="/assets/images/move-to-folder.svg"
-                  />
-                  <span className="ms-3 text py-1 d-inline-block">{t('txt_move_to_folder')}</span>
-                </div>
-                <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  // onClick={createFolder}
-                >
-                  <ComponentImage
-                    // alt={row.original.name}
-                    src="/assets/images/download.svg"
-                  />
-
-                  <span className="ms-3 text py-1 d-inline-block">{t('txt_download_folder')}</span>
-                </div>
-                <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  // onClick={createFolder}
-                >
-                  <FontAwesomeIcon
-                    icon={faTrashAlt}
-                    className=" d-inline-block align-text-bottom"
-                  />
-                  <span className="ms-3 text py-1 d-inline-block">{t('txt_delete_folder')}</span>
-                </div>
-              </div>
             </>
           ) : (
             <ComponentNoData

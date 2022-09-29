@@ -184,4 +184,12 @@ $utilities: (
       5: 5,
     ),
   ),
+  'min-height': (
+    property: z-index,
+    class: minh,
+    values: (
+      auto: auto,
+      100: 100%,
+    ),
+  ),
 );
