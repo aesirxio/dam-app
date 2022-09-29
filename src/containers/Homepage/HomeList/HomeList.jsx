@@ -30,9 +30,11 @@ import { withRouter } from 'react-router-dom';
 import { GlobalStore, withGlobalViewModel } from 'store/Store';
 import Dropzone from 'components/Dropzone';
 const ModalComponent = lazy(() => import('../../../components/Modal'));
+
 const HomeList = observer(
   class HomeList extends Component {
     homeListViewModel = null;
+    homeformModalViewModal = null;
     static contextType = GlobalStore;
 
     constructor(props) {
@@ -46,6 +48,7 @@ const HomeList = observer(
 
       this.viewModel = viewModel ? viewModel : null;
       this.homeListViewModel = this.viewModel ? this.viewModel.getHomeListViewModel() : null;
+      this.homeformModalViewModal = this.viewModel ? this.viewModel.getHomeListViewModel() : null;
     }
 
     componentDidMount() {
@@ -324,9 +327,6 @@ const HomeList = observer(
                   />
                   <span className="ms-3 text py-1 d-inline-block">{t('txt_delete_folder')}</span>
                 </div>
-              </div>
-              <div>
-                <ModalComponent />
               </div>
             </>
           ) : (

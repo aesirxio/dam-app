@@ -9,7 +9,7 @@ import PAGE_STATUS from '../../../constants/PageStatus';
 import history from '../../../routes/history';
 import { PROJECT_COLUMN_INDICATOR } from '../../../constants/ProjectModule';
 
-class ProjectFormModalViewModel {
+class HomeFormViewModel {
   show = false;
   projectEditdata = null;
   editMode = null;
@@ -95,4 +95,4 @@ class ProjectFormModalViewModel {
   };
 }
 
-export default ProjectFormModalViewModel;
+export default HomeFormViewModel;
