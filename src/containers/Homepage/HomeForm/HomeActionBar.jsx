@@ -3,12 +3,12 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component, lazy } from 'react';
-import history from '../../../routes/history';
+import React, { Component } from 'react';
+
 
 import ButtonNormal from '../../../components/ButtonNormal';
 import { withTranslation } from 'react-i18next';
-import { Dropdown } from 'react-bootstrap';
+
 import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
@@ -45,7 +45,7 @@ class HomeActionBar extends Component {
   };
 
   render() {
-    const { t } = this.props;
+
     return (
       <div className="d-flex justify-content-end">
         <ButtonNormal

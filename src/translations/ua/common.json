@@ -173,8 +173,11 @@
   "txt_project": "Демонструвати",
   "txt_post_now":"Опублікувати зараз",
   "txt_schedule":"розклад",
-  "txt_publish_date/time":"Дата/час публікації"
-
+  "txt_publish_date/time":"Дата/час публікації",
+  "txt_your_avatar":"Your Avatar",
+  "txt_title_profilfe_setting":"Налаштування профілю",
+  "txt_title_set_information_name":"Укажіть своє ім’я та іншу загальнодоступну інформацію",
+  "txt_cancel":"Скасувати"
 
 
 

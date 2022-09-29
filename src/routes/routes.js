@@ -8,9 +8,12 @@ import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 
 const LoginPage = lazy(() => import('../containers/LoginPage'));
+const ProfilePage = lazy(() => import('../containers/Pro'));
 
 const WelcomePage = lazy(() => import('../containers/WelcomePage'));
 const DashboardPage = lazy(() => import('../containers/Homepage'));
+const ProfilePage = lazy(() => import('../containers/ProfilePage'));
+
 
 const authRoutes = [
   {
@@ -46,6 +49,7 @@ const settingRoutes = [
     exact: true,
     main: () => <WelcomePage />,
   },
+  
 ];
 
 export { authRoutes, mainRoutes, settingRoutes };
