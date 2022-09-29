@@ -26,9 +26,9 @@ const FormRadio = lazy(() => import('../components/Form/FormRadio'));
 
 const Input = lazy(() => import('../components/Form/Input'));
 
-const ContentFormDescription = lazy(() =>
-  import('../containers/ContentPage/ContentForm/ContentFormDescription')
-);
+// const ContentFormDescription = lazy(() =>
+//   import('../containers/ContentPage/ContentForm/ContentFormDescription')
+// );
 
 const CanvaButton = lazy(() => import('../components/CanvaButton'));
 
