@@ -26,7 +26,8 @@ const SubmitButton = ({validateInfoBeforeSending}) => {
         </button>
       </div>
     </div>
-    </div>);
+    </div>
+   );
 };
 
 export default withTranslation('common')(SubmitButton);

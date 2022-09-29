@@ -13,7 +13,6 @@ import { withTranslation } from 'react-i18next';
 import SubmitButton from './Layout/SubmitButton';
 import ButtonCancel from 'components/ButtonCancel';
 
-
 const profileStore = new ProfileStore();
 const profileViewModel = new ProfileViewModel(profileStore);
 
