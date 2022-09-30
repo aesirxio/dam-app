@@ -17,11 +17,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../index.scss';
 import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
 import FormComponent from '../../../components/Form';
-import AvatarDAM from '../Layout/AvatarDAM';
-// import SubmitButton from '../Layout/SubmitButton';
+import AvatarDAM from '../Layout/AvatarDAM';` `
 import ComponentImage from '../../../components/ComponentImage';
 import { Storage } from 'aesirx-dma-lib';
 import { withTranslation } from 'react-i18next';
+
+
 const DamButton = lazy(() => import('../../../components/DamButton'));
 
 const UpdateGeneral = observer(
@@ -111,6 +112,15 @@ const UpdateGeneral = observer(
               readOnly: true,
             },
             {
+              label: 'txt_Email',
+              key: UPDATE_GENERAL_FIELD_KEY.EMAIL,
+              type: FORM_FIELD_TYPE.INPUT,
+              value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.EMAIL],
+              className: 'col-6',
+              readOnly: true,
+            },
+
+            {
               label: 'txt_Fullname',
               key: UPDATE_GENERAL_FIELD_KEY.FULLNAME,
               type: FORM_FIELD_TYPE.INPUT,
@@ -130,23 +140,15 @@ const UpdateGeneral = observer(
                 this.formPropsData[UPDATE_GENERAL_FIELD_KEY.PHONE] = event.target.value;
               },
             },
-            {
-              label: 'txt_Email',
-              key: UPDATE_GENERAL_FIELD_KEY.EMAIL,
-              type: FORM_FIELD_TYPE.INPUT,
-              value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.EMAIL],
-              className: 'col-6',
-              readOnly: true,
-            },
+
+
           ],
         },
       ];
     };
-
     render() {
       let { getUrlImage } = this.state;
       const { memberInfo } = this.updateGeneralViewModel;
-
       return (
         <>
           {!memberInfo ? (
@@ -177,7 +179,7 @@ const UpdateGeneral = observer(
                         />
                        <div className='position-absolute top-50 start-0 align-content-center fw-bold text-white imgcloud '>
                           <FontAwesomeIcon icon={faCloudUploadAlt} className="d-block m-auto  "/>
-                          <span className='mx-3 my-5'>
+                          <span className=' mx-3 my-5'>
                               Click to change image
                           </span>
                        </div>
@@ -200,11 +202,12 @@ const UpdateGeneral = observer(
                     ) : null}
                   </div>
                 </AvatarDAM>
-
               </div>
             </div>
 
+
           )}
+
         </>
       );
     }
