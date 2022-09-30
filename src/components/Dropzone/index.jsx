@@ -3,16 +3,12 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 // import ComponentImage from '../ComponentImage';
 
 const Dropzone = ({ children, noClick, createAssets, className }) => {
-  const [file, setFile] = useState(null);
-
   const { getRootProps, getInputProps } = useDropzone({
     // accept: '*',
     noClick: noClick,

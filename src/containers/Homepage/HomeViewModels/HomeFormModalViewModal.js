@@ -3,13 +3,11 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { saveAs } from 'file-saver';
 import { makeAutoObservable } from 'mobx';
 import { notify } from '../../../components/Toast';
 import PAGE_STATUS from '../../../constants/PageStatus';
-import history from '../../../routes/history';
-import { PROJECT_COLUMN_INDICATOR } from '../../../constants/ProjectModule';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
-import { saveAs } from 'file-saver';
 
 class HomeFormViewModel {
   show = false;

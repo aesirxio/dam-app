@@ -5,7 +5,6 @@
 
 import { AesirxDamApiService } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
-import { toast } from 'react-toastify';
 export default class GlobalStore {
   getCollections = async (collectionId, callbackOnSuccess, callbackOnError) => {
     try {
@@ -137,7 +136,7 @@ export default class GlobalStore {
   deleteCollections = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteCollections(data);
+      const responsedDataFromLibary = await damService.deleteCollections(data?.id);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({

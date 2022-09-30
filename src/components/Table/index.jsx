@@ -3,41 +3,20 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { useEffect, useState, lazy } from 'react';
-import { Dropdown } from 'react-bootstrap';
-import {
-  useTable,
-  useRowSelect,
-  useFilters,
-  useGlobalFilter,
-  useExpanded,
-  usePagination,
-  useRowState,
-} from 'react-table';
-import { useMemo } from 'react';
+import React, { lazy, useEffect, useMemo } from 'react';
+import { useExpanded, usePagination, useRowSelect, useTable } from 'react-table';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
-import { faColumns } from '@fortawesome/free-solid-svg-icons/faColumns';
+import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
-import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
-import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
-import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
 // import './index.scss';
-import { withTranslation } from 'react-i18next';
-import GlobalFilter from './GlobalFilter';
-import SubRowAsync from './RowSubComponent';
-import ComponentDatepicker from '../ComponentDatepicker';
-import ComponentFilter from '../ComponentFilter';
-import PaginationComponent from './PaginationComponent';
-import ComponentNoData from '../ComponentNoData';
-import { useTranslation } from 'react-i18next';
-import ComponentImage from 'components/ComponentImage';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import Dropzone from 'components/Dropzone';
+import { useTranslation, withTranslation } from 'react-i18next';
+import ComponentNoData from '../ComponentNoData';
 
 const Select = lazy(() => import('../Select'));
 
@@ -49,34 +28,6 @@ let dataFilter = {
   page: '',
 };
 
-let setFilter = (data, key) => {
-  switch (key) {
-    // keep searchText when render
-    case 1:
-      return (dataFilter.searchText = data);
-    // keep columns hide when render
-    case 2:
-      return (dataFilter.columns = data);
-    // keep title filter when render
-    case 3:
-      return (dataFilter.titleFilter = data);
-    // keep datetime filter when render
-    case 4:
-      return (dataFilter.datetime = data);
-    // keep page when render
-    case 5:
-      return (dataFilter.page = data);
-    case 6:
-      dataFilter.searchText = '';
-      dataFilter.columns = [];
-      dataFilter.titleFilter = {};
-      dataFilter.datetime = null;
-      dataFilter.page = '';
-      break;
-    default:
-      return null;
-  }
-};
 const Table = ({
   rowData,
   tableRowHeader,
@@ -85,22 +36,15 @@ const Table = ({
   dataList,
   dataThumb,
   thumbColumnsNumber,
-  searchText = 'Search...',
-  isFilter,
+
   noSelection = false,
   isList = true,
-  pageSize = 5,
-  noDropDownColumns = false,
-  pagination,
+
   listViewModel,
-  searchFunction,
-  dataFormFilter,
-  hasSubRow,
-  isSearch = true,
+
   _handleList,
   classNameTable,
-  idKey,
-  view,
+
   onDoubleClick,
   createFolder,
   createAssets,
@@ -216,13 +160,13 @@ const Table = ({
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page,
+    // page,
     rows,
-    visibleColumns,
-    preGlobalFilteredRows,
-    allColumns,
-    state,
-    state: { selectedRowIds },
+    // visibleColumns,
+    // preGlobalFilteredRows,
+    // allColumns,
+    // state,
+    // state: { selectedRowIds },
   } = useTable(
     {
       columns,
@@ -360,7 +304,7 @@ const Table = ({
               {rows.length > 0 &&
                 rows.map((row) => {
                   prepareRow(row);
-                  const rowProps = row.getRowProps();
+                  // const rowProps = row.getRowProps();
                   let newRowCells = '';
 
                   dataList
@@ -400,7 +344,7 @@ const Table = ({
         </div>
       ) : (
         <div {...getTableBodyProps()} className="row">
-          {rows.map((row, index) => {
+          {rows.map((row) => {
             prepareRow(row);
             let newRowCells = row.cells;
             if (dataThumb && dataThumb.length > 0) {

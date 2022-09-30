@@ -8,22 +8,16 @@ import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
 import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
-import { PROJECT_COLUMN_INDICATOR } from '../../../constants/ProjectModule';
 
-import PAGE_STATUS from '../../../constants/PageStatus';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import Button from 'components/Button';
+import ComponentImage from 'components/ComponentImage';
 import { withTranslation } from 'react-i18next';
 import Spinner from '../../../components/Spinner';
+import PAGE_STATUS from '../../../constants/PageStatus';
 import { renderingGroupFieldHandler } from '../../../utils/form';
-import {
-  DAM_ASSETS_API_FIELD_KEY,
-  DAM_ASSETS_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
-import Button from 'components/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
-import ComponentImage from 'components/ComponentImage';
 
-class ProjectForm extends Component {
+class HomeForm extends Component {
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
     [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
@@ -142,7 +136,7 @@ class ProjectForm extends Component {
   };
 
   render() {
-    const { formStatus, homeEditdata, editMode, closeModal } = this.viewModel;
+    const { formStatus, closeModal } = this.viewModel;
 
     if (formStatus === PAGE_STATUS.LOADING) {
       return <Spinner />;
@@ -158,7 +152,7 @@ class ProjectForm extends Component {
               <Button
                 // icon={faChevronRight}
                 text={t('txt_delete')}
-                onClick={this.updateDetail}
+                onClick={this.props.delete}
                 className="btn btn-outline-danger mb-3 "
               />
               <ComponentImage
@@ -204,4 +198,4 @@ class ProjectForm extends Component {
   }
 }
 
-export default withTranslation('common')(ProjectForm);
+export default withTranslation('common')(HomeForm);

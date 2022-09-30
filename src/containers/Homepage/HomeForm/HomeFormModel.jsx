@@ -5,19 +5,17 @@
 
 import React, { Component, lazy } from 'react';
 
-import { observer } from 'mobx-react';
-import SimpleReactValidator from 'simple-react-validator';
-import { withTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
-import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
-import HomeForm from './HomeForm';
-import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 import { faEye } from '@fortawesome/free-regular-svg-icons/faEye';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons/faTrashAlt';
-import ComponentImage from 'components/ComponentImage';
-import { GlobalStore } from 'store/Store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
+import ComponentImage from 'components/ComponentImage';
+import { observer } from 'mobx-react';
+import { withTranslation } from 'react-i18next';
+import SimpleReactValidator from 'simple-react-validator';
+import { GlobalStore } from 'store/Store';
+import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
+import HomeForm from './HomeForm';
 
 const ModalComponent = lazy(() => import('../../../components/Modal'));
 
@@ -52,7 +50,8 @@ const HomeFormModal = observer(
       }
     };
 
-    handleDelete = (data) => {
+    handleDelete = () => {
+      this.homeFormModalViewModel.closeModal();
       this.homeFormModalViewModel.closeDeleteModal();
       if (this.homeFormModalViewModel.homeEditdata?.type) {
         this.homeListViewModel.deleteAssets(this.homeFormModalViewModel.homeEditdata);
@@ -120,7 +119,13 @@ const HomeFormModal = observer(
             show={show}
             onHide={this.homeFormModalViewModel.closeModal}
             onShow={this.homeFormModalViewModel.closeContextMenu}
-            body={<HomeForm viewModel={this.homeFormModalViewModel} validator={this.validator} />}
+            body={
+              <HomeForm
+                delete={this.handleDelete}
+                viewModel={this.homeFormModalViewModel}
+                validator={this.validator}
+              />
+            }
             dialogClassName={'minh-100 mw-100 home-modal'}
           />
 

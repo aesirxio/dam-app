@@ -99,7 +99,7 @@ class HomeListViewModel {
     if (error.message === 'isCancle') {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.READY;
-    } else notify(error.message, 'error');
+    } else notify(error.message, type ?? 'error');
   };
 
   callbackOnAssetsSuccessHandler = (data) => {
@@ -111,7 +111,7 @@ class HomeListViewModel {
     } else {
       this.status = PAGE_STATUS.ERROR;
       this.tableStatus = PAGE_STATUS.READY;
-      this.assets = this.assets;
+      // this.assets = this.assets;
       this.paginationAssets = null;
     }
   };
@@ -150,7 +150,7 @@ class HomeListViewModel {
     } else {
       this.status = PAGE_STATUS.ERROR;
       this.tableStatus = PAGE_STATUS.READY;
-      this.assets = this.assets;
+      // this.assets = this.assets;
       this.paginationAssets = null;
     }
   };

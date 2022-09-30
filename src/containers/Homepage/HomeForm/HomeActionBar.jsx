@@ -3,22 +3,21 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component, lazy } from 'react';
+import React, { Component } from 'react';
 import history from '../../../routes/history';
 
-import ButtonNormal from '../../../components/ButtonNormal';
-import { withTranslation } from 'react-i18next';
-import { Dropdown } from 'react-bootstrap';
-import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { observer } from 'mobx-react';
-import Dropzone from 'components/Dropzone';
 import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
-import { GlobalStore, withGlobalViewModel } from 'store/Store';
+import Dropzone from 'components/Dropzone';
+import { observer } from 'mobx-react';
+import { withTranslation } from 'react-i18next';
+import { GlobalStore } from 'store/Store';
+import ButtonNormal from '../../../components/ButtonNormal';
+import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
 import HomeFormModal from './HomeFormModel';
 const HomeActionBar = observer(
   class HomeActionBar extends Component {
@@ -59,7 +58,7 @@ const HomeActionBar = observer(
       }
     };
     render() {
-      const { t } = this.props;
+      // const { t } = this.props;
       return (
         <div className="d-flex justify-content-end">
           <Dropzone createAssets={this.handleCreateAssets} className="me-3">

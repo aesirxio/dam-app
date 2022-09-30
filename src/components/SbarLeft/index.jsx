@@ -9,7 +9,6 @@ import i18n from 'translations/i18n';
 
 import './index.scss';
 import Menu from '../Menu';
-import Menu2 from '../Menu2';
 import SwitchThemes from 'components/SwitchThemes';
 import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

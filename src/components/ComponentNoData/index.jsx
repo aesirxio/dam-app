@@ -2,33 +2,17 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { Link } from 'react-router-dom';
-import './index.scss';
-import ComponentImage from '../ComponentImage';
+import React from 'react';
 import Dropzone from 'components/Dropzone';
+import { Component } from 'react';
+import './index.scss';
 
 class ComponentNoData extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const {
-      icons,
-      text,
-      title,
-      link,
-      linlText,
-      isBtn,
-      width,
-      className,
-      iconColor,
-      iconBg,
-      createAssets,
-    } = this.props;
+    const { className, createAssets } = this.props;
     return (
       <div
         className={

@@ -3,33 +3,27 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component, lazy } from 'react';
+import React, { Component } from 'react';
 import '../index.scss';
 
-import { observer } from 'mobx-react';
-import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
-import PAGE_STATUS from '../../../constants/PageStatus';
-import { withTranslation } from 'react-i18next';
-import { DAM_COLUMN_INDICATOR } from '../../../constants/DamConstant';
-import Table from '../../../components/Table';
-import ComponentNoData from '../../../components/ComponentNoData';
-import Spinner from '../../../components/Spinner';
-import ComponentImage from '../../../components/ComponentImage';
 import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
-import { faEye } from '@fortawesome/free-regular-svg-icons/faEye';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons/faTrashAlt';
-import styles from '../index.module.scss';
-import history from 'routes/history';
+import { observer } from 'mobx-react';
+import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import { GlobalStore, withGlobalViewModel } from 'store/Store';
-import Dropzone from 'components/Dropzone';
-const ModalComponent = lazy(() => import('../../../components/Modal'));
+import history from 'routes/history';
+import { GlobalStore } from 'store/Store';
+import ComponentImage from '../../../components/ComponentImage';
+import ComponentNoData from '../../../components/ComponentNoData';
+import Spinner from '../../../components/Spinner';
+import Table from '../../../components/Table';
+import { DAM_COLUMN_INDICATOR } from '../../../constants/DamConstant';
+import PAGE_STATUS from '../../../constants/PageStatus';
+import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
+import styles from '../index.module.scss';
 
 const HomeList = observer(
   class HomeList extends Component {
@@ -39,10 +33,6 @@ const HomeList = observer(
 
     constructor(props) {
       super(props);
-
-      this.state = {
-        preview: {},
-      };
 
       const { viewModel } = props;
 
@@ -55,17 +45,20 @@ const HomeList = observer(
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
       this.homeListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
+      this.context.globalViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
     }
 
     componentWillUnmount() {
       document.removeEventListener('mousedown', this.handleClickOutside);
       this.homeListViewModel.resetObservableProperties();
+      this.context.globalViewModel.resetObservableProperties();
     }
 
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
         this.homeListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
+        this.context.globalViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
       }
     }
 
@@ -73,16 +66,13 @@ const HomeList = observer(
       const checkContextMenu = e.target.closest('#contextMenu');
       // const checkModel = e.target.closest('.home-modal');
       if (checkContextMenu) {
+        return;
       } else {
         if (!document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
           document.querySelector('.main-content').classList.add('overflow-y-auto');
         }
         this.homeformModalViewModal.closeContextMenu();
       }
-    };
-
-    handleEdit = (e, row, page) => {
-      this.formModalViewModal.loadForm(row[this.key], page);
     };
 
     handleSelect = (data) => {
@@ -173,7 +163,7 @@ const HomeList = observer(
         {
           Header: t('txt_name'),
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
-          Cell: ({ row, state }) => (
+          Cell: ({ row }) => (
             <div
               {...row.getToggleRowExpandedProps()}
               className={`d-flex pe-none ${
@@ -272,7 +262,6 @@ const HomeList = observer(
               <Table
                 rowData={[...handleColections, ...handleAssets]}
                 tableRowHeader={tableRowHeader}
-                onEdit={this.handleEdit}
                 onSelect={this.handleSelect}
                 isThumb={true}
                 isList={this.homeListViewModel.isList}

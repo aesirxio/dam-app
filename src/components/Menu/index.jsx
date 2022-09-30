@@ -7,19 +7,18 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import './index.scss';
-import { withTranslation } from 'react-i18next';
-import { observer } from 'mobx-react';
-import { withHomeViewModel } from 'containers/Homepage/HomeViewModels/HomeViewModelContextProvider';
-import history from 'routes/history';
-import { withRouter } from 'react-router-dom';
-import ComponentImage from 'components/ComponentImage';
-import { Accordion } from 'react-bootstrap';
-import PAGE_STATUS from 'constants/PageStatus';
-import Spinner from 'components/Spinner';
-import { withGlobalViewModel } from 'store/Store';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ComponentImage from 'components/ComponentImage';
+import Spinner from 'components/Spinner';
+import PAGE_STATUS from 'constants/PageStatus';
+import { observer } from 'mobx-react';
+import { Accordion } from 'react-bootstrap';
+import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router-dom';
+import history from 'routes/history';
+import { withGlobalViewModel } from 'store/Store';
+import './index.scss';
 
 const dataMenu = [
   // {
@@ -65,22 +64,27 @@ const Menu = observer(
       this.globalViewModel = this.viewModel ? this.viewModel.getGlobalViewModel() : null;
     }
 
-    componentDidMount = () => {
-      const collectionId = history.location.pathname.split('/');
-      this.globalViewModel.getCollections(collectionId[2] ?? 0);
-    };
+    // componentDidMount = () => {
+    //   const collectionId = history.location.pathname.split('/');
+    //   this.globalViewModel.getCollections(collectionId[2] ?? 0);
+    // };
 
-    componentDidUpdate(prevProps) {
-      if (this.props.location !== prevProps.location) {
-        const collectionId = history.location.pathname.split('/');
-        this.globalViewModel.getCollections(collectionId[2] ?? 0);
-      }
-    }
+    // componentWillUnmount() {
+    //   this.globalViewModel.resetObservableProperties();
+    // }
+
+    // componentDidUpdate(prevProps) {
+    //   if (this.props.location !== prevProps.location) {
+    //     const collectionId = history.location.pathname.split('/');
+    //     this.globalViewModel.getCollections(collectionId[2] ?? 0);
+    //   }
+    // }
 
     handleClick = (e) => {
       e.preventDefault();
 
       if (history.location.pathname === '/root') {
+        return;
       } else {
         history.goBack();
       }
@@ -88,7 +92,7 @@ const Menu = observer(
 
     render() {
       const { t } = this.props;
-      const { status, collections, pagination } = this.globalViewModel;
+      const { status, collections } = this.globalViewModel;
       const collectionId = history.location.pathname.split('/');
       return (
         <>
@@ -109,8 +113,9 @@ const Menu = observer(
                       alt={'folder'}
                       src="/assets/images/folder-outline.svg"
                       className=" d-inline-block align-text-bottom"
+                      wrapperClassName="col-auto"
                     />
-                    <span className="ms-3 text py-1 d-inline-block">{t('txt_my_assets')}</span>
+                    <span className="ms-3 text py-1 d-inline-block col">{t('txt_my_assets')}</span>
                   </NavLink>
                 </Accordion.Toggle>
               ) : (
@@ -129,9 +134,9 @@ const Menu = observer(
                     /> */}
                     <FontAwesomeIcon
                       icon={faChevronLeft}
-                      className=" d-inline-block align-text-bottom"
+                      className=" d-inline-block align-text-bottom col-auto"
                     />
-                    <span className="ms-3 text py-1 d-inline-block">{t('txt_back')}</span>
+                    <span className="ms-3 text py-1 d-inline-block col">{t('txt_back')}</span>
                   </NavLink>
                 </div>
               )}
@@ -159,9 +164,11 @@ const Menu = observer(
                               <ComponentImage
                                 alt={'folder'}
                                 src="/assets/images/folder-outline.svg"
-                                className=" d-inline-block align-text-bottom"
+                                className=" d-inline-block align-text-bottom col-auto"
                               />
-                              <span className="ms-3 text py-1 d-inline-block">{value.name}</span>
+                              <span className="ms-3 text py-1 d-inline-block overflow-hidden col">
+                                {value.name}
+                              </span>
                             </NavLink>
                           </li>
                         ) : null
@@ -181,8 +188,11 @@ const Menu = observer(
                               alt={'folder'}
                               src="/assets/images/folder-outline.svg"
                               className=" d-inline-block align-text-bottom"
+                              wrapperClassName="col-auto"
                             />
-                            <span className="ms-3 text py-1 d-inline-block">{value.name}</span>
+                            <span className="ms-3 text py-1 d-inline-block col overflow-hidden">
+                              {value.name}
+                            </span>
                           </NavLink>
                         </li>
                       ) : null;

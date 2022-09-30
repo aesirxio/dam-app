@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import HomeModel from '../HomeModel/HomeModel';
+// import HomeModel from '../HomeModel/HomeModel';
 
 class HomeUtils {
   transformPersonaResponseIntoModel = (response) => {

@@ -17,7 +17,7 @@ class GlobalUtils {
     return response;
   };
 
-  transfromDataResponseIntoFolderTree = (response) => {};
+  // transfromDataResponseIntoFolderTree = (response) => {};
 }
 
 const utils = new GlobalUtils();

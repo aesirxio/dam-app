@@ -6,7 +6,6 @@
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
-import { toast } from 'react-toastify';
 
 class GlobalListViewModel {
   globalStore = null;
@@ -109,7 +108,7 @@ class GlobalListViewModel {
     } else {
       this.tableStatus = PAGE_STATUS.READY;
       this.status = PAGE_STATUS.ERROR;
-      this.collections = this.collections;
+      // this.collections = this.collections;
       this.paginationCollections = null;
     }
   };
