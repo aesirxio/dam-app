@@ -17,7 +17,9 @@ class GlobalUtils {
     return response;
   };
 
-  // transfromDataResponseIntoFolderTree = (response) => {};
+  transformResponseIntoSearchItems = (response) => {
+    return response.map((el) => ({ id: el.id, name: el.name }));
+  };
 }
 
 const utils = new GlobalUtils();

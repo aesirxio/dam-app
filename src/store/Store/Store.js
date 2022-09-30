@@ -5,6 +5,8 @@
 
 import { AesirxDamApiService } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
+import GlobalUtils from './GlobalStoreUtils';
+
 export default class GlobalStore {
   getCollections = async (collectionId, callbackOnSuccess, callbackOnError) => {
     try {
@@ -166,6 +168,25 @@ export default class GlobalStore {
           message: 'Something went wrong from Server response',
         });
       });
+    }
+  };
+
+  search = async (collectionId, query) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.getAssets(0, {
+        'filter[search]': query,
+      });
+
+      if (responsedDataFromLibary?.list) {
+        const homeDataModels = GlobalUtils.transformResponseIntoSearchItems(
+          responsedDataFromLibary.list
+        );
+
+        return homeDataModels;
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 }

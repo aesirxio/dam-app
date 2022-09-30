@@ -7,8 +7,6 @@ import React from 'react';
 import { withTranslation } from 'react-i18next';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
-
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons/faQuestionCircle';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 
@@ -18,6 +16,7 @@ import DropdownAvatar from '../DropdownAvatar';
 
 import ComponentHambuger from '../ComponentHambuger';
 import ComponentImage from '../ComponentImage';
+import Search from 'components/Search';
 
 class Header extends React.Component {
   constructor(props) {
@@ -84,23 +83,7 @@ class Header extends React.Component {
             <FontAwesomeIcon icon={faChevronLeft} />
           </span>
           <div className="d-flex justify-content-between flex-1 align-items-center">
-            <div>
-              <div className="input-group mb-0 pe-2 wr_input_search">
-                <button
-                  type="button"
-                  id="button-search"
-                  className="btn btn_search text-green bg-gray-100"
-                >
-                  <FontAwesomeIcon icon={faSearch} />
-                </button>
-                <input
-                  type="text"
-                  placeholder={t('txt_search_all_content')}
-                  aria-describedby="button-search"
-                  className="form-control border-0 pe-2 bg-gray-100"
-                />
-              </div>
-            </div>
+            <Search />
             <div className="d-flex align-items-center">
               <div className="wr_help_center ps-3 pe-3 d-none">
                 <span className="item_help d-flex align-items-center text-blue-0 cursor-pointer">
