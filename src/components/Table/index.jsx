@@ -217,6 +217,7 @@ const Table = ({
     headerGroups,
     prepareRow,
     page,
+    rows,
     visibleColumns,
     preGlobalFilteredRows,
     allColumns,
@@ -226,17 +227,12 @@ const Table = ({
     {
       columns,
       data,
-      // filterTypes,
       onSelect,
       initialState: {
         hiddenColumns: dataFilter.columns,
-        // pageIndex: getState.indexPagination,
         pageSize: -1,
       },
-      // autoResetHiddenColumns: false,
     },
-    // useFilters,
-    // useGlobalFilter,
     (hooks) => {
       !noSelection &&
         hooks.visibleColumns.push((columns) => [
@@ -260,71 +256,6 @@ const Table = ({
     usePagination,
     useRowSelect
   );
-
-  // useEffect(() => {
-  //   const selectedIds = Object.keys(selectedRowIds);
-  //   if (selectedIds.length > 0) {
-  //     var selectedRowsData = selectedIds
-  //       .map((x) => data[x])
-  //       .filter(function (x) {
-  //         return x != null;
-  //       });
-  //     onSelect(selectedRowsData);
-  //   } else {
-  //     onSelect([]);
-  //   }
-  // }, [selectedRowIds, onSelect, data]);
-
-  // useEffect(() => {
-  //   if (view !== dataFilter.page) {
-  //     state.hiddenColumns = [];
-  //     setFilter(null, 6);
-  //     setFilter(view, 5);
-  //     setState({ isFilter: false });
-  //   }
-  // }, [view]);
-
-  // useEffect(() => {
-  //   if (setFilter) {
-  //     setFilter(state.hiddenColumns, 2);
-  //   }
-  //   return () => {};
-  // }, [state.hiddenColumns]);
-
-  // const setGlobalFilter = (dataFilter) => {
-  //   if (searchFunction !== undefined) {
-  //     const finalDataFilter = {
-  //       ...getState.dataFilter,
-  //       ...dataFilter,
-  //     };
-  //     setState({
-  //       ...getState,
-  //       dataFilter: finalDataFilter,
-  //     });
-
-  //     searchFunction(finalDataFilter || undefined);
-  //   }
-  // };
-
-  // const renderRowSubComponent = React.useCallback(
-  //   ({ row, rowProps, visibleColumns }) => (
-  //     <SubRowAsync
-  //       row={row}
-  //       rowProps={rowProps}
-  //       visibleColumns={visibleColumns}
-  //       listViewModel={listViewModel ? listViewModel : null}
-  //       idKey={idKey}
-  //     />
-  //   ),
-  //   [listViewModel, idKey]
-  // );
-
-  // const handleFilter = () => {
-  //   setState({
-  //     ...getState,
-  //     isFilter: !getState.isFilter,
-  //   });
-  // };
 
   return (
     <>
@@ -426,8 +357,8 @@ const Table = ({
               })}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {page.length > 0 &&
-                page.map((row) => {
+              {rows.length > 0 &&
+                rows.map((row) => {
                   prepareRow(row);
                   const rowProps = row.getRowProps();
                   let newRowCells = '';
@@ -457,18 +388,19 @@ const Table = ({
                 })}
             </tbody>
           </table>
-          {page.length === 0 ? (
+          {rows.length === 0 ? (
             <ComponentNoData
               icons="/assets/images/ic_project.svg"
               title="No Matching Results"
               text="Can not found any project with that keyword. Please try another keyword."
               width="w-50"
+              createAssets={createAssets}
             />
           ) : null}
         </div>
       ) : (
         <div {...getTableBodyProps()} className="row">
-          {page.map((row, index) => {
+          {rows.map((row, index) => {
             prepareRow(row);
             let newRowCells = row.cells;
             if (dataThumb && dataThumb.length > 0) {
@@ -490,9 +422,6 @@ const Table = ({
                     } mb-4 zindex-2`}
                     //onClick={(e) => handerEdit(e, row.original)}
                     key={Math.random(40, 200)}
-                    onContextMenu={(e) => {
-                      onRightClickItem(e, row.original);
-                    }}
                   >
                     <div
                       className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2  flex-column`}
@@ -502,8 +431,8 @@ const Table = ({
                           ? () => {}
                           : () => onDoubleClick(row.original.id)
                       }
-                      onContextMenu={() => {
-                        console.log(123);
+                      onContextMenu={(e) => {
+                        onRightClickItem(e, row.original);
                       }}
                     >
                       {newRowCells.map((cell) => {
@@ -563,12 +492,13 @@ const Table = ({
             );
           })}
 
-          {page.length === 0 ? (
+          {rows.length === 0 ? (
             <ComponentNoData
               icons="/assets/images/ic_project.svg"
               title="No Matching Results"
               text="Can not found any project with that keyword. Please try another keyword."
               width="w-50"
+              createAssets={createAssets}
             />
           ) : (
             <>
@@ -604,7 +534,7 @@ const Table = ({
                 </div>
               </div>
               <div className="position-absolute h-100 w-100 top-0 start-0 zindex-1">
-                <Dropzone noClick={true} />
+                <Dropzone createAssets={createAssets} noClick={true} />
               </div>
             </>
           )}

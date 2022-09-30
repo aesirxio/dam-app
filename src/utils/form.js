@@ -7,8 +7,6 @@ import React, { lazy } from 'react';
 import Label from '../components/Form/Label';
 import { FORM_FIELD_TYPE } from '../constants/FormFieldType';
 import { Form } from 'react-bootstrap';
-import ListConnectedChannel from '../components/ListConnectedChannel';
-import ListConnectedChannelModal from '../components/ListConnectedChannelModal';
 import FormAgeField from '../components/Form/FormAgeField';
 import FormLocationField from '../components/Form/FormLocationField';
 
@@ -25,12 +23,6 @@ const FormPriceField = lazy(() => import('../components/Form/FormPriceField'));
 const FormRadio = lazy(() => import('../components/Form/FormRadio'));
 
 const Input = lazy(() => import('../components/Form/Input'));
-
-const ContentFormDescription = lazy(() =>
-  import('../containers/ContentPage/ContentForm/ContentFormDescription')
-);
-
-const CanvaButton = lazy(() => import('../components/CanvaButton'));
 
 const renderingGroupFieldHandler = (group, validator) => {
   return Object.keys(group.fields)
@@ -139,18 +131,6 @@ const renderingGroupFieldHandler = (group, validator) => {
                 </Form.Group>
               );
 
-            case FORM_FIELD_TYPE.CANVA:
-              return (
-                <Form.Group key={Math.random(40, 200)} className={`${className}`}>
-                  {field.label && <Label text={field.label} required={field.required ?? false} />}
-
-                  <CanvaButton key={Math.random(40, 200)} field={field} />
-                  {field.validation &&
-                    validator.message(field.label, field.value, field.validation, {
-                      className: 'text-danger',
-                    })}
-                </Form.Group>
-              );
             case FORM_FIELD_TYPE.DAM:
               return (
                 <Form.Group key={FORM_FIELD_TYPE.DAM} className={`${className}`}>
@@ -162,13 +142,6 @@ const renderingGroupFieldHandler = (group, validator) => {
                     validator.message(field.label, field.value, field.validation, {
                       className: 'text-danger',
                     })}
-                </Form.Group>
-              );
-            case FORM_FIELD_TYPE.LABELCARD:
-              return (
-                <Form.Group key={Math.random(40, 200)} className={`mb-3 ${className}`}>
-                  <Label text={field.label} required={field.required ?? false} />
-                  <ListConnectedChannel field={field} />
                 </Form.Group>
               );
 
@@ -185,16 +158,7 @@ const renderingGroupFieldHandler = (group, validator) => {
                   <ListConnectedChannelModal field={field} />
                 </Form.Group>
               );
-            case FORM_FIELD_TYPE.DESCRIPTION:
-              return (
-                <Form.Group key={field.key} className={`${className}`}>
-                  <ContentFormDescription field={field} />
-                  {field.validation &&
-                    validator.message(field.label, field.value, field.validation, {
-                      className: 'text-danger',
-                    })}
-                </Form.Group>
-              );
+
             case FORM_FIELD_TYPE.BIRTHDAY:
               return (
                 <Form.Group key={Math.random(40, 200)} className={`mb-3 ${className}`}>

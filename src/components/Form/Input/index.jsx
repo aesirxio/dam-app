@@ -28,6 +28,7 @@ const Input = ({ field }) => {
         onBlur={field.blurred ?? undefined}
         placeholder={field.placeholder ?? undefined}
         readOnly={field.readOnly}
+        disabled={field.disabled}
       />
     </>
   );

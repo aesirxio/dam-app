@@ -14,27 +14,35 @@ import PAGE_STATUS from '../../../constants/PageStatus';
 import { withTranslation } from 'react-i18next';
 import Spinner from '../../../components/Spinner';
 import { renderingGroupFieldHandler } from '../../../utils/form';
+import {
+  DAM_ASSETS_API_FIELD_KEY,
+  DAM_ASSETS_FIELD_KEY,
+} from 'aesirx-dma-lib/src/Constant/DamConstant';
+import Button from 'components/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
+import ComponentImage from 'components/ComponentImage';
 
 class ProjectForm extends Component {
   formPropsData = {
-    [PROJECT_COLUMN_INDICATOR.NAME]: '',
-    [PROJECT_COLUMN_INDICATOR.SHORT_DESCRIPTION]: '',
-    [PROJECT_COLUMN_INDICATOR.START_DATE]: '',
-    [PROJECT_COLUMN_INDICATOR.END_DATE]: '',
-    [PROJECT_COLUMN_INDICATOR.LOGO]: '',
+    [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
+    [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
+      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.COLLECTION_ID],
+    [DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]:
+      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+    [DAM_ASSETS_FIELD_KEY.FILE_SIZE]:
+      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_SIZE],
+    [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
+    [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]:
+      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      files: [],
-    };
 
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     this.viewModel = this.props.viewModel;
-
-    this.viewModel.setForm(this);
   }
 
   generateFormSetting = () => {
@@ -43,68 +51,89 @@ class ProjectForm extends Component {
       {
         fields: [
           {
-            label: t('txt_project_name'),
-            key: PROJECT_COLUMN_INDICATOR.NAME,
+            label: t('txt_title'),
+            key: DAM_ASSETS_FIELD_KEY.NAME,
             type: FORM_FIELD_TYPE.INPUT,
-            value: this.formPropsData[PROJECT_COLUMN_INDICATOR.NAME],
+            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME],
             required: true,
             validation: 'required',
+            className: 'col-12',
             changed: (event) => {
-              this.formPropsData[PROJECT_COLUMN_INDICATOR.NAME] = event.target.value;
+              this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME] = event.target.value;
             },
             blurred: () => {
               if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Project Name');
+                this.validator.showMessageFor('Name');
+              }
+            },
+          },
+
+          {
+            label: t('txt_url'),
+            key: DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL,
+            disabled: true,
+            type: FORM_FIELD_TYPE.INPUT,
+            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+            className: 'col-12',
+            validation: 'required',
+            changed: (event) => {
+              this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
+            },
+            blurred: () => {
+              if (!this.viewModel.editMode) {
+                this.validator.showMessageFor('Name');
               }
             },
           },
           {
-            type: FORM_FIELD_TYPE.DATERANGE,
-            startField: {
-              label: t('start_date'),
-              key: PROJECT_COLUMN_INDICATOR.START_DATE,
-              value: this.formPropsData[PROJECT_COLUMN_INDICATOR.START_DATE],
-              changed: (date) => {
-                this.formPropsData[PROJECT_COLUMN_INDICATOR.START_DATE] = date;
-              },
-              required: true,
-              validation: 'required',
-              blurred: () => {
-                this.validator.showMessageFor('Start Date');
-              },
-            },
-            endField: {
-              label: t('end_date'),
-              key: PROJECT_COLUMN_INDICATOR.END_DATE,
-              value: this.formPropsData[PROJECT_COLUMN_INDICATOR.END_DATE],
-              changed: (date) => {
-                this.formPropsData[PROJECT_COLUMN_INDICATOR.END_DATE] = date;
-              },
-              required: true,
-              validation: 'required',
-              blurred: () => {
-                this.validator.showMessageFor('End Date');
-              },
-            },
-          },
-          {
-            label: t('txt_project_logo'),
-            key: PROJECT_COLUMN_INDICATOR.LOGO,
-            type: FORM_FIELD_TYPE.DAM,
-            value: this.formPropsData[PROJECT_COLUMN_INDICATOR.LOGO],
-            formPropsData: this.formPropsData,
-            getLinkImage: this.formPropsData[PROJECT_COLUMN_INDICATOR.LOGO],
-            changed: (data) => {
-              this.formPropsData[PROJECT_COLUMN_INDICATOR.LOGO] = data[0].url;
-            },
-          },
-          {
-            label: t('txt_short_description_about_project'),
-            key: PROJECT_COLUMN_INDICATOR.SHORT_DESCRIPTION,
-            type: FORM_FIELD_TYPE.TEXTAREA,
-            value: this.formPropsData[PROJECT_COLUMN_INDICATOR.SHORT_DESCRIPTION],
+            label: t('txt_file_type'),
+            key: DAM_ASSETS_FIELD_KEY.TYPE,
+            type: FORM_FIELD_TYPE.INPUT,
+            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE],
+            disabled: true,
+            className: 'col-6',
+            validation: 'required',
             changed: (event) => {
-              this.formPropsData[PROJECT_COLUMN_INDICATOR.SHORT_DESCRIPTION] = event.target.value;
+              this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
+            },
+            blurred: () => {
+              if (!this.viewModel.editMode) {
+                this.validator.showMessageFor('Name');
+              }
+            },
+          },
+          {
+            label: t('txt_file_size'),
+            key: DAM_ASSETS_FIELD_KEY.FILE_SIZE,
+            type: FORM_FIELD_TYPE.INPUT,
+            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE],
+            disabled: true,
+            className: 'col-6',
+            validation: 'required',
+            changed: (event) => {
+              this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
+            },
+            blurred: () => {
+              if (!this.viewModel.editMode) {
+                this.validator.showMessageFor('Name');
+              }
+            },
+          },
+          {
+            label: t('txt_last_modified'),
+            key: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
+            type: FORM_FIELD_TYPE.INPUT,
+            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
+            disabled: true,
+            className: 'col-6',
+            validation: 'required',
+            changed: (event) => {
+              this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
+            },
+            blurred: () => {
+              if (!this.viewModel.editMode) {
+                this.validator.showMessageFor('Name');
+              }
             },
           },
         ],
@@ -112,45 +141,64 @@ class ProjectForm extends Component {
     ];
   };
 
-  populatingFormDataHandler = (data) => {
-    if (!data) return false;
-
-    this.formPropsData[PROJECT_COLUMN_INDICATOR.NAME] = data.getName().value;
-    this.formPropsData[PROJECT_COLUMN_INDICATOR.START_DATE] = data.getOriginalStartDate();
-    this.formPropsData[PROJECT_COLUMN_INDICATOR.END_DATE] = data.getOriginalEndDate();
-    this.formPropsData[PROJECT_COLUMN_INDICATOR.LOGO] = data.getLogoUrlValue();
-    this.formPropsData[PROJECT_COLUMN_INDICATOR.SHORT_DESCRIPTION] =
-      data.getShortDescriptionValue();
-  };
-
-  onDrop = (files) => {
-    this.setState({ files });
-  };
-
   render() {
-    const { formStatus, projectEditdata, editMode } = this.viewModel;
-
-    if (editMode) {
-      this.populatingFormDataHandler(projectEditdata);
-    }
+    const { formStatus, homeEditdata, editMode, closeModal } = this.viewModel;
 
     if (formStatus === PAGE_STATUS.LOADING) {
       return <Spinner />;
     }
 
     const formSetting = this.generateFormSetting();
-
+    const { t } = this.props;
     return (
       <>
-        {Object.keys(formSetting)
-          .map((groupIndex) => {
-            return [...Array(formSetting[groupIndex])].map((group) => {
-              return renderingGroupFieldHandler(group, this.props.validator);
-            });
-          })
-          .reduce((arr, el) => {
-            return arr.concat(el);
-          }, [])}
+        <div className="row">
+          <div className="col-8">
+            <div className="py-3">
+              <Button
+                // icon={faChevronRight}
+                text={t('txt_delete')}
+                onClick={this.updateDetail}
+                className="btn btn-outline-danger mb-3 "
+              />
+              <ComponentImage
+                src={this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
+              />
+            </div>
+          </div>
+          <div className="col-4">
+            <div className="row">
+              {Object.keys(formSetting)
+                .map((groupIndex) => {
+                  return [...Array(formSetting[groupIndex])].map((group) => {
+                    return renderingGroupFieldHandler(group, this.props.validator);
+                  });
+                })
+                .reduce((arr, el) => {
+                  return arr.concat(el);
+                }, [])}
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <Button
+                  // icon={faChevronRight}
+                  text={t('txt_save_update')}
+                  onClick={this.updateDetail}
+                  className="btn btn-success w-100"
+                />
+              </div>
+
+              <div className="col-6">
+                <Button
+                  // icon={faChevronRight}
+                  text={t('txt_cancle')}
+                  onClick={closeModal}
+                  className="btn btn-success w-100"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </>
     );
   }

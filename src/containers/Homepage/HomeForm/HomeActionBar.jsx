@@ -19,7 +19,7 @@ import {
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { GlobalStore, withGlobalViewModel } from 'store/Store';
-
+import HomeFormModal from './HomeFormModel';
 const HomeActionBar = observer(
   class HomeActionBar extends Component {
     homeFormModalViewModel = null;
@@ -76,6 +76,7 @@ const HomeActionBar = observer(
             text="txt_create_folder"
             className="btn-outline-gray-300 text-blue-0"
           />
+          <HomeFormModal />
         </div>
       );
     }

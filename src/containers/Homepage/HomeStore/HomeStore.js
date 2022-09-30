@@ -138,8 +138,9 @@ export default class HomeStore {
 
   deleteAssets = async (data, callbackOnSuccess, callbackOnError) => {
     try {
+      console.log(data.id);
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteAssets(data);
+      const responsedDataFromLibary = await damService.deleteAssets(data?.id);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({

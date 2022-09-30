@@ -122,6 +122,9 @@ class GlobalListViewModel {
           case 'update':
             break;
           case 'delete':
+            this.collections = this.collections.filter((collection) => {
+              return collection.id !== data.item?.id;
+            });
             break;
           case 'create':
             this.collections = [...this.collections, data?.item];
