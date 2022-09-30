@@ -173,8 +173,9 @@
   "txt_project": "Proyecto",
   "txt_post_now":"Publicar ahora",
   "txt_schedule":"Calendario",
-  "txt_publish_date/time":"Fecha/hora de publicación"
-
+  "txt_publish_date/time":"Fecha/hora de publicación",
+  "txt_upload_file":"Subir archivo",
+  "txt_create_folder":"Crear carpeta"
 
 
 

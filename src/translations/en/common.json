@@ -194,5 +194,7 @@
   "txt_menu_import_export": "Import/Export",
   "txt_menu_colection_transfer": "Collection Transfer",
   "txt_menu_setting": "Setting",
-  "txt_menu_trash": "Trash"
+  "txt_menu_trash": "Trash",
+  "txt_upload_file":"Upload File",
+  "txt_create_folder":"Create Folder"
 }
