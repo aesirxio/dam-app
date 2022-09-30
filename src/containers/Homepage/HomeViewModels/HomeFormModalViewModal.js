@@ -8,49 +8,32 @@ import { notify } from '../../../components/Toast';
 import PAGE_STATUS from '../../../constants/PageStatus';
 import history from '../../../routes/history';
 import { PROJECT_COLUMN_INDICATOR } from '../../../constants/ProjectModule';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { saveAs } from 'file-saver';
 
 class HomeFormViewModel {
   show = false;
   showContextMenu = false;
+  showDeleteModal = false;
   homeEditdata = null;
   editMode = null;
-  projectListViewModel = null;
+  homeListViewModel = null;
   formStatus = PAGE_STATUS.READY;
 
-  projectStore = null;
+  homeStore = null;
   projectFormComponent = null;
 
-  constructor(projectStore) {
+  constructor(homeStore) {
     makeAutoObservable(this);
-    this.projectStore = projectStore;
+    this.homeStore = homeStore;
   }
-
-  setProjectListViewModel = (projectListViewModelInstance) => {
-    this.projectListViewModel = projectListViewModelInstance;
-  };
-
-  setForm = (projectFormComponent) => {
-    this.projectFormComponent = projectFormComponent;
-  };
-
-  setEditProject = (data) => {
-    this.editMode = true;
-    this.formStatus = PAGE_STATUS.READY;
-
-    if (data[0] !== undefined && typeof data == 'object') {
-      this.homeEditdata = data[0];
-    }
-
-    this.openModal();
-  };
-
-  getProject = (id) => {
-    this.formStatus = PAGE_STATUS.LOADING;
-    this.projectStore.getProject(id, this.setEditProject, this.callbackOnErrorHander);
-  };
 
   openContextMenu = () => {
     this.showContextMenu = true;
+  };
+
+  setHomeListViewModel = (honeListViewModalInstance) => {
+    this.homeListViewModel = honeListViewModalInstance;
   };
 
   closeContextMenu = () => {
@@ -67,41 +50,31 @@ class HomeFormViewModel {
     this.show = false;
   };
 
-  saveOnModal = () => {
-    // const isFormValid = this.projectFormComponent.isFormValid();
-    if (this.editMode) {
-      const projectID = this.homeEditdata.getId();
-      this.projectFormComponent.formPropsData.id = projectID.value;
+  openDeleteModal = () => {
+    this.showDeleteModal = true;
+  };
 
-      let startDateParse = Date.parse(
-        this.projectFormComponent.formPropsData[PROJECT_COLUMN_INDICATOR.START_DATE]
-      );
-      let endDateParse = Date.parse(
-        this.projectFormComponent.formPropsData[PROJECT_COLUMN_INDICATOR.END_DATE]
-      );
+  closeDeleteModal = () => {
+    this.showDeleteModal = false;
+  };
 
-      if (startDateParse >= endDateParse) {
-        notify('Something went wrong from Server response');
-      }
-    }
-
-    this.projectStore.saveProject(
-      this.projectFormComponent.formPropsData,
-      this.callbackOnSuccessHandler,
-      this.callbackOnErrorHander
+  downloadFile = () => {
+    saveAs(
+      this.homeEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+      this.homeEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
     );
   };
 
-  callbackOnErrorHander = () => {};
+  callbackOnErrorHander = (data) => {
+    notify(data.message, 'error');
+  };
 
-  callbackOnSuccessHandler = (projectId) => {
-    this.closeModal();
-
-    if (history.location.pathname === '/wizard/createproject') {
-      history.push(`/wizard/project/${projectId}`);
+  callbackOnSuccessHandler = (data) => {
+    if (data) {
+      this.homeListViewModel.assets = this.homeListViewModel.assets.filter((asset) => {
+        return asset.id !== data.id;
+      });
     }
-
-    this.projectListViewModel.refreshTableProjectList();
   };
 }
 

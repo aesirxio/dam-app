@@ -69,11 +69,16 @@ const HomeList = observer(
       }
     }
 
-    handleClickOutside = () => {
-      if (!document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
-        document.querySelector('.main-content').classList.add('overflow-y-auto');
+    handleClickOutside = (e) => {
+      const checkContextMenu = e.target.closest('#contextMenu');
+      // const checkModel = e.target.closest('.home-modal');
+      if (checkContextMenu) {
+      } else {
+        if (!document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
+          document.querySelector('.main-content').classList.add('overflow-y-auto');
+        }
+        this.homeformModalViewModal.closeContextMenu();
       }
-      this.homeformModalViewModal.closeContextMenu();
     };
 
     handleEdit = (e, row, page) => {
@@ -149,7 +154,6 @@ const HomeList = observer(
     };
 
     handleSortby = (data) => {
-      console.log(data);
       const collectionId = history.location.pathname.split('/');
       this.homeListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
         'list[ordering]': data.value.ordering,

@@ -12,9 +12,23 @@ import ComponentImage from '../ComponentImage';
 import Dropzone from 'components/Dropzone';
 
 class ComponentNoData extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    let { icons, text, title, link, linlText, isBtn, width, className, iconColor, iconBg } =
-      this.props;
+    const {
+      icons,
+      text,
+      title,
+      link,
+      linlText,
+      isBtn,
+      width,
+      className,
+      iconColor,
+      iconBg,
+      createAssets,
+    } = this.props;
     return (
       <div
         className={
@@ -46,7 +60,9 @@ class ComponentNoData extends Component {
             {linlText}
           </Link>
         )} */}
-        <Dropzone noClick={false}>asd</Dropzone>
+        <Dropzone createAssets={createAssets} noClick={false}>
+          asd
+        </Dropzone>
       </div>
     );
   }

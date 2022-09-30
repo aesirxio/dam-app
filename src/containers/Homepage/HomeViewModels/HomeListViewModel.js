@@ -61,10 +61,23 @@ class HomeListViewModel {
   };
 
   createAssets = (data) => {
-    this.apiPendingStatus = PAGE_STATUS.LOADING;
+    // this.apiPendingStatus = PAGE_STATUS.LOADING;
 
     notify(
       this.homeStore.createAssets(
+        data,
+        this.callBackOnAssetsCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
+  };
+
+  deleteAssets = (data) => {
+    // this.apiPendingStatus = PAGE_STATUS.LOADING;
+    console.log(data);
+    notify(
+      this.homeStore.deleteAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
         this.callbackOnErrorHander
@@ -104,17 +117,20 @@ class HomeListViewModel {
   };
   callBackOnAssetsCreateSuccessHandler = (data) => {
     if (data.item) {
-      this.apiPendingStatus = PAGE_STATUS.READY;
+      // this.apiPendingStatus = PAGE_STATUS.READY;
 
       if (data?.type) {
         switch (data.type) {
           case 'update':
             break;
           case 'delete':
+            this.assets = this.assets.filter((asset) => {
+              return asset.id !== data.item?.id;
+            });
             break;
           case 'create':
             this.assets = [...this.assets, data?.item];
-            window.location.reload();
+            // window.location.reload();
             break;
 
           default:
@@ -122,7 +138,7 @@ class HomeListViewModel {
         }
       }
     } else {
-      this.apiPendingStatus = PAGE_STATUS.READY;
+      // this.apiPendingStatus = PAGE_STATUS.READY;
     }
   };
   callBackOnAssetsFilterSuccessHandler = (data) => {
