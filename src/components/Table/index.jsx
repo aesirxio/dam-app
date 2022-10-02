@@ -36,15 +36,11 @@ const Table = ({
   dataList,
   dataThumb,
   thumbColumnsNumber,
-
   noSelection = false,
   isList = true,
-
   listViewModel,
-
   _handleList,
   classNameTable,
-
   onDoubleClick,
   createFolder,
   createAssets,
@@ -96,6 +92,7 @@ const Table = ({
       },
     ],
   }));
+
   const Action = useMemo(() => ({
     id: 'action',
     className: styles.w_272,
@@ -119,6 +116,7 @@ const Table = ({
       },
     ],
   }));
+
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     // className: styles.w_136,
@@ -154,7 +152,9 @@ const Table = ({
       },
     ],
   }));
+
   let check = 0;
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -319,6 +319,14 @@ const Table = ({
                       {...row.getRowProps()}
                       className="border-bottom-1 cursor-pointer"
                       //onClick={(e) => handerEdit(e, row.original)}
+                      onDoubleClick={
+                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                          ? () => {}
+                          : () => onDoubleClick(row.original.id)
+                      }
+                      onContextMenu={(e) => {
+                        onRightClickItem(e, row.original);
+                      }}
                     >
                       {newRowCells.map((cell) => {
                         return (
@@ -368,7 +376,7 @@ const Table = ({
                     key={Math.random(40, 200)}
                   >
                     <div
-                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2  flex-column`}
+                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2 overflow-hidden flex-column`}
                       key={Math.random(40, 200)}
                       onDoubleClick={
                         row.original[DAM_ASSETS_FIELD_KEY.TYPE]
@@ -407,7 +415,7 @@ const Table = ({
                     key={Math.random(40, 200)}
                   >
                     <div
-                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2  flex-column`}
+                      className={`item_thumb d-flex align-items-center justify-content-center bg-white shadow-sm h-100 rounded-2 overflow-hidden  flex-column`}
                       key={Math.random(40, 200)}
                       onDoubleClick={
                         row.original[DAM_ASSETS_FIELD_KEY.TYPE]

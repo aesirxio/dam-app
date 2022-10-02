@@ -51,8 +51,8 @@ const notify = (msg, type = 'success') => {
             },
             icon: true,
           },
-          success: 'Promise resolved 👌',
-          error: 'Promise rejected 🤯',
+          success: 'Complete. 👌',
+          error: 'Error! 🤯',
         },
         {
           className: 'bg-dark',

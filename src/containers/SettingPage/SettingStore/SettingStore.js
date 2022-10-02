@@ -2,13 +2,7 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
+// import HomeUtils from '../HomeUtils/HomeUtils';
 
-.imgTab {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-}
-
-.emoji-mart {
-  z-index: 2;
-}
+import { runInAction } from 'mobx';
+export default class SettingStore {}

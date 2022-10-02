@@ -4,34 +4,28 @@
  */
 
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { notify } from 'components/Toast';
+import PAGE_STATUS from 'constants/PageStatus';
 import { saveAs } from 'file-saver';
 import { makeAutoObservable } from 'mobx';
-import { notify } from '../../../components/Toast';
-import PAGE_STATUS from '../../../constants/PageStatus';
 
-class HomeFormViewModel {
+class DamFormViewModel {
   show = false;
   showContextMenu = false;
   showDeleteModal = false;
-  homeEditdata = null;
+  damEditdata = null;
   editMode = null;
-  homeListViewModel = null;
+  damListViewModel = null;
   formStatus = PAGE_STATUS.READY;
+  damStore = null;
 
-  homeStore = null;
-  projectFormComponent = null;
-
-  constructor(homeStore) {
+  constructor(damStore) {
     makeAutoObservable(this);
-    this.homeStore = homeStore;
+    this.damStore = damStore;
   }
 
   openContextMenu = () => {
     this.showContextMenu = true;
-  };
-
-  setHomeListViewModel = (honeListViewModalInstance) => {
-    this.homeListViewModel = honeListViewModalInstance;
   };
 
   closeContextMenu = () => {
@@ -58,8 +52,8 @@ class HomeFormViewModel {
 
   downloadFile = () => {
     saveAs(
-      this.homeEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
-      this.homeEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
+      this.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+      this.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
     );
   };
 
@@ -69,11 +63,11 @@ class HomeFormViewModel {
 
   callbackOnSuccessHandler = (data) => {
     if (data) {
-      this.homeListViewModel.assets = this.homeListViewModel.assets.filter((asset) => {
+      this.damListViewModel.assets = this.damListViewModel.assets.filter((asset) => {
         return asset.id !== data.id;
       });
     }
   };
 }
 
-export default HomeFormViewModel;
+export default DamFormViewModel;

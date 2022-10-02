@@ -17,9 +17,8 @@ import { Accordion } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import history from 'routes/history';
-import { withGlobalViewModel } from 'store/Store';
 import './index.scss';
-
+import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 const dataMenu = [
   // {
   //   text: 'txt_menu_member',
@@ -41,7 +40,7 @@ const dataMenu = [
   // },
   {
     text: 'txt_menu_setting',
-    link: '/content',
+    link: '/setting',
     icons: '/assets/images/setting.svg',
     icons_color: '/assets/images/setting.svg',
   },
@@ -54,31 +53,28 @@ const dataMenu = [
 ];
 const Menu = observer(
   class Menu extends React.Component {
-    globalViewModel = null;
-
     constructor(props) {
       super(props);
-
+      console.log(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-      this.globalViewModel = this.viewModel ? this.viewModel.getGlobalViewModel() : null;
+      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
 
-    // componentDidMount = () => {
-    //   const collectionId = history.location.pathname.split('/');
-    //   this.globalViewModel.getCollections(collectionId[2] ?? 0);
-    // };
+    componentDidMount() {
+      const collectionId = history.location.pathname.split('/');
+    }
 
-    // componentWillUnmount() {
-    //   this.globalViewModel.resetObservableProperties();
-    // }
+    componentWillUnmount() {
+      // this.damListViewModel.resetObservableProperties();
+    }
 
-    // componentDidUpdate(prevProps) {
-    //   if (this.props.location !== prevProps.location) {
-    //     const collectionId = history.location.pathname.split('/');
-    //     this.globalViewModel.getCollections(collectionId[2] ?? 0);
-    //   }
-    // }
+    componentDidUpdate(prevProps) {
+      // if (this.props.location !== prevProps.location) {
+      //   const collectionId = history.location.pathname.split('/');
+      //   this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
+      // }
+    }
 
     handleClick = (e) => {
       e.preventDefault();
@@ -92,12 +88,12 @@ const Menu = observer(
 
     render() {
       const { t } = this.props;
-      const { status, collections } = this.globalViewModel;
+      const { status, collections } = this.damListViewModel;
       const collectionId = history.location.pathname.split('/');
       return (
         <>
-          <nav>
-            <p className="text-white-50 fs-14 px-3">MAIN MENU</p>
+          <nav className="main-menu">
+            <p className="text-white-50 fs-14 px-3">{t('txt_main_menu')}</p>
 
             <Accordion defaultActiveKey={'0'}>
               {history.location.pathname === '/root' ? (
@@ -202,8 +198,8 @@ const Menu = observer(
               </Accordion.Collapse>
             </Accordion>
           </nav>
-          <nav>
-            <p className="text-white-50 fs-14 px-3">Set up</p>
+          <nav className="border-top py-3">
+            <p className="text-white-50 fs-14 px-3 mb-0">Set up</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0 pt-md-1">
               {dataMenu.map((value, key) => {
                 return (
@@ -234,4 +230,4 @@ const Menu = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withGlobalViewModel(Menu)));
+export default withTranslation('common')(withRouter(withDamViewModel(Menu)));

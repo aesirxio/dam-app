@@ -4,6 +4,7 @@
  */
 
 import { isLogin } from 'auth';
+
 import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ const LoginPage = lazy(() => import('../containers/LoginPage'));
 
 const WelcomePage = lazy(() => import('../containers/WelcomePage'));
 const DashboardPage = lazy(() => import('../containers/Homepage'));
+const SettingPage = lazy(() => import('containers/SettingPage'));
 
 const authRoutes = [
   {
@@ -29,9 +31,14 @@ const authRoutes = [
 
 const mainRoutes = [
   {
-    path: ['/root', '/root/:id'],
-    exact: true,
+    path: ['/root', '/root/*'],
+    // exact: true,
     main: () => <DashboardPage />,
+  },
+  {
+    path: ['/setting', '/setting/configuration'],
+    exact: true,
+    main: () => <SettingPage />,
   },
 ];
 

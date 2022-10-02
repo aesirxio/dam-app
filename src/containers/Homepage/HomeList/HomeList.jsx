@@ -15,69 +15,63 @@ import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import history from 'routes/history';
-import { GlobalStore } from 'store/Store';
 import ComponentImage from '../../../components/ComponentImage';
 import ComponentNoData from '../../../components/ComponentNoData';
 import Spinner from '../../../components/Spinner';
 import Table from '../../../components/Table';
 import { DAM_COLUMN_INDICATOR } from '../../../constants/DamConstant';
 import PAGE_STATUS from '../../../constants/PageStatus';
-import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
 import styles from '../index.module.scss';
+import utils from '../HomeUtils/HomeUtils';
+import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 
 const HomeList = observer(
   class HomeList extends Component {
-    homeListViewModel = null;
-    homeformModalViewModal = null;
-    static contextType = GlobalStore;
+    damListViewModel = null;
+    damformModalViewModal = null;
 
     constructor(props) {
       super(props);
-
       const { viewModel } = props;
-
       this.viewModel = viewModel ? viewModel : null;
-      this.homeListViewModel = this.viewModel ? this.viewModel.getHomeListViewModel() : null;
-      this.homeformModalViewModal = this.viewModel ? this.viewModel.getHomeFormViewModel() : null;
+      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
+      this.damformModalViewModal = this.viewModel ? this.viewModel.damFormViewModel : null;
     }
 
-    componentDidMount() {
+    async componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-      this.context.globalViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
+      this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
+      this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
     }
 
     componentWillUnmount() {
       document.removeEventListener('mousedown', this.handleClickOutside);
-      this.homeListViewModel.resetObservableProperties();
-      this.context.globalViewModel.resetObservableProperties();
     }
 
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        this.homeListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-        this.context.globalViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
+        this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
+        this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
       }
     }
 
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
-      // const checkModel = e.target.closest('.home-modal');
       if (checkContextMenu) {
         return;
       } else {
         if (!document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
           document.querySelector('.main-content').classList.add('overflow-y-auto');
         }
-        this.homeformModalViewModal.closeContextMenu();
+        this.damformModalViewModal.closeContextMenu();
       }
     };
 
     handleSelect = (data) => {
       // console.warn(this.listViewModel[`${this.view}IdsSelected`]);
-      this.homeListViewModel.damIdsSelected = data
+      this.damListViewModel.damIdsSelected = data
         .map((item) => {
           return item[this.key];
         })
@@ -88,7 +82,7 @@ const HomeList = observer(
 
     handleCreateFolder = (data) => {
       const collectionId = history.location.pathname.split('/');
-      this.context.globalViewModel.createCollections({
+      this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]:
           collectionId[collectionId.length - 1] ?? 0,
@@ -98,7 +92,7 @@ const HomeList = observer(
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
-        this.homeListViewModel.createAssets({
+        this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: collectionId[collectionId.length - 1] ?? 0,
@@ -108,7 +102,7 @@ const HomeList = observer(
     };
 
     _handleList = () => {
-      this.homeListViewModel.isList = !this.homeListViewModel.isList;
+      this.damListViewModel.isList = !this.damListViewModel.isList;
     };
 
     handleDoubleClick = (colectionId) => {
@@ -128,35 +122,34 @@ const HomeList = observer(
       if (document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
         document.querySelector('.main-content').classList.remove('overflow-y-auto');
       }
-      this.homeformModalViewModal.homeEditdata = {
+      this.damformModalViewModal.damEditdata = {
         ...data,
         x: e.clientX,
         y: e.clientY,
       };
-      this.homeformModalViewModal.openContextMenu();
+      this.damformModalViewModal.openContextMenu();
     };
 
     handleFilter = (data) => {
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
+      this.damListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
         'filter[type]': data.value,
       });
     };
 
     handleSortby = (data) => {
       const collectionId = history.location.pathname.split('/');
-      this.homeListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
+      this.damListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
         'list[ordering]': data.value.ordering,
         'list[direction]': data.value.direction,
       });
     };
 
     render() {
-      const { tableStatus, assets } = this.homeListViewModel;
-      const { status, collections } = this.context.globalViewModel;
+      const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
       const { t } = this.props;
 
-      if (status === PAGE_STATUS.LOADING || tableStatus === PAGE_STATUS.LOADING) {
+      if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
       const tableRowHeader = [
@@ -167,13 +160,13 @@ const HomeList = observer(
             <div
               {...row.getToggleRowExpandedProps()}
               className={`d-flex pe-none ${
-                this.homeListViewModel.isList ? '' : ' justify-content-center'
+                this.damListViewModel.isList ? '' : ' justify-content-center'
               }`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                 <div
                   className={`${
-                    this.homeListViewModel.isList
+                    this.damListViewModel.isList
                       ? 'd-flex align-items-center'
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
@@ -181,9 +174,9 @@ const HomeList = observer(
                   <ComponentImage
                     alt={row.original.name}
                     src="/assets/images/folder.svg"
-                    className={this.homeListViewModel.isList ? '' : styles.folder}
+                    className={this.damListViewModel.isList ? '' : styles.folder}
                   />
-                  <span className={this.homeListViewModel.isList ? 'ms-3' : '' + 'text-center'}>
+                  <span className={this.damListViewModel.isList ? 'ms-3' : '' + 'text-center'}>
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                     <br />
                     {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}
@@ -192,23 +185,35 @@ const HomeList = observer(
               ) : (
                 <div
                   className={`${
-                    this.homeListViewModel.isList
+                    this.damListViewModel.isList
                       ? 'd-flex align-items-center'
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
                   <span
-                    className={this.homeListViewModel.isList ? styles.image_isList : styles.image}
+                    className={this.damListViewModel.isList ? styles.image_isList : styles.image}
                   >
-                    <ComponentImage
+                    {/* <ComponentImage
                       alt={row.original.name}
                       src={row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                       wrapperClassName="w-100 h-100"
-                    />
+                    /> */}
+                    {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
+                      <ComponentImage
+                        wrapperClassName="w-100 h-100"
+                        className="w-100 h-100 object-fit-cover"
+                        src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
+                      />
+                    ) : (
+                      <ComponentImage
+                        wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center"
+                        src={utils.checkFileTypeFormData(row.original)}
+                      />
+                    )}
                   </span>
 
-                  <span className={this.homeListViewModel.isList ? 'ms-3' : ''}>
+                  <span className={this.damListViewModel.isList ? 'ms-3' : 'w-100 lcl lcl-1'}>
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                   </span>
                 </div>
@@ -247,10 +252,14 @@ const HomeList = observer(
           (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
         );
       } else {
-        handleAssets = assets.filter((asset) => asset.collection_id === 0);
-        handleColections = collections.filter((collection) => collection.parent_id === 0);
+        if (isSearch) {
+          handleAssets = assets;
+          handleColections = collections;
+        } else {
+          handleAssets = assets.filter((asset) => asset.collection_id === 0);
+          handleColections = collections.filter((collection) => collection.parent_id === 0);
+        }
       }
-
       return (
         <div
           className="position-relative col d-flex flex-column"
@@ -264,8 +273,8 @@ const HomeList = observer(
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
                 isThumb={true}
-                isList={this.homeListViewModel.isList}
-                pageSize={this.homeListViewModel.pageSize}
+                isList={this.damListViewModel.isList}
+                pageSize={this.damListViewModel.pageSize}
                 dataThumb={[
                   'selection',
                   DAM_COLUMN_INDICATOR.FILE_SIZE,
@@ -273,8 +282,8 @@ const HomeList = observer(
                   DAM_COLUMN_INDICATOR.LAST_MODIFIED,
                 ]}
                 // pagination={pagination}
-                listViewModel={this.homeListViewModel}
-                // searchFunction={this.homeListViewModel.searchProjects}
+                listViewModel={this.damListViewModel}
+                // searchFunction={this.damListViewModel.searchProjects}
                 // searchText={t('search_your_project')}
                 hasSubRow={false}
                 _handleList={this._handleList}
@@ -301,4 +310,4 @@ const HomeList = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withHomeViewModel(HomeList)));
+export default withTranslation('common')(withRouter(withDamViewModel(HomeList)));

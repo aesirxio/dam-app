@@ -13,29 +13,27 @@ import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import SimpleReactValidator from 'simple-react-validator';
-import { GlobalStore } from 'store/Store';
-import { withHomeViewModel } from '../HomeViewModels/HomeViewModelContextProvider';
 import HomeForm from './HomeForm';
+import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 
 const ModalComponent = lazy(() => import('../../../components/Modal'));
 
 const HomeFormModal = observer(
   class HomeFormModal extends Component {
-    homeFormModalViewModel = null;
-    homeListViewModel = null;
-    static contextType = GlobalStore;
+    damFormModalViewModel = null;
+    damListViewModel = null;
     constructor(props) {
       super(props);
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
       const { viewModel } = props;
-      this.homeFormModalViewModel = viewModel ? viewModel.getHomeFormViewModel() : null;
-      this.homeListViewModel = viewModel ? viewModel.getHomeListViewModel() : null;
+      this.damFormModalViewModel = viewModel ? viewModel.damFormViewModel : null;
+      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
     }
 
     updateDetail = () => {
       if (this.isFormValid()) {
-        this.homeFormModalViewModel.saveOnModal();
+        this.damFormModalViewModel.saveOnModal();
       }
     };
 
@@ -51,20 +49,34 @@ const HomeFormModal = observer(
     };
 
     handleDelete = () => {
-      this.homeFormModalViewModel.closeModal();
-      this.homeFormModalViewModel.closeDeleteModal();
-      if (this.homeFormModalViewModel.homeEditdata?.type) {
-        this.homeListViewModel.deleteAssets(this.homeFormModalViewModel.homeEditdata);
+      this.damFormModalViewModel.closeModal();
+      this.damFormModalViewModel.closeDeleteModal();
+      if (this.damFormModalViewModel.damEditdata?.type) {
+        this.damListViewModel.deleteAssets(this.damFormModalViewModel.damEditdata);
       } else {
-        this.context.globalViewModel.deleteCollections(this.homeFormModalViewModel.homeEditdata);
+        this.damListViewModel.deleteCollections(this.damFormModalViewModel.damEditdata);
+      }
+    };
+
+    handleUpdate = (data) => {
+      this.damFormModalViewModel.closeModal();
+      if (this.damFormModalViewModel.damEditdata?.type) {
+        this.damListViewModel.updateAssets({
+          id: this.damFormModalViewModel.damEditdata.id,
+          ...data,
+        });
+      } else {
+        this.damListViewModel.updateCollections({
+          id: this.damFormModalViewModel.damEditdata.id,
+          ...data,
+        });
       }
     };
 
     render() {
       const { show, showDeleteModal, showContextMenu, openModal, downloadFile } =
-        this.homeFormModalViewModel;
+        this.damFormModalViewModel;
       const { t } = this.props;
-
       return (
         <>
           <div
@@ -73,8 +85,8 @@ const HomeFormModal = observer(
               showContextMenu ? '' : 'd-none'
             }`}
             style={{
-              top: this.homeFormModalViewModel.homeEditdata?.y ?? 0,
-              left: this.homeFormModalViewModel.homeEditdata?.x ?? 0,
+              top: this.damFormModalViewModel.damEditdata?.y ?? 0,
+              left: this.damFormModalViewModel.damEditdata?.x ?? 0,
               transition: 'none',
             }}
           >
@@ -109,7 +121,7 @@ const HomeFormModal = observer(
             </div>
             <div
               className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-              onClick={this.homeFormModalViewModel.openDeleteModal}
+              onClick={this.damFormModalViewModel.openDeleteModal}
             >
               <FontAwesomeIcon icon={faTrashAlt} className=" d-inline-block align-text-bottom" />
               <span className="ms-3 text py-1 d-inline-block">{t('txt_delete_folder')}</span>
@@ -117,22 +129,23 @@ const HomeFormModal = observer(
           </div>
           <ModalComponent
             show={show}
-            onHide={this.homeFormModalViewModel.closeModal}
-            onShow={this.homeFormModalViewModel.closeContextMenu}
+            onHide={this.damFormModalViewModel.closeModal}
+            onShow={this.damFormModalViewModel.closeContextMenu}
             body={
               <HomeForm
                 delete={this.handleDelete}
-                viewModel={this.homeFormModalViewModel}
+                handleUpdate={this.handleUpdate}
+                viewModel={this.damFormModalViewModel}
                 validator={this.validator}
               />
             }
-            dialogClassName={'minh-100 mw-100 home-modal'}
+            dialogClassName={'mh-80vh mw-80 home-modal'}
           />
 
           <ModalComponent
             show={showDeleteModal}
-            onHide={this.homeFormModalViewModel.closeDeleteModal}
-            onShow={this.homeFormModalViewModel.closeContextMenu}
+            onHide={this.damFormModalViewModel.closeDeleteModal}
+            onShow={this.damFormModalViewModel.closeContextMenu}
             body={
               <div className="d-flex flex-column justify-content-center align-items-center pb-5">
                 <ComponentImage className="mb-3" src="/assets/images/ep_circle-close.png" />
@@ -143,7 +156,7 @@ const HomeFormModal = observer(
                     <Button
                       // icon={faChevronRight}
                       text={t('txt_cancle')}
-                      onClick={this.homeFormModalViewModel.closeDeleteModal}
+                      onClick={this.damFormModalViewModel.closeDeleteModal}
                       className="btn btn-outline-white border "
                     />
                   </div>
@@ -158,7 +171,6 @@ const HomeFormModal = observer(
                 </div>
               </div>
             }
-            dialogClassName={'home-modal'}
           />
         </>
       );
@@ -166,4 +178,4 @@ const HomeFormModal = observer(
   }
 );
 
-export default withTranslation('common')(withHomeViewModel(HomeFormModal));
+export default withTranslation('common')(withDamViewModel(HomeFormModal));

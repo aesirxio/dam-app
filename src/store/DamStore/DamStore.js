@@ -5,9 +5,9 @@
 
 import { AesirxDamApiService } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
-import GlobalUtils from './GlobalStoreUtils';
+import DamUtils from './DamUtils';
 
-export default class GlobalStore {
+export default class DamStore {
   getCollections = async (collectionId, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
@@ -171,22 +171,188 @@ export default class GlobalStore {
     }
   };
 
-  search = async (collectionId, query) => {
+  getAssets = async (collectionId, dataFilter, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.getAssets(0, {
-        'filter[search]': query,
-      });
-
+      const responsedDataFromLibary = await damService.getAssets(collectionId, dataFilter);
       if (responsedDataFromLibary?.list) {
-        const homeDataModels = GlobalUtils.transformResponseIntoSearchItems(
+        const homeDataModels = DamUtils.transformPersonaResponseIntoModel(
           responsedDataFromLibary.list
         );
+        if (homeDataModels) {
+          runInAction(() => {
+            callbackOnSuccess({
+              list: homeDataModels,
+              pagination: responsedDataFromLibary.pagination,
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'No Result',
+            });
+          });
+        }
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancle') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancle',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        callbackOnError({
+          message: 'Something went wrong from Server response',
+        });
+      });
+    }
+  };
+
+  createAssets = async (data, callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.createAssets(data);
+      if (responsedDataFromLibary) {
+        const getDetailAsset = await damService.getAsset(responsedDataFromLibary);
+        if (getDetailAsset.item) {
+          runInAction(() => {
+            callbackOnSuccess({
+              item: getDetailAsset.item,
+              type: 'create',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'error with getDetail',
+            });
+          });
+        }
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancle') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancle',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
+    } catch (error) {
+      runInAction(() => {
+        callbackOnError({
+          message:
+            error.response?.data?._messages[0]?.message ??
+            'Something went wrong from Server response',
+        });
+      });
+    }
+  };
+
+  updateAssets = async (data, callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.updateAssets(data);
+      if (responsedDataFromLibary) {
+        runInAction(() => {
+          callbackOnSuccess({
+            item: data,
+            type: 'update',
+          });
+        });
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancle') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancle',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        callbackOnError({
+          message: 'Something went wrong from Server response',
+        });
+      });
+    }
+  };
+
+  deleteAssets = async (data, callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.deleteAssets(data?.id);
+      if (responsedDataFromLibary) {
+        runInAction(() => {
+          callbackOnSuccess({
+            item: data,
+            type: 'delete',
+          });
+        });
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancle') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancle',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        callbackOnError({
+          message: 'Something went wrong from Server response',
+        });
+      });
+    }
+  };
+
+  search = async (query) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.search({
+        'filter[search]': query,
+      });
+      if (responsedDataFromLibary?.assets || responsedDataFromLibary?.collections) {
+        const homeDataModels = DamUtils.transformResponseIntoSearchItems([
+          ...responsedDataFromLibary?.assets,
+          ...responsedDataFromLibary?.collections,
+        ]);
 
         return homeDataModels;
       }
     } catch (error) {
       console.log(error);
+      throw error;
     }
   };
 }

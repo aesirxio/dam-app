@@ -9,26 +9,31 @@ import SimpleReactValidator from 'simple-react-validator';
 
 import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
 
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import {
+  DAM_ASSETS_FIELD_KEY,
+  DAM_COLLECTION_FIELD_KEY,
+} from 'aesirx-dma-lib/src/Constant/DamConstant';
 import Button from 'components/Button';
 import ComponentImage from 'components/ComponentImage';
 import { withTranslation } from 'react-i18next';
 import Spinner from '../../../components/Spinner';
 import PAGE_STATUS from '../../../constants/PageStatus';
 import { renderingGroupFieldHandler } from '../../../utils/form';
-
+import utils from '../HomeUtils/HomeUtils';
+import styles from '../index.module.scss';
 class HomeForm extends Component {
   formPropsData = {
-    [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
+    [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
     [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
-      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.COLLECTION_ID],
+      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.COLLECTION_ID],
     [DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]:
-      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
     [DAM_ASSETS_FIELD_KEY.FILE_SIZE]:
-      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_SIZE],
-    [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
+      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_SIZE] ??
+      this.props.viewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.FILE_SIZE],
+    [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
     [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]:
-      this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
+      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
   };
 
   constructor(props) {
@@ -146,21 +151,41 @@ class HomeForm extends Component {
     const { t } = this.props;
     return (
       <>
-        <div className="row">
-          <div className="col-8">
-            <div className="py-3">
+        <div className="row pb-3 h-100">
+          <div className="col-8 h-100">
+            <div className="h-100 ">
               <Button
                 // icon={faChevronRight}
                 text={t('txt_delete')}
                 onClick={this.props.delete}
-                className="btn btn-outline-danger mb-3 "
+                className="btn-outline-danger mb-3 "
               />
-              <ComponentImage
-                src={this.props.viewModel.homeEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
-              />
+              <div
+                className={`d-flex align-items-center justify-content-center ${styles.popupImageHeight}`}
+              >
+                {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+                  <ComponentImage
+                    wrapperClassName="h-100 w-100"
+                    className="h-100 w-100 object-fit-contain"
+                    src={'/assets/images/folder-big.png'}
+                  />
+                ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
+                  <ComponentImage
+                    wrapperClassName="h-100 w-100"
+                    className="h-100 w-100 object-fit-contain"
+                    src={this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
+                  />
+                ) : (
+                  <ComponentImage
+                    wrapperClassName="h-100 w-100"
+                    className="h-100 w-100 object-fit-contain"
+                    src={utils.checkFileTypeFormData(this.props.viewModel.damEditdata)}
+                  />
+                )}
+              </div>
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-4 h-100">
             <div className="row">
               {Object.keys(formSetting)
                 .map((groupIndex) => {
@@ -177,7 +202,7 @@ class HomeForm extends Component {
                 <Button
                   // icon={faChevronRight}
                   text={t('txt_save_update')}
-                  onClick={this.updateDetail}
+                  onClick={() => this.props.handleUpdate(this.formPropsData)}
                   className="btn btn-success w-100"
                 />
               </div>

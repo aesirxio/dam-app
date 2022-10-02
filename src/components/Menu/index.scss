@@ -61,6 +61,11 @@
     }
   }
 }
+
+.main-menu {
+  max-height: 400px;
+  overflow-y: auto;
+}
 body.mini_left {
   .sidebar {
     .button-language {

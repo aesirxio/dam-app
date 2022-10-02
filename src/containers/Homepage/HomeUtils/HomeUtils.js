@@ -3,6 +3,8 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+
 // import HomeModel from '../HomeModel/HomeModel';
 
 class HomeUtils {
@@ -17,6 +19,23 @@ class HomeUtils {
     //     return arr.concat(el);
     //   }, []);
     return response;
+  };
+
+  checkFileTypeFormData = (data) => {
+    switch (data[DAM_ASSETS_FIELD_KEY.FILE_EXTENTION]) {
+      case 'xlsx':
+        return '/assets/images/xlsx.svg';
+        break;
+      case 'docx':
+        return '/assets/images/word.svg';
+        break;
+      case 'pptx':
+        return '/assets/images/pdf.svg';
+        break;
+      default:
+        return '/assets/images/file_default.svg';
+        break;
+    }
   };
 }
 

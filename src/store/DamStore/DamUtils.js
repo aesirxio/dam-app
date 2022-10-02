@@ -3,7 +3,9 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-class GlobalUtils {
+import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+
+class DamUtils {
   transformPersonaResponseIntoModel = (response) => {
     // return Object.keys(response)
     //   .map((index) => {
@@ -18,10 +20,15 @@ class GlobalUtils {
   };
 
   transformResponseIntoSearchItems = (response) => {
-    return response.map((el) => ({ id: el.id, name: el.name }));
+    // return response.map((el) => ({
+    //   id: el.id,
+    //   name: el.name,
+    //   type: response?.[DAM_ASSETS_API_FIELD_KEY.TYPE] ?? 'folder',
+    // }));
+    return response;
   };
 }
 
-const utils = new GlobalUtils();
+const utils = new DamUtils();
 
 export default utils;
