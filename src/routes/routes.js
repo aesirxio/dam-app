@@ -14,6 +14,8 @@ const WelcomePage = lazy(() => import('../containers/WelcomePage'));
 const DashboardPage = lazy(() => import('../containers/Homepage'));
 const SettingPage = lazy(() => import('containers/SettingPage'));
 
+const ProfilePage = lazy(() => import('../containers/ProfilePage'));
+
 const authRoutes = [
   {
     path: '/',
