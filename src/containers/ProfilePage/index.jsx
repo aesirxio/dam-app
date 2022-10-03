@@ -3,20 +3,18 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React from 'react';
 import { observer } from 'mobx-react';
-import UpdateGeneral from './UpdateGeneral';
-import UpdatePassword from './UpdatePassword';
+import React from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { UPDATE_GENERAL_FIELD_KEY } from '../../constants/ProfileModule';
-// import { FORM_FIELD_TYPE } from '../../constants/FormFieldType';
-import { ProfileViewModelContextProvider } from './ProfileViewModel/ProfileViewModelContextProvider';
+import UpdateGeneral from './UpdateGeneral';
+import UpdatePassword from './UpdatePassword';
+import { withTranslation } from 'react-i18next';
 import ProfileStore from './ProfileStore/ProfileStore';
 import ProfileViewModel from './ProfileViewModel/ProfileViewModel';
-import { withTranslation } from 'react-i18next';
-import SubmitButton from './Layout/SubmitButton';
-import ButtonCancel from 'components/ButtonCancel';
-import { Storage } from 'aesirx-dma-lib';
+import { ProfileViewModelContextProvider } from './ProfileViewModel/ProfileViewModelContextProvider';
+
+import { AUTHORIZATION_KEY, Storage } from 'aesirx-dma-lib';
 
 const profileStore = new ProfileStore();
 const profileViewModel = new ProfileViewModel(profileStore);
@@ -25,7 +23,7 @@ const ProfilePage = observer(
   class ProfilePage extends React.Component {
     updateGeneralViewModel = null;
     formPropsData = {
-      [UPDATE_GENERAL_FIELD_KEY.ID]: Storage.getItem('member_id'),
+      [UPDATE_GENERAL_FIELD_KEY.ID]: Storage.getItem(AUTHORIZATION_KEY.MEMBER_ID),
       [UPDATE_GENERAL_FIELD_KEY.USERNAME]: '',
       [UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]: '',
       [UPDATE_GENERAL_FIELD_KEY.FULLNAME]: '',

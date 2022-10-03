@@ -9,15 +9,6 @@ import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 
 class HomeUtils {
   transformPersonaResponseIntoModel = (response) => {
-    // return Object.keys(response)
-    //   .map((index) => {
-    //     return [...Array(response[index])].map((item) => {
-    //       return new HomeModel(item);
-    //     });
-    //   })
-    //   .reduce((arr, el) => {
-    //     return arr.concat(el);
-    //   }, []);
     return response;
   };
 
@@ -25,16 +16,12 @@ class HomeUtils {
     switch (data[DAM_ASSETS_FIELD_KEY.FILE_EXTENTION]) {
       case 'xlsx':
         return '/assets/images/xlsx.svg';
-        break;
       case 'docx':
         return '/assets/images/word.svg';
-        break;
       case 'pptx':
         return '/assets/images/pdf.svg';
-        break;
       default:
         return '/assets/images/file_default.svg';
-        break;
     }
   };
 }

@@ -15,7 +15,7 @@ import {
 import Dropzone from 'components/Dropzone';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
-import { DamStore, withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import ButtonNormal from '../../../components/ButtonNormal';
 import HomeFormModal from './HomeFormModel';
 const HomeActionBar = observer(
@@ -31,13 +31,9 @@ const HomeActionBar = observer(
       this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
     }
 
-    componentDidMount() {
-      if (this.openModal) {
-        // this.damFormModalViewModel.openModal();
-      }
-    }
+    componentDidMount() {}
 
-    handleCreateFolder = (data) => {
+    handleCreateFolder = () => {
       const collectionId = history.location.pathname.split('/');
       this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',

@@ -16,11 +16,7 @@ class SelectComponent extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    if (this.openModal) {
-      // this.homeFormModalViewModel.openModal();
-    }
-  }
+  componentDidMount() {}
   render() {
     const { t } = this.props;
     const { theme } = this.context;

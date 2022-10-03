@@ -49,7 +49,6 @@ class ComponentViewList extends Component {
   };
 
   handleSelect = (data) => {
-    // console.warn(this.listViewModel[`${this.view}IdsSelected`]);
     this.listViewModel[`${this.view}IdsSelected`] = data
       .map((item) => {
         return item[this.key];

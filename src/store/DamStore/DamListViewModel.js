@@ -137,19 +137,10 @@ class DamListViewModel {
     );
   };
 
-  resetObservableProperties = () => {
-    // this.collections = [];
-    // this.paginationCollections = null;
-    // this.dataFilter = null;
-    // this.assets = [];
-    // this.paginationAssets = null;
-    // this.tableRowHeader = null;
-    // this.dataFilter = null;
-    // this.isList = true;
-    // this.pageSize = 5;
-  };
+  resetObservableProperties = () => {};
 
   callbackOnErrorHander = (error) => {
+    console.log(error);
     if (error.message === 'isCancle') {
       this.status = PAGE_STATUS.READY;
     } else notify(error.message, 'error');
@@ -162,15 +153,12 @@ class DamListViewModel {
       this.paginationAssets = data.pagination;
     } else {
       this.status = PAGE_STATUS.ERROR;
-      // this.assets = this.assets;
       this.paginationAssets = null;
     }
   };
 
   callBackOnAssetsCreateSuccessHandler = (data) => {
     if (data.item) {
-      // this.apiPendingStatus = PAGE_STATUS.READY;
-
       if (data?.type) {
         switch (data.type) {
           case 'update':
@@ -184,15 +172,12 @@ class DamListViewModel {
             break;
           case 'create':
             this.assets = [...this.assets, data?.item];
-            // window.location.reload();
             break;
 
           default:
             break;
         }
       }
-    } else {
-      // this.apiPendingStatus = PAGE_STATUS.READY;
     }
   };
 
@@ -203,7 +188,6 @@ class DamListViewModel {
       this.paginationAssets = data.pagination;
     } else {
       this.status = PAGE_STATUS.ERROR;
-      // this.assets = this.assets;
       this.paginationAssets = null;
     }
   };
@@ -215,7 +199,6 @@ class DamListViewModel {
       this.paginationCollections = data.pagination;
     } else {
       this.status = PAGE_STATUS.ERROR;
-      // this.collections = this.collections;
       this.paginationCollections = null;
     }
   };
@@ -243,7 +226,6 @@ class DamListViewModel {
             break;
         }
       }
-    } else {
     }
   };
 

@@ -4,5 +4,4 @@
  */
 // import HomeUtils from '../HomeUtils/HomeUtils';
 
-import { runInAction } from 'mobx';
 export default class SettingStore {}

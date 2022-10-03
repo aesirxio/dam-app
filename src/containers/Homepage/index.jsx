@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import Spinner from '../../components/Spinner';
 
 import { withTranslation } from 'react-i18next';

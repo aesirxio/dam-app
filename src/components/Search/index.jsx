@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
@@ -7,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { observer } from 'mobx-react';
 
-const Search = observer((props) => {
+const Search = observer(() => {
   const damListViewModel = useDamViewModel();
   const { t } = useTranslation('common');
 
@@ -33,21 +34,15 @@ const Search = observer((props) => {
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
-      // damListViewModel.damListViewModel.dataFilter = {
-      //   ...damListViewModel.damListViewModel.dataFilter,
-      //   'filter[search]': e.target.value,
-      // };
       damListViewModel.damListViewModel.isSearch = true;
       const assets = options.filter((asset) => asset.type);
       const collections = options.filter((collection) => !collection.type);
       if (assets) {
         damListViewModel.damListViewModel.assets = assets;
-        // damListViewModel.damListViewModel.setAssets(assets);
       }
 
       if (collections) {
         damListViewModel.damListViewModel.collections = collections;
-        // damListViewModel.damListViewModel.setCollections(collections);
       }
     }
   };

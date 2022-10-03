@@ -29,7 +29,6 @@ class DamFormViewModel {
   };
 
   closeContextMenu = () => {
-    // this.editMode = false;
     this.showContextMenu = false;
   };
 

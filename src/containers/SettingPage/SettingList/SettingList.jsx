@@ -3,17 +3,17 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component, Suspense } from 'react';
+import React, { Component } from 'react';
 
+import Button from 'components/Button';
+import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import { withSettingViewModel } from '../SettingViewModel/SettingViewModelContextProvider';
 import SimpleReactValidator from 'simple-react-validator';
-import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
-import { renderingGroupFieldHandler } from 'utils/form';
-import Button from 'components/Button';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import { renderingGroupFieldHandler } from 'utils/form';
+import { notify } from 'components/Toast';
 
 const SettingList = observer(
   class SettingList extends Component {
@@ -33,7 +33,9 @@ const SettingList = observer(
       super(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-
+      this.state = {
+        loading: false,
+      };
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
@@ -163,7 +165,51 @@ const SettingList = observer(
     };
 
     handleSubmit = () => {
-      this.damListViewModel.damStore.updateSubscription();
+      let formpropsdata = {};
+      Object.keys(this.formPropsData).forEach((index) => {
+        if (this.formPropsData[index]) {
+          formpropsdata[index] = this.formPropsData[index];
+        }
+      });
+      delete formpropsdata.storage;
+      if (this.formPropsData.storage?.value === 'aws') {
+        const data = {
+          id: this.damListViewModel.subscription?.[0]?.id,
+          store: [
+            {
+              type: 'product-aesirx-dam',
+              options: {
+                plugin: 'aws',
+                plugin_use: 'override',
+                plugin_params: {
+                  ...formpropsdata,
+                },
+              },
+            },
+          ],
+        };
+        const response = this.damListViewModel.damStore.updateSubscription(data);
+        if (response) {
+          notify('Success', 'success');
+        }
+      } else {
+        const data = {
+          id: this.damListViewModel.subscription?.[0]?.id,
+          store: [
+            {
+              type: 'product-aesirx-dam',
+              options: {
+                plugin: 'inherit',
+                plugin_use: 'inherit',
+              },
+            },
+          ],
+        };
+        const response = this.damListViewModel.damStore.updateSubscription(data);
+        if (response) {
+          notify('Success', 'success');
+        }
+      }
     };
 
     render() {
@@ -181,7 +227,6 @@ const SettingList = observer(
               return arr.concat(el);
             }, [])}
           <Button
-            // icon={faChevronRight}
             text={t('txt_save_setting')}
             onClick={this.handleSubmit}
             className="btn btn-success ms-auto"

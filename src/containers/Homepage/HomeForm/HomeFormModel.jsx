@@ -109,22 +109,15 @@ const HomeFormModal = observer(
             </div>
             <div
               className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-              // onClick={createFolder}
             >
-              <ComponentImage
-                // alt={row.original.name}
-                src="/assets/images/move-to-folder.svg"
-              />
+              <ComponentImage src="/assets/images/move-to-folder.svg" />
               <span className="ms-3 text py-1 d-inline-block">{t('txt_move_to_folder')}</span>
             </div>
             <div
               className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
               onClick={downloadFile}
             >
-              <ComponentImage
-                // alt={row.original.name}
-                src="/assets/images/download.svg"
-              />
+              <ComponentImage src="/assets/images/download.svg" />
 
               <span className="ms-3 text py-1 d-inline-block">{t('txt_download_folder')}</span>
             </div>
@@ -167,7 +160,6 @@ const HomeFormModal = observer(
                 <div className="row">
                   <div className="col-auto">
                     <Button
-                      // icon={faChevronRight}
                       text={t('txt_cancle')}
                       onClick={this.damFormModalViewModel.closeDeleteModal}
                       className="btn btn-outline-white border "
@@ -175,7 +167,6 @@ const HomeFormModal = observer(
                   </div>
                   <div className="col-auto">
                     <Button
-                      // icon={faChevronRight}
                       text={t('txt_yes_delete')}
                       onClick={this.handleDelete}
                       className="btn btn-danger "
