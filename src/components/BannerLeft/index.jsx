@@ -24,7 +24,7 @@ class BannerLeft extends React.Component {
   render() {
     let { dataSlider } = this.props;
     return (
-      <div className="col-md-4 bg-primary p-0 d-none d-md-block position-relative">
+      <div className="col-md-5 bg-primary p-0 d-none d-md-block position-relative">
         <div className="wrapper_banner_left vh-100">
           <div className="content_banner_left d-flex h-100 justify-content-between flex-column">
             <a href="/" className="d-block" style={{ zIndex: 1 }}>
@@ -34,11 +34,7 @@ class BannerLeft extends React.Component {
               <div className="wrapper_icon_slider">
                 <ComponentImage alt={'icon quote'} src={'assets/images/icon-quote.svg'} />
               </div>
-              <Swiper
-                spaceBetween={20}
-                slidesPerView={1}
-                pagination={{ clickable: true }}
-              >
+              <Swiper spaceBetween={20} slidesPerView={1} pagination={{ clickable: true }}>
                 {dataSlider.map((value, key) => {
                   return (
                     <SwiperSlide key={key}>
@@ -55,9 +51,7 @@ class BannerLeft extends React.Component {
               </Swiper>
             </div>
           </div>
-          <span className="position-absolute top-0" style={{ zIndex: 0 }}>
-            
-          </span>
+          <span className="position-absolute top-0" style={{ zIndex: 0 }}></span>
         </div>
       </div>
     );

@@ -62,7 +62,7 @@ const Menu = observer(
     }
 
     componentDidMount() {
-      const collectionId = history.location.pathname.split('/');
+      this.damListViewModel.getSubscription();
     }
 
     componentWillUnmount() {

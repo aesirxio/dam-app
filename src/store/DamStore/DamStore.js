@@ -8,6 +8,29 @@ import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
 
 export default class DamStore {
+  getSubscription = async (callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.getDamSubscription();
+      if (responsedDataFromLibary) {
+        runInAction(() => {
+          callbackOnSuccess(responsedDataFromLibary);
+        });
+      }
+      return responsedDataFromLibary;
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        callbackOnError({
+          message: 'Something went wrong',
+        });
+      });
+      return error;
+    }
+  };
+
+  updateSubscription = async () => {};
+
   getCollections = async (collectionId, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
