@@ -66,14 +66,15 @@ class HomeForm extends Component {
               }
             },
           },
-
           {
             label: t('txt_url'),
             key: DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL,
             disabled: true,
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
-            className: 'col-12',
+            className: `col-12 ${
+              this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
+            }`,
             validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
@@ -90,7 +91,9 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE],
             disabled: true,
-            className: 'col-6',
+            className: `col-6 ${
+              this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
+            }`,
             validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
