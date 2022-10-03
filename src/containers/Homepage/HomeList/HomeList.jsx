@@ -10,6 +10,7 @@ import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
+  DAM_COLLECTION_FIELD_KEY,
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
@@ -80,22 +81,28 @@ const HomeList = observer(
         }, []);
     };
 
-    handleCreateFolder = (data) => {
+    handleCreateFolder = () => {
       const collectionId = history.location.pathname.split('/');
+      const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
       this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]:
-          collectionId[collectionId.length - 1] ?? 0,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: checkCollection
+          ? collectionId[collectionId.length - 1]
+          : 0,
       });
     };
 
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
+        const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+
         this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: collectionId[collectionId.length - 1] ?? 0,
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
+            ? collectionId[collectionId.length - 1]
+            : 0,
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
       }
@@ -227,7 +234,12 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div {...row.getToggleRowExpandedProps()} className="d-flex">
-              <span className="">{row.original[DAM_ASSETS_FIELD_KEY.FILE_SIZE] ?? 0} KB</span>
+              <span className="">
+                {row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                  ? row.original[DAM_ASSETS_FIELD_KEY.FILE_SIZE]
+                  : row.original[DAM_COLLECTION_FIELD_KEY.FILE_SIZE]}
+                KB
+              </span>
             </div>
           ),
         },

@@ -62,7 +62,7 @@ const Menu = observer(
     }
 
     componentDidMount() {
-      const collectionId = history.location.pathname.split('/');
+      this.damListViewModel.getSubscription();
     }
 
     componentWillUnmount() {
@@ -199,7 +199,7 @@ const Menu = observer(
             </Accordion>
           </nav>
           <nav className="border-top py-3">
-            <p className="text-white-50 fs-14 px-3 mb-0">Set up</p>
+            <p className="text-white-50 fs-14 px-3 mb-0">{t('txt_set_up')}</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0 pt-md-1">
               {dataMenu.map((value, key) => {
                 return (

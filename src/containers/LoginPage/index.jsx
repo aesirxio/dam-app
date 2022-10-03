@@ -18,7 +18,7 @@ import InputPassword from '../../components/inputPassword';
 
 const dataSlider = [
   {
-    text: 'Building a Global Media Content Marketing Team requires structure, process and automation we utilize technology to make this happen',
+    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam',
     title: 'Ronni K. Gothard Christiansen',
     subtitle: 'CEO & Founder R Digital',
   },
@@ -72,8 +72,10 @@ class LoginPage extends React.Component {
     return (
       <div className="row">
         <BannerLeft dataSlider={dataSlider} />
-        <div className="col-md-8 d-flex flex-column justify-content-center align-items-center ">
+        <div className="col-md-7 d-flex flex-column justify-content-center align-items-center ">
           <div className="d-block">
+            <p className="fs-2 fw-bold mb-0">Welcome to DAM. </p>
+            <p className="fs-2 fw-bold">Sign In to getting started.</p>
             <form>
               <label className="form-label mb-3" htmlFor="email">
                 Email <span>*</span>
@@ -109,7 +111,16 @@ class LoginPage extends React.Component {
               {this.validator.message('password', this.state.password, 'required', {
                 className: 'text-danger',
               })}
-              <div className="mt-4 mb-3 d-flex justify-content-between"></div>
+              <div className="mt-4 mb-3 d-flex justify-content-end">
+                <a
+                  className="fw-bold ms-auto"
+                  target={'_blank'}
+                  rel="noreferrer"
+                  href="https://dam.aesirx.io/auth/forgotpassword"
+                >
+                  {t('tx_forgot_password')}
+                </a>
+              </div>
               <button
                 type="button"
                 className={`btn w-100 fw-medium btn-success position-relative d-flex align-item-center justify-content-center wr_btn_login`}
@@ -130,10 +141,10 @@ class LoginPage extends React.Component {
                 </i>
               </button>
               <a
-                href="https://dma.aesirx.io"
+                href="https://dam.aesirx.io/auth/register"
                 target="_blank"
                 rel="noreferrer"
-                className="d-flex justify-content-center mt-4"
+                className="d-flex justify-content-center mt-4 fw-bold"
               >
                 {t('txt_do_not_have_an_account')}
               </a>

@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import Spinner from '../../components/Spinner';
 
 import SettingStore from './SettingStore/SettingStore';
@@ -25,11 +25,7 @@ const HomePage = (props) => {
       <div className="py-4 px-3 h-100 storage-content">
         <div className="mb-4">
           <h2 className="text-blue-0">{t('txt_configuration_storage')}</h2>
-          <p>
-            {t(
-              'txt_the_sizes_listed_below_determine_the_maximum_size_in_pixels_to_use_when_adding_an_image_to_the_Media_Library.'
-            )}
-          </p>
+          <p>{t('txt_configuration_desc')}</p>
         </div>
         <Suspense fallback={<Spinner />}>
           <SettingList />

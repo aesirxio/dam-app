@@ -15,6 +15,10 @@ import { withTranslation } from 'react-i18next';
 import SimpleReactValidator from 'simple-react-validator';
 import HomeForm from './HomeForm';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import {
+  DAM_ASSETS_FIELD_KEY,
+  DAM_COLLECTION_FIELD_KEY,
+} from 'aesirx-dma-lib/src/Constant/DamConstant';
 
 const ModalComponent = lazy(() => import('../../../components/Modal'));
 
@@ -62,12 +66,17 @@ const HomeFormModal = observer(
       this.damFormModalViewModel.closeModal();
       if (this.damFormModalViewModel.damEditdata?.type) {
         this.damListViewModel.updateAssets({
-          id: this.damFormModalViewModel.damEditdata.id,
+          [DAM_ASSETS_FIELD_KEY.ID]:
+            this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.ID],
           ...data,
         });
       } else {
         this.damListViewModel.updateCollections({
-          id: this.damFormModalViewModel.damEditdata.id,
+          [DAM_COLLECTION_FIELD_KEY.ID]:
+            this.damFormModalViewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.ID],
+          [DAM_COLLECTION_FIELD_KEY.PARENT_ID]:
+            this.damFormModalViewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.PARENT_ID],
+
           ...data,
         });
       }
@@ -150,7 +159,11 @@ const HomeFormModal = observer(
               <div className="d-flex flex-column justify-content-center align-items-center pb-5">
                 <ComponentImage className="mb-3" src="/assets/images/ep_circle-close.png" />
                 <h4 className="mb-4">{t('txt_are_you_sure')}</h4>
-                <p>{t('txt_delete_popup_desc')}</p>
+                <p className="text-center">
+                  {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE]
+                    ? t('txt_delete_assets_popup_desc')
+                    : t('txt_delete_collections_popup_desc')}
+                </p>
                 <div className="row">
                   <div className="col-auto">
                     <Button

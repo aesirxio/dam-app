@@ -25,10 +25,18 @@ class DamListViewModel {
   isList = false;
   damIdsSelected = null;
   isSearch = false;
+  subscription = null;
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
   }
+
+  getSubscription = () => {
+    this.damStore.getSubscription(
+      this.callbackOnSubscriptionSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
 
   getCollections = (collectionId) => {
     this.isSearch = false;
@@ -236,6 +244,14 @@ class DamListViewModel {
         }
       }
     } else {
+    }
+  };
+
+  callbackOnSubscriptionSuccessHandler = (data) => {
+    if (data) {
+      this.subscription = data;
+    } else {
+      this.status = PAGE_STATUS.READY;
     }
   };
 }

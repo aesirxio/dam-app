@@ -93,29 +93,29 @@ const Table = ({
     ],
   }));
 
-  const Action = useMemo(() => ({
-    id: 'action',
-    className: styles.w_272,
-    placeholder: t('choose_an_action'),
-    options: [
-      {
-        label: t('txt_preview'),
-        value: t('txt_preview'),
-      },
-      {
-        label: t('txt_move_to_folder'),
-        value: t('txt_move_to_folder'),
-      },
-      {
-        label: t('txt_download'),
-        value: t('txt_download'),
-      },
-      {
-        label: t('txt_delete'),
-        value: t('txt_delete'),
-      },
-    ],
-  }));
+  // const Action = useMemo(() => ({
+  //   id: 'action',
+  //   className: styles.w_272,
+  //   placeholder: t('choose_an_action'),
+  //   options: [
+  //     {
+  //       label: t('txt_preview'),
+  //       value: t('txt_preview'),
+  //     },
+  //     {
+  //       label: t('txt_move_to_folder'),
+  //       value: t('txt_move_to_folder'),
+  //     },
+  //     {
+  //       label: t('txt_download'),
+  //       value: t('txt_download'),
+  //     },
+  //     {
+  //       label: t('txt_delete'),
+  //       value: t('txt_delete'),
+  //     },
+  //   ],
+  // }));
 
   const sortBy = useMemo(() => ({
     id: 'sort_by',
@@ -218,14 +218,14 @@ const Table = ({
                 )}
               />
             </div>
-            <div className={Action.className}>
+            {/* <div className={Action.className}>
               <Select
                 placeholder={Action.placeholder}
                 isClearable={false}
                 isSearchable={false}
                 options={Action.options}
               />
-            </div>
+            </div> */}
             <div className={sortBy.className}>
               <Select
                 placeholder={sortBy.placeholder}
@@ -272,74 +272,77 @@ const Table = ({
         </div>
       </div>
       {isList ? (
-        <div className="bg-white p-3 rounded-3">
-          <table {...getTableProps()} className={`w-100 mb-4 ${classNameTable}`}>
-            <thead>
-              {headerGroups.map((headerGroup) => {
-                let newHeaderGroup = '';
-
-                dataList
-                  ? (newHeaderGroup = headerGroup.headers.filter(
-                      (item) => !dataList.some((other) => item.id === other)
-                    ))
-                  : (newHeaderGroup = headerGroup.headers);
-
-                return (
-                  <tr {...headerGroup.getHeaderGroupProps()} className="bg-blue">
-                    {newHeaderGroup.map((column) => {
-                      return (
-                        <th
-                          {...column.getHeaderProps()}
-                          className="fw-normal px-2 py-3 flex-1 bg-blue"
-                        >
-                          {column.render('Header')}
-                        </th>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {rows.length > 0 &&
-                rows.map((row) => {
-                  prepareRow(row);
-                  // const rowProps = row.getRowProps();
-                  let newRowCells = '';
+        <div className="bg-white p-3 rounded-3 col">
+          {rows.length ? (
+            <table {...getTableProps()} className={`w-100 mb-4 ${classNameTable}`}>
+              <thead>
+                {headerGroups.map((headerGroup) => {
+                  let newHeaderGroup = '';
 
                   dataList
-                    ? (newRowCells = row.cells.filter(
-                        (item) => !dataList.some((other) => item.column.id === other)
+                    ? (newHeaderGroup = headerGroup.headers.filter(
+                        (item) => !dataList.some((other) => item.id === other)
                       ))
-                    : (newRowCells = row.cells);
+                    : (newHeaderGroup = headerGroup.headers);
 
                   return (
-                    <tr
-                      key={row.getRowProps().key}
-                      {...row.getRowProps()}
-                      className="border-bottom-1 cursor-pointer"
-                      //onClick={(e) => handerEdit(e, row.original)}
-                      onDoubleClick={
-                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
-                          ? () => {}
-                          : () => onDoubleClick(row.original.id)
-                      }
-                      onContextMenu={(e) => {
-                        onRightClickItem(e, row.original);
-                      }}
-                    >
-                      {newRowCells.map((cell) => {
+                    <tr {...headerGroup.getHeaderGroupProps()} className="bg-blue">
+                      {newHeaderGroup.map((column) => {
                         return (
-                          <td {...cell.getCellProps()} className="fw-normal px-2 py-3">
-                            {cell.render('Cell')}
-                          </td>
+                          <th
+                            {...column.getHeaderProps()}
+                            className="fw-normal px-2 py-3 flex-1 bg-blue"
+                          >
+                            {column.render('Header')}
+                          </th>
                         );
                       })}
                     </tr>
                   );
                 })}
-            </tbody>
-          </table>
+              </thead>
+              <tbody {...getTableBodyProps()}>
+                {rows.length > 0 &&
+                  rows.map((row) => {
+                    prepareRow(row);
+                    // const rowProps = row.getRowProps();
+                    let newRowCells = '';
+
+                    dataList
+                      ? (newRowCells = row.cells.filter(
+                          (item) => !dataList.some((other) => item.column.id === other)
+                        ))
+                      : (newRowCells = row.cells);
+
+                    return (
+                      <tr
+                        key={row.getRowProps().key}
+                        {...row.getRowProps()}
+                        className="border-bottom-1 cursor-pointer"
+                        //onClick={(e) => handerEdit(e, row.original)}
+                        onDoubleClick={
+                          row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                            ? () => {}
+                            : () => onDoubleClick(row.original.id)
+                        }
+                        onContextMenu={(e) => {
+                          onRightClickItem(e, row.original);
+                        }}
+                      >
+                        {newRowCells.map((cell) => {
+                          return (
+                            <td {...cell.getCellProps()} className="fw-normal px-2 py-3">
+                              {cell.render('Cell')}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          ) : null}
+
           {rows.length === 0 ? (
             <ComponentNoData
               icons="/assets/images/ic_project.svg"
@@ -351,7 +354,7 @@ const Table = ({
           ) : null}
         </div>
       ) : (
-        <div {...getTableBodyProps()} className="row">
+        <div {...getTableBodyProps()} className={`row ${rows.length === 0 ? 'col' : ''}`}>
           {rows.map((row) => {
             prepareRow(row);
             let newRowCells = row.cells;

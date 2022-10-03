@@ -23,6 +23,7 @@ import ComponentImage from '../../../components/ComponentImage';
 import { Storage } from 'aesirx-dma-lib';
 import { withTranslation } from 'react-i18next';
 import Button from 'components/Button';
+import SubmitButton from '../Layout/SubmitButton';
 
 const UpdateGeneral = observer(
   class UpdateGeneral extends Component {
@@ -161,7 +162,7 @@ const UpdateGeneral = observer(
                   key={Math.random(40, 200)}
                 />
 
-                <AvatarDAM>
+                {/* <AvatarDAM>
                   <div
                     className={`position-relative  cursor-pointer wr_upload_images ${
                       getUrlImage.length > 0 ? 'active_img' : ''
@@ -183,16 +184,17 @@ const UpdateGeneral = observer(
                     <div className="main_upload_images">
                       <Button data={getUrlImage} changed={(data) => this.handleDamAssets(data)} />
                     </div>
-                    {/* {getUrlImage ? (
+                    {getUrlImage ? (
                       <div
                         onClick={() => this.clearImage(memberInfo.avatar_dam)}
                         className={'clear_image_button'}
                       >
                         <FontAwesomeIcon icon={faTimesCircle} className="text-white" />
                       </div>
-                    ) : null} */}
+                    ) : null}
                   </div>
-                </AvatarDAM>
+                </AvatarDAM> */}
+                <SubmitButton validateInfoBeforeSending={this.validateInfoBeforeSending} />
               </div>
             </div>
           )}

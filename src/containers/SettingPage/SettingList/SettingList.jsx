@@ -13,9 +13,12 @@ import SimpleReactValidator from 'simple-react-validator';
 import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
 import { renderingGroupFieldHandler } from 'utils/form';
 import Button from 'components/Button';
+import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 
 const SettingList = observer(
   class SettingList extends Component {
+    damListViewModel = null;
+
     formPropsData = {
       storage: {
         label: 'AesirX',
@@ -28,8 +31,13 @@ const SettingList = observer(
     };
     constructor(props) {
       super(props);
+      const { viewModel } = props;
+      this.viewModel = viewModel ? viewModel : null;
+
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
+      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
+
     generateFormSetting = () => {
       const { t } = this.props;
       if (this.formPropsData.storage?.value === 'aws') {
@@ -153,6 +161,11 @@ const SettingList = observer(
         },
       ];
     };
+
+    handleSubmit = () => {
+      this.damListViewModel.damStore.updateSubscription();
+    };
+
     render() {
       const formSetting = this.generateFormSetting();
       const { t } = this.props;
@@ -170,7 +183,7 @@ const SettingList = observer(
           <Button
             // icon={faChevronRight}
             text={t('txt_save_setting')}
-            onClick={() => {}}
+            onClick={this.handleSubmit}
             className="btn btn-success ms-auto"
           />
         </div>
@@ -179,4 +192,4 @@ const SettingList = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withSettingViewModel(SettingList)));
+export default withTranslation('common')(withRouter(withDamViewModel(SettingList)));
