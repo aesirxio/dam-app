@@ -20,9 +20,7 @@ const authRoutes = [
   {
     path: '/',
     exact: true,
-    render: () => {
-      isLogin() ? <Redirect to="/root" /> : <Redirect to="/login" />;
-    },
+    main: () => (isLogin() ? <Redirect to="/root" /> : <Redirect to="/login" />),
   },
   {
     path: '/login',

@@ -6,13 +6,15 @@ import React from 'react';
 import Dropzone from 'components/Dropzone';
 import { Component } from 'react';
 import './index.scss';
+import { withTranslation } from 'react-i18next';
+import Button from 'components/Button';
 
 class ComponentNoData extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const { className, createAssets } = this.props;
+    const { className, createAssets, t } = this.props;
     return (
       <div
         className={
@@ -45,11 +47,20 @@ class ComponentNoData extends Component {
           </Link>
         )} */}
         <Dropzone createAssets={createAssets} noClick={false}>
-          asd
+          <div className="d-flex align-items-center justify-content-center h-100 w-100">
+            <div>
+              <p>{t('txt_drop_files_anywhere_to_upload')}</p>
+              <p>{t('txt_or')}</p>
+              <Button
+                className="text-dark bg-white btn-white border w-100"
+                text="txt_select_file"
+              />
+            </div>
+          </div>
         </Dropzone>
       </div>
     );
   }
 }
 
-export default ComponentNoData;
+export default withTranslation('common')(ComponentNoData);

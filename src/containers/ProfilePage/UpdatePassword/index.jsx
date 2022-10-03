@@ -109,6 +109,29 @@ const UpdatePassword = observer(
             <form>
               <div className="row">
                 <div className="col-4">
+                  <label className="form-label mb-3" htmlFor="curr_password">
+                    <span className="text-blue-0">{t('txt_current_password')}</span>
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control mb-3"
+                    id="curr_password"
+                    onBlur={this.blurringFieldHandler}
+                    disabled={this.state.loading}
+                    onChange={(event) =>
+                      this.handleInputChange('curr_password', event.target.value)
+                    }
+                    name="curr_password"
+                    ref={this.currentPassword}
+                  />
+                  {this.validator.message(
+                    'password',
+                    this.formPropsData[UPDATE_PASSWORD_FIELD_KEY.CURR_PASSWORD],
+                    'required|min:6|max:30',
+                    { className: 'text-danger' }
+                  )}
+                </div>
+                <div className="col-4">
                   <label className="form-label mb-3" htmlFor="new_password">
                     <span className="text-blue-0">{t('txt_new_password')}</span>
                   </label>
