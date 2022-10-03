@@ -29,7 +29,20 @@ export default class DamStore {
     }
   };
 
-  updateSubscription = async () => {};
+  updateSubscription = async (data) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.updateDamSubscription(data);
+      if (responsedDataFromLibary) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
 
   getCollections = async (collectionId, callbackOnSuccess, callbackOnError) => {
     try {
@@ -67,11 +80,18 @@ export default class DamStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };
@@ -113,11 +133,18 @@ export default class DamStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
+        if (error.response?.data?.message) {
+          callbackOnError({
+            message: error.response?.data.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };
@@ -149,11 +176,18 @@ export default class DamStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };
@@ -185,11 +219,18 @@ export default class DamStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };
@@ -232,11 +273,18 @@ export default class DamStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };
@@ -245,6 +293,7 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createAssets(data);
+      console.log(responsedDataFromLibary);
       if (responsedDataFromLibary) {
         const getDetailAsset = await damService.getAsset(responsedDataFromLibary);
         if (getDetailAsset.item) {
@@ -278,11 +327,17 @@ export default class DamStore {
       }
     } catch (error) {
       runInAction(() => {
-        callbackOnError({
-          message:
-            error.response?.data?._messages[0]?.message ??
-            'Something went wrong from Server response',
-        });
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };
@@ -314,11 +369,18 @@ export default class DamStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };
@@ -350,11 +412,18 @@ export default class DamStore {
         }
       }
     } catch (error) {
-      console.log(error);
       runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
       });
     }
   };

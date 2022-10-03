@@ -158,7 +158,6 @@ class HomeForm extends Component {
           <div className="col-8 h-100">
             <div className="h-100 ">
               <Button
-                // icon={faChevronRight}
                 text={t('txt_delete')}
                 onClick={this.props.delete}
                 className="btn-outline-danger mb-3 "
@@ -203,7 +202,6 @@ class HomeForm extends Component {
             <div className="row">
               <div className="col-6">
                 <Button
-                  // icon={faChevronRight}
                   text={t('txt_save_update')}
                   onClick={() => this.props.handleUpdate(this.formPropsData)}
                   className="btn btn-success w-100"
@@ -212,7 +210,6 @@ class HomeForm extends Component {
 
               <div className="col-6">
                 <Button
-                  // icon={faChevronRight}
                   text={t('txt_cancle')}
                   onClick={closeModal}
                   className="btn btn-success w-100"

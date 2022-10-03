@@ -71,7 +71,6 @@ const HomeList = observer(
     };
 
     handleSelect = (data) => {
-      // console.warn(this.listViewModel[`${this.view}IdsSelected`]);
       this.damListViewModel.damIdsSelected = data
         .map((item) => {
           return item[this.key];
@@ -293,10 +292,7 @@ const HomeList = observer(
                   DAM_COLUMN_INDICATOR.OWNER,
                   DAM_COLUMN_INDICATOR.LAST_MODIFIED,
                 ]}
-                // pagination={pagination}
                 listViewModel={this.damListViewModel}
-                // searchFunction={this.damListViewModel.searchProjects}
-                // searchText={t('search_your_project')}
                 hasSubRow={false}
                 _handleList={this._handleList}
                 view={this.view}

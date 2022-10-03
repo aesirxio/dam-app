@@ -15,6 +15,7 @@ import BannerLeft from '../../components/BannerLeft';
 
 import { login } from '../../auth';
 import InputPassword from '../../components/inputPassword';
+// import ComponentImage from 'components/ComponentImage';
 
 const dataSlider = [
   {
@@ -74,8 +75,17 @@ class LoginPage extends React.Component {
         <BannerLeft dataSlider={dataSlider} />
         <div className="col-md-7 d-flex flex-column justify-content-center align-items-center ">
           <div className="d-block">
-            <p className="fs-2 fw-bold mb-0">Welcome to DAM. </p>
-            <p className="fs-2 fw-bold">Sign In to getting started.</p>
+            <p className="fs-2 fw-bold mb-0">
+              {t('txt_welcome_to')}
+              <img
+                className="pe-2"
+                style={{ verticalAlign: 'inherit' }}
+                alt="aesirx"
+                src="/assets/images/logo/welcome-logo.png"
+              />
+              DAM.
+            </p>
+            <p className="fs-2 fw-bold">{t('txt_sign_in_to_getting_started')}</p>
             <form>
               <label className="form-label mb-3" htmlFor="email">
                 Email <span>*</span>

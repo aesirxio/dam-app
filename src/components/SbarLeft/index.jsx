@@ -27,6 +27,9 @@ const SbarLeft = observer(
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
 
+    componentDidMount() {
+      this.damListViewModel.getSubscription();
+    }
     render() {
       let { settingPage } = this.props;
 
@@ -81,8 +84,8 @@ const SbarLeft = observer(
             <div className="switch-theme-button col-auto py-2 px-3">
               <SwitchThemes />
             </div>
-            <div className="w-100 mb-3 border-top px-3 py-3">
-              <p className="">
+            <div className="w-100 mb-3 d-flex align-items-center border-top px-3 py-3">
+              <p className="mb-0">
                 <ComponentImage src="/assets/images/storage.svg" />
                 <span className="text-white ps-3">{t('txt_storage')}</span>
               </p>
@@ -97,13 +100,13 @@ const SbarLeft = observer(
                 aria-valuemax="100"
               ></div>
             </div> */}
-              <p className="mb-0 d-flex">
+              <p className="mb-0 d-flex ms-auto">
                 <span className="text-white fs-14 col">
-                  {this.damListViewModel.subscription?.[0]?.package?.storage_limit ?? 'Unlimited'}
+                  {this.damListViewModel?.subscription?.[0]?.package?.storage_limit ?? 'Unlimited'}
                 </span>
-                <a href="" className="text-cyan text-decoration-underline col-auto fs-14">
+                {/* <a href="" className="text-cyan text-decoration-underline col-auto fs-14">
                   {t('txt_upgrade')}
-                </a>
+                </a> */}
               </p>
             </div>
             {/* <a href="/" className="d-flex align-items-center py-2 px-3">

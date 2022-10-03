@@ -10,15 +10,13 @@ import { NavLink } from 'react-router-dom';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ComponentImage from 'components/ComponentImage';
-import Spinner from 'components/Spinner';
-import PAGE_STATUS from 'constants/PageStatus';
 import { observer } from 'mobx-react';
 import { Accordion } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import history from 'routes/history';
-import './index.scss';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import './index.scss';
 const dataMenu = [
   // {
   //   text: 'txt_menu_member',
@@ -61,20 +59,11 @@ const Menu = observer(
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
 
-    componentDidMount() {
-      this.damListViewModel.getSubscription();
-    }
+    componentDidMount() {}
 
-    componentWillUnmount() {
-      // this.damListViewModel.resetObservableProperties();
-    }
+    componentWillUnmount() {}
 
-    componentDidUpdate(prevProps) {
-      // if (this.props.location !== prevProps.location) {
-      //   const collectionId = history.location.pathname.split('/');
-      //   this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
-      // }
-    }
+    componentDidUpdate() {}
 
     handleClick = (e) => {
       e.preventDefault();
@@ -92,7 +81,7 @@ const Menu = observer(
       const collectionId = history.location.pathname.split('/');
       return (
         <>
-          <nav className="main-menu">
+          <nav className="main-menu pt-3 pb-1">
             <p className="text-white-50 fs-14 px-3">{t('txt_main_menu')}</p>
 
             <Accordion defaultActiveKey={'0'}>
@@ -123,11 +112,6 @@ const Menu = observer(
                     className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
                     activeClassName={`active`}
                   >
-                    {/* <ComponentImage
-                      alt={'folder'}
-                      src="/assets/images/folder-outline.svg"
-                      className=" d-inline-block align-text-bottom"
-                    /> */}
                     <FontAwesomeIcon
                       icon={faChevronLeft}
                       className=" d-inline-block align-text-bottom col-auto"
@@ -139,9 +123,6 @@ const Menu = observer(
 
               <Accordion.Collapse eventKey={'0'} className="px-3 pb-3">
                 <>
-                  {/* <div className="position-relative"> */}
-                  {/* {status === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null} */}
-                  {/* </div> */}
                   <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
                     {collections.map((value, key) => {
                       return !isNaN(+collectionId[collectionId.length - 1]) ? (
@@ -149,7 +130,6 @@ const Menu = observer(
                           <li
                             key={key}
                             className={`item_menu ${value.className ? value.className : ''}`}
-                            // onClick={(e) => this.handleCheckActive(value.link)}
                           >
                             <NavLink
                               exact={true}
@@ -172,7 +152,6 @@ const Menu = observer(
                         <li
                           key={key}
                           className={`item_menu ${value.className ? value.className : ''}`}
-                          // onClick={(e) => this.handleCheckActive(value.link)}
                         >
                           <NavLink
                             exact={true}

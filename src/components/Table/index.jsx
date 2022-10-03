@@ -12,7 +12,6 @@ import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
-// import './index.scss';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import Dropzone from 'components/Dropzone';
 import { useTranslation, withTranslation } from 'react-i18next';
@@ -72,7 +71,6 @@ const Table = ({
   const filterBar = useMemo(() => ({
     id: 'type',
     placeholder: t('txt_type'),
-    // className: styles.w_112,
     options: [
       {
         label: t('txt_image'),
@@ -93,33 +91,8 @@ const Table = ({
     ],
   }));
 
-  // const Action = useMemo(() => ({
-  //   id: 'action',
-  //   className: styles.w_272,
-  //   placeholder: t('choose_an_action'),
-  //   options: [
-  //     {
-  //       label: t('txt_preview'),
-  //       value: t('txt_preview'),
-  //     },
-  //     {
-  //       label: t('txt_move_to_folder'),
-  //       value: t('txt_move_to_folder'),
-  //     },
-  //     {
-  //       label: t('txt_download'),
-  //       value: t('txt_download'),
-  //     },
-  //     {
-  //       label: t('txt_delete'),
-  //       value: t('txt_delete'),
-  //     },
-  //   ],
-  // }));
-
   const sortBy = useMemo(() => ({
     id: 'sort_by',
-    // className: styles.w_136,
     placeholder: t('txt_sort_by'),
     options: [
       {
@@ -155,19 +128,7 @@ const Table = ({
 
   let check = 0;
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    // page,
-    rows,
-    // visibleColumns,
-    // preGlobalFilteredRows,
-    // allColumns,
-    // state,
-    // state: { selectedRowIds },
-  } = useTable(
+  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
     {
       columns,
       data,
@@ -218,14 +179,7 @@ const Table = ({
                 )}
               />
             </div>
-            {/* <div className={Action.className}>
-              <Select
-                placeholder={Action.placeholder}
-                isClearable={false}
-                isSearchable={false}
-                options={Action.options}
-              />
-            </div> */}
+
             <div className={sortBy.className}>
               <Select
                 placeholder={sortBy.placeholder}
@@ -305,7 +259,6 @@ const Table = ({
                 {rows.length > 0 &&
                   rows.map((row) => {
                     prepareRow(row);
-                    // const rowProps = row.getRowProps();
                     let newRowCells = '';
 
                     dataList
@@ -319,7 +272,6 @@ const Table = ({
                         key={row.getRowProps().key}
                         {...row.getRowProps()}
                         className="border-bottom-1 cursor-pointer"
-                        //onClick={(e) => handerEdit(e, row.original)}
                         onDoubleClick={
                           row.original[DAM_ASSETS_FIELD_KEY.TYPE]
                             ? () => {}
@@ -355,7 +307,7 @@ const Table = ({
         </div>
       ) : (
         <div {...getTableBodyProps()} className={`row ${rows.length === 0 ? 'col' : ''}`}>
-          {rows.map((row) => {
+          {rows.map((row, index) => {
             prepareRow(row);
             let newRowCells = row.cells;
             if (dataThumb && dataThumb.length > 0) {
@@ -363,19 +315,54 @@ const Table = ({
                 (item) => !dataThumb.some((other) => item.column.id === other)
               );
             }
+
             if (row.original[DAM_ASSETS_FIELD_KEY.TYPE] && check === 0) {
               check = 1;
               return (
                 <React.Fragment key={Math.random(40, 200)}>
+                  <div
+                    className={`col_thumb cursor-pointer align-self-center col-${
+                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                    } mb-4 zindex-2`}
+                  >
+                    <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
+                      <Dropzone createAssets={createAssets}>
+                        <div
+                          className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                        >
+                          <FontAwesomeIcon
+                            icon={faCloudUploadAlt}
+                            className=" d-inline-block align-text-bottom"
+                          />
+
+                          <span className="ms-3 text py-1 d-inline-block">
+                            {t('txt_upload_file')}
+                          </span>
+                        </div>
+                      </Dropzone>
+                      <div
+                        className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                        onClick={createFolder}
+                      >
+                        <FontAwesomeIcon
+                          icon={faFolder}
+                          className=" d-inline-block align-text-bottom"
+                        />
+
+                        <span className="ms-3 text py-1 d-inline-block">
+                          {t('txt_create_folder')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                   <div className="col-12">
-                    <p>{t('txt_file')}</p>
+                    <p className="fw-bold">{t('txt_file')}</p>
                   </div>
                   <div
                     {...row.getRowProps()}
                     className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
                     } mb-4 zindex-2`}
-                    //onClick={(e) => handerEdit(e, row.original)}
                     key={Math.random(40, 200)}
                   >
                     <div
@@ -405,16 +392,93 @@ const Table = ({
                   </div>
                 </React.Fragment>
               );
-            }
-            return (
-              newRowCells.length > 0 && (
+            } else if (check === 0 && rows.length === index + 1) {
+              check = 1;
+              return (
                 <React.Fragment key={Math.random(40, 200)}>
                   <div
                     {...row.getRowProps()}
                     className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
                     } mb-4 zindex-2`}
-                    //onClick={(e) => handerEdit(e, row.original)}
+                    key={Math.random(40, 200)}
+                  >
+                    <div
+                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2 overflow-hidden flex-column`}
+                      key={Math.random(40, 200)}
+                      onDoubleClick={
+                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                          ? () => {}
+                          : () => onDoubleClick(row.original.id)
+                      }
+                      onContextMenu={(e) => {
+                        onRightClickItem(e, row.original);
+                      }}
+                    >
+                      {newRowCells.map((cell) => {
+                        return (
+                          <div
+                            {...cell.getCellProps()}
+                            className={`ct_cell ${styles.ct_cell} d-block`}
+                            key={Math.random(40, 200)}
+                          >
+                            {cell.render('Cell')}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div
+                    className={`col_thumb cursor-pointer align-self-center col-${
+                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                    } mb-4 zindex-2`}
+                  >
+                    <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
+                      <Dropzone createAssets={createAssets}>
+                        <div
+                          className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                        >
+                          <FontAwesomeIcon
+                            icon={faCloudUploadAlt}
+                            className=" d-inline-block align-text-bottom"
+                          />
+
+                          <span className="ms-3 text py-1 d-inline-block">
+                            {t('txt_upload_file')}
+                          </span>
+                        </div>
+                      </Dropzone>
+                      <div
+                        className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                        onClick={createFolder}
+                      >
+                        <FontAwesomeIcon
+                          icon={faFolder}
+                          className=" d-inline-block align-text-bottom"
+                        />
+
+                        <span className="ms-3 text py-1 d-inline-block">
+                          {t('txt_create_folder')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
+              );
+            }
+            return (
+              newRowCells.length > 0 && (
+                <React.Fragment key={Math.random(40, 200)}>
+                  {index === 0 ? (
+                    <div className="col-12">
+                      <p className="fw-bold">{t('txt_folders')}</p>
+                    </div>
+                  ) : null}
+                  <div
+                    {...row.getRowProps()}
+                    className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
+                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                    } mb-4 zindex-2`}
                     key={Math.random(40, 200)}
                   >
                     <div
@@ -457,37 +521,6 @@ const Table = ({
             />
           ) : (
             <>
-              <div
-                className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
-                  !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                } mb-4 zindex-2`}
-              >
-                <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
-                  <Dropzone createAssets={createAssets}>
-                    <div
-                      className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faCloudUploadAlt}
-                        className=" d-inline-block align-text-bottom"
-                      />
-
-                      <span className="ms-3 text py-1 d-inline-block">{t('txt_upload_file')}</span>
-                    </div>
-                  </Dropzone>
-                  <div
-                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
-                    onClick={createFolder}
-                  >
-                    <FontAwesomeIcon
-                      icon={faFolder}
-                      className=" d-inline-block align-text-bottom"
-                    />
-
-                    <span className="ms-3 text py-1 d-inline-block">{t('txt_create_folder')}</span>
-                  </div>
-                </div>
-              </div>
               <div className="position-absolute h-100 w-100 top-0 start-0 zindex-1">
                 <Dropzone createAssets={createAssets} noClick={true} />
               </div>

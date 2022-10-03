@@ -13,15 +13,9 @@ class FormSelection extends Component {
     super(props);
 
     this.field = this.props.field;
-
-    // this.viewModel = this.field ? this.field.viewModel : null;
-
-    // this.viewModel.setMulti(this.field.multi);
   }
 
   render() {
-    // const { multi } = this.viewModel;
-
     return (
       <SelectComponent
         value={this.field.getValueSelected}

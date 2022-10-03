@@ -84,16 +84,7 @@ const PaginationComponent = ({ listViewModel, pagination, pageSize, isList }) =>
         />
       </div>
       <div className={'ps-3 col-md-12 d-flex justify-content-center'}>
-        {/* <button
-          onClick={() => handlePreviousFirstPage()}
-          disabled={pagination && pagination.page <= 1 ? true : false}
-          className={`btn ${styles.btn} border-1 border-gray p-0 text-green`}
-        >
-          <FontAwesomeIcon icon={faAngleDoubleLeft} />
-        </button> */}
-
         <button
-          //onClick={() => previousPage()}
           onClick={() => handlePreviousPage()}
           disabled={pagination && pagination.page <= 1 ? true : false}
           className={`btn ${styles.btn} border-1 border-gray p-0 text-green rounded-circle`}
@@ -157,17 +148,6 @@ const PaginationComponent = ({ listViewModel, pagination, pageSize, isList }) =>
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
-        {/* <button
-          onClick={() => handlePreviousLastPage()}
-          disabled={
-            pagination && pagination.page === pagination.totalPages
-              ? true
-              : false
-          }
-          className={`btn ${styles.btn} border-1 border-gray p-0 text-green`}
-        >
-          <FontAwesomeIcon icon={faAngleDoubleRight} />
-        </button> */}
       </div>
     </>
   );

@@ -3,27 +3,21 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component, lazy } from 'react';
-import { observer } from 'mobx-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import React, { observer } from 'mobx-react';
+import { Component } from 'react';
 
-import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
-import SimpleReactValidator from 'simple-react-validator';
-import { UPDATE_GENERAL_FIELD_KEY } from '../../../constants/ProfileModule';
-import { witheProfileViewModel } from '../ProfileViewModel/ProfileViewModelContextProvider';
-import Spinner from '../../../components/Spinner';
-import 'react-datepicker/dist/react-datepicker.css';
-import '../index.scss';
-import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
-import FormComponent from '../../../components/Form';
-import AvatarDAM from '../Layout/AvatarDAM';
-` `;
-import ComponentImage from '../../../components/ComponentImage';
 import { Storage } from 'aesirx-dma-lib';
+import 'react-datepicker/dist/react-datepicker.css';
 import { withTranslation } from 'react-i18next';
-import Button from 'components/Button';
+import SimpleReactValidator from 'simple-react-validator';
+import FormComponent from '../../../components/Form';
+import Spinner from '../../../components/Spinner';
+import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
+import { UPDATE_GENERAL_FIELD_KEY } from '../../../constants/ProfileModule';
+import '../index.scss';
 import SubmitButton from '../Layout/SubmitButton';
+import { witheProfileViewModel } from '../ProfileViewModel/ProfileViewModelContextProvider';
+` `;
 
 const UpdateGeneral = observer(
   class UpdateGeneral extends Component {
@@ -145,7 +139,6 @@ const UpdateGeneral = observer(
       ];
     };
     render() {
-      let { getUrlImage } = this.state;
       const { memberInfo } = this.updateGeneralViewModel;
       return (
         <>

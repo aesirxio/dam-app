@@ -4,8 +4,6 @@
  */
 
 import { makeAutoObservable } from 'mobx';
-import { notify } from '../../../components/Toast';
-import PAGE_STATUS from '../../../constants/PageStatus';
 
 class SettingListViewModel {
   settingStore = null;
