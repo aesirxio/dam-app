@@ -45,11 +45,11 @@ const mainRoutes = [
 ];
 
 const settingRoutes = [
-  // {
-  //   path: '/profile',
-  //   exact: false,
-  //   main: ({ match, location }) => <ProfilePage match={match} location={location} />,
-  // },
+  {
+    path: '/profile',
+    exact: false,
+    main: ({ match, location }) => <ProfilePage match={match} location={location} />,
+  },
   {
     path: '/welcome',
     exact: true,

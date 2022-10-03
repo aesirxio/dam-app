@@ -88,7 +88,7 @@ const Menu = observer(
 
     render() {
       const { t } = this.props;
-      const { status, collections } = this.damListViewModel;
+      const { collections } = this.damListViewModel;
       const collectionId = history.location.pathname.split('/');
       return (
         <>
@@ -139,9 +139,9 @@ const Menu = observer(
 
               <Accordion.Collapse eventKey={'0'} className="px-3 pb-3">
                 <>
-                  <div className="position-relative">
-                    {status === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null}
-                  </div>
+                  {/* <div className="position-relative"> */}
+                  {/* {status === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null} */}
+                  {/* </div> */}
                   <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
                     {collections.map((value, key) => {
                       return !isNaN(+collectionId[collectionId.length - 1]) ? (

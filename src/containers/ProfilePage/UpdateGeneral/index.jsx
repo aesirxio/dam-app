@@ -17,13 +17,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../index.scss';
 import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
 import FormComponent from '../../../components/Form';
-import AvatarDAM from '../Layout/AvatarDAM';` `
+import AvatarDAM from '../Layout/AvatarDAM';
+` `;
 import ComponentImage from '../../../components/ComponentImage';
 import { Storage } from 'aesirx-dma-lib';
 import { withTranslation } from 'react-i18next';
-
-
-const DamButton = lazy(() => import('../../../components/DamButton'));
+import Button from 'components/Button';
 
 const UpdateGeneral = observer(
   class UpdateGeneral extends Component {
@@ -140,8 +139,6 @@ const UpdateGeneral = observer(
                 this.formPropsData[UPDATE_GENERAL_FIELD_KEY.PHONE] = event.target.value;
               },
             },
-
-
           ],
         },
       ];
@@ -177,37 +174,28 @@ const UpdateGeneral = observer(
                           src={this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]}
                           alt={this.formPropsData[UPDATE_GENERAL_FIELD_KEY.USERNAME]}
                         />
-                       <div className='position-absolute top-50 start-0 align-content-center fw-bold text-white imgcloud '>
-                          <FontAwesomeIcon icon={faCloudUploadAlt} className="d-block m-auto  "/>
-                          <span className=' mx-3 my-5'>
-                              Click to change image
-                          </span>
-                       </div>
-
+                        <div className="position-absolute top-50 start-0 align-content-center fw-bold text-white imgcloud ">
+                          <FontAwesomeIcon icon={faCloudUploadAlt} className="d-block m-auto  " />
+                          <span className=" mx-3 my-5">Click to change image</span>
+                        </div>
                       </div>
                     ) : null}
                     <div className="main_upload_images">
-                      <DamButton
-                        data={getUrlImage}
-                        changed={(data) => this.handleDamAssets(data)}
-                      />
+                      <Button data={getUrlImage} changed={(data) => this.handleDamAssets(data)} />
                     </div>
-                    {getUrlImage ? (
+                    {/* {getUrlImage ? (
                       <div
                         onClick={() => this.clearImage(memberInfo.avatar_dam)}
                         className={'clear_image_button'}
                       >
                         <FontAwesomeIcon icon={faTimesCircle} className="text-white" />
                       </div>
-                    ) : null}
+                    ) : null} */}
                   </div>
                 </AvatarDAM>
               </div>
             </div>
-
-
           )}
-
         </>
       );
     }

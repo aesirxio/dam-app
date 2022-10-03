@@ -14,6 +14,7 @@ import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
 import ComponentImage from 'components/ComponentImage';
+import Menu2 from 'components/Menu2';
 
 class SbarLeft extends React.Component {
   constructor(props) {
@@ -22,6 +23,8 @@ class SbarLeft extends React.Component {
   }
 
   render() {
+    let { settingPage } = this.props;
+
     const listLanguages = Object.keys(i18n.options.resources).map(function (key) {
       return { language: key, title: i18n.options.resources[key].title };
     });
@@ -35,7 +38,13 @@ class SbarLeft extends React.Component {
       <aside
         className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden overflow-y-auto d-flex flex-column z-index-100 `}
       >
-        <Menu />
+        {!settingPage ? (
+          <>
+            <Menu />
+          </>
+        ) : (
+          <Menu2 />
+        )}
 
         <div className="position-absolute d-flex flex-wrap align-items-center bottom-0 mb-1 border-top w-100 py-1 button-language ">
           <Dropdown as={'div'} className="col py-2 px-3">

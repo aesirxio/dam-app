@@ -11,7 +11,7 @@ class DamListViewModel {
   damStore = null;
   paginationCollections = null;
   collections = [];
-  status = PAGE_STATUS.LOADING;
+  status = PAGE_STATUS.READY;
   assets = [];
   paginationAssets = null;
   tableRowHeader = null;
