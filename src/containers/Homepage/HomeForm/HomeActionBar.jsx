@@ -56,14 +56,15 @@ const HomeActionBar = observer(
       }
     };
     render() {
-      // const { t } = this.props;
+      const { t } = this.props;
+
       return (
         <div className="d-flex justify-content-end">
           <Dropzone createAssets={this.handleCreateAssets} className="me-3">
             <ButtonNormal
               onClick={() => {}}
               iconStart={faPlus}
-              text="txt_upload_file"
+              text={t('txt_upload_file')}
               className=" btn-success"
             />
           </Dropzone>
