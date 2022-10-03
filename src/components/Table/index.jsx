@@ -93,29 +93,29 @@ const Table = ({
     ],
   }));
 
-  const Action = useMemo(() => ({
-    id: 'action',
-    className: styles.w_272,
-    placeholder: t('choose_an_action'),
-    options: [
-      {
-        label: t('txt_preview'),
-        value: t('txt_preview'),
-      },
-      {
-        label: t('txt_move_to_folder'),
-        value: t('txt_move_to_folder'),
-      },
-      {
-        label: t('txt_download'),
-        value: t('txt_download'),
-      },
-      {
-        label: t('txt_delete'),
-        value: t('txt_delete'),
-      },
-    ],
-  }));
+  // const Action = useMemo(() => ({
+  //   id: 'action',
+  //   className: styles.w_272,
+  //   placeholder: t('choose_an_action'),
+  //   options: [
+  //     {
+  //       label: t('txt_preview'),
+  //       value: t('txt_preview'),
+  //     },
+  //     {
+  //       label: t('txt_move_to_folder'),
+  //       value: t('txt_move_to_folder'),
+  //     },
+  //     {
+  //       label: t('txt_download'),
+  //       value: t('txt_download'),
+  //     },
+  //     {
+  //       label: t('txt_delete'),
+  //       value: t('txt_delete'),
+  //     },
+  //   ],
+  // }));
 
   const sortBy = useMemo(() => ({
     id: 'sort_by',

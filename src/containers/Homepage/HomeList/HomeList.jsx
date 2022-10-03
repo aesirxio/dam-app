@@ -81,7 +81,7 @@ const HomeList = observer(
         }, []);
     };
 
-    handleCreateFolder = (data) => {
+    handleCreateFolder = () => {
       const collectionId = history.location.pathname.split('/');
       const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
       this.damListViewModel.createCollections({
