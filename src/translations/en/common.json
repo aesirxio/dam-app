@@ -195,6 +195,10 @@
   "txt_menu_colection_transfer": "Collection Transfer",
   "txt_menu_setting": "Setting",
   "txt_menu_trash": "Trash",
-  "txt_upload_file":"Upload File",
-  "txt_create_folder":"Create Folder"
+  "txt_title_profilfe_setting": "Profile Setting",
+  "txt_title_set_information_name": "Set your name and other public-facing information",
+  "txt_cancel": "Cancel",
+  "txt_your_avatar": "Your Avatar",
+  "txt_upload_file": "Upload File",
+  "txt_create_folder": "Create Folder"
 }

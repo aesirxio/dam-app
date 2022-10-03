@@ -16,6 +16,7 @@
 @import '~bootstrap/scss/forms';
 @import '~bootstrap/scss/button-group';
 @import '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/progress';
 
 @import '~bootstrap/scss/transitions';
 @import '~bootstrap/scss/nav';
@@ -32,6 +33,16 @@ img {
 
 textarea {
   resize: none;
+}
+
+.lcl {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  &-1 {
+    -webkit-line-clamp: 1;
+  }
 }
 
 .btn-success {
@@ -86,7 +97,9 @@ textarea {
 .h-80 {
   height: 80px;
 }
-
+.h-196{
+  height: 196px;
+}
 .img-avatar-35 {
   width: 35px;
 }

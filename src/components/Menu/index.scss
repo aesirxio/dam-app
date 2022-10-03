@@ -34,7 +34,6 @@
     }
   }
 }
-
 .wr_list_menu {
   .item_menu {
     &:first-child {
@@ -61,6 +60,11 @@
       box-shadow: none;
     }
   }
+}
+
+.main-menu {
+  max-height: 400px;
+  overflow-y: auto;
 }
 body.mini_left {
   .sidebar {

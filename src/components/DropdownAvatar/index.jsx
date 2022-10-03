@@ -62,7 +62,7 @@ class DropdownAvatar extends React.Component {
         src={
           Helper.isValidUrl(Storage.getItem(AUTHORIZATION_KEY.AVATAR))
             ? Storage.getItem(AUTHORIZATION_KEY.AVATAR)
-            : '/assets/images/user_default.png'
+            : '/assets/images/avatar.png'
         }
         alt=""
         className="img-avatar rounded-circle object-fit-cover h-45"

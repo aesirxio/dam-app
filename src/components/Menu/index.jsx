@@ -7,20 +7,18 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import './index.scss';
-import { withTranslation } from 'react-i18next';
-import { observer } from 'mobx-react';
-import { withHomeViewModel } from 'containers/Homepage/HomeViewModels/HomeViewModelContextProvider';
-import history from 'routes/history';
-import { withRouter } from 'react-router-dom';
-import ComponentImage from 'components/ComponentImage';
-import { Accordion } from 'react-bootstrap';
-import PAGE_STATUS from 'constants/PageStatus';
-import Spinner from 'components/Spinner';
-import { withGlobalViewModel } from 'store/Store';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ComponentImage from 'components/ComponentImage';
+import Spinner from 'components/Spinner';
+import PAGE_STATUS from 'constants/PageStatus';
+import { observer } from 'mobx-react';
+import { Accordion } from 'react-bootstrap';
+import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router-dom';
+import history from 'routes/history';
+import './index.scss';
+import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 const dataMenu = [
   // {
   //   text: 'txt_menu_member',
@@ -42,7 +40,7 @@ const dataMenu = [
   // },
   {
     text: 'txt_menu_setting',
-    link: '/content',
+    link: '/setting',
     icons: '/assets/images/setting.svg',
     icons_color: '/assets/images/setting.svg',
   },
@@ -55,32 +53,34 @@ const dataMenu = [
 ];
 const Menu = observer(
   class Menu extends React.Component {
-    globalViewModel = null;
-
     constructor(props) {
       super(props);
-
+      console.log(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-      this.globalViewModel = this.viewModel ? this.viewModel.getGlobalViewModel() : null;
+      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
       const collectionId = history.location.pathname.split('/');
-      this.globalViewModel.getCollections(collectionId[2] ?? 0);
-    };
+    }
+
+    componentWillUnmount() {
+      // this.damListViewModel.resetObservableProperties();
+    }
 
     componentDidUpdate(prevProps) {
-      if (this.props.location !== prevProps.location) {
-        const collectionId = history.location.pathname.split('/');
-        this.globalViewModel.getCollections(collectionId[2] ?? 0);
-      }
+      // if (this.props.location !== prevProps.location) {
+      //   const collectionId = history.location.pathname.split('/');
+      //   this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
+      // }
     }
 
     handleClick = (e) => {
       e.preventDefault();
 
       if (history.location.pathname === '/root') {
+        return;
       } else {
         history.goBack();
       }
@@ -88,12 +88,12 @@ const Menu = observer(
 
     render() {
       const { t } = this.props;
-      const { status, collections, pagination } = this.globalViewModel;
+      const { collections } = this.damListViewModel;
       const collectionId = history.location.pathname.split('/');
       return (
         <>
-          <nav>
-            <p className="text-white-50 fs-14 px-3">MAIN MENU</p>
+          <nav className="main-menu">
+            <p className="text-white-50 fs-14 px-3">{t('txt_main_menu')}</p>
 
             <Accordion defaultActiveKey={'0'}>
               {history.location.pathname === '/root' ? (
@@ -109,8 +109,9 @@ const Menu = observer(
                       alt={'folder'}
                       src="/assets/images/folder-outline.svg"
                       className=" d-inline-block align-text-bottom"
+                      wrapperClassName="col-auto"
                     />
-                    <span className="ms-3 text py-1 d-inline-block">{t('txt_my_assets')}</span>
+                    <span className="ms-3 text py-1 d-inline-block col">{t('txt_my_assets')}</span>
                   </NavLink>
                 </Accordion.Toggle>
               ) : (
@@ -129,18 +130,18 @@ const Menu = observer(
                     /> */}
                     <FontAwesomeIcon
                       icon={faChevronLeft}
-                      className=" d-inline-block align-text-bottom"
+                      className=" d-inline-block align-text-bottom col-auto"
                     />
-                    <span className="ms-3 text py-1 d-inline-block">{t('txt_back')}</span>
+                    <span className="ms-3 text py-1 d-inline-block col">{t('txt_back')}</span>
                   </NavLink>
                 </div>
               )}
 
               <Accordion.Collapse eventKey={'0'} className="px-3 pb-3">
                 <>
-                  <div className="position-relative">
-                    {status === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null}
-                  </div>
+                  {/* <div className="position-relative"> */}
+                  {/* {status === PAGE_STATUS.LOADING ? <Spinner color="text-white" /> : null} */}
+                  {/* </div> */}
                   <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
                     {collections.map((value, key) => {
                       return !isNaN(+collectionId[collectionId.length - 1]) ? (
@@ -159,9 +160,11 @@ const Menu = observer(
                               <ComponentImage
                                 alt={'folder'}
                                 src="/assets/images/folder-outline.svg"
-                                className=" d-inline-block align-text-bottom"
+                                className=" d-inline-block align-text-bottom col-auto"
                               />
-                              <span className="ms-3 text py-1 d-inline-block">{value.name}</span>
+                              <span className="ms-3 text py-1 d-inline-block overflow-hidden col">
+                                {value.name}
+                              </span>
                             </NavLink>
                           </li>
                         ) : null
@@ -181,8 +184,11 @@ const Menu = observer(
                               alt={'folder'}
                               src="/assets/images/folder-outline.svg"
                               className=" d-inline-block align-text-bottom"
+                              wrapperClassName="col-auto"
                             />
-                            <span className="ms-3 text py-1 d-inline-block">{value.name}</span>
+                            <span className="ms-3 text py-1 d-inline-block col overflow-hidden">
+                              {value.name}
+                            </span>
                           </NavLink>
                         </li>
                       ) : null;
@@ -192,8 +198,8 @@ const Menu = observer(
               </Accordion.Collapse>
             </Accordion>
           </nav>
-          <nav>
-            <p className="text-white-50 fs-14 px-3">Set up</p>
+          <nav className="border-top py-3">
+            <p className="text-white-50 fs-14 px-3 mb-0">Set up</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0 pt-md-1">
               {dataMenu.map((value, key) => {
                 return (
@@ -224,4 +230,4 @@ const Menu = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withGlobalViewModel(Menu)));
+export default withTranslation('common')(withRouter(withDamViewModel(Menu)));

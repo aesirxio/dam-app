@@ -3,10 +3,10 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import SelectComponent from "../../../components/Select";
-import "./index.scss";
+import SelectComponent from '../../../components/Select';
+import './index.scss';
 
 class FormSelection extends Component {
   constructor(props) {
@@ -14,13 +14,13 @@ class FormSelection extends Component {
 
     this.field = this.props.field;
 
-    this.viewModel = this.field ? this.field.viewModel : null;
+    // this.viewModel = this.field ? this.field.viewModel : null;
 
-    this.viewModel.setMulti(this.field.multi);
+    // this.viewModel.setMulti(this.field.multi);
   }
 
   render() {
-    const { multi } = this.viewModel;
+    // const { multi } = this.viewModel;
 
     return (
       <SelectComponent
@@ -31,7 +31,7 @@ class FormSelection extends Component {
         plColor="rgba(8, 18, 64, 0.8)"
         //onFocus={this.field.changed}
         onBlur={this.field.blurred}
-        isMulti={multi}
+        // isMulti={multi}
         onChange={this.field.handleChange}
       />
     );

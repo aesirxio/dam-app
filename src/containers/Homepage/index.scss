@@ -15,6 +15,18 @@
   }
 }
 
+.home-modal {
+  .modal-content {
+    height: 80vh;
+    overflow: hidden;
+    padding-bottom: 1rem;
+  }
+  .modal-body {
+    height: calc(100% - 48px);
+    overflow: hidden;
+  }
+}
+
 @include media-breakpoint-down(xl) {
   .pe-400 {
     padding-right: 15px !important;

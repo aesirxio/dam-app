@@ -12,12 +12,6 @@ import ErrorBoundary from './layouts/ErrorBoundary';
 import i18n from 'translations/i18n';
 import { I18nextProvider } from 'react-i18next';
 import { ThemesContext, ThemesContextProvider } from 'themes/ThemeContextProvider';
-import { GlobalStoreProvider } from 'store/Store';
-import GlobalViewModel from 'store/Store/GlobalViewModel';
-import GlobalStore from 'store/Store/Store';
-
-const globalStore = new GlobalStore();
-const globalsViewModel = new GlobalViewModel(globalStore);
 
 class App extends React.Component {
   constructor(props) {
@@ -49,9 +43,7 @@ class App extends React.Component {
       <ThemesContextProvider value={{ theme: this.state.theme, changeTheme: this.changeTheme }}>
         <ErrorBoundary>
           <I18nextProvider i18n={i18n}>
-            <GlobalStoreProvider viewModel={globalsViewModel}>
-              <RouterLayout />
-            </GlobalStoreProvider>
+            <RouterLayout />
           </I18nextProvider>
         </ErrorBoundary>
       </ThemesContextProvider>

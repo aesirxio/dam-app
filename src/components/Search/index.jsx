@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
-import HomeStore from 'containers/Homepage/HomeStore/HomeStore';
-import HomeViewModel from 'containers/Homepage/HomeViewModels/HomeViewModel';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { useState } from 'react';
-import { useGlobalViewModel } from 'store/Store';
+import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
+import { observer } from 'mobx-react';
 
-const Search = (props) => {
-  const globalViewModel = useGlobalViewModel();
-
+const Search = observer((props) => {
+  const damListViewModel = useDamViewModel();
   const { t } = useTranslation('common');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -18,8 +18,7 @@ const Search = (props) => {
     setIsLoading(true);
 
     try {
-      // Todo: get current colectionId
-      const items = await globalViewModel.getGlobalViewModel().globalStore.search(0, query);
+      const items = await damListViewModel.damListViewModel.damStore.search(query);
       setOptions(items);
       setIsLoading(false);
     } catch (error) {
@@ -27,27 +26,68 @@ const Search = (props) => {
     }
   };
 
+  const handleChange = (data) => {
+    damListViewModel.damFormViewModel.damEditdata = data[0];
+    damListViewModel.damFormViewModel.openModal();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      // damListViewModel.damListViewModel.dataFilter = {
+      //   ...damListViewModel.damListViewModel.dataFilter,
+      //   'filter[search]': e.target.value,
+      // };
+      damListViewModel.damListViewModel.isSearch = true;
+      const assets = options.filter((asset) => asset.type);
+      const collections = options.filter((collection) => !collection.type);
+      if (assets) {
+        damListViewModel.damListViewModel.assets = assets;
+        // damListViewModel.damListViewModel.setAssets(assets);
+      }
+
+      if (collections) {
+        damListViewModel.damListViewModel.collections = collections;
+        // damListViewModel.damListViewModel.setCollections(collections);
+      }
+    }
+  };
   // Bypass client-side filtering by returning `true`. Results are already
   // filtered by the search endpoint, so no need to do it again.
   const filterBy = () => true;
 
   return (
-    <AsyncTypeahead
-      filterBy={filterBy}
-      id="async-search"
-      isLoading={isLoading}
-      labelKey="name"
-      minLength={3}
-      onSearch={handleSearch}
-      options={options}
-      placeholder={t('txt_search_all_content')}
-      renderMenuItemChildren={(option) => (
-        <>
-          <span>{option.name}</span>
-        </>
-      )}
-    />
+    <div className="input-group d-flex mb-0 pe-2 wr_input_search bg-gray-100">
+      <button
+        type="button"
+        id="button-search"
+        className="btn btn_search border-0 col-auto text-green"
+      >
+        <FontAwesomeIcon icon={faSearch} />
+      </button>
+
+      <AsyncTypeahead
+        filterBy={filterBy}
+        id="async-search"
+        isLoading={isLoading}
+        labelKey="name"
+        minLength={1}
+        onSearch={handleSearch}
+        options={options}
+        className="col bg-gray-100"
+        inputProps={{
+          className: 'border-0 w-100 shadow-none bg-gray-100',
+        }}
+        onKeyDown={handleKeyDown}
+        onChange={handleChange}
+        placeholder={t('txt_search_all_content')}
+        renderMenuItemChildren={(option) => (
+          <>
+            <span>{option.name}</span>
+          </>
+        )}
+      />
+    </div>
   );
-};
+});
 
 export default Search;
