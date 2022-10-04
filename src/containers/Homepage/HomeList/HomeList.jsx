@@ -219,7 +219,7 @@ const HomeList = observer(
                     )}
                   </span>
 
-                  <span className={this.damListViewModel.isList ? 'ms-3' : 'w-100 lcl lcl-1'}>
+                  <span className={this.damListViewModel.isList ? 'ms-3' : 'w-100 lcl lcl-1 p-2'}>
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                   </span>
                 </div>
