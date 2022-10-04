@@ -126,7 +126,7 @@ const HomeFormModal = observer(
               onClick={this.damFormModalViewModel.openDeleteModal}
             >
               <FontAwesomeIcon icon={faTrashAlt} className=" d-inline-block align-text-bottom" />
-              <span className="ms-3 text py-1 d-inline-block">{t('txt_delete_folder')}</span>
+              <span className="ms-3 text py-1 d-inline-block">{t('txt_delete')}</span>
             </div>
           </div>
           <ModalComponent
