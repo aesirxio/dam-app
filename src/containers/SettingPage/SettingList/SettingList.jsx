@@ -14,21 +14,13 @@ import SimpleReactValidator from 'simple-react-validator';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { renderingGroupFieldHandler } from 'utils/form';
 import { notify } from 'components/Toast';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 
 const SettingList = observer(
   class SettingList extends Component {
     damListViewModel = null;
 
-    formPropsData = {
-      storage: {
-        label: 'AesirX',
-        value: 'aesirx',
-      },
-      key: '',
-      secret: '',
-      region: '',
-      bucket: '',
-    };
+    formPropsData = null;
     constructor(props) {
       super(props);
       const { viewModel } = props;
@@ -38,11 +30,40 @@ const SettingList = observer(
       };
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
+      this.formPropsData = {
+        storage: {
+          label: 'AesirX',
+          value: 'aesirx',
+        },
+        key: '',
+        secret: null,
+        region: null,
+        bucket: null,
+      };
     }
 
     generateFormSetting = () => {
       const { t } = this.props;
-      if (this.formPropsData.storage?.value === 'aws') {
+      this.formPropsData = {
+        ...this.formPropsData,
+        key:
+          this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+            DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_OPTION
+          ]?.plugin_params?.key ?? '',
+        secret:
+          this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+            DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_OPTION
+          ]?.plugin_params?.secret ?? '',
+        region:
+          this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+            DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_OPTION
+          ]?.plugin_params?.region ?? '',
+        bucket:
+          this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+            DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_OPTION
+          ]?.plugin_params?.bucket ?? '',
+      };
+      if (this.formPropsData?.storage?.value === 'aws') {
         return [
           {
             fields: [
@@ -50,7 +71,7 @@ const SettingList = observer(
                 label: t('txt_storage'),
                 key: 'storage',
                 type: FORM_FIELD_TYPE.SELECTION,
-                getValueSelected: this.formPropsData.storage,
+                getValueSelected: this.formPropsData?.storage,
                 getDataSelectOptions: [
                   {
                     label: 'AesirX',
@@ -63,7 +84,6 @@ const SettingList = observer(
                 ],
                 required: true,
                 validation: 'required',
-                placeholder: 'https://testwp.R Digital',
                 handleChange: (data) => {
                   this.formPropsData.storage = data;
                   this.forceUpdate();
@@ -73,7 +93,7 @@ const SettingList = observer(
                 label: t('txt_client_id'),
                 key: 'key',
                 type: FORM_FIELD_TYPE.INPUT,
-                value: this.formPropsData.key,
+                value: this.formPropsData?.key,
                 required: true,
                 validation: 'required',
                 className: 'col-12',
@@ -88,7 +108,7 @@ const SettingList = observer(
                 label: t('txt_client_secret'),
                 key: 'secret',
                 type: FORM_FIELD_TYPE.INPUT,
-                value: this.formPropsData.secret,
+                value: this.formPropsData?.secret,
                 required: true,
                 validation: 'required',
                 className: 'col-12',
@@ -103,7 +123,7 @@ const SettingList = observer(
                 label: t('txt_region'),
                 key: 'region',
                 type: FORM_FIELD_TYPE.INPUT,
-                value: this.formPropsData.region,
+                value: this.formPropsData?.region,
                 required: true,
                 validation: 'required',
                 className: 'col-12',
@@ -118,7 +138,7 @@ const SettingList = observer(
                 label: t('txt_bucket'),
                 key: 'bucket',
                 type: FORM_FIELD_TYPE.INPUT,
-                value: this.formPropsData.bucket,
+                value: this.formPropsData?.bucket,
                 required: true,
                 validation: 'required',
                 className: 'col-12',
@@ -140,7 +160,7 @@ const SettingList = observer(
               label: t('txt_storage'),
               key: 'storage',
               type: FORM_FIELD_TYPE.SELECTION,
-              getValueSelected: this.formPropsData.storage,
+              getValueSelected: this.formPropsData?.storage,
               getDataSelectOptions: [
                 {
                   label: 'AesirX',
@@ -208,13 +228,18 @@ const SettingList = observer(
         const response = this.damListViewModel.damStore.updateSubscription(data);
         if (response) {
           notify('Success', 'success');
+        } else {
+          notify('error', 'something wrong!');
         }
       }
     };
 
+    componentDidMount() {}
+
     render() {
       const formSetting = this.generateFormSetting();
       const { t } = this.props;
+
       return (
         <div className="bg-white shadow-sm p-4">
           {Object.keys(formSetting)

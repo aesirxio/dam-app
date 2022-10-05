@@ -17,6 +17,7 @@ import ComponentImage from 'components/ComponentImage';
 import Menu2 from 'components/Menu2';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 const SbarLeft = observer(
   class SbarLeft extends React.Component {
     constructor(props) {
@@ -84,25 +85,57 @@ const SbarLeft = observer(
             <div className="switch-theme-button col-auto py-2 px-3">
               <SwitchThemes />
             </div>
-            <div className="w-100 mb-3 d-flex align-items-center border-top px-3 py-3">
+            <div className="w-100 mb-3  border-top px-3 py-3">
               <p className="mb-0">
                 <ComponentImage src="/assets/images/storage.svg" />
                 <span className="text-white ps-3">{t('txt_storage')}</span>
               </p>
-              {/* <div className="progress my-3 ">
-              <div
-                className="progress-bar"
-                role="progressbar"
-                style={{ width: '25%' }}
-                aria-label="Basic example"
-                aria-valuenow="25"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              ></div>
-            </div> */}
-              <p className="mb-0 d-flex ms-auto">
+              <div className="progress my-3 ">
+                <div
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{
+                    width: `${
+                      this.damListViewModel?.subscription?.[0]?.[
+                        DAM_SUBSCIPTION_FIELD_KEY.PRODUCT
+                      ]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE] /
+                      this.damListViewModel?.subscription?.[0]?.[
+                        DAM_SUBSCIPTION_FIELD_KEY.PACKAGE
+                      ]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT]
+                    }%`,
+                  }}
+                  aria-label="Basic example"
+                  aria-valuenow={
+                    this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+                      DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
+                    ] /
+                    this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+                      DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
+                    ]
+                  }
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+              <p className="mb-0 ">
                 <span className="text-white fs-14 col">
-                  {this.damListViewModel?.subscription?.[0]?.package?.storage_limit ?? 'Unlimited'}
+                  {
+                    this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+                      DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
+                    ]
+                  }
+                  {'MB '}
+                  {t('txt_of')}{' '}
+                  {
+                    this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+                      DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
+                    ]
+                  }
+                  {'MB '}
+                  {t('txt_used')}
+                  {/* {this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+                    DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
+                  ] ?? 'Unlimited'} */}
                 </span>
                 {/* <a href="" className="text-cyan text-decoration-underline col-auto fs-14">
                   {t('txt_upgrade')}
@@ -110,9 +143,9 @@ const SbarLeft = observer(
               </p>
             </div>
             {/* <a href="/" className="d-flex align-items-center py-2 px-3">
-            <ComponentImage src="/assets/images/help-icon.svg" />
-            <span className="text-white ps-3">{t('txt_help_center')}</span>
-          </a> */}
+              <ComponentImage src="/assets/images/help-icon.svg" />
+              <span className="text-white ps-3">{t('txt_help_center')}</span>
+            </a> */}
           </div>
 
           <div></div>

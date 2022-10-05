@@ -17,7 +17,6 @@ export default class DamStore {
           callbackOnSuccess(responsedDataFromLibary);
         });
       }
-      return responsedDataFromLibary;
     } catch (error) {
       console.log(error);
       runInAction(() => {
@@ -100,7 +99,6 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createCollections(data);
-      console.warn(responsedDataFromLibary);
       if (responsedDataFromLibary) {
         const getDetailCollection = await damService.getCollection(responsedDataFromLibary);
         if (getDetailCollection?.item) {

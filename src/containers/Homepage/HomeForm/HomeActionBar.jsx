@@ -35,18 +35,26 @@ const HomeActionBar = observer(
 
     handleCreateFolder = () => {
       const collectionId = history.location.pathname.split('/');
+      const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+      console.log(checkCollection ? collectionId[collectionId.length - 1] : 0);
       this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: collectionId[2] ?? 0,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: checkCollection
+          ? collectionId[collectionId.length - 1]
+          : 0,
       });
     };
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
+        const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+
         this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: collectionId[2] ?? 0,
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
+            ? collectionId[collectionId.length - 1]
+            : 0,
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
       }
