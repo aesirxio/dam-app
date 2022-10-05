@@ -140,7 +140,6 @@ class DamListViewModel {
   resetObservableProperties = () => {};
 
   callbackOnErrorHander = (error) => {
-    console.log(error);
     if (error.message === 'isCancle') {
       this.status = PAGE_STATUS.READY;
     } else notify(error.message, 'error');

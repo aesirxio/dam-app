@@ -53,7 +53,6 @@ const Menu = observer(
   class Menu extends React.Component {
     constructor(props) {
       super(props);
-      console.log(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;

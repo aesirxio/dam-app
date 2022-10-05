@@ -83,6 +83,7 @@ const HomeList = observer(
     handleCreateFolder = () => {
       const collectionId = history.location.pathname.split('/');
       const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+      console.log(checkCollection ? collectionId[collectionId.length - 1] : 0);
       this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: checkCollection
@@ -303,6 +304,7 @@ const HomeList = observer(
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
+                noSelection={true}
               />
             </>
           ) : (
