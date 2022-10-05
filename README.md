@@ -2,7 +2,7 @@
 
 ## About
 
-AesirX DMA is our enterprise-level Digital Marketing Automation platform As a Service (DMAaaS). It fully connects and integrates the marketing department to web, e-commerce, mail, social media, and any other channel, delivering max results.
+AesirX DAM is our Open-Source PWA-powered enterprise-level Digital Asset Management as a Service (DAMaaS) Solution
 
 Find out more in [https://dam.aesirx.io](https://dam.aesirx.io)
 
@@ -10,7 +10,7 @@ Find out more in [https://dam.aesirx.io](https://dam.aesirx.io)
 
 ### Configure
 
-1. Get your `REACT_APP_CLIENT_SECRET` key from https://dma.aesirx.io by creating an account.
+1. Get your `REACT_APP_CLIENT_SECRET` key from https://dam.aesirx.io by creating an account.
 1. Rename the `.env.dist` file to `.env`.
 1. Replace the `REACT_APP_CLIENT_SECRET` in the `.env` file with the one provided in your profile account.
 
