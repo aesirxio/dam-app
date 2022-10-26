@@ -504,7 +504,7 @@ const Table = ({
               createAssets={createAssets}
             />
           ) : (
-            <Dropzone isBtn={false} createAssets={createAssets} noClick={true} />
+            <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
           )}
         </div>
       )}

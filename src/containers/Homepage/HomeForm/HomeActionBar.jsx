@@ -33,17 +33,7 @@ const HomeActionBar = observer(
       this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
     }
 
-    componentDidMount() {
-      // const collectionId = history.location.pathname.split('/');
-      // const breadcrumb = collectionId.map((id, index) => {
-      //   if (!isNaN(id) && index !== 0) {
-      //     return this.damListViewModel.collections.find((collection) => +collection.id === +id);
-      //   }
-      // });
-      // this.setState({
-      //   breadcrumb: breadcrumb ?? [],
-      // });
-    }
+    componentDidMount() {}
 
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
@@ -107,7 +97,7 @@ const HomeActionBar = observer(
               : null}
           </h2>
           <div className="d-flex justify-content-end">
-            <Dropzone createAssets={this.handleCreateAssets} className="me-3">
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} className="me-3">
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
