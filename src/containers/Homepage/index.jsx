@@ -16,7 +16,6 @@ const HomePage = (props) => {
   return (
     <div className="py-4 px-3 h-100 d-flex flex-column">
       <div className="d-flex align-items-center justify-content-between mb-4">
-        <h2 className="text-blue-0">{t('txt_your_digital_assets')}</h2>
         <HomeActionBar {...props} />
       </div>
       <Suspense fallback={<Spinner />}>

@@ -31,6 +31,7 @@ const login = async ({ username, password }) => {
   document.body.classList.add('body_login_page');
   const authService = new AesirxAuthenticationApiService();
   const result = await authService.login(username, password);
+  console.log(result);
   if (result) {
     Storage.setItem('auth', true);
     document.body.classList.remove('body_login_page');

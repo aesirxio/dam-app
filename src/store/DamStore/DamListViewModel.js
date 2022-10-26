@@ -48,6 +48,15 @@ class DamListViewModel {
     );
   };
 
+  getAllCollections = () => {
+    this.isSearch = false;
+    this.status = PAGE_STATUS.LOADING;
+    this.damStore.getAllCollections(
+      this.callbackOnCollectionsSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
+
   createCollections = (data) => {
     notify(
       this.damStore.createCollections(
@@ -140,7 +149,7 @@ class DamListViewModel {
   resetObservableProperties = () => {};
 
   callbackOnErrorHander = (error) => {
-    if (error.message === 'isCancle') {
+    if (error.message === 'isCancel') {
       this.status = PAGE_STATUS.READY;
     } else notify(error.message, 'error');
   };

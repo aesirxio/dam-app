@@ -11,12 +11,13 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
-import { Accordion } from 'react-bootstrap';
+import Accordion from 'react-bootstrap/Accordion';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import history from 'routes/history';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import './index.scss';
+import { useAccordionButton } from 'react-bootstrap';
 const dataMenu = [
   // {
   //   text: 'txt_menu_member',
@@ -49,6 +50,17 @@ const dataMenu = [
   //   icons_color: '/assets/images/trash.svg',
   // },
 ];
+
+function CustomToggle({ children, eventKey }) {
+  const decoratedOnClick = useAccordionButton(eventKey);
+
+  return (
+    <div className="item_menu" onClick={decoratedOnClick}>
+      {children}
+    </div>
+  );
+}
+
 const Menu = observer(
   class Menu extends React.Component {
     constructor(props) {
@@ -57,12 +69,6 @@ const Menu = observer(
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
-
-    componentDidMount() {}
-
-    componentWillUnmount() {}
-
-    componentDidUpdate() {}
 
     handleClick = (e) => {
       e.preventDefault();
@@ -85,7 +91,7 @@ const Menu = observer(
 
             <Accordion defaultActiveKey={'0'}>
               {history.location.pathname === '/root' ? (
-                <Accordion.Toggle className="item_menu" as={'div'} eventKey={'0'}>
+                <CustomToggle className="item_menu" as={'div'} eventKey={'0'}>
                   <NavLink
                     onClick={this.handleClick}
                     exact={true}
@@ -101,7 +107,7 @@ const Menu = observer(
                     />
                     <span className="ms-3 text py-1 d-inline-block col">{t('txt_my_assets')}</span>
                   </NavLink>
-                </Accordion.Toggle>
+                </CustomToggle>
               ) : (
                 <div className="item_menu">
                   <NavLink

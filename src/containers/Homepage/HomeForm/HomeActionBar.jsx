@@ -8,16 +8,15 @@ import history from '../../../routes/history';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import {
-  DAM_ASSETS_API_FIELD_KEY,
-  DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import Dropzone from 'components/Dropzone';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import ButtonNormal from '../../../components/ButtonNormal';
 import HomeFormModal from './HomeFormModel';
+import { withRouter } from 'react-router-dom';
+import ComponentImage from 'components/ComponentImage';
 const HomeActionBar = observer(
   class HomeActionBar extends Component {
     damFormModalViewModel = null;
@@ -27,23 +26,44 @@ const HomeActionBar = observer(
     constructor(props) {
       super(props);
       const { viewModel } = props;
-
+      this.state = {
+        breadcrumb: [],
+      };
       this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
+      this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+      // const collectionId = history.location.pathname.split('/');
+      // const breadcrumb = collectionId.map((id, index) => {
+      //   if (!isNaN(id) && index !== 0) {
+      //     return this.damListViewModel.collections.find((collection) => +collection.id === +id);
+      //   }
+      // });
+      // this.setState({
+      //   breadcrumb: breadcrumb ?? [],
+      // });
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props.location !== prevProps.location) {
+        const collectionId = history.location.pathname.split('/');
+        // this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
+        const breadcrumb = collectionId.map((id, index) => {
+          if (!isNaN(id) && index !== 0) {
+            return this.damListViewModel.collections.find((collection) => +collection.id === +id);
+          }
+        });
+        this.setState({
+          breadcrumb: breadcrumb ?? [],
+        });
+      }
+    }
 
     handleCreateFolder = () => {
-      const collectionId = history.location.pathname.split('/');
-      const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
-      console.log(checkCollection ? collectionId[collectionId.length - 1] : 0);
-      this.damListViewModel.createCollections({
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: checkCollection
-          ? collectionId[collectionId.length - 1]
-          : 0,
-      });
+      this.damformModalViewModal.openCreateCollectionModal();
     };
+
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
@@ -59,29 +79,53 @@ const HomeActionBar = observer(
         });
       }
     };
+
     render() {
       const { t } = this.props;
 
       return (
-        <div className="d-flex justify-content-end">
-          <Dropzone createAssets={this.handleCreateAssets} className="me-3">
+        <>
+          <h2 className="text-blue-0">
+            <span>{t('txt_your_digital_assets')}</span>
+            {this.state.breadcrumb
+              ? this.state.breadcrumb.map((_breadcrumb) => {
+                  if (_breadcrumb) {
+                    return _breadcrumb?.name ? (
+                      <span key={_breadcrumb?.id}>
+                        <ComponentImage
+                          wrapperClassName="px-2"
+                          src="/assets/images/caret-right.svg"
+                          alt="caret"
+                        />
+                        {_breadcrumb.name}
+                      </span>
+                    ) : (
+                      ''
+                    );
+                  }
+                })
+              : null}
+          </h2>
+          <div className="d-flex justify-content-end">
+            <Dropzone createAssets={this.handleCreateAssets} className="me-3">
+              <ButtonNormal
+                onClick={() => {}}
+                iconStart={faPlus}
+                text={t('txt_upload_file')}
+                className=" btn-success"
+              />
+            </Dropzone>
             <ButtonNormal
-              onClick={() => {}}
-              iconStart={faPlus}
-              text={t('txt_upload_file')}
-              className=" btn-success"
+              onClick={this.handleCreateFolder}
+              iconStart={faFolder}
+              text="txt_create_folder"
+              className="btn-outline-gray-300 text-blue-0"
             />
-          </Dropzone>
-          <ButtonNormal
-            onClick={this.handleCreateFolder}
-            iconStart={faFolder}
-            text="txt_create_folder"
-            className="btn-outline-gray-300 text-blue-0"
-          />
-          <HomeFormModal />
-        </div>
+            <HomeFormModal />
+          </div>
+        </>
       );
     }
   }
 );
-export default withTranslation('common')(withDamViewModel(HomeActionBar));
+export default withTranslation('common')(withRouter(withDamViewModel(HomeActionBar)));

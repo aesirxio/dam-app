@@ -29,6 +29,7 @@ const Input = ({ field }) => {
         placeholder={field.placeholder ?? undefined}
         readOnly={field.readOnly}
         disabled={field.disabled}
+        onKeyDown={field.onKeyDown}
       />
     </>
   );

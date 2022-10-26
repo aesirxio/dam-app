@@ -111,7 +111,7 @@
   "txt_delete_folder": "Delete Folder",
   "txt_are_you_sure": "Are you sure?",
   "txt_delete_popup_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing",
-  "txt_cancle": "Cancle",
+  "txt_Cancel": "Cancel",
   "txt_yes_delete": "Yes, Delete",
   "txt_file": "FILES",
   "txt_storage": "Storage",
@@ -136,5 +136,10 @@
   "txt_sign_in_to_getting_started": "Sign In to getting started.",
   "txt_folders": "FOLDERS",
   "txt_of": "of",
-  "txt_used": "used"
+  "txt_used": "used",
+  "txt_new_folder": "New Folder",
+  "txt_create": "Create",
+  "txt_rename": "Rename",
+  "txt_can_not_move": "Can't Move",
+  "txt_move_with_file_or_folder": "Had move {{type}} {{name}} to folder {{name_folder}}"
 }

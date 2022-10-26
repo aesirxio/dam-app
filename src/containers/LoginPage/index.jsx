@@ -19,7 +19,7 @@ import InputPassword from '../../components/inputPassword';
 
 const dataSlider = [
   {
-    text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam',
+    text: 'Building a Global Media Content Marketing Team requires structure, process and automation we utilize technology to make this happen',
     title: 'Ronni K. Gothard Christiansen',
     subtitle: 'CEO & Founder R Digital',
   },
