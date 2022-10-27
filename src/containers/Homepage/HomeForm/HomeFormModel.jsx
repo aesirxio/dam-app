@@ -19,7 +19,6 @@ import {
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import CollectionForm from './CollectionForm';
 import history from 'routes/history';
-import styles from '../index.module.scss';
 
 const ModalComponent = React.lazy(() => import('../../../components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));

@@ -4,9 +4,8 @@
  */
 
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import styles from './index.module.scss';
 
 const DND_ITEM_TYPE = 'row';
@@ -14,7 +13,6 @@ const DND_ITEM_TYPE = 'row';
 function Thumb({ row, className, newRowCells, index, moveRow, onDoubleClick, onRightClickItem }) {
   const dropRef = React.useRef(null);
   const dragRef = React.useRef(null);
-  const listviewModel = useDamViewModel();
   const [{ isOver }, drop] = useDrop({
     accept: DND_ITEM_TYPE,
     drop: (item, monitor) => {

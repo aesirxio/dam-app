@@ -11,8 +11,6 @@ import HomeActionBar from './HomeForm/HomeActionBar';
 import HomeList from './HomeList/HomeList';
 
 const HomePage = (props) => {
-  const { t } = props;
-
   return (
     <div className="py-4 px-3 h-100 d-flex flex-column">
       <div className="d-flex align-items-center justify-content-between mb-4">
