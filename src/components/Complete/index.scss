@@ -4,7 +4,7 @@
  */
 
 @import '../../scss/utils/bootstrap.scss';
-@import '~bootstrap/scss/progress';
+@import 'node_modules/bootstrap/scss/progress';
 
 .progress {
   border-radius: 0;

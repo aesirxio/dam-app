@@ -35,11 +35,11 @@ const mainRoutes = [
     // exact: true,
     main: () => <DashboardPage />,
   },
-  {
-    path: ['/setting', '/setting/configuration'],
-    exact: true,
-    main: () => <SettingPage />,
-  },
+  // {
+  //   path: ['/setting', '/setting/configuration'],
+  //   exact: true,
+  //   main: () => <SettingPage />,
+  // },
 ];
 
 const settingRoutes = [

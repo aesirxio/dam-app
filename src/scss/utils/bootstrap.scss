@@ -3,14 +3,14 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-@import '~bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/_functions.scss';
 @import './variables';
-@import '~bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/variables';
 @import './mixin';
 
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/maps';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'node_modules/bootstrap/scss/maps';
 @import './utilities';
 
-@import '~bootstrap/scss/utilities';
-@import '~bootstrap/scss/dropdown';
+@import 'node_modules/bootstrap/scss/utilities';
+@import 'node_modules/bootstrap/scss/dropdown';

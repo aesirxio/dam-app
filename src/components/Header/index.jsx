@@ -16,7 +16,7 @@ import DropdownAvatar from '../DropdownAvatar';
 
 import ComponentHambuger from '../ComponentHambuger';
 import ComponentImage from '../ComponentImage';
-import Search from 'components/Search';
+// import Search from 'components/Search';
 
 class Header extends React.Component {
   constructor(props) {
@@ -83,7 +83,7 @@ class Header extends React.Component {
             <FontAwesomeIcon icon={faChevronLeft} />
           </span>
           <div className="d-flex justify-content-between flex-1 align-items-center">
-            <Search />
+            {/* <Search /> */}
             <div className="d-flex align-items-center">
               <div className="wr_help_center ps-3 pe-3 d-none">
                 <span className="item_help d-flex align-items-center text-blue-0 cursor-pointer">

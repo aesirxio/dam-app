@@ -19,7 +19,6 @@ class App extends React.Component {
     this.state = {
       theme: this.getCurrentTheme(),
     };
-    this.changeTheme = this.changeTheme.bind(this);
   }
   getCurrentTheme() {
     let currentTheme = localStorage.getItem('theme');
@@ -29,11 +28,11 @@ class App extends React.Component {
     }
     return currentTheme;
   }
-  changeTheme(newTheme) {
+  changeTheme = (newTheme) => {
     this.setState({ theme: newTheme });
     localStorage.setItem('theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
-  }
+  };
 
   componentDidMount() {
     document.documentElement.setAttribute('data-theme', this.state.theme);

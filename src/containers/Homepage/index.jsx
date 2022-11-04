@@ -6,8 +6,7 @@
 import React, { Suspense } from 'react';
 import Spinner from '../../components/Spinner';
 
-import { withTranslation } from 'react-i18next';
-import HomeActionBar from './HomeForm/HomeActionBar';
+// import HomeActionBar from './HomeForm/HomeActionBar';
 import HomeList from './HomeList/HomeList';
 
 const HomePage = (props) => {
@@ -23,4 +22,4 @@ const HomePage = (props) => {
   );
 };
 
-export default withTranslation('common')(HomePage);
+export default HomePage;

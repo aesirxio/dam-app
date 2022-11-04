@@ -55,7 +55,6 @@ const HomeList = observer(
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
         this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-        // this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
       }
     }
 

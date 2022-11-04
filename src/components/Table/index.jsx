@@ -28,11 +28,11 @@ import { notify } from 'components/Toast';
 const Select = lazy(() => import('../Select'));
 
 let dataFilter = {
-  searchText: '',
-  columns: [],
+  searchText : '',
+  columns    : [],
   titleFilter: {},
-  datetime: null,
-  page: '',
+  datetime   : null,
+  page       : '',
 };
 
 const Table = ({
@@ -44,7 +44,7 @@ const Table = ({
   dataThumb,
   thumbColumnsNumber,
   noSelection = false,
-  isList = true,
+  isList      = true,
   listViewModel,
   _handleList,
   classNameTable,
@@ -58,7 +58,7 @@ const Table = ({
   const { t } = useTranslation('common');
 
   const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
+    const defaultRef  = React.useRef();
     const resolvedRef = ref || defaultRef;
 
     useEffect(() => {
@@ -67,7 +67,7 @@ const Table = ({
 
     return (
       <>
-        <input className="form-check-input p-0" type="checkbox" ref={resolvedRef} {...rest} />
+        <input className = "form-check-input p-0" type = "checkbox" ref = {resolvedRef} {...rest} />
       </>
     );
   });
@@ -77,9 +77,9 @@ const Table = ({
   const data = useMemo(() => rowData, [rowData]);
 
   const filterBar = useMemo(() => ({
-    id: 'type',
+    id         : 'type',
     placeholder: t('txt_type'),
-    options: [
+    options    : [
       {
         label: t('txt_image'),
         value: 'image',
@@ -100,34 +100,34 @@ const Table = ({
   }));
 
   const sortBy = useMemo(() => ({
-    id: 'sort_by',
+    id         : 'sort_by',
     placeholder: t('txt_sort_by'),
-    options: [
+    options    : [
       {
         label: t('txt_date_create'),
         value: {
-          ordering: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
+          ordering : DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
           direction: 'asc',
         },
       },
       {
         label: t('txt_last_modified'),
         value: {
-          ordering: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
+          ordering : DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
           direction: 'desc',
         },
       },
       {
         label: t('txt_a_z'),
         value: {
-          ordering: DAM_ASSETS_FIELD_KEY.NAME,
+          ordering : DAM_ASSETS_FIELD_KEY.NAME,
           direction: 'asc',
         },
       },
       {
         label: t('txt_z_a'),
         value: {
-          ordering: DAM_ASSETS_FIELD_KEY.NAME,
+          ordering : DAM_ASSETS_FIELD_KEY.NAME,
           direction: 'desc',
         },
       },
@@ -143,21 +143,21 @@ const Table = ({
       onSelect,
       initialState: {
         hiddenColumns: dataFilter.columns,
-        pageSize: -1,
+        pageSize     : -1,
       },
     },
     (hooks) => {
       !noSelection &&
         hooks.visibleColumns.push((columns) => [
           {
-            id: 'selection',
+            id    : 'selection',
             Header: ({ getToggleAllPageRowsSelectedProps }) => (
               <div>
                 <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
               </div>
             ),
             Cell: ({ row }) => (
-              <div className="wrapper_checkbox">
+              <div className = "wrapper_checkbox">
                 <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
               </div>
             ),
@@ -177,8 +177,8 @@ const Table = ({
       });
       notify(
         t('txt_move_with_file_or_folder', {
-          type: t('txt_file'),
-          name: dragIndex?.[DAM_ASSETS_FIELD_KEY.NAME],
+          type       : t('txt_file'),
+          name       : dragIndex?.[DAM_ASSETS_FIELD_KEY.NAME],
           name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
         })
       );
@@ -189,8 +189,8 @@ const Table = ({
       });
       notify(
         t('txt_move_with_file_or_folder', {
-          type: t('txt_folders'),
-          name: dragIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
+          type       : t('txt_folders'),
+          name       : dragIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
           name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
         })
       );
@@ -515,8 +515,8 @@ const Table = ({
 // Define a custom filter filter function!
 function filterGreaterThan(rows, id, filterValue) {
   return rows.filter((row) => {
-    const rowValue = row.values[id];
-    return rowValue >= filterValue;
+    const  rowValue   = row.values[id];
+    return rowValue  >= filterValue;
   });
 }
 
