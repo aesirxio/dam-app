@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import MainLayout from './MainLayout';
 
-const Table = (props) => {
+const AesirXDam = (props) => {
   return <MainLayout>asd</MainLayout>;
 };
 
-export default Table;
+export default AesirXDam;

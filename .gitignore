@@ -11,6 +11,9 @@
 # production
 /build
 
+#dist
+/dist
+
 #vscode
 .vscode
 

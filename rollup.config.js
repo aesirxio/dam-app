@@ -31,17 +31,17 @@ export default {
 
   plugins: [
     external(),
+    includePaths(includePathOptions),
     sass(),
     image(),
-    // replace({
-    //   delimiters: ['', ''],
-    //   preventAssignment: true,
-    // }),
+    replace({
+      delimiters: ['', ''],
+      preventAssignment: true,
+    }),
 
     babel({
       exclude: ['node_modules/**'],
       babelHelpers: 'bundled',
-      presets: ['@babel/preset-react', '@babel/preset-env'],
       extensions: ['.js', '.jsx'],
     }),
     nodeResolve({

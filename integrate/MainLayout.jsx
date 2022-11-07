@@ -7,9 +7,9 @@ import React, { Suspense } from 'react';
 
 import { Route, Redirect } from 'react-router-dom';
 
-import Spinner from 'components/Spinner';
-import Header from '../src/components/Header';
-import SbarLeft from 'components/SbarLeft';
+import Spinner from './components/Spinner';
+import Header from './components/Header';
+import SbarLeft from './components/SbarLeft';
 import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
 import DamViewModel from 'store/DamStore/DamViewModel';
 import DamStore from 'store/DamStore/DamStore';
