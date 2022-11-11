@@ -6,7 +6,7 @@
 import React, { Suspense } from 'react';
 import Spinner from '../../components/Spinner';
 
-// import HomeActionBar from './HomeForm/HomeActionBar';
+import HomeActionBar from './HomeForm/HomeActionBar';
 import HomeList from './HomeList/HomeList';
 
 const HomePage = (props) => {

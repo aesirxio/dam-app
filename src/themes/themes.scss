@@ -10,7 +10,7 @@
 
   --sidebar-bg: #1a2226;
   --sidebar-menu-item-color: #fff;
-  --sidebar-menu-item-hover-bg: #005f89;
+  --sidebar-menu-item-hover-bg: #3b7ab5;
 
   --date-picker-color: rgba(8, 18, 64, 0.8);
   --date-picker-disabled-color: #ccc;
@@ -33,7 +33,7 @@
   --calendar-today-bg: rgba(0, 95, 137, 0.3);
 
   --categories-channels-color: rgba(8, 18, 64, 0.5);
-  --categories-channels-active-color: #005f89;
+  --categories-channels-active-color: #3b7ab5;
 
   --dropdown-bg: #fff;
   --dropdown-item-color: #1a2226;
@@ -104,14 +104,21 @@
   .item_menu .link_menu {
     &.active,
     &:hover {
-      background-color: var(--sidebar-menu-item-hover-bg) !important;
+      // background-color: var(--sidebar-menu-item-hover-bg) !important;
+      color: var(--btn-green-bg) !important;
+      .text,
       i {
+        color: var(--btn-green-bg) !important;
+      }
+      svg {
         color: var(--sidebar-menu-item-color) !important;
+        fill: var(--sidebar-menu-item-color) !important;
       }
     }
     .text,
     i {
       color: var(--sidebar-menu-item-color) !important;
+      // color: var(--btn-green-bg) !important;
     }
   }
 

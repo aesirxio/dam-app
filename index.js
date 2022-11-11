@@ -1,1 +1,1 @@
-export { default as AesirXDamComponent } from './integrate/AesirXDamComponent';
+export { default as AesirXDam } from './integrate/index';

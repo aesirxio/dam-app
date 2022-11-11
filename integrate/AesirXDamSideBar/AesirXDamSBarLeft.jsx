@@ -3,55 +3,28 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import { withTranslation } from 'react-i18next';
+import i18n from 'translations/i18n';
+
+import SwitchThemes from 'components/SwitchThemes';
+import { Dropdown } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
+import ComponentImage from 'components/ComponentImage';
+import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import { observer } from 'mobx-react';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 
 import { NavLink } from 'react-router-dom';
 
-import ComponentImage from 'components/ComponentImage';
-import { observer } from 'mobx-react';
 import Accordion from 'react-bootstrap/Accordion';
-import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-// import history from 'routes/history';
-import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import history from 'routes/history';
 import './index.scss';
 import { useAccordionButton } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Folder from '../../public/assets/images/folder-outline.svg';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
-import { useState } from 'react';
-
-const dataMenu = [
-  // {
-  //   text: 'txt_menu_member',
-  //   link: '/',
-  //   icons: '/assets/images/member.svg',
-  //   icons_color: '/assets/images/member.svg',
-  // },
-  // {
-  //   text: 'txt_menu_import_export',
-  //   link: '/projects',
-  //   icons: '/assets/images/import.svg',
-  //   icons_color: '/assets/images/import.svg',
-  // },
-  // {
-  //   text: 'txt_menu_colection_transfer',
-  //   link: '/campaigns',
-  //   icons: '/assets/images/collection_transfer.svg',
-  //   icons_color: '/assets/images/collection_transfer.svg',
-  // },
-  {
-    text: 'txt_menu_setting',
-    link: '/setting',
-    icons: '/assets/images/setting.svg',
-    icons_color: '/assets/images/setting.svg',
-  },
-  // {
-  //   text: 'txt_menu_trash',
-  //   link: '/digital-assets',
-  //   icons: '/assets/images/trash.svg',
-  //   icons_color: '/assets/images/trash.svg',
-  // },
-];
 
 function CustomToggle({ children, eventKey, isRoot }) {
   const [open, setOpen] = useState(false);
@@ -113,12 +86,7 @@ const recurseMenu = (parent_id = 0, collections = [], link) => {
           className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-color text-decoration-none `}
           activeClassName={`active`}
         >
-          <ComponentImage
-            alt={'folder'}
-            src="/assets/images/folder-outline.svg"
-            className=" d-inline-block align-text-bottom"
-            wrapperClassName="col-auto"
-          />
+          <Folder />
           <span className="ms-3 text py-1 d-inline-block col">{parent_id.name}</span>
         </NavLink>
       </CustomToggle>
@@ -142,34 +110,41 @@ const recurseMenu = (parent_id = 0, collections = [], link) => {
       className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none no-child`}
       activeClassName={`active`}
     >
-      <ComponentImage
-        alt={'folder'}
-        src="/assets/images/folder-outline.svg"
-        className=" d-inline-block align-text-bottom"
-        wrapperClassName="col-auto"
-      />
+      <Folder />
       <span className="ms-3 text py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
     </NavLink>
   );
 };
-
-const Menu = observer(
-  class Menu extends React.Component {
+const SbarLeft = observer(
+  class SbarLeft extends React.Component {
     constructor(props) {
       super(props);
+      this.state = {};
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
 
+    handleClick = (e) => {
+      e.preventDefault();
+
+      if (history.location.pathname === '/root') {
+        return;
+      } else {
+        // history.goBack();
+      }
+    };
+
     render() {
       const { t } = this.props;
       const { collections } = this.damListViewModel;
-      // const collectionId = history.location.pathname.split('/');
       return (
-        <>
+        <aside
+          className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden overflow-y-auto d-flex flex-column z-index-100 `}
+        >
           <nav className="main-menu pt-3 pb-1">
             <p className="text-white-50 fs-14 px-3">{t('txt_main_menu')}</p>
+
             <Accordion alwaysOpen defaultActiveKey={'root'}>
               <CustomToggle className="item_menu" as={'div'} isRoot={true} alway eventKey={'root'}>
                 <NavLink
@@ -177,48 +152,17 @@ const Menu = observer(
                   to={'/root'}
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu_root text-white text-color text-decoration-none active`}
                 >
-                  <ComponentImage
-                    alt={'folder'}
-                    src="/assets/images/folder-outline.svg"
-                    className=" d-inline-block align-text-bottom"
-                    wrapperClassName="col-auto"
-                  />
+                  <Folder />
                   <span className="ms-3 text py-1 d-inline-block col">{t('txt_my_assets')}</span>
                 </NavLink>
               </CustomToggle>
               {recurseMenu(0, collections)}
             </Accordion>
           </nav>
-          <nav className="border-top py-3">
-            <p className="text-white-50 fs-14 px-3 mb-0">{t('txt_set_up')}</p>
-            <ul id="wr_list_menu" className="list-unstyled mb-0 pt-md-1">
-              {dataMenu.map((value, key) => {
-                return (
-                  <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
-                    <NavLink
-                      exact={true}
-                      to={value.link}
-                      className={`d-block rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
-                      activeClassName={`active`}
-                    >
-                      <span
-                        className="icon d-inline-block align-text-bottom"
-                        style={{
-                          WebkitMaskImage: `url(${value.icons_color})`,
-                          WebkitMaskRepeat: 'no-repeat',
-                        }}
-                      ></span>
-                      <span className="ms-3 text py-1 d-inline-block">{t(value.text)}</span>
-                    </NavLink>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </>
+        </aside>
       );
     }
   }
 );
 
-export default withTranslation('common')(withRouter(withDamViewModel(Menu)));
+export default withTranslation('common')(withDamViewModel(SbarLeft));
