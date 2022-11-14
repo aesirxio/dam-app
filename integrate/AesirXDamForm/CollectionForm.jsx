@@ -19,7 +19,7 @@ import Spinner from 'components/Spinner';
 import PAGE_STATUS from 'constants/PageStatus';
 import { renderingGroupFieldHandler } from 'utils/form';
 
-class HomeForm extends Component {
+class AesirXCollectionForm extends Component {
   formPropsData = {
     [DAM_COLLECTION_FIELD_KEY.NAME]: 'New Folder',
   };
@@ -115,4 +115,4 @@ class HomeForm extends Component {
   }
 }
 
-export default withTranslation('common')(HomeForm);
+export default withTranslation('common')(AesirXCollectionForm);

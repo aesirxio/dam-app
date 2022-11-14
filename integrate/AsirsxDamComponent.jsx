@@ -13,8 +13,6 @@ import {
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
-import history from 'routes/history';
 import ComponentImage from 'components/ComponentImage';
 import ComponentNoData from 'components/ComponentNoData';
 import Spinner from 'components/Spinner';
@@ -40,23 +38,14 @@ const AesirXDamComponent = observer(
     }
 
     componentDidMount() {
-      console.log('componentDidMount');
-      console.log(this.damListViewModel);
       document.addEventListener('mousedown', this.handleClickOutside);
-      const collectionId = history.location.pathname.split('/');
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
       this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
       this.damListViewModel.getAllCollections();
     }
 
     componentWillUnmount() {
       document.removeEventListener('mousedown', this.handleClickOutside);
-    }
-
-    componentDidUpdate(prevProps) {
-      if (this.props.location !== prevProps.location) {
-        const collectionId = history.location.pathname.split('/');
-        this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-      }
     }
 
     handleClickOutside = (e) => {
@@ -84,7 +73,7 @@ const AesirXDamComponent = observer(
 
     handleCreateAssets = (data) => {
       if (data) {
-        const collectionId = history.location.pathname.split('/');
+        const collectionId = this.damListViewModel.damLinkFolder.split('/');
         const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
 
         this.damListViewModel.createAssets({
@@ -102,9 +91,16 @@ const AesirXDamComponent = observer(
       this.damListViewModel.isList = !this.damListViewModel.isList;
     };
 
-    handleDoubleClick = (colectionId) => {
-      // console.log(history);
-      history.push(history.location.pathname + '/' + colectionId);
+    handleDoubleClick = (collection) => {
+      if (!collection?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+        this.damListViewModel.setDamLinkFolder(
+          this.damListViewModel.damLinkFolder + '/' + collection.id
+        );
+      } else {
+        if (this.props.onDoubleClick) {
+          return this.props.onDoubleClick(collection);
+        } else return collection;
+      }
     };
 
     handleRightClick = (e) => {
@@ -148,14 +144,14 @@ const AesirXDamComponent = observer(
     };
 
     handleFilter = (data) => {
-      const collectionId = history.location.pathname.split('/');
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
       this.damListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
         'filter[type]': data.value,
       });
     };
 
     handleSortby = (data) => {
-      const collectionId = history.location.pathname.split('/');
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
       this.damListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
         'list[ordering]': data.value.ordering,
         'list[direction]': data.value.direction,
@@ -175,12 +171,14 @@ const AesirXDamComponent = observer(
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
-              className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
+              className={`d-flex w-100 ${
+                this.damListViewModel.isList ? '' : 'justify-content-center'
+              }`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                 // folder
                 <div
-                  className={`${
+                  className={`w-100 ${
                     this.damListViewModel.isList
                       ? 'd-flex align-items-center'
                       : 'd-flex flex-column align-items-center justify-content-center'
@@ -190,21 +188,23 @@ const AesirXDamComponent = observer(
                     <Folder />
                   </div>
                   <span
+                    title={row.original[DAM_COLUMN_INDICATOR.NAME]}
                     className={
                       this.damListViewModel.isList
                         ? 'ms-3 text-color'
-                        : '' + 'text-center text-color'
+                        : 'text-center text-color lcl lcl-2 w-100 d-block w-space'
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    <br />
-                    {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}
                   </span>
+                  <br />
+
+                  <span>{row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}</span>
                 </div>
               ) : (
                 // file
                 <div
-                  className={`${
+                  className={`w-100 ${
                     this.damListViewModel.isList
                       ? 'd-flex align-items-center'
                       : 'd-flex flex-column align-items-center justify-content-center'
@@ -227,10 +227,11 @@ const AesirXDamComponent = observer(
                   </span>
 
                   <span
+                    title={row.original[DAM_COLUMN_INDICATOR.NAME]}
                     className={
                       this.damListViewModel.isList
                         ? 'ms-3 text-color'
-                        : 'w-100 lcl lcl-1 p-2 text-color'
+                        : 'd-block w-100 lcl lcl-1 p-2 text-color w-space'
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
@@ -265,7 +266,7 @@ const AesirXDamComponent = observer(
         },
       ];
 
-      const collectionId = history.location.pathname.split('/');
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
 
       let handleColections = [];
       let handleAssets = [];
@@ -333,4 +334,4 @@ const AesirXDamComponent = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withDamViewModel(AesirXDamComponent)));
+export default withTranslation('common')(withDamViewModel(AesirXDamComponent));

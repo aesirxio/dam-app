@@ -101,9 +101,15 @@ const HomeList = observer(
       this.damListViewModel.isList = !this.damListViewModel.isList;
     };
 
-    handleDoubleClick = (colectionId) => {
-      // console.log(history);
-      history.push(history.location.pathname + '/' + colectionId);
+    handleDoubleClick = (collection) => {
+      if (!collection?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+        history.push(history.location.pathname + '/' + collection.id);
+      } else {
+        this.damformModalViewModal.damEditdata = {
+          ...collection,
+        };
+        this.damformModalViewModal.openModal();
+      }
     };
 
     handleRightClick = (e) => {

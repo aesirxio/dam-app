@@ -15,8 +15,9 @@ import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import ButtonNormal from 'components/ButtonNormal';
 import AesirXDamFormModel from './AesirXDamFormModel';
-import { withRouter } from 'react-router-dom';
-import ComponentImage from 'components/ComponentImage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
+
 const AesirXDamActionBar = observer(
   class AesirXDamActionBar extends Component {
     damFormModalViewModel = null;
@@ -26,29 +27,12 @@ const AesirXDamActionBar = observer(
     constructor(props) {
       super(props);
       const { viewModel } = props;
-      this.state = {
-        breadcrumb: [],
-      };
+
       this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
       this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
     }
 
     componentDidMount() {}
-
-    componentDidUpdate(prevProps) {
-      if (this.props.location !== prevProps.location) {
-        const collectionId = history.location.pathname.split('/');
-        // this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
-        const breadcrumb = collectionId.map((id, index) => {
-          if (!isNaN(id) && index !== 0) {
-            return this.damListViewModel.collections.find((collection) => +collection.id === +id);
-          }
-        });
-        this.setState({
-          breadcrumb: breadcrumb ?? [],
-        });
-      }
-    }
 
     handleCreateFolder = () => {
       this.damformModalViewModal.openCreateCollectionModal();
@@ -56,7 +40,7 @@ const AesirXDamActionBar = observer(
 
     handleCreateAssets = (data) => {
       if (data) {
-        const collectionId = history.location.pathname.split('/');
+        const collectionId = this.damListViewModel.damLinkFolder.split('/');
         const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
 
         this.damListViewModel.createAssets({
@@ -72,20 +56,26 @@ const AesirXDamActionBar = observer(
 
     render() {
       const { t } = this.props;
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
 
+      const breadcrumb = collectionId.map((id, index) => {
+        if (!isNaN(id) && index !== 0) {
+          return this.damListViewModel.collections.find((collection) => +collection.id === +id);
+        }
+      });
       return (
         <>
           <h2 className="text-blue-0">
             <span>{t('txt_your_digital_assets')}</span>
-            {this.state.breadcrumb
-              ? this.state.breadcrumb.map((_breadcrumb) => {
+            {breadcrumb
+              ? breadcrumb.map((_breadcrumb) => {
                   if (_breadcrumb) {
                     return _breadcrumb?.name ? (
                       <span key={_breadcrumb?.id}>
-                        <ComponentImage
-                          wrapperClassName="px-2"
-                          src="/assets/images/caret-right.svg"
-                          alt="caret"
+                        <FontAwesomeIcon
+                          size={'1x'}
+                          className="text-green text-color px-2"
+                          icon={faAngleRight}
                         />
                         {_breadcrumb.name}
                       </span>
@@ -118,4 +108,4 @@ const AesirXDamActionBar = observer(
     }
   }
 );
-export default withTranslation('common')(withRouter(withDamViewModel(AesirXDamActionBar)));
+export default withTranslation('common')(withDamViewModel(AesirXDamActionBar));

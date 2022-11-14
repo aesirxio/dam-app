@@ -3,10 +3,8 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import styles from './index.module.scss';
 
 const DND_ITEM_TYPE = 'row';
 
@@ -77,10 +75,9 @@ function Thumb({ row, className, newRowCells, index, moveRow, onDoubleClick, onR
         className={`item_thumb d-flex cursor-move align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column ${
           isOver ? 'border border-success bg-gray-dark' : 'bg-white'
         }`}
-        onDoubleClick={
-          row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? () => {} : () => onDoubleClick(row.original.id)
-        }
+        onDoubleClick={() => onDoubleClick(row.original)}
         onContextMenu={(e) => {
+          1;
           onRightClickItem(e, row.original);
         }}
       >
@@ -88,7 +85,7 @@ function Thumb({ row, className, newRowCells, index, moveRow, onDoubleClick, onR
           return (
             <div
               {...cell.getCellProps()}
-              className={`ct_cell ${styles.ct_cell} d-block`}
+              className={`ct_cell d-block w-100`}
               key={Math.random(40, 200)}
             >
               {cell.render('Cell')}

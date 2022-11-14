@@ -58,8 +58,8 @@
     "react-dom": "^17.0.1"
   },
   "scripts": {
-    "start": "npm run build && serve -s build",
-    "build": "npm run build:lib && react-scripts build",
+    "start": "npm run build && npm run microbundle && serve -s build",
+    "build": "npm run build:lib && npm run microbundle && react-scripts build",
     "build:lib": "cd node_modules/aesirx-dma-lib && npm i && npm run build && cd ../../",
     "test": "react-scripts test",
     "dev": "react-scripts start",

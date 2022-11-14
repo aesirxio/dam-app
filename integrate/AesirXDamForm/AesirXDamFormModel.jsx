@@ -51,7 +51,6 @@ const AesirXDamFormModal = observer(
         return true;
       } else {
         this.validator.showMessages();
-        // rerender to show messages for the first time
         this.forceUpdate();
         return false;
       }
@@ -103,7 +102,7 @@ const AesirXDamFormModal = observer(
     };
 
     handleCreateFolder = (name) => {
-      const collectionId = history.location.pathname.split('/');
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
       const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
       this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: name,

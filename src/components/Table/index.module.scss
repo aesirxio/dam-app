@@ -20,30 +20,6 @@
   }
 }
 
-.ct_cell {
-  &:first-child {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-
-    img {
-      display: block;
-    }
-  }
-
-  &:nth-child(2) {
-    font-size: 14px;
-  }
-
-  &:nth-child(3) {
-    margin-top: 40px;
-  }
-
-  &:last-child {
-    opacity: 0.75;
-    margin-top: 10px;
-  }
-}
 .col_thumb {
   height: 248px;
 }

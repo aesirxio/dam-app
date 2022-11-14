@@ -21,7 +21,9 @@ import PAGE_STATUS from 'constants/PageStatus';
 import { renderingGroupFieldHandler } from 'utils/form';
 import utils from '../AesirXDamUtils/AesirXDamUtils';
 import styles from '../index.module.scss';
-class HomeForm extends Component {
+import Folder from '../../public/assets/images/folder.svg';
+
+class AesirDamForm extends Component {
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
     [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
@@ -166,11 +168,7 @@ class HomeForm extends Component {
                 className={`d-flex align-items-center justify-content-center ${styles.popupImageHeight}`}
               >
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
-                  <ComponentImage
-                    wrapperClassName="h-100 w-100"
-                    className="h-100 w-100 object-fit-contain"
-                    src={'/assets/images/folder-big.png'}
-                  />
+                  <Folder />
                 ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                   <ComponentImage
                     wrapperClassName="h-100 w-100"
@@ -178,11 +176,7 @@ class HomeForm extends Component {
                     src={this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                   />
                 ) : (
-                  <ComponentImage
-                    wrapperClassName="h-100 w-100"
-                    className="h-100 w-100 object-fit-contain"
-                    src={utils.checkFileTypeFormData(this.props.viewModel.damEditdata)}
-                  />
+                  utils.checkFileTypeFormData(this.props.viewModel.damEditdata)
                 )}
               </div>
             </div>
@@ -222,4 +216,4 @@ class HomeForm extends Component {
   }
 }
 
-export default withTranslation('common')(HomeForm);
+export default withTranslation('common')(AesirDamForm);

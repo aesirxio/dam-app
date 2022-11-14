@@ -19,11 +19,8 @@ class SelectComponent extends React.Component {
   componentDidMount() {}
   render() {
     const { t } = this.props;
-    const { theme } = this.context;
     let { isBorder, plColor, async, placeholder } = this.props;
-    if (theme == 'dark') {
-      plColor = '#bfc9f7';
-    }
+
     let styles = customStyles(isBorder, plColor);
 
     if (async) {

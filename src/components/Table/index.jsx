@@ -308,11 +308,7 @@ const Table = ({
                         key={row.getRowProps().key}
                         {...row.getRowProps()}
                         className="border-bottom-1 cursor-pointer"
-                        onDoubleClick={
-                          row.original[DAM_ASSETS_FIELD_KEY.TYPE]
-                            ? () => {}
-                            : () => onDoubleClick(row.original.id)
-                        }
+                        onDoubleClick={() => onDoubleClick(row.original)}
                         onContextMenu={(e) => {
                           onRightClickItem(e, row.original);
                         }}

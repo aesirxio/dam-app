@@ -10,7 +10,7 @@ import Word from '../../public/assets/images/word.svg';
 import Pdf from '../../public/assets/images/pdf.svg';
 import FileDefault from '../../public/assets/images/file_default.svg';
 
-class HomeUtils {
+class AesirXDamUtils {
   transformPersonaResponseIntoModel = (response) => {
     return response;
   };
@@ -29,6 +29,6 @@ class HomeUtils {
   };
 }
 
-const utils = new HomeUtils();
+const utils = new AesirXDamUtils();
 
 export default utils;
