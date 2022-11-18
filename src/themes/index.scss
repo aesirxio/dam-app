@@ -1,3 +1,118 @@
-@import '../themes/themes.scss';
+.dark {
+  $primary: $blue !default;
+  $secondary: $gray-600 !default;
+  $success: red !default;
+  $info: $white !default;
+  $warning: $yellow !default;
+  $danger: $red !default;
+  $light: $gray-100 !default;
+  $dark: $gray-900 !default;
+  $theme: #000;
+  // scss-docs-end theme-colors-map
+  $theme-colors: (
+    'primary': $primary,
+    'secondary': $secondary,
+    'success': $success,
+    'info': $info,
+    'warning': $warning,
+    'danger': $danger,
+    'light': $light,
+    'dark': $dark,
+    'gray-100': $gray-100,
+    'gray-300': $gray-300,
+    'cyan': $cyan,
+    'theme': $theme,
+  ) !default;
 
-@import './dark.scss';
+  /* redefine theme color variables */
+  @each $color, $value in $theme-colors {
+    --#{$variable-prefix}#{$color}: #{$value};
+  }
+
+  /* redefine theme color rgb vars (used for bg- colors) */
+  $theme-colors-rgb: map-loop($theme-colors, to-rgb, '$value');
+  @each $color, $value in $theme-colors-rgb {
+    --#{$variable-prefix}#{$color}-rgb: #{$value};
+  }
+
+  $body-color: $white;
+  $body-bg: $dark;
+  --#{$variable-prefix}body-color: #{$body-color};
+  --#{$variable-prefix}body-bg: #{$body-bg};
+
+  @import 'bootstrap';
+
+  // $link-color: $primary !default;
+  // $link-hover-color: shift-color($link-color, $link-shade-percentage) !default;
+  // $border-color: $gray-300 !default;
+
+  // $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
+  // $box-shadow-sm: 0 0.185rem 0.3125rem rgba($black, 0.05) !default;
+  // $box-shadow-lg: 0 1rem 3rem rgba($black, 0.175) !default;
+  // $box-shadow-inset: inset 0 1px 2px rgba($black, 0.075) !default;
+
+  // //COLOR
+  // $color: #3c3c3c;
+
+  // //MAIN COLOR RED
+  // $color-red: #c60202;
+  // $color-red-2: #ef373780 !default;
+  // $color-red-3: #d30011 !default;
+  // $color-red-4: #ff2366 !default;
+
+  // $color-pink: #8d25a8 !default;
+
+  // $color-green-2: #7ce7ac75 !default;
+  // $color-green-3: #39b67a !default;
+
+  // $color-orange: #f24f29 !default;
+
+  // $color-gray: #616161 !default;
+  // $color-gray-2: #f2f2f2 !default;
+  // $color-gray-3: #e9ebee !default;
+
+  // $color-purple: #4052b3 !default;
+
+  // //MAIN COLOR BLUE
+  // $color-blue: #081240;
+  // $color-blue-1: #3b5998;
+  // $color-blue-2: #00acee;
+  // $color-blue-3: #3b7ab5;
+  // $color-blue-4: #f5f8fa;
+  // $color-blue-5: #e8f1f6;
+  // $color-blue-6: #dce6eb;
+  // $color-blue-7: #199ce3;
+  // $color-blue-8: #54c7ec;
+
+  // //BORDER COLOR
+  // $border-color: #d5d5d5;
+
+  // $accordion-button-bg: $color-blue-5;
+  // $accordion-button-active-bg: $color-blue-6;
+  // $accordion-border-color: $border-color;
+  // $accordion-button-focus-border-color: $border-color;
+  // $accordion-button-focus-box-shadow: $color-blue-6;
+  // $nav-tabs-link-active-color: #fff;
+  // $nav-tabs-link-active-bg: $color-blue-3;
+
+  // @import 'node_modules/bootstrap/scss/root';
+  // @import 'node_modules/bootstrap/scss/reboot';
+  // @import 'node_modules/bootstrap/scss/type';
+
+  // @import 'node_modules/bootstrap/scss/images';
+  // @import 'node_modules/bootstrap/scss/containers';
+  // @import 'node_modules/bootstrap/scss/grid';
+  // @import 'node_modules/bootstrap/scss/tables';
+  // @import 'node_modules/bootstrap/scss/forms';
+  // @import 'node_modules/bootstrap/scss/button-group';
+  // @import 'node_modules/bootstrap/scss/buttons';
+  // @import 'node_modules/bootstrap/scss/progress';
+  // @import 'node_modules/bootstrap/scss/dropdown';
+  // @import 'node_modules/bootstrap/scss/transitions';
+  // @import 'node_modules/bootstrap/scss/nav';
+  // @import 'node_modules/bootstrap/scss/helpers';
+  // @import 'node_modules/bootstrap/scss/utilities/api';
+}
+
+.light {
+}

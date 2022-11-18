@@ -325,7 +325,6 @@ const HomeList = observer(
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
-                noSelection={true}
               />
             </>
           ) : (

@@ -304,23 +304,38 @@ const Table = ({
                       : (newRowCells = row.cells);
 
                     return (
-                      <tr
-                        key={row.getRowProps().key}
+                      // <tr
+                      //   key={row.getRowProps().key}
+                      //   {...row.getRowProps()}
+                      //   className="border-bottom-1 cursor-pointer"
+                      //   onDoubleClick={() => onDoubleClick(row.original)}
+                      //   onContextMenu={(e) => {
+                      //     onRightClickItem(e, row.original);
+                      //   }}
+                      // >
+                      //   {newRowCells.map((cell) => {
+                      //     return (
+                      //       <td {...cell.getCellProps()} className="fw-normal px-2 py-3">
+                      //         {cell.render('Cell')}
+                      //       </td>
+                      //     );
+                      //   })}
+                      // </tr>
+
+                      <Thumb
                         {...row.getRowProps()}
-                        className="border-bottom-1 cursor-pointer"
-                        onDoubleClick={() => onDoubleClick(row.original)}
-                        onContextMenu={(e) => {
-                          onRightClickItem(e, row.original);
-                        }}
-                      >
-                        {newRowCells.map((cell) => {
-                          return (
-                            <td {...cell.getCellProps()} className="fw-normal px-2 py-3">
-                              {cell.render('Cell')}
-                            </td>
-                          );
-                        })}
-                      </tr>
+                        isList={true}
+                        className={`col_thumb ${styles.col_thumb} col-${
+                          !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                        } mb-4 zindex-2`}
+                        key={Math.random(40, 200)}
+                        newRowCells={newRowCells}
+                        index={row.original}
+                        row={row}
+                        onDoubleClick={onDoubleClick}
+                        onRightClickItem={onRightClickItem}
+                        moveRow={moveRow}
+                      />
                     );
                   })}
               </tbody>

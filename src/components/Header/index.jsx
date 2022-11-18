@@ -82,7 +82,7 @@ class Header extends React.Component {
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </span>
-          <div className="d-flex justify-content-between flex-1 align-items-center">
+          <div className="d-flex justify-content-between ms-auto align-items-center">
             {/* <Search /> */}
             <div className="d-flex align-items-center">
               <div className="wr_help_center ps-3 pe-3 d-none">

@@ -17,7 +17,7 @@ $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
 $gray-900: #1a2226 !default;
 $black: #000 !default;
-
+$theme: #fff;
 // fusv-disable
 $grays: (
   '100': $gray-100,
@@ -70,7 +70,7 @@ $danger: $red !default;
 $light: $gray-100 !default;
 $dark: $gray-900 !default;
 
-// scss-docs-start theme-colors-map
+// scss-docs-end theme-colors-map
 $theme-colors: (
   'primary': $primary,
   'secondary': $secondary,
@@ -83,11 +83,10 @@ $theme-colors: (
   'gray-100': $gray-100,
   'gray-300': $gray-300,
   'cyan': $cyan,
+  'theme': $theme,
 ) !default;
-// scss-docs-end theme-colors-map
 
 // Body
-//
 // Settings for the `<body>` element.
 
 $body-bg: $white !default;
@@ -228,3 +227,5 @@ $accordion-button-focus-box-shadow: $color-blue-6;
 $nav-tabs-link-active-color: #fff;
 $nav-tabs-link-active-bg: $color-blue-3;
 $grid-gutter-width: 1.25rem;
+$variable-prefix: bs- !default; // Deprecated in v5.2.0 for the shorter `$prefix`
+$prefix: $variable-prefix !default;

@@ -42,7 +42,9 @@ class App extends React.Component {
       <ThemesContextProvider value={{ theme: this.state.theme, changeTheme: this.changeTheme }}>
         <ErrorBoundary>
           <I18nextProvider i18n={i18n}>
-            <RouterLayout />
+            <div className={`theme-custom ${this.state.theme}`}>
+              <RouterLayout />
+            </div>
           </I18nextProvider>
         </ErrorBoundary>
       </ThemesContextProvider>
