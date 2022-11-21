@@ -1,8 +1,15 @@
 import React from 'react';
 
-const Trash = ({ fill = 'none' }) => {
+const Trash = (props) => {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill={fill} xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M5.25 5.25L6.1875 20.25C6.23203 21.1167 6.8625 21.75 7.6875 21.75H16.3125C17.1408 21.75 17.7595 21.1167 17.8125 20.25L18.75 5.25"
         stroke="#C8192E"

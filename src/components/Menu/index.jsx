@@ -64,7 +64,7 @@ function CustomToggle({ children, eventKey, isRoot }) {
       {children}
 
       <FontAwesomeIcon
-        className={`text-color position-absolute top-50 translate-middle carvet-toggle text-green ${
+        className={` position-absolute top-50 translate-middle carvet-toggle text-green ${
           eventKey === 'root' ? 'index' : ''
         } ${open ? 'down' : ''}`}
         onClick={
@@ -92,12 +92,15 @@ const Menu = observer(
     recurseMenu = (parent_id = 0, link) => {
       if (parent_id === 0) {
         return (
-          <Accordion.Collapse eventKey={'root'} className="px-3 pb-3">
-            <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
+          <Accordion.Collapse eventKey={'root'} className="pb-3">
+            <ul id="wr_list_menu" className="list-unstyled mb-0">
               {this.damListViewModel.collections.map((value, key) => {
                 return (
                   value.parent_id === 0 && (
-                    <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
+                    <li
+                      key={key}
+                      className={`item_menu px-3 ${value.className ? value.className : ''}`}
+                    >
                       {this.recurseMenu(value, 'root')}
                     </li>
                   )
@@ -122,7 +125,7 @@ const Menu = observer(
             <NavLink
               exact={true}
               to={'/' + link + '/' + parent_id.id}
-              className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-color text-decoration-none ${
+              className={`d-flex align-items-center rounded-1 px-3 py-2 link_menu text-white text-decoration-none ${
                 isActive && 'active'
               }`}
               activeClassName={`active`}
@@ -133,12 +136,12 @@ const Menu = observer(
                 className=" d-inline-block align-text-bottom"
                 wrapperClassName="col-auto"
               />
-              <span className="ms-3 text py-1 d-inline-block col">{parent_id.name}</span>
+              <span className="ms-3 py-1 d-inline-block col">{parent_id.name}</span>
             </NavLink>
           </CustomToggle>
 
-          <Accordion.Collapse eventKey={parent_id?.id} className="px-2 pb-3">
-            <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
+          <Accordion.Collapse eventKey={parent_id?.id}>
+            <ul id="wr_list_menu" className="list-unstyled mb-0 px-2">
               {filterCollectionsWithParentId.map((value, key) => {
                 return (
                   <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
@@ -153,7 +156,7 @@ const Menu = observer(
         <NavLink
           exact={true}
           to={'/' + link + '/' + parent_id.id}
-          className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none no-child ${
+          className={`d-flex align-items-center rounded-1 px-3 py-2 link_menu text-white text-decoration-none no-child ${
             isActive && 'active'
           }`}
           activeClassName={`active`}
@@ -164,9 +167,7 @@ const Menu = observer(
             className=" d-inline-block align-text-bottom"
             wrapperClassName="col-auto"
           />
-          <span className="ms-3 text py-1 d-inline-block col overflow-hidden">
-            {parent_id.name}
-          </span>
+          <span className="ms-3 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
         </NavLink>
       );
     };
@@ -182,7 +183,7 @@ const Menu = observer(
                 <NavLink
                   exact={true}
                   to={'/root'}
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu_root text-white text-color text-decoration-none active`}
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu_root text-white  text-decoration-none active`}
                 >
                   <ComponentImage
                     alt={'folder'}
@@ -190,7 +191,7 @@ const Menu = observer(
                     className=" d-inline-block align-text-bottom"
                     wrapperClassName="col-auto"
                   />
-                  <span className="ms-3 text py-1 d-inline-block col">{t('txt_my_assets')}</span>
+                  <span className="ms-3 py-1 d-inline-block col">{t('txt_my_assets')}</span>
                 </NavLink>
               </CustomToggle>
               {this.recurseMenu(0)}
@@ -198,7 +199,7 @@ const Menu = observer(
           </nav>
           <nav className="border-top py-3">
             <p className="text-white-50 fs-14 px-3 mb-0">{t('txt_set_up')}</p>
-            <ul id="wr_list_menu" className="list-unstyled mb-0 pt-md-1">
+            <ul id="wr_list_menu" className="list-unstyled mb-0">
               {dataMenu.map((value, key) => {
                 return (
                   <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
@@ -215,7 +216,7 @@ const Menu = observer(
                           WebkitMaskRepeat: 'no-repeat',
                         }}
                       ></span>
-                      <span className="ms-3 text py-1 d-inline-block">{t(value.text)}</span>
+                      <span className="ms-3 py-1 d-inline-block">{t(value.text)}</span>
                     </NavLink>
                   </li>
                 );

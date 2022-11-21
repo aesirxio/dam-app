@@ -4,11 +4,9 @@
  */
 @import '../../scss/utils/bootstrap.scss';
 
-.theme-custom {
-  .progress {
-    height: 4px !important;
-  }
-  .sidebar {
-    padding-bottom: 234px !important;
-  }
+.progress {
+  height: 4px !important;
+}
+.sidebar {
+  padding-bottom: 234px !important;
 }

@@ -77,7 +77,7 @@ const HomeActionBar = observer(
 
       return (
         <>
-          <h2 className="text-blue-0">
+          <h2 className="text-gray-900 fw-bold">
             <span>{t('txt_your_digital_assets')}</span>
             {this.state.breadcrumb
               ? this.state.breadcrumb.map((_breadcrumb) => {
@@ -86,7 +86,7 @@ const HomeActionBar = observer(
                       <span key={_breadcrumb?.id}>
                         <FontAwesomeIcon
                           size={'1x'}
-                          className="text-green text-color px-2"
+                          className="text-green  px-2"
                           icon={faAngleRight}
                         />
                         {_breadcrumb.name}
@@ -99,7 +99,13 @@ const HomeActionBar = observer(
               : null}
           </h2>
           <div className="d-flex justify-content-end">
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} className="me-3">
+            <ButtonNormal
+              onClick={this.handleCreateFolder}
+              iconStart={faFolder}
+              text="txt_create_folder"
+              className="btn-outline-gray-300 text-blue-0 me-3 "
+            />
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
@@ -107,12 +113,6 @@ const HomeActionBar = observer(
                 className=" btn-success"
               />
             </Dropzone>
-            <ButtonNormal
-              onClick={this.handleCreateFolder}
-              iconStart={faFolder}
-              text="txt_create_folder"
-              className="btn-outline-gray-300 text-blue-0"
-            />
             <HomeFormModal />
           </div>
         </>

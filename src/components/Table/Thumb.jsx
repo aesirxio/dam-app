@@ -81,9 +81,9 @@ function Thumb({
     <tr
       key={row.getRowProps().key}
       {...row.getRowProps()}
-      className={`border-bottom-1 cursor-pointer ${
-        isOver ? 'border border-success bg-gray-dark' : 'bg-white'
-      }`}
+      className={`cursor-pointer ${
+        isOver ? 'border border-success bg-gray-dark' : 'border-none'
+      } ${className}`}
       onDoubleClick={() => onDoubleClick(row.original)}
       onContextMenu={(e) => {
         onRightClickItem(e, row.original);

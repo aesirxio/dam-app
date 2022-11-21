@@ -41,7 +41,6 @@ const RouterLayout = () => {
     .reduce((arr, el) => {
       return arr.concat(el);
     }, []);
-
   return (
     <>
       <Toast />

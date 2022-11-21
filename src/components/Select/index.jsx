@@ -8,7 +8,7 @@ import React from 'react';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import customStyles from './customStyles';
-import { ThemesContext } from 'themes/ThemeContextProvider';
+import { withThemeContext } from 'themes/ThemeContextProvider';
 import { withTranslation } from 'react-i18next';
 
 class SelectComponent extends React.Component {
@@ -43,5 +43,4 @@ SelectComponent.defaultProps = {
   async: false,
   isMulti: false,
 };
-SelectComponent.contextType = ThemesContext;
-export default withTranslation('common')(SelectComponent);
+export default withTranslation('common')(withThemeContext(SelectComponent));

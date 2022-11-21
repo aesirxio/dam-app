@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-@import 'node_modules/bootstrap/scss/_functions.scss';
+@import 'node_modules/bootstrap/scss/functions';
 @import './variables';
 
 @import 'node_modules/bootstrap/scss/variables';
@@ -14,8 +14,8 @@
 
 @import 'node_modules/bootstrap/scss/mixins';
 
-@import '../../themes/index.scss';
+@import 'node_modules/bootstrap/scss/utilities';
 
 @import './utilities';
 
-@import 'node_modules/bootstrap/scss/utilities';
+@import '../../themes/index.scss';

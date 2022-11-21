@@ -97,7 +97,7 @@ class AesirXCollectionForm extends Component {
                 <Button
                   text={t('txt_Cancel')}
                   onClick={this.props.close}
-                  className="btn btn-outline-dark w-100"
+                  className="btn btn-outline-gray-300 w-100"
                 />
               </div>
               <div className="col-3">
