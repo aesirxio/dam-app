@@ -179,7 +179,7 @@ const UpdatePassword = observer(
               </div>
               {this.state.loading && successResponse.state ? (
                 <button className="btn btn-success" disabled={this.state.loading}>
-                  <div className="spinner-border text-secondary" role="status">
+                  <div className="spinner-border text-green" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
                 </button>

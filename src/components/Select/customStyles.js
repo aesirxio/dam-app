@@ -16,7 +16,7 @@ const customStyles = (isBorder) => {
           // borderRight: '1px solid var(--border-color)',
         },
         borderRight: '1px solid var(--border-color)',
-        backgroundColor: 'transparent',
+        backgroundColor: '--',
         cursor: 'pointer',
         width: 'auto',
       };
@@ -58,12 +58,14 @@ const customStyles = (isBorder) => {
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: 'var(--body-color)',
+      color: 'var(--bs-body-color)',
+      fontWeight: 600,
     }),
     placeholder: (defaultStyles) => {
       return {
         ...defaultStyles,
-        color: 'var(--text-title-color)',
+        color: 'var(--bs-body-color)',
+        fontWeight: 600,
       };
     },
     multiValue: (styles) => {
@@ -74,7 +76,7 @@ const customStyles = (isBorder) => {
     },
     multiValueLabel: (styles) => ({
       ...styles,
-      color: 'var(--body-color)',
+      color: 'var(--bs-body-color)',
     }),
   };
 };

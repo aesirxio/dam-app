@@ -26,10 +26,19 @@ class DamListViewModel {
   damIdsSelected = null;
   isSearch = false;
   subscription = null;
+  damLinkFolder = 'root';
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
   }
+  // For intergate
+  setDamLinkFolder = (link) => {
+    this.damLinkFolder = link;
+    const collectionId = link.split('/');
+    this.getAssets(collectionId[collectionId.length - 1] ?? 0);
+  };
+
+  // end of intergate
 
   getSubscription = () => {
     this.damStore.getSubscription(
