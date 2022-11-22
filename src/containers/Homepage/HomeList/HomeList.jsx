@@ -9,7 +9,6 @@ import '../index.scss';
 import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
-  DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import { observer } from 'mobx-react';
@@ -39,11 +38,13 @@ const HomeList = observer(
       this.damformModalViewModal = this.viewModel ? this.viewModel.damFormViewModel : null;
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+      console.log('componentDidMount');
+      console.log(this.damListViewModel);
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
       this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-      this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
+      this.damListViewModel.getAllCollections();
     }
 
     componentWillUnmount() {
@@ -54,7 +55,7 @@ const HomeList = observer(
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
         this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-        this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
+        // this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
       }
     }
 
@@ -63,9 +64,6 @@ const HomeList = observer(
       if (checkContextMenu) {
         return;
       } else {
-        if (!document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
-          document.querySelector('.main-content').classList.add('overflow-y-auto');
-        }
         this.damformModalViewModal.closeContextMenu();
       }
     };
@@ -81,15 +79,7 @@ const HomeList = observer(
     };
 
     handleCreateFolder = () => {
-      const collectionId = history.location.pathname.split('/');
-      const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
-      console.log(checkCollection ? collectionId[collectionId.length - 1] : 0);
-      this.damListViewModel.createCollections({
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: 'New Folder',
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: checkCollection
-          ? collectionId[collectionId.length - 1]
-          : 0,
-      });
+      this.damformModalViewModal.openCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
@@ -113,7 +103,8 @@ const HomeList = observer(
     };
 
     handleDoubleClick = (colectionId) => {
-      history.push('/root/' + colectionId);
+      // console.log(history);
+      history.push(history.location.pathname + '/' + colectionId);
     };
 
     handleRightClick = (e) => {
@@ -126,13 +117,32 @@ const HomeList = observer(
 
     handleRightClickItem = (e, data) => {
       e.preventDefault();
-      if (document.querySelector('.main-content').classList.contains('overflow-y-auto')) {
-        document.querySelector('.main-content').classList.remove('overflow-y-auto');
+
+      const innerHeight = window.innerHeight;
+      const innerWidth = window.innerWidth;
+      let style = {
+        transition: 'none',
+        top: e.clientY,
+        left: e.clientX,
+      };
+      if (e.clientX + 200 > innerWidth) {
+        style = {
+          ...style,
+          right: innerWidth - e.clientX,
+          left: 'unset',
+        };
       }
+      if (e.clientY + 260 > innerHeight) {
+        style = {
+          ...style,
+          bottom: innerHeight - e.clientY,
+          top: 'unset',
+        };
+      }
+
       this.damformModalViewModal.damEditdata = {
         ...data,
-        x: e.clientX,
-        y: e.clientY,
+        style: { ...style },
       };
       this.damformModalViewModal.openContextMenu();
     };
@@ -165,12 +175,10 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
-              {...row.getToggleRowExpandedProps()}
-              className={`d-flex pe-none ${
-                this.damListViewModel.isList ? '' : ' justify-content-center'
-              }`}
+              className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+                // folder
                 <div
                   className={`${
                     this.damListViewModel.isList
@@ -183,13 +191,20 @@ const HomeList = observer(
                     src="/assets/images/folder.svg"
                     className={this.damListViewModel.isList ? '' : styles.folder}
                   />
-                  <span className={this.damListViewModel.isList ? 'ms-3' : '' + 'text-center'}>
+                  <span
+                    className={
+                      this.damListViewModel.isList
+                        ? 'ms-3 text-color'
+                        : '' + 'text-center text-color'
+                    }
+                  >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                     <br />
                     {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}
                   </span>
                 </div>
               ) : (
+                // file
                 <div
                   className={`${
                     this.damListViewModel.isList
@@ -200,12 +215,6 @@ const HomeList = observer(
                   <span
                     className={this.damListViewModel.isList ? styles.image_isList : styles.image}
                   >
-                    {/* <ComponentImage
-                      alt={row.original.name}
-                      src={row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
-                      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                      wrapperClassName="w-100 h-100"
-                    /> */}
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
                         wrapperClassName="w-100 h-100"
@@ -220,7 +229,13 @@ const HomeList = observer(
                     )}
                   </span>
 
-                  <span className={this.damListViewModel.isList ? 'ms-3' : 'w-100 lcl lcl-1 p-2'}>
+                  <span
+                    className={
+                      this.damListViewModel.isList
+                        ? 'ms-3 text-color'
+                        : 'w-100 lcl lcl-1 p-2 text-color'
+                    }
+                  >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                   </span>
                 </div>
@@ -233,7 +248,7 @@ const HomeList = observer(
           Header: t('txt_size'),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
-            <div {...row.getToggleRowExpandedProps()} className="d-flex">
+            <div className="d-flex">
               <span className="">
                 {row.original[DAM_ASSETS_FIELD_KEY.TYPE]
                   ? row.original[DAM_ASSETS_FIELD_KEY.FILE_SIZE]
@@ -252,6 +267,7 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
         },
       ];
+
       const collectionId = history.location.pathname.split('/');
 
       let handleColections = [];

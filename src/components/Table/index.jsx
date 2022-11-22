@@ -4,7 +4,7 @@
  */
 
 import React, { lazy, useEffect, useMemo } from 'react';
-import { useExpanded, usePagination, useRowSelect, useTable } from 'react-table';
+import { usePagination, useRowSelect, useTable } from 'react-table';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
@@ -12,10 +12,18 @@ import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import {
+  DAM_ASSETS_FIELD_KEY,
+  DAM_COLLECTION_FIELD_KEY,
+} from 'aesirx-dma-lib/src/Constant/DamConstant';
 import Dropzone from 'components/Dropzone';
 import { useTranslation, withTranslation } from 'react-i18next';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 import ComponentNoData from '../ComponentNoData';
+import Thumb from './Thumb';
+import { notify } from 'components/Toast';
 
 const Select = lazy(() => import('../Select'));
 
@@ -157,13 +165,42 @@ const Table = ({
           ...columns,
         ]);
     },
-    useExpanded,
     usePagination,
     useRowSelect
   );
 
+  const moveRow = (dragIndex, hoverIndex) => {
+    if (dragIndex?.[DAM_ASSETS_FIELD_KEY.TYPE] && !hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+      listViewModel.updateAssets({
+        ...dragIndex,
+        [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
+      });
+      notify(
+        t('txt_move_with_file_or_folder', {
+          type: t('txt_file'),
+          name: dragIndex?.[DAM_ASSETS_FIELD_KEY.NAME],
+          name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
+        })
+      );
+    } else if (!hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+      listViewModel.updateCollections({
+        ...dragIndex,
+        [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
+      });
+      notify(
+        t('txt_move_with_file_or_folder', {
+          type: t('txt_folders'),
+          name: dragIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
+          name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
+        })
+      );
+    } else {
+      notify(t('txt_can_not_move'), 'warning');
+    }
+  };
+
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
           <div className="wrapper_search_global d-flex align-items-center">
@@ -320,6 +357,7 @@ const Table = ({
               check = 1;
               return (
                 <React.Fragment key={Math.random(40, 200)}>
+                  {/* Upload Block */}
                   <div
                     className={`col_thumb cursor-pointer align-self-center col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
@@ -358,76 +396,41 @@ const Table = ({
                   <div className="col-12">
                     <p className="fw-bold">{t('txt_file')}</p>
                   </div>
-                  <div
+
+                  {/* Item */}
+                  <Thumb
                     {...row.getRowProps()}
-                    className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
+                    className={`col_thumb ${styles.col_thumb} col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
                     } mb-4 zindex-2`}
                     key={Math.random(40, 200)}
-                  >
-                    <div
-                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2 overflow-hidden flex-column`}
-                      key={Math.random(40, 200)}
-                      onDoubleClick={
-                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
-                          ? () => {}
-                          : () => onDoubleClick(row.original.id)
-                      }
-                      onContextMenu={(e) => {
-                        onRightClickItem(e, row.original);
-                      }}
-                    >
-                      {newRowCells.map((cell) => {
-                        return (
-                          <div
-                            {...cell.getCellProps()}
-                            className={`ct_cell ${styles.ct_cell} d-block`}
-                            key={Math.random(40, 200)}
-                          >
-                            {cell.render('Cell')}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                    newRowCells={newRowCells}
+                    index={row.original}
+                    row={row}
+                    onDoubleClick={onDoubleClick}
+                    onRightClickItem={onRightClickItem}
+                    moveRow={moveRow}
+                  />
                 </React.Fragment>
               );
             } else if (check === 0 && rows.length === index + 1) {
               check = 1;
               return (
                 <React.Fragment key={Math.random(40, 200)}>
-                  <div
+                  <Thumb
                     {...row.getRowProps()}
-                    className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
+                    className={`col_thumb ${styles.col_thumb} col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
                     } mb-4 zindex-2`}
                     key={Math.random(40, 200)}
-                  >
-                    <div
-                      className={`item_thumb d-flex align-items-center justify-content-center  bg-white shadow-sm h-100 rounded-2 overflow-hidden flex-column`}
-                      key={Math.random(40, 200)}
-                      onDoubleClick={
-                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
-                          ? () => {}
-                          : () => onDoubleClick(row.original.id)
-                      }
-                      onContextMenu={(e) => {
-                        onRightClickItem(e, row.original);
-                      }}
-                    >
-                      {newRowCells.map((cell) => {
-                        return (
-                          <div
-                            {...cell.getCellProps()}
-                            className={`ct_cell ${styles.ct_cell} d-block`}
-                            key={Math.random(40, 200)}
-                          >
-                            {cell.render('Cell')}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                    newRowCells={newRowCells}
+                    index={row.original}
+                    row={row}
+                    onDoubleClick={onDoubleClick}
+                    onRightClickItem={onRightClickItem}
+                    moveRow={moveRow}
+                  />
+                  {/* Upload Block */}
                   <div
                     className={`col_thumb cursor-pointer align-self-center col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
@@ -474,38 +477,19 @@ const Table = ({
                       <p className="fw-bold">{t('txt_folders')}</p>
                     </div>
                   ) : null}
-                  <div
+                  <Thumb
                     {...row.getRowProps()}
-                    className={`col_thumb cursor-pointer ${styles.col_thumb} col-${
+                    className={`col_thumb ${styles.col_thumb} col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
                     } mb-4 zindex-2`}
                     key={Math.random(40, 200)}
-                  >
-                    <div
-                      className={`item_thumb d-flex align-items-center justify-content-center bg-white shadow-sm h-100 rounded-2 overflow-hidden  flex-column`}
-                      key={Math.random(40, 200)}
-                      onDoubleClick={
-                        row.original[DAM_ASSETS_FIELD_KEY.TYPE]
-                          ? () => {}
-                          : () => onDoubleClick(row.original.id)
-                      }
-                      onContextMenu={(e) => {
-                        onRightClickItem(e, row.original);
-                      }}
-                    >
-                      {newRowCells.map((cell) => {
-                        return (
-                          <div
-                            {...cell.getCellProps()}
-                            className={`ct_cell ${styles.ct_cell} d-block`}
-                            key={Math.random(40, 200)}
-                          >
-                            {cell.render('Cell')}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                    newRowCells={newRowCells}
+                    index={row.original}
+                    row={row}
+                    onDoubleClick={onDoubleClick}
+                    onRightClickItem={onRightClickItem}
+                    moveRow={moveRow}
+                  />
                 </React.Fragment>
               )
             );
@@ -520,15 +504,11 @@ const Table = ({
               createAssets={createAssets}
             />
           ) : (
-            <>
-              <div className="position-absolute h-100 w-100 top-0 start-0 zindex-1">
-                <Dropzone createAssets={createAssets} noClick={true} />
-              </div>
-            </>
+            <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
           )}
         </div>
       )}
-    </>
+    </DndProvider>
   );
 };
 

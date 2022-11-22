@@ -3,48 +3,71 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import styles from './index.module.scss';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 
 // import ComponentImage from '../ComponentImage';
 
-const Dropzone = ({ children, noClick, createAssets, className }) => {
+const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, noDrag = true }) => {
+  const [onDrag, setOnDrag] = useState(false);
   const { getRootProps, getInputProps } = useDropzone({
     // accept: '*',
     noClick: noClick,
+    noDrag: noDrag,
     maxFiles: 1,
     multiple: false,
-    onDragEnter: () => {},
-    onDragLeave: () => {},
+    onDragEnter: () => {
+      setOnDrag(true);
+    },
+    onDragLeave: () => {
+      setOnDrag(false);
+    },
     onDrop: (acceptedFiles) => {
-      // console.log(acceptedFiles);
-      // setFile(URL.createObjectURL(acceptedFiles[0]));
+      setOnDrag(false);
       createAssets(acceptedFiles[0]);
     },
   });
 
   return (
-    <div className={`position-relative ${className ?? 'w-100 h-100'}`}>
-      <div {...getRootProps()} className="cursor-auto w-100 h-100">
-        <input
-          {...getInputProps()}
-          className="position-absolute start-0 top-0 bottom-0 end-0 cursor-auto"
-        />
-        {/* <div className="d-flex align-items-center p-3">
-          <i className="fs-1 text-blue-0 opacity-25">
-            <FontAwesomeIcon icon={faCloudUploadAlt} />
-          </i>
-          <div className="text-center ms-1">
-            <p className="mb-0 ms-2">
-              <strong>Choose file</strong>
-            </p>
+    <div
+      className={
+        !isBtn
+          ? `position-absolute h-100 w-100 top-0 start-0 ${onDrag ? 'zindex-3' : 'zindex-1'}`
+          : ''
+      }
+    >
+      <div
+        className={`${className ?? 'w-100 h-100'} ${
+          onDrag ? styles.ondragenter : 'position-relative '
+        } `}
+      >
+        <div {...getRootProps()} className={'cursor-auto w-100 h-100'}>
+          <input
+            {...getInputProps()}
+            className="position-absolute start-0 top-0 bottom-0 end-0 cursor-auto"
+          />
+
+          {children}
+        </div>
+        {onDrag ? (
+          <div
+            className={`position-absolute bottom-0 start-50 translate-middle text-center zindex-3`}
+          >
+            <FontAwesomeIcon
+              style={{ width: 50, height: 50 }}
+              color="#fff"
+              icon={faCloudUploadAlt}
+              bounce={true}
+              className={styles.bounce}
+            />
+            <p className={` ${styles.droptoupload}`}>Drop to upload</p>
           </div>
-        </div> */}
-        {children}
+        ) : null}
       </div>
-      {/* <div key={field.value} className="text-center">
-        <ComponentImage src={file} alt={field.value} />
-      </div> */}
     </div>
   );
 };

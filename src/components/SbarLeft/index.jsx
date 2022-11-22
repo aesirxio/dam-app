@@ -18,6 +18,11 @@ import Menu2 from 'components/Menu2';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+
+const calculatorPercentage = (a, b) => {
+  return (a / b) * 100 ?? 0;
+};
+
 const SbarLeft = observer(
   class SbarLeft extends React.Component {
     constructor(props) {
@@ -95,24 +100,24 @@ const SbarLeft = observer(
                   className="progress-bar"
                   role="progressbar"
                   style={{
-                    width: `${
+                    width: `${calculatorPercentage(
                       this.damListViewModel?.subscription?.[0]?.[
                         DAM_SUBSCIPTION_FIELD_KEY.PRODUCT
-                      ]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE] /
+                      ]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE],
                       this.damListViewModel?.subscription?.[0]?.[
                         DAM_SUBSCIPTION_FIELD_KEY.PACKAGE
                       ]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT]
-                    }%`,
+                    )}%`,
                   }}
                   aria-label="Basic example"
-                  aria-valuenow={
+                  aria-valuenow={calculatorPercentage(
                     this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
                       DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
-                    ] /
+                    ],
                     this.damListViewModel?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
                       DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
                     ]
-                  }
+                  )}
                   aria-valuemin="0"
                   aria-valuemax="100"
                 ></div>
@@ -137,9 +142,12 @@ const SbarLeft = observer(
                     DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
                   ] ?? 'Unlimited'} */}
                 </span>
-                {/* <a href="" className="text-cyan text-decoration-underline col-auto fs-14">
+                <a
+                  href="https://dam.aesirx.io/#packages"
+                  className="text-cyan text-decoration-underline col-auto fs-14"
+                >
                   {t('txt_upgrade')}
-                </a> */}
+                </a>
               </p>
             </div>
             {/* <a href="/" className="d-flex align-items-center py-2 px-3">
@@ -147,8 +155,6 @@ const SbarLeft = observer(
               <span className="text-white ps-3">{t('txt_help_center')}</span>
             </a> */}
           </div>
-
-          <div></div>
         </aside>
       );
     }

@@ -199,19 +199,18 @@ class HomeForm extends Component {
                   return arr.concat(el);
                 }, [])}
             </div>
-            <div className="row">
-              <div className="col-6">
+            <div className="row justify-content-end">
+              <div className="col-4">
+                <Button
+                  text={t('txt_Cancel')}
+                  onClick={closeModal}
+                  className="btn btn-outline-dark w-100"
+                />
+              </div>
+              <div className="col-4">
                 <Button
                   text={t('txt_save_update')}
                   onClick={() => this.props.handleUpdate(this.formPropsData)}
-                  className="btn btn-success w-100"
-                />
-              </div>
-
-              <div className="col-6">
-                <Button
-                  text={t('txt_cancle')}
-                  onClick={closeModal}
                   className="btn btn-success w-100"
                 />
               </div>

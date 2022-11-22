@@ -11,7 +11,6 @@ import { mainRoutes } from '../../routes/routes';
 import Spinner from '../../components/Spinner';
 import Header from '../../components/Header';
 import SbarLeft from '../../components/SbarLeft';
-import Welcome from '../../components/Welcome';
 import { isLogin } from '../../auth';
 
 const MainLayout = () => {
@@ -30,7 +29,6 @@ const MainLayout = () => {
               </Suspense>
             </div>
           </div>
-          <Welcome />
         </main>
       </div>
     </div>

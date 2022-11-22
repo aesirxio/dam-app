@@ -13,6 +13,8 @@ class DamFormViewModel {
   show = false;
   showContextMenu = false;
   showDeleteModal = false;
+  showCreateCollectionModal = false;
+  showUpdateModal = false;
   damEditdata = null;
   editMode = null;
   damListViewModel = null;
@@ -49,11 +51,32 @@ class DamFormViewModel {
     this.showDeleteModal = false;
   };
 
+  openCreateCollectionModal = () => {
+    this.showCreateCollectionModal = true;
+  };
+
+  closeCreateCollectionModal = () => {
+    this.showCreateCollectionModal = false;
+  };
+
+  openUpdateCollectionModal = () => {
+    this.showUpdateModal = true;
+  };
+
+  closeUpdateCollectionModal = () => {
+    this.showUpdateModal = false;
+  };
+
   downloadFile = () => {
-    saveAs(
-      this.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
-      this.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
-    );
+    const fileSave = new Promise((resolve) => {
+      saveAs(
+        this.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+        this.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
+      );
+      resolve();
+    });
+
+    notify(fileSave, 'promise');
   };
 
   callbackOnErrorHander = (data) => {

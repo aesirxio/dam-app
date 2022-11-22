@@ -46,7 +46,7 @@ class ComponentNoData extends Component {
             {linlText}
           </Link>
         )} */}
-        <Dropzone createAssets={createAssets} noClick={false}>
+        <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={false}>
           <div className="d-flex align-items-center justify-content-center h-100 w-100">
             <div>
               <p>{t('txt_drop_files_anywhere_to_upload')}</p>

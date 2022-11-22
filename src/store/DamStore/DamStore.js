@@ -64,10 +64,10 @@ export default class DamStore {
           });
         }
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {
@@ -79,6 +79,59 @@ export default class DamStore {
         }
       }
     } catch (error) {
+      runInAction(() => {
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
+      });
+    }
+  };
+
+  getAllCollections = async (callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.getAllCollections();
+      if (responsedDataFromLibary?.list) {
+        const collectionDataModel = responsedDataFromLibary?.list;
+        if (collectionDataModel) {
+          runInAction(() => {
+            callbackOnSuccess({
+              list: collectionDataModel,
+              pagination: responsedDataFromLibary.pagination,
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'No Result',
+            });
+          });
+        }
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancel') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancel',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
       runInAction(() => {
         if (error.response?.data.message) {
           callbackOnError({
@@ -116,10 +169,10 @@ export default class DamStore {
           });
         }
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {
@@ -159,10 +212,10 @@ export default class DamStore {
           });
         });
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {
@@ -202,10 +255,10 @@ export default class DamStore {
           });
         });
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {
@@ -256,10 +309,10 @@ export default class DamStore {
           });
         }
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {
@@ -309,10 +362,10 @@ export default class DamStore {
           });
         }
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {
@@ -352,10 +405,10 @@ export default class DamStore {
           });
         });
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {
@@ -395,10 +448,10 @@ export default class DamStore {
           });
         });
       } else {
-        if (responsedDataFromLibary?.message === 'isCancle') {
+        if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
             callbackOnError({
-              message: 'isCancle',
+              message: 'isCancel',
             });
           });
         } else {

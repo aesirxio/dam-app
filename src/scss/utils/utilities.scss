@@ -170,7 +170,7 @@ $utilities: (
   'cursor': (
     property: cursor,
     class: cursor,
-    values: none auto pointer,
+    values: none auto pointer move,
   ),
   'zindex': (
     property: z-index,
@@ -185,12 +185,20 @@ $utilities: (
     ),
   ),
   'min-height': (
-    property: z-index,
+    property: min-height,
     class: minh,
     values: (
       auto: auto,
       100: 100%,
       80: 80%,
+    ),
+  ),
+  'min-width': (
+    property: min-width,
+    class: minw,
+    values: (
+      auto: auto,
+      90px: 90px,
     ),
   ),
   'max-width': (
