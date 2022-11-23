@@ -86,7 +86,7 @@ const HomeActionBar = observer(
                       <span key={_breadcrumb?.id}>
                         <FontAwesomeIcon
                           size={'1x'}
-                          className="text-green text-color px-2"
+                          className="text-green  px-2"
                           icon={faAngleRight}
                         />
                         {_breadcrumb.name}
