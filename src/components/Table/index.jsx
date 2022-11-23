@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { lazy, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { usePagination, useRowSelect, useTable } from 'react-table';
 
 import { faList } from '@fortawesome/free-solid-svg-icons/faList';
@@ -22,8 +22,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import ComponentNoData from '../ComponentNoData';
 import Thumb from './Thumb';
 import { notify } from 'components/Toast';
-
-const Select = lazy(() => import('../Select'));
+import Select from '../Select';
 
 let dataFilter = {
   searchText: '',
@@ -234,36 +233,36 @@ const Table = ({
             <div className="d-flex align-items-center">
               <button
                 type="button"
-                className={`btn text-blue-0 rounded-0 px-4 shadow-none ${
-                  isList ? 'bg-blue-3' : ''
+                className={`btn fw-bold rounded-0 px-4 shadow-none ${
+                  isList ? 'bg-blue-3 text-white' : 'text-blue-0'
                 }`}
                 onClick={() => _handleList('list')}
               >
                 <i>
                   <FontAwesomeIcon icon={faList} />
                 </i>
-                <span className="ms-2 opacity-75">{t('txt_list')}</span>
+                <span className="ms-2">{t('txt_list')}</span>
               </button>
               <button
                 type="button"
-                className={`btn text-blue-0 rounded-0 px-4 shadow-none ${
-                  !isList ? 'bg-blue-3' : ''
+                className={`btn fw-bold rounded-0 px-4 shadow-none ${
+                  !isList ? 'bg-blue-3 text-white' : 'text-blue-0'
                 }`}
                 onClick={() => _handleList('thumb')}
               >
                 <i>
                   <FontAwesomeIcon icon={faTh} />
                 </i>
-                <span className="ms-2 opacity-75">{t('txt_thumb')}</span>
+                <span className="ms-2">{t('txt_thumb')}</span>
               </button>
             </div>
           )}
         </div>
       </div>
       {isList ? (
-        <div className="bg-white p-3 rounded-3 col">
+        <div className="py-3 rounded-3 col">
           {rows.length ? (
-            <table {...getTableProps()} className={`w-100 mb-4 ${classNameTable}`}>
+            <table {...getTableProps()} className={`w-100 bg-white shadow mb-4 ${classNameTable}`}>
               <thead>
                 {headerGroups.map((headerGroup) => {
                   let newHeaderGroup = '';
@@ -275,7 +274,10 @@ const Table = ({
                     : (newHeaderGroup = headerGroup.headers);
 
                   return (
-                    <tr {...headerGroup.getHeaderGroupProps()} className="bg-white">
+                    <tr
+                      {...headerGroup.getHeaderGroupProps()}
+                      className="bg-white border-bottom border-gray-500"
+                    >
                       {newHeaderGroup.map((column) => {
                         return (
                           <th
@@ -348,7 +350,7 @@ const Table = ({
               return (
                 <React.Fragment key={Math.random(40, 200)}>
                   <div className="col-12">
-                    <p className="fw-bold">{t('txt_file')}</p>
+                    <p className="fw-bold text-blue-0">{t('txt_file')}</p>
                   </div>
 
                   {/* Item */}
@@ -394,7 +396,7 @@ const Table = ({
                 <React.Fragment key={Math.random(40, 200)}>
                   {index === 0 ? (
                     <div className="col-12">
-                      <p className="fw-bold">{t('txt_folders')}</p>
+                      <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
                     </div>
                   ) : null}
                   <Thumb

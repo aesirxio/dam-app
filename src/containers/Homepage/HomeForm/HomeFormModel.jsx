@@ -251,6 +251,7 @@ const HomeFormModal = observer(
                   this.damFormModalViewModel.closeContextMenuItem();
                   this.damFormModalViewModel.closeContextMenu();
                 }}
+                contentClassName={'bg-white shadow'}
                 body={
                   <HomeForm
                     delete={this.handleDelete}
@@ -274,6 +275,7 @@ const HomeFormModal = observer(
                   this.damFormModalViewModel.closeContextMenu();
                 }}
                 header={t('txt_new_folder')}
+                contentClassName={'bg-white shadow'}
                 body={
                   <CollectionForm
                     onSubmit={this.handleCreateFolder}
@@ -297,6 +299,7 @@ const HomeFormModal = observer(
                   this.damFormModalViewModel.closeContextMenu();
                 }}
                 header={t('txt_rename')}
+                contentClassName={'bg-white shadow'}
                 body={
                   <CollectionForm
                     onSubmit={this.handleRename}
@@ -319,6 +322,7 @@ const HomeFormModal = observer(
                   this.damFormModalViewModel.closeContextMenuItem();
                   this.damFormModalViewModel.closeContextMenu();
                 }}
+                contentClassName={'bg-white shadow'}
                 body={
                   <div className="d-flex flex-column justify-content-center align-items-center pb-5">
                     <ComponentImage className="mb-3" src="/assets/images/ep_circle-close.png" />
@@ -333,7 +337,7 @@ const HomeFormModal = observer(
                         <Button
                           text={t('txt_Cancel')}
                           onClick={this.damFormModalViewModel.closeDeleteModal}
-                          className="btn btn-outline-white border "
+                          className="btn btn-outline-gray-300 text-blue-0 border "
                         />
                       </div>
                       <div className="col-auto">

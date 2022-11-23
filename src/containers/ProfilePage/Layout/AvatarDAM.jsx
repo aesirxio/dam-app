@@ -6,7 +6,6 @@
 import React from 'react';
 import { withTranslation, useTranslation } from 'react-i18next';
 
-
 const AvatarDAM = ({ children }) => {
   const { t } = useTranslation('common');
 

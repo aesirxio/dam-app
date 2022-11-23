@@ -24,7 +24,7 @@ const HomePage = (props) => {
     <SettingViewModelContextProvider viewModel={settingViewModel}>
       <div className="py-4 px-3 h-100 storage-content">
         <div className="mb-4">
-          <h2 className="text-blue-0">{t('txt_configuration_storage')}</h2>
+          <h2 className="">{t('txt_configuration_storage')}</h2>
           <p>{t('txt_configuration_desc')}</p>
         </div>
         <Suspense fallback={<Spinner />}>
