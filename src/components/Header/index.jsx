@@ -16,7 +16,7 @@ import DropdownAvatar from '../DropdownAvatar';
 
 import ComponentHambuger from '../ComponentHambuger';
 import ComponentImage from '../ComponentImage';
-// import Search from 'components/Search';
+import Search from 'components/Search';
 
 class Header extends React.Component {
   constructor(props) {
@@ -64,14 +64,14 @@ class Header extends React.Component {
             )}
           </a>
         </div>
-        <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center ps-4 pr-4 position-relative bg-white">
+        <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center ps-4 pr-4 position-relative">
           <span
             className="
               item_collap
               d-flex
               position-absolute
               text-green
-              bg-gray-200
+              bg-blue-1
               rounded-circle
               align-items-center
               justify-content-center
@@ -80,10 +80,10 @@ class Header extends React.Component {
             "
             onClick={this.handleCollap}
           >
-            <FontAwesomeIcon icon={faChevronLeft} className="text-green" />
+            <FontAwesomeIcon icon={faChevronLeft} />
           </span>
           <div className="d-flex justify-content-between flex-1 align-items-center">
-            {/* <Search /> */}
+            <Search />
             <div className="d-flex align-items-center">
               <div className="wr_help_center ps-3 pe-3 d-none">
                 <span className="item_help d-flex align-items-center text-blue-0 cursor-pointer">
