@@ -3,12 +3,22 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 const DND_ITEM_TYPE = 'row';
 
-function Thumb({ row, className, newRowCells, index, moveRow, onDoubleClick, onRightClickItem }) {
+function Thumb({
+  row,
+  className,
+  newRowCells,
+  index,
+  moveRow,
+  onDoubleClick,
+  onRightClickItem,
+  isList = false,
+}) {
   const dropRef = React.useRef(null);
   const dragRef = React.useRef(null);
   const [{ isOver }, drop] = useDrop({
@@ -67,9 +77,37 @@ function Thumb({ row, className, newRowCells, index, moveRow, onDoubleClick, onR
 
   preview(drop(dropRef));
   drag(dragRef);
-  return (
+  return isList ? (
+    <tr
+      key={row.getRowProps().key}
+      {...row.getRowProps()}
+      className={`cursor-pointer ${
+        isOver ? 'border border-success bg-gray-dark' : 'border-none'
+      } ${className}`}
+      onDoubleClick={() => onDoubleClick(row.original)}
+      onContextMenu={(e) => {
+        onRightClickItem(e, row.original);
+      }}
+      ref={dropRef}
+      style={{ opacity }}
+    >
+      {newRowCells.map((cell) => {
+        if (cell.column.id === DAM_COLUMN_INDICATOR.NAME) {
+          return (
+            <td {...cell.getCellProps()} ref={dragRef} className="fw-normal px-2 py-3">
+              {cell.render('Cell')}
+            </td>
+          );
+        }
+        return (
+          <td {...cell.getCellProps()} className="fw-normal px-2 py-3">
+            {cell.render('Cell')}
+          </td>
+        );
+      })}
+    </tr>
+  ) : (
     <div ref={dropRef} style={{ opacity }} className={className}>
-      {/* <div >move</div> */}
       <div
         ref={dragRef}
         className={`item_thumb d-flex cursor-move align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column ${

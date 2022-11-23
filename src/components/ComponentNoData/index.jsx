@@ -52,7 +52,7 @@ class ComponentNoData extends Component {
               <p>{t('txt_drop_files_anywhere_to_upload')}</p>
               <p>{t('txt_or')}</p>
               <Button
-                className="text-dark bg-white btn-white border w-100"
+                className="text-gray-900 bg-white btn-white border w-100"
                 text="txt_select_file"
               />
             </div>

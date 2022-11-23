@@ -26,7 +26,7 @@ const MainLayout = () => {
             <Header />
             <div className="main_content vh-100 main_content_dashboard pd-t-80 d-flex">
               <SbarLeft />
-              <div className="flex-1 border-start-1 border-gray bg-blue mh-100 overflow-hidden overflow-y-auto position-relative main-content">
+              <div className="flex-1 border-start-1 border-gray mh-100 overflow-hidden overflow-y-auto position-relative main-content bg-theme">
                 <Suspense fallback={<Spinner />}>
                   {mainRoutes.map(({ path, exact, main }, i) => {
                     return <Route key={i} exact={exact} path={path} component={main} />;

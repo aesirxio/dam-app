@@ -8,16 +8,15 @@ $font-family-sans-serif: 'OpenSans', sans-serif !default;
 
 $white: #fff !default;
 $gray-100: #f6f8fa !default;
-$gray-200: #e9ecef !default;
+$gray-200: #e8f1f6 !default;
 $gray-300: #dedede !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
+$gray-400: #f7f7f7 !default;
+$gray-500: #babad0 !default;
+$gray-600: #828282 !default;
 $gray-700: #495057 !default;
-$gray-800: #343a40 !default;
+$gray-800: #222328 !default;
 $gray-900: #1a2226 !default;
 $black: #000 !default;
-
 // fusv-disable
 $grays: (
   '100': $gray-100,
@@ -58,6 +57,8 @@ $colors: (
   'white': $white,
   'gray': $gray-600,
   'gray-dark': $gray-800,
+  'gray-900': $gray-900,
+  'danger': $red,
 ) !default;
 // scss-docs-end colors-map
 
@@ -70,7 +71,7 @@ $danger: $red !default;
 $light: $gray-100 !default;
 $dark: $gray-900 !default;
 
-// scss-docs-start theme-colors-map
+// scss-docs-end theme-colors-map
 $theme-colors: (
   'primary': $primary,
   'secondary': $secondary,
@@ -83,11 +84,12 @@ $theme-colors: (
   'gray-100': $gray-100,
   'gray-300': $gray-300,
   'cyan': $cyan,
+  'theme': $gray-100,
+  'gray-200': $gray-200,
+  'gray-400': $gray-400,
 ) !default;
-// scss-docs-end theme-colors-map
 
 // Body
-//
 // Settings for the `<body>` element.
 
 $body-bg: $white !default;
@@ -193,14 +195,14 @@ $color-blue: #081240;
 $color-blue-1: #3b5998;
 $color-blue-2: #00acee;
 $color-blue-3: #3b7ab5;
-$color-blue-4: #f5f8fa;
+$color-blue-4: #f6f8fa;
 $color-blue-5: #e8f1f6;
-$color-blue-6: #dce6eb;
+$color-blue-6: #282831;
 $color-blue-7: #199ce3;
 $color-blue-8: #54c7ec;
 
 //BORDER COLOR
-$border-color: #d5d5d5;
+$border-color: #3e545e;
 
 //Z-INDEX
 
@@ -228,3 +230,13 @@ $accordion-button-focus-box-shadow: $color-blue-6;
 $nav-tabs-link-active-color: #fff;
 $nav-tabs-link-active-bg: $color-blue-3;
 $grid-gutter-width: 1.25rem;
+
+// for react-select
+:root {
+  --border-color: #e8e9ec;
+  --dropdown-item-hover-color: $green;
+  --dropdown-item-hover-bg: $green;
+  --view-active-bg: #e8e9ec;
+  --text-title-color: $color-blue;
+  --dropdown-bg: #e8e9ec;
+}

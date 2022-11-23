@@ -24,7 +24,6 @@ class ModalComponent extends React.Component {
       contentClassName,
       modalClassname,
     } = this.props;
-
     return (
       <Modal
         show={show}
