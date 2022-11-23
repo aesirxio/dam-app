@@ -18,6 +18,7 @@ function Thumb({
   onDoubleClick,
   onRightClickItem,
   isList = false,
+  type,
 }) {
   const dropRef = React.useRef(null);
   const dragRef = React.useRef(null);
@@ -90,11 +91,12 @@ function Thumb({
       }}
       ref={dropRef}
       style={{ opacity }}
+      type={type}
     >
       {newRowCells.map((cell) => {
         if (cell.column.id === DAM_COLUMN_INDICATOR.NAME) {
           return (
-            <td {...cell.getCellProps()} ref={dragRef} className="fw-normal px-2 py-3">
+            <td {...cell.getCellProps()} ref={dragRef} className="fw-normal px-2 py-3 cursor-move">
               {cell.render('Cell')}
             </td>
           );
@@ -117,6 +119,7 @@ function Thumb({
         onContextMenu={(e) => {
           onRightClickItem(e, row.original);
         }}
+        type={type}
       >
         {newRowCells.map((cell) => {
           return (

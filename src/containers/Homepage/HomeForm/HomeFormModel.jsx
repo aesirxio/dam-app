@@ -13,12 +13,17 @@ import SimpleReactValidator from 'simple-react-validator';
 import HomeForm from './HomeForm';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import {
+  DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
 } from 'aesirx-dma-lib/src/Constant/DamConstant';
 import CollectionForm from './CollectionForm';
 import history from 'routes/history';
+import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
+import Dropzone from 'components/Dropzone';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ModalComponent = React.lazy(() => import('../../../components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
@@ -114,16 +119,35 @@ const HomeFormModal = observer(
       this.damFormModalViewModel.closeCreateCollectionModal();
     };
 
+    handleCreateAssets = (data) => {
+      if (data) {
+        const collectionId = history.location.pathname.split('/');
+        const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+
+        this.damListViewModel.createAssets({
+          [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
+          [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
+            ? collectionId[collectionId.length - 1]
+            : 0,
+          [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
+        });
+        this.damFormModalViewModel.closeContextMenu();
+      }
+    };
+
     render() {
       const {
         show,
         showDeleteModal,
         showContextMenu,
+        showContextMenuItem,
         openModal,
         openUpdateCollectionModal,
         downloadFile,
         showCreateCollectionModal,
         showUpdateModal,
+        openCreateCollectionModal,
       } = this.damFormModalViewModel;
       const { t } = this.props;
       return (
@@ -131,6 +155,37 @@ const HomeFormModal = observer(
           {showContextMenu ? (
             <div
               id="contextMenu"
+              className={`col_thumb cursor-pointer align-self-center mb-4 bg-white zindex-5 position-fixed`}
+              style={{ ...this.damFormModalViewModel.damEditdata?.style }}
+            >
+              <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
+                <Dropzone createAssets={this.handleCreateAssets}>
+                  <div
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCloudUploadAlt}
+                      className=" d-inline-block align-text-bottom"
+                    />
+
+                    <span className="ms-3 text py-1 d-inline-block">{t('txt_upload_file')}</span>
+                  </div>
+                </Dropzone>
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                  onClick={openCreateCollectionModal}
+                >
+                  <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
+
+                  <span className="ms-3 text py-1 d-inline-block">{t('txt_create_folder')}</span>
+                </div>
+              </div>
+            </div>
+          ) : null}
+
+          {showContextMenuItem ? (
+            <div
+              id="contextMenuItem"
               className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
               style={{ ...this.damFormModalViewModel.damEditdata?.style }}
             >
@@ -192,7 +247,10 @@ const HomeFormModal = observer(
               <ModalComponent
                 show={show}
                 onHide={this.damFormModalViewModel.closeModal}
-                onShow={this.damFormModalViewModel.closeContextMenu}
+                onShow={() => {
+                  this.damFormModalViewModel.closeContextMenuItem();
+                  this.damFormModalViewModel.closeContextMenu();
+                }}
                 contentClassName={'bg-white shadow'}
                 body={
                   <HomeForm
@@ -212,13 +270,16 @@ const HomeFormModal = observer(
               <ModalComponent
                 show={showCreateCollectionModal}
                 onHide={this.damFormModalViewModel.closeCreateCollectionModal}
-                onShow={this.damFormModalViewModel.closeContextMenu}
+                onShow={() => {
+                  this.damFormModalViewModel.closeContextMenuItem();
+                  this.damFormModalViewModel.closeContextMenu();
+                }}
                 header={t('txt_new_folder')}
                 contentClassName={'bg-white shadow'}
                 body={
                   <CollectionForm
                     onSubmit={this.handleCreateFolder}
-                    close={this.damFormModalViewModel.closeonSubmitModal}
+                    close={this.damFormModalViewModel.closeCreateCollectionModal}
                     viewModel={this.damFormModalViewModel}
                     validator={this.validator}
                     type="create"
@@ -233,7 +294,10 @@ const HomeFormModal = observer(
               <ModalComponent
                 show={showUpdateModal}
                 onHide={this.damFormModalViewModel.closeUpdateCollectionModal}
-                onShow={this.damFormModalViewModel.closeContextMenu}
+                onShow={() => {
+                  this.damFormModalViewModel.closeContextMenuItem();
+                  this.damFormModalViewModel.closeContextMenu();
+                }}
                 header={t('txt_rename')}
                 contentClassName={'bg-white shadow'}
                 body={
@@ -254,7 +318,10 @@ const HomeFormModal = observer(
               <ModalComponent
                 show={showDeleteModal}
                 onHide={this.damFormModalViewModel.closeDeleteModal}
-                onShow={this.damFormModalViewModel.closeContextMenu}
+                onShow={() => {
+                  this.damFormModalViewModel.closeContextMenuItem();
+                  this.damFormModalViewModel.closeContextMenu();
+                }}
                 contentClassName={'bg-white shadow'}
                 body={
                   <div className="d-flex flex-column justify-content-center align-items-center pb-5">
