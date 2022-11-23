@@ -64,14 +64,14 @@ class Header extends React.Component {
             )}
           </a>
         </div>
-        <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center ps-4 pr-4 position-relative">
+        <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center ps-4 pr-4 position-relative bg-white">
           <span
             className="
               item_collap
               d-flex
               position-absolute
               text-green
-              bg-blue-1
+              bg-gray-200
               rounded-circle
               align-items-center
               justify-content-center
@@ -80,7 +80,7 @@ class Header extends React.Component {
             "
             onClick={this.handleCollap}
           >
-            <FontAwesomeIcon icon={faChevronLeft} />
+            <FontAwesomeIcon icon={faChevronLeft} className="text-green" />
           </span>
           <div className="d-flex justify-content-between flex-1 align-items-center">
             <Search />

@@ -5,16 +5,16 @@
 
 import { isLogin } from 'auth';
 
-import React from 'react';
+import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import LoginPage from '../containers/LoginPage';
+const LoginPage = lazy(() => import('../containers/LoginPage'));
 
-import WelcomePage from '../containers/WelcomePage';
-import DashboardPage from '../containers/Homepage';
-import SettingPage from 'containers/SettingPage';
+const WelcomePage = lazy(() => import('../containers/WelcomePage'));
+const DashboardPage = lazy(() => import('../containers/Homepage'));
+const SettingPage = lazy(() => import('containers/SettingPage'));
 
-import ProfilePage from '../containers/ProfilePage';
+const ProfilePage = lazy(() => import('../containers/ProfilePage'));
 
 const authRoutes = [
   {
