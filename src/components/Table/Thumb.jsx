@@ -115,6 +115,7 @@ function Thumb({
         }`}
         onDoubleClick={() => onDoubleClick(row.original)}
         onContextMenu={(e) => {
+          1;
           onRightClickItem(e, row.original);
         }}
       >

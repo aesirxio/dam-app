@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import history from '../../../routes/history';
+import history from 'routes/history';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
@@ -13,14 +13,13 @@ import Dropzone from 'components/Dropzone';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import ButtonNormal from '../../../components/ButtonNormal';
-import HomeFormModal from './HomeFormModel';
-import { withRouter } from 'react-router-dom';
+import ButtonNormal from 'components/ButtonNormal';
+import AesirXDamFormModel from './AesirXDamFormModel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 
-const HomeActionBar = observer(
-  class HomeActionBar extends Component {
+const AesirXDamActionBar = observer(
+  class AesirXDamActionBar extends Component {
     damFormModalViewModel = null;
     damListViewModel = null;
     openModal = false;
@@ -28,29 +27,12 @@ const HomeActionBar = observer(
     constructor(props) {
       super(props);
       const { viewModel } = props;
-      this.state = {
-        breadcrumb: [],
-      };
+
       this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
       this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
     }
 
     componentDidMount() {}
-
-    componentDidUpdate(prevProps) {
-      if (this.props.location !== prevProps.location) {
-        const collectionId = history.location.pathname.split('/');
-        // this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
-        const breadcrumb = collectionId.map((id, index) => {
-          if (!isNaN(id) && index !== 0) {
-            return this.damListViewModel.collections.find((collection) => +collection.id === +id);
-          }
-        });
-        this.setState({
-          breadcrumb: breadcrumb ?? [],
-        });
-      }
-    }
 
     handleCreateFolder = () => {
       this.damformModalViewModal.openCreateCollectionModal();
@@ -58,7 +40,7 @@ const HomeActionBar = observer(
 
     handleCreateAssets = (data) => {
       if (data) {
-        const collectionId = history.location.pathname.split('/');
+        const collectionId = this.damListViewModel.damLinkFolder.split('/');
         const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
 
         this.damListViewModel.createAssets({
@@ -74,13 +56,19 @@ const HomeActionBar = observer(
 
     render() {
       const { t } = this.props;
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
 
+      const breadcrumb = collectionId.map((id, index) => {
+        if (!isNaN(id) && index !== 0) {
+          return this.damListViewModel.collections.find((collection) => +collection.id === +id);
+        }
+      });
       return (
         <>
-          <h2 className="text-gray-900 fw-bold">
+          <h2 className="text-blue-0">
             <span>{t('txt_your_digital_assets')}</span>
-            {this.state.breadcrumb
-              ? this.state.breadcrumb.map((_breadcrumb) => {
+            {breadcrumb
+              ? breadcrumb.map((_breadcrumb) => {
                   if (_breadcrumb) {
                     return _breadcrumb?.name ? (
                       <span key={_breadcrumb?.id}>
@@ -99,13 +87,7 @@ const HomeActionBar = observer(
               : null}
           </h2>
           <div className="d-flex justify-content-end">
-            <ButtonNormal
-              onClick={this.handleCreateFolder}
-              iconStart={faFolder}
-              text="txt_create_folder"
-              className="btn-outline-gray-300 text-blue-0 me-3 "
-            />
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} className="me-3">
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
@@ -113,11 +95,17 @@ const HomeActionBar = observer(
                 className=" btn-success"
               />
             </Dropzone>
-            <HomeFormModal />
+            <ButtonNormal
+              onClick={this.handleCreateFolder}
+              iconStart={faFolder}
+              text="txt_create_folder"
+              className="btn-outline-gray-300 text-blue-0"
+            />
+            <AesirXDamFormModel />
           </div>
         </>
       );
     }
   }
 );
-export default withTranslation('common')(withRouter(withDamViewModel(HomeActionBar)));
+export default withTranslation('common')(withDamViewModel(AesirXDamActionBar));

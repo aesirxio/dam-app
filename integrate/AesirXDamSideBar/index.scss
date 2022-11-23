@@ -3,7 +3,14 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-@import '../../scss/utils/bootstrap.scss';
+@import '../../src/scss/utils/bootstrap.scss';
+
+.progress {
+  height: 4px;
+}
+.sidebar {
+  padding-bottom: 234px;
+}
 
 .carvet-toggle {
   left: 0;
@@ -90,7 +97,7 @@
 }
 
 .main-menu {
-  max-height: 400px;
+  max-height: 100%;
   overflow-y: auto;
 }
 body.mini_left {
