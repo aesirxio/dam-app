@@ -16,12 +16,7 @@ import history from '../../routes/history';
 
 import { Toast } from '../../components/Toast';
 import NotFound from '../../containers/NotFound';
-import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
-import DamViewModel from 'store/DamStore/DamViewModel';
-import DamStore from 'store/DamStore/DamStore';
 
-const damStore = new DamStore();
-const damsViewModel = new DamViewModel(damStore);
 const RouterLayout = () => {
   const authPath = authRoutes
     .map((item) => {
@@ -46,7 +41,6 @@ const RouterLayout = () => {
     .reduce((arr, el) => {
       return arr.concat(el);
     }, []);
-
   return (
     <>
       <Toast />
@@ -56,14 +50,12 @@ const RouterLayout = () => {
             <Route exact path={authPath}>
               <AuthLayout />
             </Route>
-            <DamStoreProvider viewModel={damsViewModel}>
-              <Route exact path={mainPath}>
-                <MainLayout />
-              </Route>
-              <Route exact path={settingPath}>
-                <SettingLayout />
-              </Route>
-            </DamStoreProvider>
+            <Route exact path={mainPath}>
+              <MainLayout />
+            </Route>
+            <Route exact path={settingPath}>
+              <SettingLayout />
+            </Route>
             <Route path="*">
               <NotFound />
             </Route>

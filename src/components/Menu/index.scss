@@ -28,7 +28,6 @@
 
     &.active,
     &:hover {
-      // background-color: $blue;
       color: $green !important;
     }
 
@@ -46,7 +45,7 @@
   .link_menu_root {
     &.active,
     &:hover {
-      // background-color: $blue;
+      background-color: $blue;
       color: $white !important;
 
       i,

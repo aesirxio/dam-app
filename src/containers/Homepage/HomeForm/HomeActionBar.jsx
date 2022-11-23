@@ -16,7 +16,9 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import ButtonNormal from '../../../components/ButtonNormal';
 import HomeFormModal from './HomeFormModel';
 import { withRouter } from 'react-router-dom';
-import ComponentImage from 'components/ComponentImage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
+
 const HomeActionBar = observer(
   class HomeActionBar extends Component {
     damFormModalViewModel = null;
@@ -75,17 +77,17 @@ const HomeActionBar = observer(
 
       return (
         <>
-          <h2 className="text-blue-0">
+          <h2 className="text-gray-900 fw-bold">
             <span>{t('txt_your_digital_assets')}</span>
             {this.state.breadcrumb
               ? this.state.breadcrumb.map((_breadcrumb) => {
                   if (_breadcrumb) {
                     return _breadcrumb?.name ? (
                       <span key={_breadcrumb?.id}>
-                        <ComponentImage
-                          wrapperClassName="px-2"
-                          src="/assets/images/caret-right.svg"
-                          alt="caret"
+                        <FontAwesomeIcon
+                          size={'1x'}
+                          className="text-green  px-2"
+                          icon={faAngleRight}
                         />
                         {_breadcrumb.name}
                       </span>
@@ -97,7 +99,13 @@ const HomeActionBar = observer(
               : null}
           </h2>
           <div className="d-flex justify-content-end">
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} className="me-3">
+            <ButtonNormal
+              onClick={this.handleCreateFolder}
+              iconStart={faFolder}
+              text="txt_create_folder"
+              className="btn-outline-gray-300 text-blue-0 me-3 "
+            />
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
@@ -105,12 +113,6 @@ const HomeActionBar = observer(
                 className=" btn-success"
               />
             </Dropzone>
-            <ButtonNormal
-              onClick={this.handleCreateFolder}
-              iconStart={faFolder}
-              text="txt_create_folder"
-              className="btn-outline-gray-300 text-blue-0"
-            />
             <HomeFormModal />
           </div>
         </>
