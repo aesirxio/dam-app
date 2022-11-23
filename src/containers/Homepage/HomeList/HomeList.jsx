@@ -55,7 +55,6 @@ const HomeList = observer(
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
         this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-        // this.damListViewModel.getCollections(collectionId[collectionId.length - 1] ?? 0);
       }
     }
 
@@ -102,9 +101,15 @@ const HomeList = observer(
       this.damListViewModel.isList = !this.damListViewModel.isList;
     };
 
-    handleDoubleClick = (colectionId) => {
-      // console.log(history);
-      history.push(history.location.pathname + '/' + colectionId);
+    handleDoubleClick = (collection) => {
+      if (!collection?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+        history.push(history.location.pathname + '/' + collection.id);
+      } else {
+        this.damformModalViewModal.damEditdata = {
+          ...collection,
+        };
+        this.damformModalViewModal.openModal();
+      }
     };
 
     handleRightClick = (e) => {
@@ -320,7 +325,6 @@ const HomeList = observer(
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
-                noSelection={true}
               />
             </>
           ) : (

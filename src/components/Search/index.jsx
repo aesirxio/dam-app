@@ -51,7 +51,7 @@ const Search = observer(() => {
   const filterBy = () => true;
 
   return (
-    <div className="input-group d-flex mb-0 pe-2 wr_input_search bg-gray-100">
+    <div className="input-group d-flex mb-0 pe-2 wr_input_search bg-theme">
       <button
         type="button"
         id="button-search"
@@ -68,9 +68,9 @@ const Search = observer(() => {
         minLength={1}
         onSearch={handleSearch}
         options={options}
-        className="col bg-gray-100"
+        className="col bg-theme"
         inputProps={{
-          className: 'border-0 w-100 shadow-none bg-gray-100',
+          className: 'border-0 w-100 shadow-none bg-theme fw-semibold',
         }}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
