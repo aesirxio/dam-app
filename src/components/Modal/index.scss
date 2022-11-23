@@ -5,8 +5,8 @@
 
 @import '../../scss/utils/bootstrap.scss';
 
-@import '~bootstrap/scss/modal';
-@import '~bootstrap/scss/close';
+@import 'node_modules/bootstrap/scss/modal';
+@import 'node_modules/bootstrap/scss/close';
 
 .close {
   @extend .btn-close;
