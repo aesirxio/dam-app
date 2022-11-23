@@ -10,7 +10,7 @@ $white: #fff !default;
 $gray-100: #f6f8fa !default;
 $gray-200: #e9ecef !default;
 $gray-300: #dedede !default;
-$gray-400: #ced4da !default;
+$gray-400: #f7f7f7 !default;
 $gray-500: #adb5bd !default;
 $gray-600: #6c757d !default;
 $gray-700: #495057 !default;
@@ -83,6 +83,8 @@ $theme-colors: (
   'gray-100': $gray-100,
   'gray-300': $gray-300,
   'cyan': $cyan,
+  'gray-200': $gray-200,
+  'gray-400': $gray-400,
 ) !default;
 // scss-docs-end theme-colors-map
 

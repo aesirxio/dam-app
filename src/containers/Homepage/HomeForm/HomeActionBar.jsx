@@ -97,7 +97,13 @@ const HomeActionBar = observer(
               : null}
           </h2>
           <div className="d-flex justify-content-end">
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} className="me-3">
+            <ButtonNormal
+              onClick={this.handleCreateFolder}
+              iconStart={faFolder}
+              text="txt_create_folder"
+              className="btn-outline-gray-300 text-blue-0 me-3"
+            />
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
@@ -105,12 +111,6 @@ const HomeActionBar = observer(
                 className=" btn-success"
               />
             </Dropzone>
-            <ButtonNormal
-              onClick={this.handleCreateFolder}
-              iconStart={faFolder}
-              text="txt_create_folder"
-              className="btn-outline-gray-300 text-blue-0"
-            />
             <HomeFormModal />
           </div>
         </>

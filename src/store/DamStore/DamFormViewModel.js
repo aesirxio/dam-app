@@ -11,6 +11,7 @@ import { makeAutoObservable } from 'mobx';
 
 class DamFormViewModel {
   show = false;
+  showContextMenuItem = false;
   showContextMenu = false;
   showDeleteModal = false;
   showCreateCollectionModal = false;
@@ -32,6 +33,14 @@ class DamFormViewModel {
 
   closeContextMenu = () => {
     this.showContextMenu = false;
+  };
+
+  openContextMenuItem = () => {
+    this.showContextMenuItem = true;
+  };
+
+  closeContextMenuItem = () => {
+    this.showContextMenuItem = false;
   };
 
   openModal = () => {

@@ -6,8 +6,6 @@
 import React, { lazy, useEffect, useMemo } from 'react';
 import { usePagination, useRowSelect, useTable } from 'react-table';
 
-import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
-import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -49,7 +47,7 @@ const Table = ({
   _handleList,
   classNameTable,
   onDoubleClick,
-  createFolder,
+  // createFolder,
   createAssets,
   onFilter,
   onSortby,
@@ -277,12 +275,12 @@ const Table = ({
                     : (newHeaderGroup = headerGroup.headers);
 
                   return (
-                    <tr {...headerGroup.getHeaderGroupProps()} className="bg-blue">
+                    <tr {...headerGroup.getHeaderGroupProps()} className="bg-white">
                       {newHeaderGroup.map((column) => {
                         return (
                           <th
                             {...column.getHeaderProps()}
-                            className="fw-normal px-2 py-3 flex-1 bg-blue"
+                            className="fw-normal px-2 py-3 flex-1 bg-white"
                           >
                             {column.render('Header')}
                           </th>
@@ -294,7 +292,7 @@ const Table = ({
               </thead>
               <tbody {...getTableBodyProps()}>
                 {rows.length > 0 &&
-                  rows.map((row) => {
+                  rows.map((row, index) => {
                     prepareRow(row);
                     let newRowCells = '';
 
@@ -305,27 +303,19 @@ const Table = ({
                       : (newRowCells = row.cells);
 
                     return (
-                      <tr
-                        key={row.getRowProps().key}
+                      <Thumb
                         {...row.getRowProps()}
-                        className="border-bottom-1 cursor-pointer"
-                        onDoubleClick={
-                          row.original[DAM_ASSETS_FIELD_KEY.TYPE]
-                            ? () => {}
-                            : () => onDoubleClick(row.original.id)
-                        }
-                        onContextMenu={(e) => {
-                          onRightClickItem(e, row.original);
-                        }}
-                      >
-                        {newRowCells.map((cell) => {
-                          return (
-                            <td {...cell.getCellProps()} className="fw-normal px-2 py-3">
-                              {cell.render('Cell')}
-                            </td>
-                          );
-                        })}
-                      </tr>
+                        isList={true}
+                        className={`zindex-2 ${index % 2 === 0 ? 'bg-gray-400' : 'bg-white'}`}
+                        key={Math.random(40, 200)}
+                        newRowCells={newRowCells}
+                        index={row.original}
+                        row={row}
+                        onDoubleClick={onDoubleClick}
+                        onRightClickItem={onRightClickItem}
+                        moveRow={moveRow}
+                        type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
+                      />
                     );
                   })}
               </tbody>
@@ -357,42 +347,6 @@ const Table = ({
               check = 1;
               return (
                 <React.Fragment key={Math.random(40, 200)}>
-                  {/* Upload Block */}
-                  <div
-                    className={`col_thumb cursor-pointer align-self-center col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                  >
-                    <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
-                      <Dropzone createAssets={createAssets}>
-                        <div
-                          className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
-                        >
-                          <FontAwesomeIcon
-                            icon={faCloudUploadAlt}
-                            className=" d-inline-block align-text-bottom"
-                          />
-
-                          <span className="ms-3 text py-1 d-inline-block">
-                            {t('txt_upload_file')}
-                          </span>
-                        </div>
-                      </Dropzone>
-                      <div
-                        className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
-                        onClick={createFolder}
-                      >
-                        <FontAwesomeIcon
-                          icon={faFolder}
-                          className=" d-inline-block align-text-bottom"
-                        />
-
-                        <span className="ms-3 text py-1 d-inline-block">
-                          {t('txt_create_folder')}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
                   <div className="col-12">
                     <p className="fw-bold">{t('txt_file')}</p>
                   </div>
@@ -410,6 +364,7 @@ const Table = ({
                     onDoubleClick={onDoubleClick}
                     onRightClickItem={onRightClickItem}
                     moveRow={moveRow}
+                    type="assets"
                   />
                 </React.Fragment>
               );
@@ -429,43 +384,8 @@ const Table = ({
                     onDoubleClick={onDoubleClick}
                     onRightClickItem={onRightClickItem}
                     moveRow={moveRow}
+                    type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
                   />
-                  {/* Upload Block */}
-                  <div
-                    className={`col_thumb cursor-pointer align-self-center col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                  >
-                    <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
-                      <Dropzone createAssets={createAssets}>
-                        <div
-                          className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
-                        >
-                          <FontAwesomeIcon
-                            icon={faCloudUploadAlt}
-                            className=" d-inline-block align-text-bottom"
-                          />
-
-                          <span className="ms-3 text py-1 d-inline-block">
-                            {t('txt_upload_file')}
-                          </span>
-                        </div>
-                      </Dropzone>
-                      <div
-                        className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
-                        onClick={createFolder}
-                      >
-                        <FontAwesomeIcon
-                          icon={faFolder}
-                          className=" d-inline-block align-text-bottom"
-                        />
-
-                        <span className="ms-3 text py-1 d-inline-block">
-                          {t('txt_create_folder')}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
                 </React.Fragment>
               );
             }
@@ -489,6 +409,7 @@ const Table = ({
                     onDoubleClick={onDoubleClick}
                     onRightClickItem={onRightClickItem}
                     moveRow={moveRow}
+                    type="folder"
                   />
                 </React.Fragment>
               )
