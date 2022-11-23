@@ -104,7 +104,7 @@
   .item_menu .link_menu {
     &.active,
     &:hover {
-      background-color: var(--sidebar-menu-item-hover-bg) !important;
+      // background-color: var(--sidebar-menu-item-hover-bg) !important;
       i {
         color: var(--sidebar-menu-item-color) !important;
       }

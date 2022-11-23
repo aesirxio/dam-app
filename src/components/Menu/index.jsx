@@ -7,8 +7,6 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
 import Accordion from 'react-bootstrap/Accordion';
@@ -18,6 +16,10 @@ import history from 'routes/history';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import './index.scss';
 import { useAccordionButton } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
+import { useState } from 'react';
+
 const dataMenu = [
   // {
   //   text: 'txt_menu_member',
@@ -51,12 +53,29 @@ const dataMenu = [
   // },
 ];
 
-function CustomToggle({ children, eventKey }) {
-  const decoratedOnClick = useAccordionButton(eventKey);
-
+function CustomToggle({ children, eventKey, isRoot }) {
+  const [open, setOpen] = useState(false);
+  const custom = () => {
+    setOpen((prevState) => !prevState);
+  };
+  const decoratedOnClick = useAccordionButton(eventKey, custom);
   return (
-    <div className="item_menu" onClick={decoratedOnClick}>
+    <div className="item_menu position-relative">
       {children}
+
+      <FontAwesomeIcon
+        className={` position-absolute top-50 translate-middle carvet-toggle text-green ${
+          eventKey === 'root' ? 'index' : ''
+        } ${open ? 'down' : ''}`}
+        onClick={
+          isRoot
+            ? (e) => {
+                e.preventDefault();
+              }
+            : decoratedOnClick
+        }
+        icon={faCaretRight}
+      />
     </div>
   );
 }
@@ -70,121 +89,117 @@ const Menu = observer(
       this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
     }
 
-    handleClick = (e) => {
-      e.preventDefault();
-
-      if (history.location.pathname === '/root') {
-        return;
-      } else {
-        history.goBack();
+    recurseMenu = (parent_id = 0, link) => {
+      if (parent_id === 0) {
+        return (
+          <Accordion.Collapse eventKey={'root'} className="pb-3">
+            <ul id="wr_list_menu" className="list-unstyled mb-0">
+              {this.damListViewModel.collections.map((value, key) => {
+                return (
+                  value.parent_id === 0 && (
+                    <li
+                      key={key}
+                      className={`item_menu px-3 ${value.className ? value.className : ''}`}
+                    >
+                      {this.recurseMenu(value, 'root')}
+                    </li>
+                  )
+                );
+              })}
+            </ul>
+          </Accordion.Collapse>
+        );
       }
+      if (!parent_id) {
+        return null;
+      }
+      const filterCollectionsWithParentId = this.damListViewModel.collections.filter(
+        (collection) => parent_id?.id === collection.parent_id
+      );
+
+      const isActive = history.location.pathname.split('/').includes(parent_id.id.toString());
+
+      return filterCollectionsWithParentId.length ? (
+        <Accordion>
+          <CustomToggle className="item_menu" as={'div'} eventKey={parent_id?.id}>
+            <NavLink
+              exact={true}
+              to={'/' + link + '/' + parent_id.id}
+              className={`d-flex align-items-center rounded-1 px-3 py-2 link_menu text-white text-decoration-none ${
+                isActive && 'active'
+              }`}
+              activeClassName={`active`}
+            >
+              <ComponentImage
+                alt={'folder'}
+                src="/assets/images/folder-outline.svg"
+                className=" d-inline-block align-text-bottom"
+                wrapperClassName="col-auto"
+              />
+              <span className="ms-3 py-1 d-inline-block col">{parent_id.name}</span>
+            </NavLink>
+          </CustomToggle>
+
+          <Accordion.Collapse eventKey={parent_id?.id}>
+            <ul id="wr_list_menu" className="list-unstyled mb-0 px-2">
+              {filterCollectionsWithParentId.map((value, key) => {
+                return (
+                  <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
+                    {this.recurseMenu(value, link + '/' + parent_id.id)}
+                  </li>
+                );
+              })}
+            </ul>
+          </Accordion.Collapse>
+        </Accordion>
+      ) : (
+        <NavLink
+          exact={true}
+          to={'/' + link + '/' + parent_id.id}
+          className={`d-flex align-items-center rounded-1 px-3 py-2 link_menu text-white text-decoration-none no-child ${
+            isActive && 'active'
+          }`}
+          activeClassName={`active`}
+        >
+          <ComponentImage
+            alt={'folder'}
+            src="/assets/images/folder-outline.svg"
+            className=" d-inline-block align-text-bottom"
+            wrapperClassName="col-auto"
+          />
+          <span className="ms-3 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
+        </NavLink>
+      );
     };
 
     render() {
       const { t } = this.props;
-      const { collections } = this.damListViewModel;
-      const collectionId = history.location.pathname.split('/');
       return (
         <>
           <nav className="main-menu pt-3 pb-1">
             <p className="text-white-50 fs-14 px-3">{t('txt_main_menu')}</p>
-
-            <Accordion defaultActiveKey={'0'}>
-              {history.location.pathname === '/root' ? (
-                <CustomToggle className="item_menu" as={'div'} eventKey={'0'}>
-                  <NavLink
-                    onClick={this.handleClick}
-                    exact={true}
-                    to={'/root'}
-                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
-                    activeClassName={`active`}
-                  >
-                    <ComponentImage
-                      alt={'folder'}
-                      src="/assets/images/folder-outline.svg"
-                      className=" d-inline-block align-text-bottom"
-                      wrapperClassName="col-auto"
-                    />
-                    <span className="ms-3 text py-1 d-inline-block col">{t('txt_my_assets')}</span>
-                  </NavLink>
-                </CustomToggle>
-              ) : (
-                <div className="item_menu">
-                  <NavLink
-                    onClick={this.handleClick}
-                    exact={true}
-                    to={'/root'}
-                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
-                    activeClassName={`active`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faChevronLeft}
-                      className=" d-inline-block align-text-bottom col-auto"
-                    />
-                    <span className="ms-3 text py-1 d-inline-block col">{t('txt_back')}</span>
-                  </NavLink>
-                </div>
-              )}
-
-              <Accordion.Collapse eventKey={'0'} className="px-3 pb-3">
-                <>
-                  <ul id="wr_list_menu" className="list-unstyled mb-0  pt-md-1">
-                    {collections.map((value, key) => {
-                      return !isNaN(+collectionId[collectionId.length - 1]) ? (
-                        value.parent_id === +collectionId[collectionId.length - 1] ? (
-                          <li
-                            key={key}
-                            className={`item_menu ${value.className ? value.className : ''}`}
-                          >
-                            <NavLink
-                              exact={true}
-                              to={'/root/' + value.id}
-                              className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
-                              activeClassName={`active`}
-                            >
-                              <ComponentImage
-                                alt={'folder'}
-                                src="/assets/images/folder-outline.svg"
-                                className=" d-inline-block align-text-bottom col-auto"
-                              />
-                              <span className="ms-3 text py-1 d-inline-block overflow-hidden col">
-                                {value.name}
-                              </span>
-                            </NavLink>
-                          </li>
-                        ) : null
-                      ) : value.parent_id === 0 ? (
-                        <li
-                          key={key}
-                          className={`item_menu ${value.className ? value.className : ''}`}
-                        >
-                          <NavLink
-                            exact={true}
-                            to={'/root/' + value.id}
-                            className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu text-white text-decoration-none `}
-                            activeClassName={`active`}
-                          >
-                            <ComponentImage
-                              alt={'folder'}
-                              src="/assets/images/folder-outline.svg"
-                              className=" d-inline-block align-text-bottom"
-                              wrapperClassName="col-auto"
-                            />
-                            <span className="ms-3 text py-1 d-inline-block col overflow-hidden">
-                              {value.name}
-                            </span>
-                          </NavLink>
-                        </li>
-                      ) : null;
-                    })}
-                  </ul>
-                </>
-              </Accordion.Collapse>
+            <Accordion alwaysOpen defaultActiveKey={'root'}>
+              <CustomToggle className="item_menu" as={'div'} isRoot={true} alway eventKey={'root'}>
+                <NavLink
+                  exact={true}
+                  to={'/root'}
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu_root text-white  text-decoration-none active`}
+                >
+                  <ComponentImage
+                    alt={'folder'}
+                    src="/assets/images/folder-outline.svg"
+                    className=" d-inline-block align-text-bottom"
+                    wrapperClassName="col-auto"
+                  />
+                  <span className="ms-3 py-1 d-inline-block col">{t('txt_my_assets')}</span>
+                </NavLink>
+              </CustomToggle>
+              {this.recurseMenu(0)}
             </Accordion>
           </nav>
           <nav className="border-top py-3">
             <p className="text-white-50 fs-14 px-3 mb-0">{t('txt_set_up')}</p>
-            <ul id="wr_list_menu" className="list-unstyled mb-0 pt-md-1">
+            <ul id="wr_list_menu" className="list-unstyled mb-0">
               {dataMenu.map((value, key) => {
                 return (
                   <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
@@ -201,7 +216,7 @@ const Menu = observer(
                           WebkitMaskRepeat: 'no-repeat',
                         }}
                       ></span>
-                      <span className="ms-3 text py-1 d-inline-block">{t(value.text)}</span>
+                      <span className="ms-3 py-1 d-inline-block">{t(value.text)}</span>
                     </NavLink>
                   </li>
                 );

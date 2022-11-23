@@ -5,7 +5,22 @@
 
 @import '../../scss/utils/bootstrap.scss';
 
+.carvet-toggle {
+  left: 0;
+  cursor: s-resize;
+  &.index {
+    right: 10px;
+    left: unset;
+    transform: translate(-50%, -50%) rotate(90deg) !important;
+  }
+  &.down {
+    transform: translate(-50%, -50%) rotate(90deg) !important;
+    cursor: n-resize;
+  }
+}
+
 .item_menu {
+  .link_menu_root,
   .link_menu {
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -13,13 +28,8 @@
 
     &.active,
     &:hover {
-      background-color: $blue;
-      color: $white !important;
-
-      i,
-      span {
-        color: $white !important;
-      }
+      // background-color: $blue;
+      color: $green !important;
     }
 
     i,
@@ -31,6 +41,18 @@
       width: 24px;
       height: 24px;
       background-color: var(--sidebar-menu-item-color);
+    }
+  }
+  .link_menu_root {
+    &.active,
+    &:hover {
+      // background-color: $blue;
+      color: $white !important;
+
+      i,
+      span {
+        color: $white !important;
+      }
     }
   }
 }
