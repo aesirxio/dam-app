@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import AesirXDamLayout from './AesirXDamLayout';
 import { Toast } from 'components/Toast';
 import ErrorBoundary from 'layouts/ErrorBoundary';
