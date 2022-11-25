@@ -10,7 +10,6 @@ import AsyncSelect from 'react-select/async';
 import customStyles from './customStyles';
 import { withThemeContext } from 'themes/ThemeContextProvider';
 import { withTranslation } from 'react-i18next';
-
 class SelectComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -19,10 +18,9 @@ class SelectComponent extends React.Component {
   componentDidMount() {}
   render() {
     const { t } = this.props;
-    let { isBorder, plColor, async, placeholder } = this.props;
-
-    let styles = customStyles(isBorder, plColor);
-
+    let { isBorder, async, placeholder, options } = this.props;
+    let styles = customStyles(isBorder, options);
+    console.log(isBorder);
     if (async) {
       return (
         <AsyncSelect

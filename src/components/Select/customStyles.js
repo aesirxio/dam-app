@@ -3,22 +3,27 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-const customStyles = (isBorder) => {
+const customStyles = (isBorder, options) => {
+  const width = options.map((option) => {
+    return option.label.length;
+  });
+
   return {
     control: (provided) => {
       return {
         ...provided,
         minHeight: 50,
         boxShadow: '0 3px 5px rgb(0 0 0 / 5%)',
-        borderColor: isBorder ? 'var(--border-color)' : 'transparent',
+        borderColor: isBorder ? 'var(--bs-gray-select)' : 'transparent',
         '&:hover': {
-          // borderColor: isBorder ? '#8bdcbc' : 'transparent',
-          // borderRight: '1px solid var(--border-color)',
+          borderColor: isBorder ? 'var(--bs-success)' : 'transparent',
+          borderRight: '1px solid var(--bs-success)',
         },
-        borderRight: '1px solid var(--border-color)',
-        backgroundColor: '--',
+        borderRight: '1px solid var(--bs-gray-select)',
+        backgroundColor: 'var(--bs-white)',
         cursor: 'pointer',
-        width: 'auto',
+        borderRadius: 0,
+        width: 8 * Math.max.apply(Math, width) + 40,
       };
     },
 
@@ -30,10 +35,11 @@ const customStyles = (isBorder) => {
         border: 0,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
-        // borderLeft: '1px solid var(--border-color)',
-        borderRight: '1px solid var(--border-color)',
+        borderRight: '1px solid var(--bs-gray-select)',
         boxShadow: '0 3px 5px rgb(0 0 0 / 5%)',
-        borderTop: '1px solid var(--border-color)',
+        borderTop: '1px solid var(--bs-gray-select)',
+        backgroundColor: 'var(--dropdown-bg)',
+        width: 'max-content',
       };
     },
     option: (provided, state) => {
@@ -42,7 +48,7 @@ const customStyles = (isBorder) => {
         color: state.isSelected ? 'var(--dropdown-item-hover-color)' : 'var(--dropdown-item-color)',
         backgroundColor: state.isSelected ? 'var(--dropdown-item-hover-bg)' : 'var(--dropdown-bg)',
         '&:hover': {
-          color: 'var(--dropdown-item-color)',
+          color: 'var(--dropdown-item-hover-color)',
           backgroundColor: 'var(--dropdown-item-hover-bg)',
         },
       };
