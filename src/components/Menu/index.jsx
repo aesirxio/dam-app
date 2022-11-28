@@ -60,7 +60,7 @@ function CustomToggle({ children, eventKey, isRoot }) {
   };
   const decoratedOnClick = useAccordionButton(eventKey, custom);
   return (
-    <div className="item_menu position-relative">
+    <div className="item_menu position-relative ">
       {children}
 
       <FontAwesomeIcon
@@ -99,7 +99,12 @@ const Menu = observer(
                   value.parent_id === 0 && (
                     <li
                       key={key}
-                      className={`item_menu px-3 ${value.className ? value.className : ''}`}
+                      className={`item_menu px-3 ${value.className ? ' ' + value.className : ''}${
+                        history.location.pathname.split('/').includes(value.id.toString())
+                          ? ' bg-sidebar'
+                          : ''
+                      }
+                      `}
                     >
                       {this.recurseMenu(value, 'root')}
                     </li>
@@ -183,7 +188,7 @@ const Menu = observer(
                 <NavLink
                   exact={true}
                   to={'/root'}
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 link_menu_root text-white  text-decoration-none active`}
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
                 >
                   <ComponentImage
                     alt={'folder'}
