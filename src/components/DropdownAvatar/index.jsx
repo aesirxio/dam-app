@@ -49,6 +49,7 @@ class DropdownAvatar extends React.Component {
 
   Helper;
 
+  // eslint-disable-next-line react/display-name
   CustomToggleAvatar = React.forwardRef(({ onClick }, ref) => (
     <div
       ref={ref}
