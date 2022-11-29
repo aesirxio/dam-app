@@ -6,9 +6,10 @@
   $gray-400: #495057;
   $gray-500: #babad0;
   $gray-600: #6c757d;
-  $gray-700: #495057;
+  $gray-700: #3e545e;
   $gray-800: #090a0b;
   $gray-900: #1a2226;
+  $gray-select: #000;
   $black: #fff;
   // fusv-disable
   $grays: (
@@ -21,6 +22,7 @@
     '700': $gray-700,
     '800': $gray-800,
     '900': $gray-900,
+    'select': $gray-select,
   );
   // fusv-enable
 
@@ -80,6 +82,7 @@
     'theme': #0c1215,
     'gray-200': $gray-200,
     'gray-400': $gray-400,
+    'white': #000,
   );
 
   $body-color: #eeeeee;
@@ -257,11 +260,11 @@
 
   // for react-select
   :root {
-    --border-color: #fff;
-    --dropdown-item-hover-color: $green;
-    --dropdown-item-hover-bg: $green;
-    --view-active-bg: #fff;
-    --text-title-color: $color-blue;
-    --dropdown-bg: #fff;
+    --dropdown-item-hover-color: #1ab394;
+    --dropdown-item-hover-bg: #e8e9ec;
+    --view-active-bg: #e8e9ec;
+    --text-title-color: #fff;
+    --dropdown-bg: #e8e9ec;
+    --dropdown-item-color: #fff;
   }
 }

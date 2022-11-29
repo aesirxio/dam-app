@@ -1,0 +1,32 @@
+.Select-placeholder,
+.Select--single > .Select-control .Select-value {
+  position: relative;
+  padding-left: 0;
+}
+
+/* All these 3 classes come with ugly "table" display...*/
+.Select-control,
+.Select-clear-zone,
+.Select-arrow-zone {
+  display: inherit;
+}
+
+/* here is the trick: we display the wrapper as flex in order to make it fit in height*/
+/* we flip positions of .Select-value and .Select-input using row-reverse in order to have a nice input to the left and no to the right */
+.select-custom-class .Select-multi-value-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+/*we put our controls back to a better center position */
+.Select-clear-zone {
+  position: absolute;
+  top: 8px;
+  right: 20px;
+}
+
+.Select-arrow-zone {
+  position: absolute;
+  top: 8px;
+  right: 0px;
+}

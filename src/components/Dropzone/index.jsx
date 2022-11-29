@@ -9,11 +9,13 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styles from './index.module.scss';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
+import { useTranslation } from 'react-i18next';
 
 // import ComponentImage from '../ComponentImage';
 
 const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, noDrag = true }) => {
   const [onDrag, setOnDrag] = useState(false);
+  const { t } = useTranslation();
   const { getRootProps, getInputProps } = useDropzone({
     // accept: '*',
     noClick: noClick,
@@ -64,7 +66,7 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
               bounce={true}
               className={styles.bounce}
             />
-            <p className={` ${styles.droptoupload}`}>Drop to upload</p>
+            <p className={` ${styles.droptoupload}`}>{t('txt_drop_to_upload')}</p>
           </div>
         ) : null}
       </div>

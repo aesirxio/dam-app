@@ -60,7 +60,7 @@ const SbarLeft = observer(
             <Menu2 />
           )}
 
-          <div className="position-absolute d-flex flex-wrap align-items-center bottom-0 mb-1 border-top w-100 py-1 button-language ">
+          <div className="position-absolute d-flex flex-wrap align-items-center bottom-0 mb-1 border-top border-gray-700 w-100 py-1 button-language ">
             <Dropdown as={'div'} className="col py-2 px-3">
               <Dropdown.Toggle
                 variant="dark"
@@ -90,7 +90,7 @@ const SbarLeft = observer(
             <div className="switch-theme-button col-auto py-2 px-3">
               <SwitchThemes />
             </div>
-            <div className="w-100 mb-3 border-top px-3 py-3">
+            <div className="w-100 mb-3 border-top px-3 py-3 border-gray-700">
               <p className="mb-0">
                 <ComponentImage src="/assets/images/storage.svg" />
                 <span className="text-white ps-3">{t('txt_storage')}</span>

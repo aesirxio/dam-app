@@ -13,9 +13,10 @@ $gray-300: #dedede !default;
 $gray-400: #f7f7f7 !default;
 $gray-500: #babad0 !default;
 $gray-600: #828282 !default;
-$gray-700: #495057 !default;
+$gray-700: #3e545e !default;
 $gray-800: #222328 !default;
 $gray-900: #1a2226 !default;
+$gray-select: #e8e9ec !default;
 $black: #000 !default;
 // fusv-disable
 $grays: (
@@ -28,6 +29,7 @@ $grays: (
   '700': $gray-700,
   '800': $gray-800,
   '900': $gray-900,
+  'select': $gray-select,
 ) !default;
 // fusv-enable
 
@@ -87,6 +89,7 @@ $theme-colors: (
   'theme': $gray-100,
   'gray-200': $gray-200,
   'gray-400': $gray-400,
+  'white': $white,
 ) !default;
 
 // Body
@@ -153,6 +156,7 @@ $border-widths: (
   5: 5px,
 ) !default;
 
+//BORDER COLOR
 $border-color: $gray-300 !default;
 
 $border-radius: 0.25rem !default;
@@ -201,9 +205,6 @@ $color-blue-6: #282831;
 $color-blue-7: #199ce3;
 $color-blue-8: #54c7ec;
 
-//BORDER COLOR
-$border-color: #3e545e;
-
 //Z-INDEX
 
 //NAGATIVE MARGIN
@@ -233,10 +234,10 @@ $grid-gutter-width: 1.25rem;
 
 // for react-select
 :root {
-  --border-color: #e8e9ec;
-  --dropdown-item-hover-color: $green;
-  --dropdown-item-hover-bg: $green;
+  --dropdown-item-hover-color: #1ab394;
+  --dropdown-item-hover-bg: #e8e9ec;
   --view-active-bg: #e8e9ec;
-  --text-title-color: $color-blue;
-  --dropdown-bg: #e8e9ec;
+  --text-title-color: #081240;
+  --dropdown-bg: #fff;
+  --dropdown-item-color: #081240;
 }

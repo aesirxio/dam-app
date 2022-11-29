@@ -3,24 +3,23 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { lazy } from 'react';
+import React from 'react';
 import Label from '../components/Form/Label';
 import { FORM_FIELD_TYPE } from '../constants/FormFieldType';
 import { Form } from 'react-bootstrap';
 import FormAgeField from '../components/Form/FormAgeField';
 import FormLocationField from '../components/Form/FormLocationField';
+import FormDateRangePicker from '../components/Form/FormDateRangePicker';
+import CustomizedDatePicker from '../components/DatePicker';
+import FormImage from '../components/Form/FormImage';
+import FormSelection from '../components/Form/FormSelection';
+import FormSelectionPersona from '../components/Form/FormSelectionPersona';
+import FormInformation from '../components/FormInformation';
+import FormSelectDropdown from '../components/Form/FormSelectDropdown';
+import FormPriceField from '../components/Form/FormPriceField';
+import FormRadio from '../components/Form/FormRadio';
 
-const FormDateRangePicker = lazy(() => import('../components/Form/FormDateRangePicker'));
-const CustomizedDatePicker = lazy(() => import('../components/DatePicker'));
-const FormImage = lazy(() => import('../components/Form/FormImage'));
-const FormSelection = lazy(() => import('../components/Form/FormSelection'));
-const FormSelectionPersona = lazy(() => import('../components/Form/FormSelectionPersona'));
-const FormInformation = lazy(() => import('../components/FormInformation'));
-const FormSelectDropdown = lazy(() => import('../components/Form/FormSelectDropdown'));
-const FormPriceField = lazy(() => import('../components/Form/FormPriceField'));
-const FormRadio = lazy(() => import('../components/Form/FormRadio'));
-
-const Input = lazy(() => import('../components/Form/Input'));
+import Input from '../components/Form/Input';
 
 const renderingGroupFieldHandler = (group, validator) => {
   return Object.keys(group.fields)
