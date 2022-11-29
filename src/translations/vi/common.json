@@ -179,5 +179,7 @@
   "txt_cancel": "Hủy",
   "txt_your_avatar": "Ảnh của bạn",
   "txt_upload_file": "Tải lên",
-  "txt_create_folder": "Tạo thư mục"
+  "txt_create_folder": "Tạo thư mục",
+  "txt_drop_to_upload": "Thả để tải",
+  "txt_or": "hoặc"
 }

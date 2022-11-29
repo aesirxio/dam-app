@@ -23,38 +23,17 @@ class ComponentNoData extends Component {
             : 'text-center h-100 d-flex flex-column justify-content-center align-items-center'
         }
       >
-        {/* <p
-          style={{ width: '48px', height: '48px' }}
-          className={`mb-2 d-inline-block position-relative rounded-circle ${iconBg}`}
-        >
-          <ComponentImage
-            className={`position-absolute top-50 start-50 translate-middle ${iconColor}`}
-            src={icons}
-            alt={icons}
-          />
-        </p>
-        <h5 className="mb-2">{title}</h5>
-        <p className={`mb-2 fs-14 text-black-50 w-100 mx-auto ${width}`}>{text}</p>
-        {isBtn && (
-          <Link
-            to={{ pathname: link, state: { openModal: true } }}
-            className="btn btn-success d-inline-block w-fit"
-          >
-            <i className="text-white me-2">
-              <FontAwesomeIcon icon={faPlus} />
-            </i>
-            {linlText}
-          </Link>
-        )} */}
-        <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={false}>
+        <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true}>
           <div className="d-flex align-items-center justify-content-center h-100 w-100">
             <div>
-              <p>{t('txt_drop_files_anywhere_to_upload')}</p>
-              <p>{t('txt_or')}</p>
-              <Button
-                className="text-gray-900 bg-white btn-white border w-100"
-                text="txt_select_file"
-              />
+              <p className="fs-4 fw-semibold">{t('txt_drop_files_anywhere_to_upload')}</p>
+              <p className="fs-5">{t('txt_or')}</p>
+              <Dropzone noDrag={false} createAssets={createAssets}>
+                <Button
+                  className="text-gray-900 fw-semibold bg-white btn-white border mx-auto w-248"
+                  text="txt_select_file"
+                />
+              </Dropzone>
             </div>
           </div>
         </Dropzone>

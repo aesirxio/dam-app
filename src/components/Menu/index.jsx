@@ -197,7 +197,7 @@ const Menu = observer(
               {this.recurseMenu(0)}
             </Accordion>
           </nav>
-          <nav className="border-top py-3">
+          <nav className="border-top py-3 border-gray-700">
             <p className="text-white-50 fs-14 px-3 mb-0">{t('txt_set_up')}</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0">
               {dataMenu.map((value, key) => {

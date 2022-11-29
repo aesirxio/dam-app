@@ -13,7 +13,7 @@ $gray-300: #dedede !default;
 $gray-400: #f7f7f7 !default;
 $gray-500: #babad0 !default;
 $gray-600: #828282 !default;
-$gray-700: #495057 !default;
+$gray-700: #3e545e !default;
 $gray-800: #222328 !default;
 $gray-900: #1a2226 !default;
 $black: #000 !default;
@@ -153,6 +153,7 @@ $border-widths: (
   5: 5px,
 ) !default;
 
+//BORDER COLOR
 $border-color: $gray-300 !default;
 
 $border-radius: 0.25rem !default;
@@ -200,9 +201,6 @@ $color-blue-5: #e8f1f6;
 $color-blue-6: #282831;
 $color-blue-7: #199ce3;
 $color-blue-8: #54c7ec;
-
-//BORDER COLOR
-$border-color: #3e545e;
 
 //Z-INDEX
 

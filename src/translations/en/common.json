@@ -124,7 +124,7 @@
   "txt_region": "Region",
   "txt_bucket": "Bucket",
   "txt_drop_files_anywhere_to_upload": "Drop files anywhere to upload",
-  "txt_or": "Or",
+  "txt_or": "or",
   "txt_select_file": "Select file",
   "txt_save_update": "Save Update",
   "txt_delete_assets_popup_desc": "Are you sure you want to delete this asset ?",
@@ -141,5 +141,6 @@
   "txt_create": "Create",
   "txt_rename": "Rename",
   "txt_can_not_move": "Can't Move",
-  "txt_move_with_file_or_folder": "Had move {{type}} {{name}} to folder {{name_folder}}"
+  "txt_move_with_file_or_folder": "Had move {{type}} {{name}} to folder {{name_folder}}",
+  "txt_drop_to_upload": "Drop to upload"
 }
