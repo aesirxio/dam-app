@@ -145,11 +145,6 @@
   $accordion-button-focus-box-shadow: $color-blue-6;
   $nav-tabs-link-active-color: #fff;
   $nav-tabs-link-active-bg: $color-blue-3;
-  // maps
-  @import 'node_modules/bootstrap/scss/maps';
-  // end of maps
-
-  @import '../scss/utils/utilities-dark.scss';
 
   /* redefine theme color variables */
   @each $color, $value in $theme-colors {
@@ -214,15 +209,7 @@
     }
   }
 
-  .btn-close {
-    filter: $btn-close-white-filter;
-  }
-
   // scss-docs-end alert-modifiers
-
-  // helper
-  @import 'node_modules/bootstrap/scss/helpers';
-  // end of helper
 
   // scss-docs-start list-group-modifiers
   // List group contextual variants
@@ -255,6 +242,19 @@
   }
 
   // end of table
+
+  .btn-close {
+    filter: $btn-close-white-filter;
+  }
+  // maps
+  @import 'node_modules/bootstrap/scss/maps';
+  // end of maps
+
+  // dark theme utilities
+  @import './utilities-dark.scss';
+  // helper
+  @import 'node_modules/bootstrap/scss/helpers';
+  // end of helper
 
   @import 'node_modules/bootstrap/scss/utilities/api';
 

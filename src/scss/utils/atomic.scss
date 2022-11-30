@@ -393,10 +393,20 @@ textarea {
   .wr_btn_dam {
     z-index: 5;
   }
+}
 
-  .w-space {
-    white-space: nowrap;
+.btn-outline-secondary:not(:hover) {
+  background: #fff;
+}
+.btn-info.dropdown-toggle {
+  &:focus {
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.15);
   }
+}
+
+.w-space {
+  white-space: nowrap;
 }
 
 @include media-breakpoint-down(lg) {
