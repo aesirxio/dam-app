@@ -4,7 +4,7 @@ import { Toast } from 'components/Toast';
 import ErrorBoundary from 'layouts/ErrorBoundary';
 import i18n from 'translations/i18n';
 import { I18nextProvider } from 'react-i18next';
-
+import '../src/scss/app.scss';
 class AesirXDam extends React.Component {
   constructor(props) {
     super(props);
