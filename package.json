@@ -5,9 +5,9 @@
   "author": "AesirX",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
-  "unpkg": "./dist/index.umd.js",
-  "source": "index.js",
-  "repository": "https://github.com/aesirxio/dam-app",
+  "unpkg": "dist/index.umd.js",
+  "source": "src/integration/index.js",
+  "repository": "https://github.com/kakahuy113/dam-app",
   "dependencies": {
     "@babel/runtime": "^7.20.1",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",

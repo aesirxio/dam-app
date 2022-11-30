@@ -3,12 +3,13 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+import React from 'react';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
 
-import Xlsx from '../../public/assets/images/xlsx.svg';
-import Word from '../../public/assets/images/word.svg';
-import Pdf from '../../public/assets/images/pdf.svg';
-import FileDefault from '../../public/assets/images/file_default.svg';
+import Xlsx from '../../../../public/assets/images/xlsx.svg';
+import Word from '../../../../public/assets/images/word.svg';
+import Pdf from '../../../../public/assets/images/pdf.svg';
+import FileDefault from '../../../../public/assets/images/file_default.svg';
 
 class AesirXDamUtils {
   transformPersonaResponseIntoModel = (response) => {

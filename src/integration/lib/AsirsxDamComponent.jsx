@@ -4,7 +4,6 @@
  */
 
 import React, { Component } from 'react';
-import './index.scss';
 
 import {
   DAM_ASSETS_API_FIELD_KEY,
@@ -22,7 +21,8 @@ import PAGE_STATUS from 'constants/PageStatus';
 import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import Folder from '../public/assets/images/folder.svg';
+import Folder from '../../../public/assets/images/folder.svg';
+import './index.scss';
 
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
@@ -42,6 +42,7 @@ const AesirXDamComponent = observer(
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
       this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
       this.damListViewModel.getAllCollections();
+      this.damListViewModel.getSubscription();
     }
 
     componentWillUnmount() {

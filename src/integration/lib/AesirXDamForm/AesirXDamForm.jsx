@@ -21,7 +21,7 @@ import PAGE_STATUS from 'constants/PageStatus';
 import { renderingGroupFieldHandler } from 'utils/form';
 import utils from '../AesirXDamUtils/AesirXDamUtils';
 import styles from '../index.module.scss';
-import Folder from '../../public/assets/images/folder.svg';
+import Folder from '../../../../public/assets/images/folder.svg';
 
 class AesirDamForm extends Component {
   formPropsData = {
