@@ -7,7 +7,10 @@
   "module": "dist/index.modern.js",
   "unpkg": "dist/index.umd.js",
   "source": "src/integration/index.js",
-  "repository": "https://github.com/kakahuy113/dam-app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kakahuy113/dam-app.git"
+  },
   "dependencies": {
     "@babel/runtime": "^7.20.1",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
@@ -28,14 +31,12 @@
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
     "moment": "^2.29.4",
-    "react": "^17.0.2",
     "react-big-calendar": "^0.33.5",
     "react-bootstrap": "^2.5.0",
     "react-bootstrap-typeahead": "^6.0.0",
     "react-datepicker": "^3.3.0",
     "react-dnd": "^15.1.2",
     "react-dnd-html5-backend": "^15.1.2",
-    "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
     "react-google-charts": "^3.0.15",
     "react-i18next": "^11.7.3",
@@ -88,7 +89,12 @@
       "last 1 safari version"
     ]
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "devDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.1",
     "@babel/core": "^7.19.6",
     "@babel/eslint-parser": "^7.18",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
