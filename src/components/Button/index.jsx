@@ -16,7 +16,7 @@ class Button extends React.Component {
   }
 
   render() {
-    let { icon, text, className, onClick, image, disabled } = this.props;
+    let { icon, text, className, onClick, image, disabled, svg } = this.props;
 
     if (className !== undefined && styles[className] !== undefined) {
       className = styles[className];
@@ -35,8 +35,8 @@ class Button extends React.Component {
           </i>
         )}
         {image && <ComponentImage alt={text} src={image} className="pe-1" />}
-
-        <span className="text_btn text-nowrap">{t(text)}</span>
+        {svg ? svg : null}
+        <span className="ms-1 text-nowrap">{t(text)}</span>
       </button>
     );
   }

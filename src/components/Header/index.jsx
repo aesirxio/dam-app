@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons/faQuestionCircle';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
 
 import './index.scss';
 
@@ -17,7 +18,11 @@ import DropdownAvatar from '../DropdownAvatar';
 import ComponentHambuger from '../ComponentHambuger';
 import ComponentImage from '../ComponentImage';
 import Search from 'components/Search';
-
+// import { Dropdown } from 'react-bootstrap';
+// import i18n from 'translations/i18n';
+import SwitchThemes from 'components/SwitchThemes/index';
+import Select from 'components/Select/index';
+import i18n from 'translations/i18n';
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -28,19 +33,28 @@ class Header extends React.Component {
 
   handleCollap = () => {
     let { isMini } = this.state;
-    document.body.classList.toggle('mini_left');
+    document.querySelector('.main-layout').classList.toggle('mini_left');
     this.setState({
       isMini: !isMini,
     });
   };
 
   handleMenuLeft = () => {
-    document.body.classList.toggle('show_menu_left');
+    document.querySelector('.main-layout').classList.toggle('show_menu_left');
   };
 
   render() {
     const { t } = this.props;
-    let { isMini } = this.state;
+    const { isMini } = this.state;
+
+    const listLanguages = Object.keys(i18n.options.resources).map(function (key) {
+      return { value: key, label: i18n.options.resources[key].title };
+    });
+    const currentLanguage = listLanguages.filter((lang) => {
+      if (lang.value == i18n.language) {
+        return lang;
+      }
+    });
     return (
       <div
         id="all_header"
@@ -82,8 +96,26 @@ class Header extends React.Component {
           >
             <FontAwesomeIcon icon={faChevronLeft} className="text-green" />
           </span>
-          <div className="d-flex justify-content-between flex-1 align-items-center">
+          <div className="d-flex flex-1 align-items-center">
             <Search />
+            <div className="ms-auto d-flex align-items-center">
+              <FontAwesomeIcon icon={faGlobe} className="text-body" />
+              <Select
+                isClearable={false}
+                isSearchable={false}
+                isBorder={false}
+                isShadow={false}
+                options={listLanguages}
+                className="shadow-none"
+                onChange={(data) => {
+                  i18n.changeLanguage(data.value);
+                }}
+                defaultValue={currentLanguage}
+              />
+            </div>
+            <div className="switch-theme-button col-auto py-2 px-3">
+              <SwitchThemes />
+            </div>
             <div className="d-flex align-items-center">
               <div className="wr_help_center ps-3 pe-3 d-none">
                 <span className="item_help d-flex align-items-center text-blue-0 cursor-pointer">

@@ -10,19 +10,17 @@ import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
-import {
-  DAM_ASSETS_FIELD_KEY,
-  DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
-import Dropzone from 'components/Dropzone';
+import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import ComponentNoData from '../ComponentNoData';
-import Thumb from './Thumb';
 import { notify } from 'components/Toast';
-import Select from '../Select';
+
+const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
+const Thumb = React.lazy(() => import('./Thumb'));
+const Select = React.lazy(() => import('../Select'));
+const Dropzone = React.lazy(() => import('components/Dropzone'));
 
 let dataFilter = {
   searchText: '',
@@ -75,6 +73,7 @@ const Table = ({
 
   const filterBar = useMemo(() => ({
     id: 'type',
+    className: 'border-end border-gray-select',
     placeholder: t('txt_type'),
     options: [
       {
@@ -99,6 +98,7 @@ const Table = ({
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     placeholder: t('txt_sort_by'),
+    className: 'border-end border-gray-select',
     options: [
       {
         label: t('txt_date_create'),
@@ -167,7 +167,9 @@ const Table = ({
   );
 
   const moveRow = (dragIndex, hoverIndex) => {
+    console.log(123);
     if (dragIndex?.[DAM_ASSETS_FIELD_KEY.TYPE] && !hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+      console.log(123);
       listViewModel.updateAssets({
         ...dragIndex,
         [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],

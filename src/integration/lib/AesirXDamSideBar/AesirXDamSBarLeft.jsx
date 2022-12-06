@@ -14,7 +14,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import { useAccordionButton } from 'react-bootstrap';
 import Folder from '../../../../public/assets/images/folder-outline.svg';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
-import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib';
 import Storage from 'SVG/Storage';
 import './index.scss';
 

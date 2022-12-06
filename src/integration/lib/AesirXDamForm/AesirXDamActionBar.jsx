@@ -4,11 +4,10 @@
  */
 
 import React, { Component } from 'react';
-import history from 'routes/history';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib';
 import Dropzone from 'components/Dropzone';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
@@ -65,8 +64,8 @@ const AesirXDamActionBar = observer(
       });
       return (
         <>
-          <h2 className="text-blue-0">
-            <span>{t('txt_your_digital_assets')}</span>
+          <h2 className="text-gray-900 fw-bold">
+            <span>{t('txt_digital_assets_media')}</span>
             {breadcrumb
               ? breadcrumb.map((_breadcrumb) => {
                   if (_breadcrumb) {
@@ -87,7 +86,13 @@ const AesirXDamActionBar = observer(
               : null}
           </h2>
           <div className="d-flex justify-content-end">
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} className="me-3">
+            <ButtonNormal
+              onClick={this.handleCreateFolder}
+              iconStart={faFolder}
+              text="txt_create_folder"
+              className="btn-outline-gray-300 text-blue-0 me-3"
+            />
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
@@ -95,12 +100,6 @@ const AesirXDamActionBar = observer(
                 className=" btn-success"
               />
             </Dropzone>
-            <ButtonNormal
-              onClick={this.handleCreateFolder}
-              iconStart={faFolder}
-              text="txt_create_folder"
-              className="btn-outline-gray-300 text-blue-0"
-            />
             <AesirXDamFormModel />
           </div>
         </>

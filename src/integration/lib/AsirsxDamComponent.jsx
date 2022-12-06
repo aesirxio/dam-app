@@ -9,7 +9,7 @@ import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
+} from 'aesirx-dma-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import ComponentImage from 'components/ComponentImage';
@@ -106,8 +106,8 @@ const AesirXDamComponent = observer(
             basename: collection?.[DAM_ASSETS_FIELD_KEY.NAME],
           },
         ];
-        if (this.props.onDoubleClick) {
-          return this.props.onDoubleClick(data);
+        if (this.props.onSelect) {
+          return this.props.onSelect(data);
         } else return data;
       }
     };

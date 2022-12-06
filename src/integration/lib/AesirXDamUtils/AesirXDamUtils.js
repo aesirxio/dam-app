@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 
 import Xlsx from '../../../../public/assets/images/xlsx.svg';
 import Word from '../../../../public/assets/images/word.svg';

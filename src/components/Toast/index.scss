@@ -8,17 +8,17 @@
 $rt-color-info: $blue !default;
 $rt-color-success: $green !default;
 
-@import 'node_modules/react-toastify/scss/variables';
-@import 'node_modules/react-toastify/scss/toastContainer';
-@import 'node_modules/react-toastify/scss/toast';
-@import 'node_modules/react-toastify/scss/closeButton';
-@import 'node_modules/react-toastify/scss/progressBar';
+@import '~react-toastify/scss/variables';
+@import '~react-toastify/scss/toastContainer';
+@import '~react-toastify/scss/toast';
+@import '~react-toastify/scss/closeButton';
+@import '~react-toastify/scss/progressBar';
 
 // entrance and exit animations
-@import 'node_modules/react-toastify/scss/animations/bounce.scss';
-@import 'node_modules/react-toastify/scss/animations/zoom.scss';
-@import 'node_modules/react-toastify/scss/animations/flip.scss';
-@import 'node_modules/react-toastify/scss/animations/slide.scss';
+@import '~react-toastify/scss/animations/bounce.scss';
+@import '~react-toastify/scss/animations/zoom.scss';
+@import '~react-toastify/scss/animations/flip.scss';
+@import '~react-toastify/scss/animations/slide.scss';
 
 #wr_custom_notify {
   background-color: $color-blue-7;

@@ -7,8 +7,8 @@ import React from 'react';
 export const ThemesContext = React.createContext();
 
 const listThemes = [
-  { theme: 'light', color: '#fff', className: '' },
-  { theme: 'dark', color: '#000', className: 'border-green' },
+  { theme: 'light', color: '#0A083B', className: '' },
+  { theme: 'dark', color: '#fff', className: '' },
 ];
 
 export class ThemesContextProvider extends React.Component {
@@ -22,20 +22,25 @@ export class ThemesContextProvider extends React.Component {
   getCurrentTheme = () => {
     let currentTheme = localStorage.getItem('theme');
     if (!currentTheme) {
-      localStorage.setItem('theme', 'light');
-      return currentTheme ?? 'light';
+      localStorage.setItem('theme', JSON.stringify(listThemes[0]));
+      return currentTheme ?? listThemes[0];
     }
-    return currentTheme;
+    return JSON.parse(currentTheme);
   };
 
-  changeTheme = (newTheme) => {
-    this.setState({ theme: newTheme });
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('class', newTheme);
+  changeTheme = (theme) => {
+    if (theme) {
+      const themeCheck = listThemes
+        .filter((_theme) => _theme.theme !== theme.theme)
+        .reduce((accumulator, currentValue) => currentValue, {});
+      this.setState({ theme: themeCheck });
+      localStorage.setItem('theme', JSON.stringify(themeCheck));
+      document.documentElement.setAttribute('class', themeCheck?.theme);
+    }
   };
 
   componentDidMount() {
-    document.documentElement.setAttribute('class', this.state.theme);
+    document.documentElement.setAttribute('class', this.state.theme?.theme);
   }
 
   render() {

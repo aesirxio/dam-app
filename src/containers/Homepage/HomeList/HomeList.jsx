@@ -10,7 +10,7 @@ import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
+} from 'aesirx-dma-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
@@ -60,10 +60,12 @@ const HomeList = observer(
 
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
-      if (checkContextMenu) {
+      const checkContextMenuItem = e.target.closest('#contextMenuItem');
+      if (checkContextMenu || checkContextMenuItem) {
         return;
       } else {
         this.damformModalViewModal.closeContextMenu();
+        this.damformModalViewModal.closeContextMenuItem();
       }
     };
 

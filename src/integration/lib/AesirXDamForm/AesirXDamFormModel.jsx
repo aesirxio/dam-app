@@ -16,9 +16,8 @@ import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
+} from 'aesirx-dma-lib';
 import CollectionForm from './CollectionForm';
-import history from 'routes/history';
 
 import ModalComponent from 'components/Modal';
 import EditingIcon from 'SVG/EddingIcon';

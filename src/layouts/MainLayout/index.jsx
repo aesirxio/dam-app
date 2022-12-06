@@ -15,7 +15,7 @@ import { isLogin } from '../../auth';
 
 const MainLayout = () => {
   return isLogin() ? (
-    <div className="container-fluid">
+    <div className="container-fluid main-layout">
       <div className="row">
         <main className="p-0">
           <Header />

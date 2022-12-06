@@ -17,7 +17,7 @@ import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
+} from 'aesirx-dma-lib';
 import CollectionForm from './CollectionForm';
 import history from 'routes/history';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
@@ -152,6 +152,30 @@ const HomeFormModal = observer(
       const { t } = this.props;
       return (
         <>
+          {show ? (
+            <Suspense fallback={<div>Loading...</div>}>
+              <ModalComponent
+                show={show}
+                onHide={this.damFormModalViewModel.closeModal}
+                onShow={() => {
+                  this.damFormModalViewModel.closeContextMenuItem();
+                  this.damFormModalViewModel.closeContextMenu();
+                }}
+                closeButton
+                contentClassName={'bg-white shadow'}
+                body={
+                  <HomeForm
+                    delete={this.handleDelete}
+                    handleUpdate={this.handleUpdate}
+                    viewModel={this.damFormModalViewModel}
+                    validator={this.validator}
+                  />
+                }
+                dialogClassName={'mw-100 px-3 home-modal'}
+              />
+            </Suspense>
+          ) : null}
+
           {showContextMenu ? (
             <div
               id="contextMenu"
@@ -242,32 +266,10 @@ const HomeFormModal = observer(
             </div>
           ) : null}
 
-          {show ? (
-            <Suspense fallback={<div>Loading...</div>}>
-              <ModalComponent
-                show={show}
-                onHide={this.damFormModalViewModel.closeModal}
-                onShow={() => {
-                  this.damFormModalViewModel.closeContextMenuItem();
-                  this.damFormModalViewModel.closeContextMenu();
-                }}
-                contentClassName={'bg-white shadow'}
-                body={
-                  <HomeForm
-                    delete={this.handleDelete}
-                    handleUpdate={this.handleUpdate}
-                    viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
-                  />
-                }
-                dialogClassName={'mh-80vh mw-80 home-modal'}
-              />
-            </Suspense>
-          ) : null}
-
           {showCreateCollectionModal ? (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
+                closeButton
                 show={showCreateCollectionModal}
                 onHide={this.damFormModalViewModel.closeCreateCollectionModal}
                 onShow={() => {
@@ -292,6 +294,7 @@ const HomeFormModal = observer(
           {showUpdateModal ? (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
+                closeButton
                 show={showUpdateModal}
                 onHide={this.damFormModalViewModel.closeUpdateCollectionModal}
                 onShow={() => {
@@ -316,6 +319,7 @@ const HomeFormModal = observer(
           {showDeleteModal ? (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
+                closeButton
                 show={showDeleteModal}
                 onHide={this.damFormModalViewModel.closeDeleteModal}
                 onShow={() => {

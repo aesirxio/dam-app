@@ -43,20 +43,14 @@ import 'aesirx-dam-app/dist/index.css';
 import 'aesirx-dam-app/dist/index.css.map';
 
 function AesirXDam() {
-  const [show, setShow] = useState(true);
-  const onDoubleClick = (data) => {
+  const onSelect = (data) => {
     // do something when user onDoubleClick at on that assets
   };
-  const onShow = () => {
-    // on Show
-  };
-  const onHide = () => {
-    // on Hide
-  };
+
   return (
     <div className="py-4 px-3 h-100 flex-direction-column">
       <div className="h-100 flex-1">
-        <AesirXDam show={show} onShow={onShow} onHide={onHide} onDoubleClick={onDoubleClick} />
+        <AesirXDam onSelect={onSelect} />
       </div>
     </div>
   );
@@ -70,10 +64,4 @@ export default AesirXDam;
 
 Common props you may want to specify include:
 
-- `modalClassname` - apply a className to modal
-- `contentClassName` - apply a className to modal content
-- `bodyClassName` - apply a className to modal body
-- `dialogClassName` - apply a className to modal dialog
-- `show` - show the modal when it true
-- `onHide` - subscribe to hide event
-- `onShow` - subscribe to show event
+- `onSelect` - subscribe to select event

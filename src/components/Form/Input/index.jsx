@@ -24,7 +24,7 @@ const Input = ({ field }) => {
         id={field.key}
         onChange={(e) => handleChange(e)}
         onPaste={field.pasted ?? undefined}
-        className={`${field.classNameInput}`}
+        className={`${field.inputClassName}`}
         onBlur={field.blurred ?? undefined}
         placeholder={field.placeholder ?? undefined}
         readOnly={field.readOnly}

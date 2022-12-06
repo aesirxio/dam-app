@@ -6,7 +6,7 @@
   "txt_do_not_have_an_account": "Don't have an account? Create Free Account",
   "txt_username": "Username",
   "txt_search_for_something": "Search for something ...",
-  "txt_help_center": "help center",
+  "txt_help_center": "Help center",
   "txt_sign_out": "Sign Out",
   "txt_notifications": "Notifications",
   "txt_client": "Client",
@@ -132,7 +132,7 @@
   "tx_forgot_password": "Forgot Password?",
   "txt_file_size": "Size",
   "txt_url": "URL",
-  "txt_file_type": "Type",
+  "txt_file_type": "File Type",
   "txt_sign_in_to_getting_started": "Sign In to getting started.",
   "txt_folders": "FOLDERS",
   "txt_of": "of",
@@ -142,5 +142,6 @@
   "txt_rename": "Rename",
   "txt_can_not_move": "Can't Move",
   "txt_move_with_file_or_folder": "Had move {{type}} {{name}} to folder {{name_folder}}",
-  "txt_drop_to_upload": "Drop to upload"
+  "txt_drop_to_upload": "Drop to upload",
+  "txt_digital_assets_media": "Digital Asset Media"
 }

@@ -5,19 +5,15 @@
 
 import React from 'react';
 import { withTranslation } from 'react-i18next';
-import i18n from 'translations/i18n';
 
 import './index.scss';
 import Menu from '../Menu';
-import SwitchThemes from 'components/SwitchThemes';
-import { Dropdown } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
+
 import ComponentImage from 'components/ComponentImage';
 import Menu2 from 'components/Menu2';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
-import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib';
 
 const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
@@ -37,17 +33,8 @@ const SbarLeft = observer(
       this.damListViewModel.getSubscription();
     }
     render() {
-      let { settingPage } = this.props;
+      const { settingPage, t } = this.props;
 
-      const listLanguages = Object.keys(i18n.options.resources).map(function (key) {
-        return { language: key, title: i18n.options.resources[key].title };
-      });
-      let currentLanguage = listLanguages.filter((lang) => {
-        if (lang.language == i18n.language) {
-          return lang.title;
-        }
-      });
-      const { t } = this.props;
       return (
         <aside
           className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden overflow-y-auto d-flex flex-column z-index-100 `}
@@ -61,36 +48,7 @@ const SbarLeft = observer(
           )}
 
           <div className="position-absolute d-flex flex-wrap align-items-center bottom-0 mb-1 border-top border-gray-700 w-100 py-1 button-language ">
-            <Dropdown as={'div'} className="col py-2 px-3">
-              <Dropdown.Toggle
-                variant="dark"
-                id="dropdown-basic"
-                className="bg-transparent border-0 p-0"
-              >
-                <FontAwesomeIcon icon={faGlobe} /> {currentLanguage[0]?.title}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                {listLanguages.map((item, index) => {
-                  return (
-                    <Dropdown.Item
-                      key={index}
-                      href="#"
-                      className=""
-                      onClick={() => {
-                        i18n.changeLanguage(item.language);
-                      }}
-                    >
-                      {item.title}
-                    </Dropdown.Item>
-                  );
-                })}
-              </Dropdown.Menu>
-            </Dropdown>
-            <div className="switch-theme-button col-auto py-2 px-3">
-              <SwitchThemes />
-            </div>
-            <div className="w-100 mb-3 border-top px-3 py-3 border-gray-700">
+            <div className="w-100 mb-3 px-3 py-3">
               <p className="mb-0">
                 <ComponentImage src="/assets/images/storage.svg" />
                 <span className="text-white ps-3">{t('txt_storage')}</span>

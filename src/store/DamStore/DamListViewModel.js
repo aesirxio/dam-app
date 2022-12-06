@@ -78,6 +78,7 @@ class DamListViewModel {
   };
 
   updateCollections = (data) => {
+    console.log(data);
     notify(
       this.damStore.updateCollections(
         data,

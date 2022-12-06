@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 
 // import HomeModel from '../HomeModel/HomeModel';
 

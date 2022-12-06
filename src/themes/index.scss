@@ -146,7 +146,7 @@
   $nav-tabs-link-active-color: #fff;
   $nav-tabs-link-active-bg: $color-blue-3;
   // maps
-  @import 'node_modules/bootstrap/scss/maps';
+  @import '../../node_modules/bootstrap/scss/maps';
   // end of maps
 
   @import '../scss/utils/utilities-dark.scss';
@@ -221,7 +221,7 @@
   // scss-docs-end alert-modifiers
 
   // helper
-  @import 'node_modules/bootstrap/scss/helpers';
+  @import '../../node_modules/bootstrap/scss/helpers';
   // end of helper
 
   // scss-docs-start list-group-modifiers
@@ -256,7 +256,7 @@
 
   // end of table
 
-  @import 'node_modules/bootstrap/scss/utilities/api';
+  @import '../../node_modules/bootstrap/scss/utilities/api';
 
   // for react-select
   :root {
