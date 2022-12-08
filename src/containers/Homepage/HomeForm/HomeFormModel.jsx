@@ -25,7 +25,7 @@ import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploa
 import Dropzone from 'components/Dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const ModalComponent = React.lazy(() => import('../../../components/Modal'));
+const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));

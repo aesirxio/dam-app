@@ -21,9 +21,8 @@ import PAGE_STATUS from 'constants/PageStatus';
 import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import Folder from '../../../public/assets/images/folder.svg';
-import './index.scss';
 
+const Folder = React.lazy(() => import('SVG/Folder'));
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
     damListViewModel = null;
@@ -42,7 +41,6 @@ const AesirXDamComponent = observer(
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
       this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
       this.damListViewModel.getAllCollections();
-      this.damListViewModel.getSubscription();
     }
 
     componentWillUnmount() {
@@ -51,10 +49,12 @@ const AesirXDamComponent = observer(
 
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
-      if (checkContextMenu) {
+      const checkContextMenuItem = e.target.closest('#contextMenuItem');
+      if (checkContextMenu || checkContextMenuItem) {
         return;
       } else {
         this.damformModalViewModal.closeContextMenu();
+        this.damformModalViewModal.closeContextMenuItem();
       }
     };
 
@@ -114,15 +114,43 @@ const AesirXDamComponent = observer(
 
     handleRightClick = (e) => {
       e.preventDefault();
+
       const inside = e.target.closest('.col_thumb');
       if (!inside) {
-        console.log(e);
+        this.damformModalViewModal.closeContextMenuItem();
+
+        const innerHeight = window.innerHeight;
+        const innerWidth = window.innerWidth;
+        let style = {
+          transition: 'none',
+          top: e.clientY,
+          left: e.clientX,
+        };
+        if (e.clientX + 200 > innerWidth) {
+          style = {
+            ...style,
+            right: innerWidth - e.clientX,
+            left: 'unset',
+          };
+        }
+        if (e.clientY + 260 > innerHeight) {
+          style = {
+            ...style,
+            bottom: innerHeight - e.clientY,
+            top: 'unset',
+          };
+        }
+
+        this.damformModalViewModal.damEditdata = {
+          style: { ...style },
+        };
+        this.damformModalViewModal.openContextMenu();
       }
     };
 
     handleRightClickItem = (e, data) => {
       e.preventDefault();
-
+      this.damformModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
       const innerWidth = window.innerWidth;
       let style = {
@@ -149,7 +177,7 @@ const AesirXDamComponent = observer(
         ...data,
         style: { ...style },
       };
-      this.damformModalViewModal.openContextMenu();
+      this.damformModalViewModal.openContextMenuItem();
     };
 
     handleFilter = (data) => {

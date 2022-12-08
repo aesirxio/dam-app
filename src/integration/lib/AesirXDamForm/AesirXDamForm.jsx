@@ -10,16 +10,17 @@ import SimpleReactValidator from 'simple-react-validator';
 import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
-import Button from 'components/Button';
-import ComponentImage from 'components/ComponentImage';
 import { withTranslation } from 'react-i18next';
-import Spinner from 'components/Spinner';
 import PAGE_STATUS from 'constants/PageStatus';
 import { renderingGroupFieldHandler } from 'utils/form';
 import utils from '../AesirXDamUtils/AesirXDamUtils';
 import styles from '../index.module.scss';
-import Folder from '../../../../public/assets/images/folder.svg';
-
+import moment from 'moment';
+const Folder = React.lazy(() => import('SVG/Folder'));
+const Trash = React.lazy(() => import('SVG/TrashIcon'));
+const Spinner = React.lazy(() => import('components/Spinner'));
+const Button = React.lazy(() => import('components/Button'));
+const ComponentImage = React.lazy(() => import('components/ComponentImage'));
 class AesirDamForm extends Component {
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
@@ -56,6 +57,7 @@ class AesirDamForm extends Component {
             required: true,
             validation: 'required',
             className: 'col-12',
+            inputClassName: 'border bg-transparent fs-sm',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME] = event.target.value;
             },
@@ -74,6 +76,7 @@ class AesirDamForm extends Component {
             className: `col-12 ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
+            inputClassName: 'border bg-transparent fs-sm',
             validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
@@ -93,6 +96,7 @@ class AesirDamForm extends Component {
             className: `col-6 ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
+            inputClassName: 'bg-transparent border-0 p-0',
             validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
@@ -107,9 +111,12 @@ class AesirDamForm extends Component {
             label: t('txt_file_size'),
             key: DAM_ASSETS_FIELD_KEY.FILE_SIZE,
             type: FORM_FIELD_TYPE.INPUT,
-            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE],
+            value: moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
+              'DD MMM, YYYY'
+            ),
             disabled: true,
             className: 'col-6',
+            inputClassName: 'bg-transparent border-0 p-0',
             validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
@@ -127,6 +134,7 @@ class AesirDamForm extends Component {
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
             disabled: true,
             className: 'col-6',
+            inputClassName: 'bg-transparent border-0 p-0',
             validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
@@ -154,12 +162,13 @@ class AesirDamForm extends Component {
     return (
       <>
         <div className="row pb-3 h-100">
-          <div className="col-8 h-100">
-            <div className="h-100 ">
+          <div className="col-lg-8 col-12 h-auto">
+            <div className="h-100 p-3 bg-gray-400">
               <Button
+                svg={<Trash />}
                 text={t('txt_delete')}
                 onClick={this.props.delete}
-                className="btn-outline-danger mb-3 "
+                className="btn-outline-gray-300 h-48px bg-white text-danger "
               />
               <div
                 className={`d-flex align-items-center justify-content-center ${styles.popupImageHeight}`}
@@ -178,7 +187,7 @@ class AesirDamForm extends Component {
               </div>
             </div>
           </div>
-          <div className="col-4 h-100">
+          <div className="col-lg-4 col-12 h-auto d-flex flex-column">
             <div className="row">
               {Object.keys(formSetting)
                 .map((groupIndex) => {
@@ -191,14 +200,14 @@ class AesirDamForm extends Component {
                 }, [])}
             </div>
             <div className="row justify-content-end">
-              <div className="col-4">
+              <div className="col-xxl-4 col-xl-5 col-6">
                 <Button
                   text={t('txt_Cancel')}
                   onClick={closeModal}
                   className="btn btn-outline-dark w-100"
                 />
               </div>
-              <div className="col-4">
+              <div className="col-xxl-4 col-xl-5 col-6">
                 <Button
                   text={t('txt_save_update')}
                   onClick={() => this.props.handleUpdate(this.formPropsData)}

@@ -39,8 +39,6 @@ const HomeList = observer(
     }
 
     componentDidMount() {
-      console.log('componentDidMount');
-      console.log(this.damListViewModel);
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
       this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);

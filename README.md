@@ -38,6 +38,7 @@ Then use it in your app:
 import React, { useState } from 'react';
 
 import { AesirXDam } from 'aesirx-dam-app';
+import { AesirXDamStorage } from 'aesirx-dam-app';
 
 import 'aesirx-dam-app/dist/index.css';
 import 'aesirx-dam-app/dist/index.css.map';
@@ -51,6 +52,9 @@ function AesirXDam() {
     <div className="py-4 px-3 h-100 flex-direction-column">
       <div className="h-100 flex-1">
         <AesirXDam onSelect={onSelect} />
+      </div>
+      <div>
+       <AesirXDamStorage />
       </div>
     </div>
   );

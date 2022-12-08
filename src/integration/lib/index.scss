@@ -5,6 +5,7 @@
 
 @import '../../scss/utils//bootstrap.scss';
 
+@import '../../../node_modules/bootstrap/scss/progress';
 .home-modal {
   .modal-content {
     // height: 80vh;
@@ -13,7 +14,7 @@
   }
   .modal-body {
     height: calc(100% - 48px);
-    overflow: hidden;
+    overflow: auto;
   }
 }
 

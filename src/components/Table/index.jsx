@@ -21,6 +21,7 @@ const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
 const Select = React.lazy(() => import('../Select'));
 const Dropzone = React.lazy(() => import('components/Dropzone'));
+const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
 
 let dataFilter = {
   searchText: '',
@@ -52,6 +53,7 @@ const Table = ({
 }) => {
   const { t } = useTranslation('common');
 
+  // eslint-disable-next-line react/display-name, react/prop-types
   const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
     const defaultRef = React.useRef();
     const resolvedRef = ref || defaultRef;
@@ -167,9 +169,8 @@ const Table = ({
   );
 
   const moveRow = (dragIndex, hoverIndex) => {
-    console.log(123);
     if (dragIndex?.[DAM_ASSETS_FIELD_KEY.TYPE] && !hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
-      console.log(123);
+      // eslint-disable-next-line react/prop-types
       listViewModel.updateAssets({
         ...dragIndex,
         [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
@@ -182,6 +183,7 @@ const Table = ({
         })
       );
     } else if (!hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+      // eslint-disable-next-line react/prop-types
       listViewModel.updateCollections({
         ...dragIndex,
         [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
@@ -277,12 +279,14 @@ const Table = ({
 
                   return (
                     <tr
+                      key={Math.random(40, 200)}
                       {...headerGroup.getHeaderGroupProps()}
                       className="bg-white border-bottom border-gray-500"
                     >
-                      {newHeaderGroup.map((column) => {
+                      {newHeaderGroup.map((column, index) => {
                         return (
                           <th
+                            key={index}
                             {...column.getHeaderProps()}
                             className="fw-normal px-2 py-3 flex-1 bg-white"
                           >
@@ -354,7 +358,21 @@ const Table = ({
                   <div className="col-12">
                     <p className="fw-bold text-blue-0">{t('txt_file')}</p>
                   </div>
-
+                  {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
+                    <div
+                      className={`col_thumb ${styles.col_thumb} col-${
+                        !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                      } mb-4 zindex-2`}
+                    >
+                      <div
+                        className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+                        `}
+                      >
+                        <ArrowBack />
+                        <span>{t('txt_back')}</span>
+                      </div>
+                    </div>
+                  )}
                   {/* Item */}
                   <Thumb
                     {...row.getRowProps()}
@@ -397,10 +415,28 @@ const Table = ({
               newRowCells.length > 0 && (
                 <React.Fragment key={Math.random(40, 200)}>
                   {index === 0 ? (
-                    <div className="col-12">
-                      <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
-                    </div>
+                    <>
+                      <div className="col-12">
+                        <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
+                      </div>
+                      {listViewModel?.damLinkFolder.split('/').length > 1 && (
+                        <div
+                          className={`col_thumb ${styles.col_thumb} col-${
+                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                          } mb-4 zindex-2`}
+                        >
+                          <div
+                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+                          `}
+                          >
+                            <ArrowBack />
+                            <span>{t('txt_back')}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   ) : null}
+
                   <Thumb
                     {...row.getRowProps()}
                     className={`col_thumb ${styles.col_thumb} col-${
@@ -419,7 +455,6 @@ const Table = ({
               )
             );
           })}
-
           {rows.length === 0 ? (
             <ComponentNoData
               icons="/assets/images/ic_project.svg"

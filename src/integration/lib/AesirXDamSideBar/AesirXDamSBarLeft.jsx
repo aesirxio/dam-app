@@ -60,6 +60,7 @@ const SbarLeft = observer(
     }
 
     onNavigate = (e, link) => {
+      e.preventDefault();
       if (!link) {
         this.damListViewModel.setDamLinkFolder('/root');
       } else {

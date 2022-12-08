@@ -344,7 +344,6 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createAssets(data);
-      console.log(responsedDataFromLibary);
       if (responsedDataFromLibary) {
         const getDetailAsset = await damService.getAsset(responsedDataFromLibary);
         if (getDetailAsset.item) {
