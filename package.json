@@ -8,7 +8,9 @@
   "unpkg": "dist/index.umd.js",
   "source": "src/integration/index.js",
   "repository": "https://github.com/aesirxio/dam-app",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.29.4"
+  },
   "peerDependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
@@ -78,7 +80,6 @@
     "lodash": "^4.17.21",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
-    "moment": "^2.29.4",
     "react-big-calendar": "^0.33.5",
     "react-bootstrap": "^2.5.0",
     "react-bootstrap-typeahead": "^6.0.0",
