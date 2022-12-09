@@ -11,7 +11,6 @@ import DamStore from 'store/DamStore/DamStore';
 
 import AsirsxDamComponent from './AsirsxDamComponent';
 import AesirXDamActionBar from './AesirXDamForm/AesirXDamActionBar';
-import './index.scss';
 
 const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
@@ -21,7 +20,7 @@ class AesirXDamLayout extends React.Component {
   }
   render() {
     return (
-      <div className="container-fluid h-100 intergrate-layout">
+      <div className="container-fluid h-100 dam-intergrate-layout">
         <div className="row h-100">
           <DamStoreProvider viewModel={damsViewModel}>
             <div className="main_content main_content_dashboard d-flex">
