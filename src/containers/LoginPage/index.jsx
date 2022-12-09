@@ -6,16 +6,18 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import SimpleReactValidator from 'simple-react-validator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
 
 import './index.scss';
 
 import BannerLeft from '../../components/BannerLeft';
 
 import { login } from '../../auth';
-import InputPassword from '../../components/inputPassword';
+// import InputPassword from '../../components/inputPassword';
 // import ComponentImage from 'components/ComponentImage';
+import { SSOButton } from 'aesirx-sso';
+import { AesirxAuthenticationApiService, Storage } from 'aesirx-dma-lib';
 
 const dataSlider = [
   {
@@ -69,7 +71,12 @@ class LoginPage extends React.Component {
 
   render() {
     const { t } = this.props;
-
+    const onGetData = async (response) => {
+      const authService = new AesirxAuthenticationApiService();
+      await authService.setTokenUser(response, false);
+      Storage.setItem('auth', true);
+      window.location.reload();
+    };
     return (
       <div className="row">
         <BannerLeft dataSlider={dataSlider} />
@@ -86,7 +93,7 @@ class LoginPage extends React.Component {
               DAM.
             </p>
             <p className="fs-2 fw-bold">{t('txt_sign_in_to_getting_started')}</p>
-            <form>
+            {/* <form>
               <label className="form-label mb-3" htmlFor="email">
                 Email <span>*</span>
               </label>
@@ -158,7 +165,20 @@ class LoginPage extends React.Component {
               >
                 {t('txt_do_not_have_an_account')}
               </a>
-            </form>
+            </form> */}
+            <SSOButton
+              className="btn w-100 fw-medium btn-success position-relative d-flex align-item-center justify-content-center mt-3 px-6"
+              text={t('txt_sign_in')}
+              onGetData={onGetData}
+            />
+            <a
+              href="https://dam.aesirx.io/auth/register"
+              target="_blank"
+              rel="noreferrer"
+              className="d-flex justify-content-center mt-4 fw-bold"
+            >
+              {t('txt_do_not_have_an_account')}
+            </a>
           </div>
         </div>
       </div>
