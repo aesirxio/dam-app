@@ -91,7 +91,6 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE],
             disabled: true,
-
             className: `col-6 ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
@@ -211,7 +210,7 @@ class HomeForm extends Component {
                 <Button
                   text={t('txt_Cancel')}
                   onClick={closeModal}
-                  className="btn btn-outline-gray-300 text-blue-0 w-100"
+                  className="btn btn-outline-gray-300 bg-white text-blue-0 w-100"
                 />
               </div>
               <div className="col-xxl-4 col-xl-5 col-6">

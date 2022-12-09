@@ -18,9 +18,7 @@
     cursor: n-resize;
   }
 }
-
 .item_menu {
-  .link_menu_root,
   .link_menu {
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -28,7 +26,6 @@
 
     &.active,
     &:hover {
-      // background-color: $blue;
       color: $green !important;
     }
 
@@ -40,19 +37,7 @@
     .icon {
       width: 24px;
       height: 24px;
-      background-color: var(--sidebar-menu-item-color);
-    }
-  }
-  .link_menu_root {
-    &.active,
-    &:hover {
-      background-color: $blue;
-      color: $white !important;
-
-      i,
-      span {
-        color: $white !important;
-      }
+      background-color: $body-bg;
     }
   }
 }

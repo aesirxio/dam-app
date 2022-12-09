@@ -92,7 +92,7 @@ class Header extends React.Component {
               fs-12
               cursor-pointer
             "
-            onClick={this.handleCollap}
+            // onClick={this.handleCollap}
           >
             <FontAwesomeIcon icon={faChevronLeft} className="text-green" />
           </span>
