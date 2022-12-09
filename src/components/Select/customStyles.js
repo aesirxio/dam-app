@@ -3,27 +3,22 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-const customStyles = (isBorder, options) => {
-  const width = options.map((option) => {
-    return option.label.length;
-  });
-
+const customStyles = (isBorder, isShadow = true) => {
   return {
     control: (provided) => {
       return {
         ...provided,
         minHeight: 50,
-        boxShadow: '0 3px 5px rgb(0 0 0 / 5%)',
+        boxShadow: isShadow ? '0 3px 5px rgb(0 0 0 / 5%)' : 'none',
         borderColor: isBorder ? 'var(--bs-gray-select)' : 'transparent',
         '&:hover': {
           borderColor: isBorder ? 'var(--bs-success)' : 'transparent',
-          borderRight: '1px solid var(--bs-success)',
         },
-        borderRight: '1px solid var(--bs-gray-select)',
+
         backgroundColor: 'var(--bs-white)',
         cursor: 'pointer',
         borderRadius: 0,
-        width: 8 * Math.max.apply(Math, width) + 40,
+        width: 'auto',
       };
     },
 

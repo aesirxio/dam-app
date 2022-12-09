@@ -93,16 +93,21 @@ function Thumb({
       style={{ opacity }}
       type={type}
     >
-      {newRowCells.map((cell) => {
+      {newRowCells.map((cell, index) => {
         if (cell.column.id === DAM_COLUMN_INDICATOR.NAME) {
           return (
-            <td {...cell.getCellProps()} ref={dragRef} className="fw-normal px-2 py-3 cursor-move">
+            <td
+              key={index}
+              {...cell.getCellProps()}
+              ref={dragRef}
+              className="fw-normal px-2 py-3 cursor-move"
+            >
               {cell.render('Cell')}
             </td>
           );
         }
         return (
-          <td {...cell.getCellProps()} className="fw-normal px-2 py-3">
+          <td key={index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
             {cell.render('Cell')}
           </td>
         );

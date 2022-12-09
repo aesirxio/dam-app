@@ -5,8 +5,8 @@
 
 @import '../../scss/utils/bootstrap.scss';
 
-@import 'node_modules/bootstrap/scss/modal';
-@import 'node_modules/bootstrap/scss/close';
+@import '~bootstrap/scss/modal';
+@import '~bootstrap/scss/close';
 
 .close {
   @extend .btn-close;
@@ -21,15 +21,21 @@
     background: none;
     position: relative;
     opacity: 1;
-
+    border: 3px solid $green;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    box-sizing: border-box;
+    cursor: pointer;
     &:before,
     &:after {
       position: absolute;
       left: 0;
       content: ' ';
-      height: 20px;
-      width: 2px;
-      background-color: $red;
+      height: 12px;
+      width: 3px;
+      border-radius: 5px;
+      background-color: $green;
       top: 0;
       bottom: 0;
       right: 0;
@@ -55,5 +61,14 @@
     > * {
       margin: 0;
     }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .modal,
+  .modal-backdrop {
+    width: calc(100vw - 248px) !important;
+    right: 0 !important;
+    left: unset !important;
   }
 }

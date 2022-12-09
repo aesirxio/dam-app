@@ -4,13 +4,12 @@
  */
 
 import React, { Component } from 'react';
-import './index.scss';
 
 import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
+} from 'aesirx-dma-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import ComponentImage from 'components/ComponentImage';
@@ -22,8 +21,8 @@ import PAGE_STATUS from 'constants/PageStatus';
 import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import Folder from '../public/assets/images/folder.svg';
 
+const Folder = React.lazy(() => import('SVG/Folder'));
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
     damListViewModel = null;
@@ -50,10 +49,12 @@ const AesirXDamComponent = observer(
 
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
-      if (checkContextMenu) {
+      const checkContextMenuItem = e.target.closest('#contextMenuItem');
+      if (checkContextMenu || checkContextMenuItem) {
         return;
       } else {
         this.damformModalViewModal.closeContextMenu();
+        this.damformModalViewModal.closeContextMenuItem();
       }
     };
 
@@ -97,23 +98,59 @@ const AesirXDamComponent = observer(
           this.damListViewModel.damLinkFolder + '/' + collection.id
         );
       } else {
-        if (this.props.onDoubleClick) {
-          return this.props.onDoubleClick(collection);
-        } else return collection;
+        const data = [
+          {
+            id: collection?.[DAM_ASSETS_FIELD_KEY.ID],
+            url: collection?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+            extension: collection?.[DAM_ASSETS_FIELD_KEY.FILE_EXTENTION],
+            basename: collection?.[DAM_ASSETS_FIELD_KEY.NAME],
+          },
+        ];
+        if (this.props.onSelect) {
+          return this.props.onSelect(data);
+        } else return data;
       }
     };
 
     handleRightClick = (e) => {
       e.preventDefault();
+
       const inside = e.target.closest('.col_thumb');
       if (!inside) {
-        console.log(e);
+        this.damformModalViewModal.closeContextMenuItem();
+
+        const innerHeight = window.innerHeight;
+        const innerWidth = window.innerWidth;
+        let style = {
+          transition: 'none',
+          top: e.clientY,
+          left: e.clientX,
+        };
+        if (e.clientX + 200 > innerWidth) {
+          style = {
+            ...style,
+            right: innerWidth - e.clientX,
+            left: 'unset',
+          };
+        }
+        if (e.clientY + 260 > innerHeight) {
+          style = {
+            ...style,
+            bottom: innerHeight - e.clientY,
+            top: 'unset',
+          };
+        }
+
+        this.damformModalViewModal.damEditdata = {
+          style: { ...style },
+        };
+        this.damformModalViewModal.openContextMenu();
       }
     };
 
     handleRightClickItem = (e, data) => {
       e.preventDefault();
-
+      this.damformModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
       const innerWidth = window.innerWidth;
       let style = {
@@ -140,7 +177,7 @@ const AesirXDamComponent = observer(
         ...data,
         style: { ...style },
       };
-      this.damformModalViewModal.openContextMenu();
+      this.damformModalViewModal.openContextMenuItem();
     };
 
     handleFilter = (data) => {
@@ -156,6 +193,18 @@ const AesirXDamComponent = observer(
         'list[ordering]': data.value.ordering,
         'list[direction]': data.value.direction,
       });
+    };
+
+    handleBack = () => {
+      const currentLink = this.damListViewModel.damLinkFolder.split('/');
+
+      const removeCurrentId = currentLink.slice(0, -1);
+      const backLink = removeCurrentId.join('/');
+      if (backLink) {
+        this.damListViewModel.setDamLinkFolder(backLink);
+      } else {
+        this.damListViewModel.setDamLinkFolder('/root');
+      }
     };
 
     render() {
@@ -319,6 +368,7 @@ const AesirXDamComponent = observer(
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
                 noSelection={true}
+                onBackClick={this.handleBack}
               />
             </>
           ) : (

@@ -10,19 +10,18 @@ import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
-import {
-  DAM_ASSETS_FIELD_KEY,
-  DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
-import Dropzone from 'components/Dropzone';
+import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import ComponentNoData from '../ComponentNoData';
-import Thumb from './Thumb';
 import { notify } from 'components/Toast';
-import Select from '../Select';
+
+const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
+const Thumb = React.lazy(() => import('./Thumb'));
+const Select = React.lazy(() => import('../Select'));
+const Dropzone = React.lazy(() => import('components/Dropzone'));
+const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
 
 let dataFilter = {
   searchText: '',
@@ -51,9 +50,11 @@ const Table = ({
   onFilter,
   onSortby,
   onRightClickItem,
+  onBackClick,
 }) => {
   const { t } = useTranslation('common');
 
+  // eslint-disable-next-line react/display-name, react/prop-types
   const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
     const defaultRef = React.useRef();
     const resolvedRef = ref || defaultRef;
@@ -75,6 +76,7 @@ const Table = ({
 
   const filterBar = useMemo(() => ({
     id: 'type',
+    className: 'border-end border-gray-select',
     placeholder: t('txt_type'),
     options: [
       {
@@ -99,6 +101,7 @@ const Table = ({
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     placeholder: t('txt_sort_by'),
+    className: 'border-end border-gray-select',
     options: [
       {
         label: t('txt_date_create'),
@@ -168,6 +171,7 @@ const Table = ({
 
   const moveRow = (dragIndex, hoverIndex) => {
     if (dragIndex?.[DAM_ASSETS_FIELD_KEY.TYPE] && !hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+      // eslint-disable-next-line react/prop-types
       listViewModel.updateAssets({
         ...dragIndex,
         [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
@@ -180,6 +184,7 @@ const Table = ({
         })
       );
     } else if (!hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
+      // eslint-disable-next-line react/prop-types
       listViewModel.updateCollections({
         ...dragIndex,
         [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
@@ -275,12 +280,14 @@ const Table = ({
 
                   return (
                     <tr
+                      key={Math.random(40, 200)}
                       {...headerGroup.getHeaderGroupProps()}
                       className="bg-white border-bottom border-gray-500"
                     >
-                      {newHeaderGroup.map((column) => {
+                      {newHeaderGroup.map((column, index) => {
                         return (
                           <th
+                            key={index}
                             {...column.getHeaderProps()}
                             className="fw-normal px-2 py-3 flex-1 bg-white"
                           >
@@ -325,13 +332,21 @@ const Table = ({
           ) : null}
 
           {rows.length === 0 ? (
-            <ComponentNoData
-              icons="/assets/images/ic_project.svg"
-              title="No Matching Results"
-              text="Can not found any project with that keyword. Please try another keyword."
-              width="w-50"
-              createAssets={createAssets}
-            />
+            <>
+              <p
+                onClick={onBackClick}
+                className="d-flex zindex-2 align-items-center cursor-pointer"
+              >
+                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+              </p>
+              <ComponentNoData
+                icons="/assets/images/ic_project.svg"
+                title="No Matching Results"
+                text="Can not found any project with that keyword. Please try another keyword."
+                width="w-50"
+                createAssets={createAssets}
+              />
+            </>
           ) : null}
         </div>
       ) : (
@@ -352,7 +367,22 @@ const Table = ({
                   <div className="col-12">
                     <p className="fw-bold text-blue-0">{t('txt_file')}</p>
                   </div>
-
+                  {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
+                    <div
+                      className={`col_thumb ${styles.col_thumb} col-${
+                        !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                      } mb-4 zindex-2`}
+                    >
+                      <div
+                        className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+                        `}
+                        onClick={onBackClick}
+                      >
+                        <ArrowBack />
+                        <span>{t('txt_back')}</span>
+                      </div>
+                    </div>
+                  )}
                   {/* Item */}
                   <Thumb
                     {...row.getRowProps()}
@@ -395,10 +425,29 @@ const Table = ({
               newRowCells.length > 0 && (
                 <React.Fragment key={Math.random(40, 200)}>
                   {index === 0 ? (
-                    <div className="col-12">
-                      <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
-                    </div>
+                    <>
+                      <div className="col-12">
+                        <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
+                      </div>
+                      {listViewModel?.damLinkFolder.split('/').length > 1 && (
+                        <div
+                          className={`col_thumb ${styles.col_thumb} col-${
+                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                          } mb-4 zindex-2`}
+                        >
+                          <div
+                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+                          `}
+                            onClick={onBackClick}
+                          >
+                            <ArrowBack />
+                            <span>{t('txt_back')}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   ) : null}
+
                   <Thumb
                     {...row.getRowProps()}
                     className={`col_thumb ${styles.col_thumb} col-${
@@ -417,15 +466,22 @@ const Table = ({
               )
             );
           })}
-
           {rows.length === 0 ? (
-            <ComponentNoData
-              icons="/assets/images/ic_project.svg"
-              title="No Matching Results"
-              text="Can not found any project with that keyword. Please try another keyword."
-              width="w-50"
-              createAssets={createAssets}
-            />
+            <>
+              <p
+                onClick={onBackClick}
+                className="d-flex zindex-2 align-items-center cursor-pointer"
+              >
+                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+              </p>
+              <ComponentNoData
+                icons="/assets/images/ic_project.svg"
+                title="No Matching Results"
+                text="Can not found any project with that keyword. Please try another keyword."
+                width="w-50"
+                createAssets={createAssets}
+              />
+            </>
           ) : (
             <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
           )}

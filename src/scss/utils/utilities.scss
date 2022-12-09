@@ -131,6 +131,7 @@ $utilities: map-merge(
             'gray-500': $gray-500,
             'gray-300': $gray-300,
             'gray-700': $gray-700,
+            'gray-select': $gray-select,
           )
         ),
     ),
@@ -196,6 +197,18 @@ $utilities: map-merge(
         auto: auto,
         100: 100%,
         80: 80%,
+      ),
+    ),
+    'height': (
+      property: height,
+      class: h,
+      values: (
+        25: 25%,
+        50: 50%,
+        75: 75%,
+        100: 100%,
+        auto: auto,
+        48px: 48px,
       ),
     ),
     'min-width': (

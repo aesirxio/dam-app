@@ -3,17 +3,18 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-@import '../src/scss/utils//bootstrap.scss';
+@import '../../scss/utils//bootstrap.scss';
 
+@import '../../../node_modules/bootstrap/scss/progress';
 .home-modal {
   .modal-content {
-    height: 80vh;
+    // height: 80vh;
     overflow: hidden;
     padding-bottom: 1rem;
   }
   .modal-body {
     height: calc(100% - 48px);
-    overflow: hidden;
+    overflow: auto;
   }
 }
 
@@ -101,4 +102,7 @@
 .dam-modal-body {
   height: calc(100% - 48px);
   overflow-y: auto;
+}
+.progress {
+  height: 4px !important;
 }

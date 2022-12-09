@@ -4,20 +4,19 @@
  */
 
 import React, { Component } from 'react';
-import history from 'routes/history';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
-import Dropzone from 'components/Dropzone';
+import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import ButtonNormal from 'components/ButtonNormal';
-import AesirXDamFormModel from './AesirXDamFormModel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 
+const AesirXDamFormModel = React.lazy(() => import('./AesirXDamFormModel'));
+const ButtonNormal = React.lazy(() => import('components/ButtonNormal'));
+const Dropzone = React.lazy(() => import('components/Dropzone'));
 const AesirXDamActionBar = observer(
   class AesirXDamActionBar extends Component {
     damFormModalViewModel = null;
@@ -54,6 +53,21 @@ const AesirXDamActionBar = observer(
       }
     };
 
+    handleLinkBreadCrumb = (link = '/root') => {
+      if (link === 'root') {
+        this.damListViewModel.setDamLinkFolder(link);
+      } else {
+        const currentLink = this.damListViewModel.damLinkFolder.split('/');
+
+        const currentLinkIndexMap = currentLink.findIndex((a) => +a === link);
+
+        const linkFolder = currentLink.splice(0, currentLinkIndexMap + 1).join('/');
+        if (linkFolder !== this.damListViewModel.damLinkFolder) {
+          this.damListViewModel.setDamLinkFolder(linkFolder);
+        }
+      }
+    };
+
     render() {
       const { t } = this.props;
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
@@ -65,13 +79,19 @@ const AesirXDamActionBar = observer(
       });
       return (
         <>
-          <h2 className="text-blue-0">
-            <span>{t('txt_your_digital_assets')}</span>
+          <h2 className="text-gray-900 fw-bold">
+            <span className="text-body cursor-pointer" onClick={this.handleLinkBreadCrumb}>
+              {t('txt_digital_assets_media')}
+            </span>
             {breadcrumb
               ? breadcrumb.map((_breadcrumb) => {
                   if (_breadcrumb) {
                     return _breadcrumb?.name ? (
-                      <span key={_breadcrumb?.id}>
+                      <span
+                        className="text-body cursor-pointer"
+                        onClick={() => this.handleLinkBreadCrumb(_breadcrumb?.id)}
+                        key={_breadcrumb?.id}
+                      >
                         <FontAwesomeIcon
                           size={'1x'}
                           className="text-green text-color px-2"
@@ -87,7 +107,13 @@ const AesirXDamActionBar = observer(
               : null}
           </h2>
           <div className="d-flex justify-content-end">
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} className="me-3">
+            <ButtonNormal
+              onClick={this.handleCreateFolder}
+              iconStart={faFolder}
+              text="txt_create_folder"
+              className="btn-outline-gray-300 text-blue-0 me-3"
+            />
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
@@ -95,12 +121,6 @@ const AesirXDamActionBar = observer(
                 className=" btn-success"
               />
             </Dropzone>
-            <ButtonNormal
-              onClick={this.handleCreateFolder}
-              iconStart={faFolder}
-              text="txt_create_folder"
-              className="btn-outline-gray-300 bg-white text-blue-0"
-            />
             <AesirXDamFormModel />
           </div>
         </>

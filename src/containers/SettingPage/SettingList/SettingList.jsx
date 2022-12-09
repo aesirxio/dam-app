@@ -14,7 +14,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { renderingGroupFieldHandler } from 'utils/form';
 import { notify } from 'components/Toast';
-import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib/src/Constant/DamConstant';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib';
 
 const SettingList = observer(
   class SettingList extends Component {

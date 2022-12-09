@@ -5,6 +5,12 @@
 
 @import '../../scss/utils/bootstrap.scss';
 
+#dropdown-language {
+  &::after {
+    border-top-color: $green;
+  }
+}
+
 .wr_input_search {
   width: 656px !important;
 }
@@ -116,19 +122,12 @@
   }
 }
 
-.all_project {
-  .dropdown {
-    display: none;
-  }
-}
-
-.all_header {
-  .all_project {
-    .dropdown {
-      display: block;
-    }
-  }
-}
+// .wrapper_header {
+//   [class*='-control'] {
+//     box-shadow: none;
+//     border: none;
+//   }
+// }
 
 @include media-breakpoint-down(xl) {
   .sidebar {
@@ -158,10 +157,12 @@
   .wr_input_search {
     width: 300px !important;
   }
-
+  .main-layout {
+    transition: 0.5s all ease-in-out;
+  }
   .show_menu_left {
     transform: translateX(260px);
-
+    transition: 0.5s all ease-in-out;
     .wrapper_header {
       .item_hambuger {
         &:first-child {

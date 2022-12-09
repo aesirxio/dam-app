@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, noDrag = true }) => {
   const [onDrag, setOnDrag] = useState(false);
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
   const { getRootProps, getInputProps } = useDropzone({
     // accept: '*',
     noClick: noClick,
@@ -56,9 +56,7 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
           {children}
         </div>
         {onDrag ? (
-          <div
-            className={`position-absolute bottom-0 start-50 translate-middle text-center zindex-3`}
-          >
+          <div className={` text-center zindex-3 ${styles.droptoupload}`}>
             <FontAwesomeIcon
               style={{ width: 50, height: 50 }}
               color="#fff"
@@ -66,7 +64,7 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
               bounce={true}
               className={styles.bounce}
             />
-            <p className={` ${styles.droptoupload}`}>{t('txt_drop_to_upload')}</p>
+            <p className={``}>{t('txt_drop_to_upload')}</p>
           </div>
         ) : null}
       </div>

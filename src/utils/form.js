@@ -4,22 +4,23 @@
  */
 
 import React from 'react';
-import Label from '../components/Form/Label';
 import { FORM_FIELD_TYPE } from '../constants/FormFieldType';
 import { Form } from 'react-bootstrap';
-import FormAgeField from '../components/Form/FormAgeField';
-import FormLocationField from '../components/Form/FormLocationField';
-import FormDateRangePicker from '../components/Form/FormDateRangePicker';
-import CustomizedDatePicker from '../components/DatePicker';
-import FormImage from '../components/Form/FormImage';
-import FormSelection from '../components/Form/FormSelection';
-import FormSelectionPersona from '../components/Form/FormSelectionPersona';
-import FormInformation from '../components/FormInformation';
-import FormSelectDropdown from '../components/Form/FormSelectDropdown';
-import FormPriceField from '../components/Form/FormPriceField';
-import FormRadio from '../components/Form/FormRadio';
 
-import Input from '../components/Form/Input';
+const Label = React.lazy(() => import('../components/Form/Label'));
+const FormAgeField = React.lazy(() => import('../components/Form/FormAgeField'));
+const FormLocationField = React.lazy(() => import('../components/Form/FormLocationField'));
+const FormDateRangePicker = React.lazy(() => import('../components/Form/FormDateRangePicker'));
+const CustomizedDatePicker = React.lazy(() => import('../components/DatePicker'));
+const FormImage = React.lazy(() => import('../components/Form/FormImage'));
+const FormSelection = React.lazy(() => import('../components/Form/FormSelection'));
+const FormSelectionPersona = React.lazy(() => import('../components/Form/FormSelectionPersona'));
+const FormInformation = React.lazy(() => import('../components/FormInformation'));
+const FormSelectDropdown = React.lazy(() => import('../components/Form/FormSelectDropdown'));
+const FormPriceField = React.lazy(() => import('../components/Form/FormPriceField'));
+const FormRadio = React.lazy(() => import('../components/Form/FormRadio'));
+
+const Input = React.lazy(() => import('../components/Form/Input'));
 
 const renderingGroupFieldHandler = (group, validator) => {
   return Object.keys(group.fields)
@@ -31,7 +32,11 @@ const renderingGroupFieldHandler = (group, validator) => {
             case FORM_FIELD_TYPE.INPUT:
               return (
                 <Form.Group key={field.key} className={`mb-3 ${className}`}>
-                  <Label text={field.label} required={field.required ?? false} />
+                  <Label
+                    text={field.label}
+                    className={field.labelClassName}
+                    required={field.required ?? false}
+                  />
                   <Input field={field} />
                   {field.validation &&
                     validator.message(field.label, field.value, field.validation, {
@@ -42,7 +47,11 @@ const renderingGroupFieldHandler = (group, validator) => {
             case FORM_FIELD_TYPE.TEXTAREA:
               return (
                 <Form.Group key={field.key} className={`mb-3 ${className}`}>
-                  <Label text={field.label} required={field.required ?? false} />
+                  <Label
+                    className={field.labelClassName}
+                    text={field.label}
+                    required={field.required ?? false}
+                  />
                   <Form.Control
                     as="textarea"
                     defaultValue={field.value}

@@ -5,27 +5,30 @@
 
 import React, { Component, Suspense } from 'react';
 
-import Button from 'components/Button';
-import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import SimpleReactValidator from 'simple-react-validator';
-import AesirXDamForm from './AesirXDamForm';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib/src/Constant/DamConstant';
-import CollectionForm from './CollectionForm';
-import history from 'routes/history';
+} from 'aesirx-dma-lib';
+import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ModalComponent from 'components/Modal';
-import EditingIcon from 'SVG/EddingIcon';
-import MoveFolderIcon from 'SVG/MoveFolderIcon';
-import PreviewIcon from 'SVG/EyeIcon';
-import DownLoadIcon from 'SVG/DownloadIcon';
-import DeleteIcon from 'SVG/TrashIcon';
+const Button = React.lazy(() => import('components/Button'));
+const ComponentImage = React.lazy(() => import('components/ComponentImage'));
+const AesirXDamForm = React.lazy(() => import('./AesirXDamForm'));
+const Dropzone = React.lazy(() => import('components/Dropzone'));
+const CollectionForm = React.lazy(() => import('./CollectionForm'));
+const ModalComponent = React.lazy(() => import('components/Modal'));
+const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
+const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
+const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));
+const DownLoadIcon = React.lazy(() => import('SVG/DownloadIcon'));
+const DeleteIcon = React.lazy(() => import('SVG/TrashIcon'));
 
 const AesirXDamFormModal = observer(
   class AesirXDamFormModal extends Component {
@@ -123,13 +126,65 @@ const AesirXDamFormModal = observer(
         downloadFile,
         showCreateCollectionModal,
         showUpdateModal,
+        showContextMenuItem,
+        openCreateCollectionModal,
       } = this.damFormModalViewModel;
       const { t } = this.props;
       return (
         <>
+          {show ? (
+            <Suspense fallback={<div>Loading...</div>}>
+              <ModalComponent
+                show={show}
+                onHide={this.damFormModalViewModel.closeModal}
+                onShow={this.damFormModalViewModel.closeContextMenu}
+                body={
+                  <AesirXDamForm
+                    delete={this.handleDelete}
+                    handleUpdate={this.handleUpdate}
+                    viewModel={this.damFormModalViewModel}
+                    validator={this.validator}
+                  />
+                }
+                dialogClassName={'mh-80vh mw-80 home-modal'}
+              />
+            </Suspense>
+          ) : null}
+
           {showContextMenu ? (
             <div
               id="contextMenu"
+              className={`col_thumb cursor-pointer align-self-center mb-4 bg-white zindex-5 position-fixed`}
+              style={{ ...this.damFormModalViewModel.damEditdata?.style }}
+            >
+              <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
+                <Dropzone createAssets={this.handleCreateAssets}>
+                  <div
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCloudUploadAlt}
+                      className=" d-inline-block align-text-bottom"
+                    />
+
+                    <span className="ms-3 text py-1 d-inline-block">{t('txt_upload_file')}</span>
+                  </div>
+                </Dropzone>
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                  onClick={openCreateCollectionModal}
+                >
+                  <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
+
+                  <span className="ms-3 text py-1 d-inline-block">{t('txt_create_folder')}</span>
+                </div>
+              </div>
+            </div>
+          ) : null}
+
+          {showContextMenuItem ? (
+            <div
+              id="contextMenuItem"
               className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
               style={{ ...this.damFormModalViewModel.damEditdata?.style }}
             >
@@ -186,25 +241,6 @@ const AesirXDamFormModal = observer(
             </div>
           ) : null}
 
-          {show ? (
-            <Suspense fallback={<div>Loading...</div>}>
-              <ModalComponent
-                show={show}
-                onHide={this.damFormModalViewModel.closeModal}
-                onShow={this.damFormModalViewModel.closeContextMenu}
-                body={
-                  <AesirXDamForm
-                    delete={this.handleDelete}
-                    handleUpdate={this.handleUpdate}
-                    viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
-                  />
-                }
-                dialogClassName={'mh-80vh mw-80 home-modal'}
-              />
-            </Suspense>
-          ) : null}
-
           {showCreateCollectionModal ? (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
@@ -215,7 +251,7 @@ const AesirXDamFormModal = observer(
                 body={
                   <CollectionForm
                     onSubmit={this.handleCreateFolder}
-                    close={this.damFormModalViewModel.closeonSubmitModal}
+                    close={this.damFormModalViewModel.closeCreateCollectionModal}
                     viewModel={this.damFormModalViewModel}
                     validator={this.validator}
                     type="create"
