@@ -32,6 +32,10 @@ The easiest way to use aesirx-dam-app is to install it from npm and build it int
 npm install aesirx-dam-app
 ```
 
+Add your `REACT_APP_DAM_LICENSE` to your integrate app you get if from #configure step
+
+
+
 Then use it in your app:
 
 ```js
@@ -41,7 +45,7 @@ import { AesirXDam } from 'aesirx-dam-app';
 import { AesirXDamStorage } from 'aesirx-dam-app';
 
 import 'aesirx-dam-app/dist/index.css';
-import 'aesirx-dam-app/dist/index.css.map';
+import 'aesirx-dam-app/dist/app.css';
 
 function AesirXDam() {
   const onSelect = (data) => {

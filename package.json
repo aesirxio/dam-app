@@ -1,23 +1,16 @@
 {
-  "name": "@kakahuy113/aesirx-dam-app",
-  "version": "1.1.2",
+  "name": "aesirx-dam-app",
+  "version": "1.0.1-alpha.1",
   "license": "GPL-3.0-only",
-  "author": "kakahuy113",
+  "author": "AesirX",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "unpkg": "dist/index.umd.js",
   "source": "src/integration/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kakahuy113/dam-app.git"
-  },
-  "description": "## About",
-  "bugs": {
-    "url": "https://github.com/kakahuy113/dam-app/issues"
-  },
+  "repository": "https://github.com/aesirxio/dam-app",
   "dependencies": {},
   "peerDependencies": {
-    "react": "^17.0.2",
+    "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "scripts": {

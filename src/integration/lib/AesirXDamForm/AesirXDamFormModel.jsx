@@ -5,24 +5,24 @@
 
 import React, { Component, Suspense } from 'react';
 
-import Button from 'components/Button';
-import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import SimpleReactValidator from 'simple-react-validator';
-import AesirXDamForm from './AesirXDamForm';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
 } from 'aesirx-dma-lib';
-import CollectionForm from './CollectionForm';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Dropzone from 'components/Dropzone';
 
+const Button = React.lazy(() => import('components/Button'));
+const ComponentImage = React.lazy(() => import('components/ComponentImage'));
+const AesirXDamForm = React.lazy(() => import('./AesirXDamForm'));
+const Dropzone = React.lazy(() => import('components/Dropzone'));
+const CollectionForm = React.lazy(() => import('./CollectionForm'));
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
@@ -251,7 +251,7 @@ const AesirXDamFormModal = observer(
                 body={
                   <CollectionForm
                     onSubmit={this.handleCreateFolder}
-                    close={this.damFormModalViewModel.closeonSubmitModal}
+                    close={this.damFormModalViewModel.closeCreateCollectionModal}
                     viewModel={this.damFormModalViewModel}
                     validator={this.validator}
                     type="create"

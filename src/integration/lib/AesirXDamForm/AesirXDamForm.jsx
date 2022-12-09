@@ -16,6 +16,7 @@ import { renderingGroupFieldHandler } from 'utils/form';
 import utils from '../AesirXDamUtils/AesirXDamUtils';
 import styles from '../index.module.scss';
 import moment from 'moment';
+
 const Folder = React.lazy(() => import('SVG/Folder'));
 const Trash = React.lazy(() => import('SVG/TrashIcon'));
 const Spinner = React.lazy(() => import('components/Spinner'));

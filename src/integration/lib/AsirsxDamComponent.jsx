@@ -195,6 +195,18 @@ const AesirXDamComponent = observer(
       });
     };
 
+    handleBack = () => {
+      const currentLink = this.damListViewModel.damLinkFolder.split('/');
+
+      const removeCurrentId = currentLink.slice(0, -1);
+      const backLink = removeCurrentId.join('/');
+      if (backLink) {
+        this.damListViewModel.setDamLinkFolder(backLink);
+      } else {
+        this.damListViewModel.setDamLinkFolder('/root');
+      }
+    };
+
     render() {
       const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
       const { t } = this.props;
@@ -356,6 +368,7 @@ const AesirXDamComponent = observer(
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
                 noSelection={true}
+                onBackClick={this.handleBack}
               />
             </>
           ) : (

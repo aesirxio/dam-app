@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 
-import ComponentImage from 'components/ComponentImage';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib';
 
 import '../index.scss';
-import Storage from 'SVG/Storage';
+const Storage = React.lazy(() => import('SVG/Storage'));
 
 const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;

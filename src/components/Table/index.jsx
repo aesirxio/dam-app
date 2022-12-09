@@ -50,6 +50,7 @@ const Table = ({
   onFilter,
   onSortby,
   onRightClickItem,
+  onBackClick,
 }) => {
   const { t } = useTranslation('common');
 
@@ -331,13 +332,21 @@ const Table = ({
           ) : null}
 
           {rows.length === 0 ? (
-            <ComponentNoData
-              icons="/assets/images/ic_project.svg"
-              title="No Matching Results"
-              text="Can not found any project with that keyword. Please try another keyword."
-              width="w-50"
-              createAssets={createAssets}
-            />
+            <>
+              <p
+                onClick={onBackClick}
+                className="d-flex zindex-2 align-items-center cursor-pointer"
+              >
+                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+              </p>
+              <ComponentNoData
+                icons="/assets/images/ic_project.svg"
+                title="No Matching Results"
+                text="Can not found any project with that keyword. Please try another keyword."
+                width="w-50"
+                createAssets={createAssets}
+              />
+            </>
           ) : null}
         </div>
       ) : (
@@ -367,6 +376,7 @@ const Table = ({
                       <div
                         className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
                         `}
+                        onClick={onBackClick}
                       >
                         <ArrowBack />
                         <span>{t('txt_back')}</span>
@@ -428,6 +438,7 @@ const Table = ({
                           <div
                             className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
                           `}
+                            onClick={onBackClick}
                           >
                             <ArrowBack />
                             <span>{t('txt_back')}</span>
@@ -456,13 +467,21 @@ const Table = ({
             );
           })}
           {rows.length === 0 ? (
-            <ComponentNoData
-              icons="/assets/images/ic_project.svg"
-              title="No Matching Results"
-              text="Can not found any project with that keyword. Please try another keyword."
-              width="w-50"
-              createAssets={createAssets}
-            />
+            <>
+              <p
+                onClick={onBackClick}
+                className="d-flex zindex-2 align-items-center cursor-pointer"
+              >
+                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+              </p>
+              <ComponentNoData
+                icons="/assets/images/ic_project.svg"
+                title="No Matching Results"
+                text="Can not found any project with that keyword. Please try another keyword."
+                width="w-50"
+                createAssets={createAssets}
+              />
+            </>
           ) : (
             <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
           )}

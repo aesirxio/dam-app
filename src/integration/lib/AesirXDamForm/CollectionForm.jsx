@@ -10,11 +10,12 @@ import SimpleReactValidator from 'simple-react-validator';
 import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
-import Button from 'components/Button';
 import { withTranslation } from 'react-i18next';
-import Spinner from 'components/Spinner';
 import PAGE_STATUS from 'constants/PageStatus';
 import { renderingGroupFieldHandler } from 'utils/form';
+
+const Spinner = React.lazy(() => import('components/Spinner'));
+const Button = React.lazy(() => import('components/Button'));
 
 class AesirXCollectionForm extends Component {
   formPropsData = {
