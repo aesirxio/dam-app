@@ -149,7 +149,7 @@
   @import '../../node_modules/bootstrap/scss/maps';
   // end of maps
 
-  @import '../scss/utils/utilities-dark.scss';
+  @import './utilities-dark.scss';
 
   /* redefine theme color variables */
   @each $color, $value in $theme-colors {
