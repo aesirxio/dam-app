@@ -34,7 +34,7 @@ const customStyles = (isBorder, isShadow = true) => {
         boxShadow: '0 3px 5px rgb(0 0 0 / 5%)',
         borderTop: '1px solid var(--bs-gray-select)',
         backgroundColor: 'var(--dropdown-bg)',
-        width: 'max-content',
+        width: '100%',
       };
     },
     option: (provided, state) => {

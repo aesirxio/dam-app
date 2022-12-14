@@ -98,17 +98,9 @@ const AesirXDamComponent = observer(
           this.damListViewModel.damLinkFolder + '/' + collection.id
         );
       } else {
-        const data = [
-          {
-            id: collection?.[DAM_ASSETS_FIELD_KEY.ID],
-            url: collection?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
-            extension: collection?.[DAM_ASSETS_FIELD_KEY.FILE_EXTENTION],
-            basename: collection?.[DAM_ASSETS_FIELD_KEY.NAME],
-          },
-        ];
         if (this.props.onSelect) {
-          return this.props.onSelect(data);
-        } else return data;
+          return this.props.onSelect([collection]);
+        } else return collection;
       }
     };
 
