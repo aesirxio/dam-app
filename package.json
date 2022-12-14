@@ -14,7 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "aesirx-dma-lib": "file:../dma-lib",
+    "aesirx-dma-lib": "aesirxio/dma-lib",
     "bootstrap": "^5.2.2",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.1.6",
