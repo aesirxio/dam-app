@@ -1,13 +1,13 @@
 {
-  "name": "aesirx-dam-app",
+  "name": "@kakahuy113/test-dam-app",
   "version": "1.0.1-alpha.1",
   "license": "GPL-3.0-only",
-  "author": "AesirX",
+  "author": "kakahuy113",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "unpkg": "dist/index.umd.js",
   "source": "src/integration/index.js",
-  "repository": "https://github.com/aesirxio/dam-app",
+  "repository": "https://www.npmjs.com/settings/kakahuy113/packages",
   "dependencies": {
     "moment": "^2.29.4",
     "date-fns": "^2.16.1",

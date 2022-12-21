@@ -27,6 +27,7 @@ class DamListViewModel {
   isSearch = false;
   subscription = null;
   damLinkFolder = 'root';
+
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
@@ -155,6 +156,23 @@ class DamListViewModel {
     );
   };
 
+  moveToFolder = (dragIndex, hoverIndex) => {
+    console.log('movetofolder');
+    console.log(dragIndex, hoverIndex);
+    const list = [...this.collections, ...this.assets];
+
+    const dragItem = list.filter((item) => dragIndex.includes(item.id));
+    notify(
+      this.damStore.moveToFolder(
+        dragItem,
+        hoverIndex,
+        this.callBackOnMoveSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
+  };
+
   resetObservableProperties = () => {};
 
   callbackOnErrorHander = (error) => {
@@ -163,6 +181,11 @@ class DamListViewModel {
     } else notify(error.message, 'error');
   };
 
+  callBackOnMoveSuccessHandler = (data) => {
+    if (data) {
+      console.log(data);
+    }
+  };
   callbackOnAssetsSuccessHandler = (data) => {
     if (data) {
       this.status = PAGE_STATUS.READY;
@@ -175,6 +198,7 @@ class DamListViewModel {
   };
 
   callBackOnAssetsCreateSuccessHandler = (data) => {
+    console.log(data);
     if (data.item) {
       if (data?.type) {
         switch (data.type) {
@@ -188,7 +212,7 @@ class DamListViewModel {
             });
             break;
           case 'create':
-            this.assets = [...this.assets, data?.item];
+            this.assets = [...this.assets, ...data?.item];
             break;
 
           default:

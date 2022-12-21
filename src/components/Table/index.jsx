@@ -9,19 +9,17 @@ import { usePagination, useRowSelect, useTable } from 'react-table';
 import { faList } from '@fortawesome/free-solid-svg-icons/faList';
 import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from './index.module.scss';
-import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { notify } from 'components/Toast';
-
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
 const Select = React.lazy(() => import('../Select'));
-const Dropzone = React.lazy(() => import('components/Dropzone'));
 const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
+const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
+const ThumbContainer = React.lazy(() => import('./ThumbContainer'));
 
 let dataFilter = {
   searchText: '',
@@ -32,7 +30,7 @@ let dataFilter = {
 };
 
 const Table = ({
-  rowData,
+  rowData = [],
   tableRowHeader,
   onSelect,
   isThumb,
@@ -51,6 +49,8 @@ const Table = ({
   onSortby,
   onRightClickItem,
   onBackClick,
+  dataCollections,
+  dataAssets,
 }) => {
   const { t } = useTranslation('common');
 
@@ -98,6 +98,31 @@ const Table = ({
     ],
   }));
 
+  const Action = useMemo(() => ({
+    id: 'action',
+    // className: styles.w_272,
+    className: 'border-end border-gray-select',
+    placeholder: t('choose_an_action'),
+    options: [
+      {
+        label: t('txt_preview'),
+        value: t('txt_preview'),
+      },
+      {
+        label: t('txt_move_to_folder'),
+        value: t('txt_move_to_folder'),
+      },
+      {
+        label: t('txt_download'),
+        value: t('txt_download'),
+      },
+      {
+        label: t('txt_delete'),
+        value: t('txt_delete'),
+      },
+    ],
+  }));
+
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     placeholder: t('txt_sort_by'),
@@ -134,8 +159,6 @@ const Table = ({
     ],
   }));
 
-  let check = 0;
-
   const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
     {
       columns,
@@ -170,35 +193,7 @@ const Table = ({
   );
 
   const moveRow = (dragIndex, hoverIndex) => {
-    if (dragIndex?.[DAM_ASSETS_FIELD_KEY.TYPE] && !hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
-      // eslint-disable-next-line react/prop-types
-      listViewModel.updateAssets({
-        ...dragIndex,
-        [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
-      });
-      notify(
-        t('txt_move_with_file_or_folder', {
-          type: t('txt_file'),
-          name: dragIndex?.[DAM_ASSETS_FIELD_KEY.NAME],
-          name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
-        })
-      );
-    } else if (!hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
-      // eslint-disable-next-line react/prop-types
-      listViewModel.updateCollections({
-        ...dragIndex,
-        [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
-      });
-      notify(
-        t('txt_move_with_file_or_folder', {
-          type: t('txt_folders'),
-          name: dragIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
-          name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
-        })
-      );
-    } else {
-      notify(t('txt_can_not_move'), 'warning');
-    }
+    listViewModel.moveToFolder(dragIndex, hoverIndex);
   };
 
   return (
@@ -218,7 +213,14 @@ const Table = ({
                 )}
               />
             </div>
-
+            <div className={Action.className}>
+              <Select
+                placeholder={Action.placeholder}
+                isClearable={false}
+                isSearchable={false}
+                options={Action.options}
+              />
+            </div>
             <div className={sortBy.className}>
               <Select
                 placeholder={sortBy.placeholder}
@@ -264,6 +266,7 @@ const Table = ({
           )}
         </div>
       </div>
+      <ThumbDragLayer />
       {isList ? (
         <div className="py-3 rounded-3 col">
           {rows.length ? (
@@ -330,163 +333,39 @@ const Table = ({
               </tbody>
             </table>
           ) : null}
-
-          {rows.length === 0 ? (
-            <>
-              <p
-                onClick={onBackClick}
-                className="d-flex zindex-2 align-items-center cursor-pointer"
-              >
-                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
-              </p>
-              <ComponentNoData
-                icons="/assets/images/ic_project.svg"
-                title="No Matching Results"
-                text="Can not found any project with that keyword. Please try another keyword."
-                width="w-50"
-                createAssets={createAssets}
-              />
-            </>
-          ) : null}
         </div>
       ) : (
-        <div {...getTableBodyProps()} className={`row ${rows.length === 0 ? 'col' : ''}`}>
-          {rows.map((row, index) => {
-            prepareRow(row);
-            let newRowCells = row.cells;
-            if (dataThumb && dataThumb.length > 0) {
-              newRowCells = row.cells.filter(
-                (item) => !dataThumb.some((other) => item.column.id === other)
-              );
-            }
-
-            if (row.original[DAM_ASSETS_FIELD_KEY.TYPE] && check === 0) {
-              check = 1;
-              return (
-                <React.Fragment key={Math.random(40, 200)}>
-                  <div className="col-12">
-                    <p className="fw-bold text-blue-0">{t('txt_file')}</p>
-                  </div>
-                  {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
-                    <div
-                      className={`col_thumb ${styles.col_thumb} col-${
-                        !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                      } mb-4 zindex-2`}
-                    >
-                      <div
-                        className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
-                        `}
-                        onClick={onBackClick}
-                      >
-                        <ArrowBack />
-                        <span>{t('txt_back')}</span>
-                      </div>
-                    </div>
-                  )}
-                  {/* Item */}
-                  <Thumb
-                    {...row.getRowProps()}
-                    className={`col_thumb ${styles.col_thumb} col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                    key={Math.random(40, 200)}
-                    newRowCells={newRowCells}
-                    index={row.original}
-                    row={row}
-                    onDoubleClick={onDoubleClick}
-                    onRightClickItem={onRightClickItem}
-                    moveRow={moveRow}
-                    type="assets"
-                  />
-                </React.Fragment>
-              );
-            } else if (check === 0 && rows.length === index + 1) {
-              check = 1;
-              return (
-                <React.Fragment key={Math.random(40, 200)}>
-                  <Thumb
-                    {...row.getRowProps()}
-                    className={`col_thumb ${styles.col_thumb} col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                    key={Math.random(40, 200)}
-                    newRowCells={newRowCells}
-                    index={row.original}
-                    row={row}
-                    onDoubleClick={onDoubleClick}
-                    onRightClickItem={onRightClickItem}
-                    moveRow={moveRow}
-                    type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
-                  />
-                </React.Fragment>
-              );
-            }
-            return (
-              newRowCells.length > 0 && (
-                <React.Fragment key={Math.random(40, 200)}>
-                  {index === 0 ? (
-                    <>
-                      <div className="col-12">
-                        <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
-                      </div>
-                      {listViewModel?.damLinkFolder.split('/').length > 1 && (
-                        <div
-                          className={`col_thumb ${styles.col_thumb} col-${
-                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                          } mb-4 zindex-2`}
-                        >
-                          <div
-                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
-                          `}
-                            onClick={onBackClick}
-                          >
-                            <ArrowBack />
-                            <span>{t('txt_back')}</span>
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  ) : null}
-
-                  <Thumb
-                    {...row.getRowProps()}
-                    className={`col_thumb ${styles.col_thumb} col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                    key={Math.random(40, 200)}
-                    newRowCells={newRowCells}
-                    index={row.original}
-                    row={row}
-                    onDoubleClick={onDoubleClick}
-                    onRightClickItem={onRightClickItem}
-                    moveRow={moveRow}
-                    type="folder"
-                  />
-                </React.Fragment>
-              )
-            );
-          })}
-          {rows.length === 0 ? (
-            <>
-              <p
-                onClick={onBackClick}
-                className="d-flex zindex-2 align-items-center cursor-pointer"
-              >
-                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
-              </p>
-              <ComponentNoData
-                icons="/assets/images/ic_project.svg"
-                title="No Matching Results"
-                text="Can not found any project with that keyword. Please try another keyword."
-                width="w-50"
-                createAssets={createAssets}
-              />
-            </>
-          ) : (
-            <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
-          )}
-        </div>
+        <ThumbContainer
+          getTableBodyProps={getTableBodyProps}
+          dataThumb={dataThumb}
+          thumbColumnsNumber={thumbColumnsNumber}
+          rows={rows}
+          listViewModel={listViewModel}
+          prepareRow={prepareRow}
+          onDoubleClick={onDoubleClick}
+          onRightClickItem={onRightClickItem}
+          moveRow={moveRow}
+          onBackClick={onBackClick}
+          rowData={rowData}
+          createAssets={createAssets}
+          dataCollections={dataCollections}
+          dataAssets={dataAssets}
+        />
       )}
+      {rows.length === 0 ? (
+        <>
+          <p onClick={onBackClick} className="d-flex zindex-2 align-items-center cursor-pointer">
+            <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+          </p>
+          <ComponentNoData
+            icons="/assets/images/ic_project.svg"
+            title="No Matching Results"
+            text="Can not found any project with that keyword. Please try another keyword."
+            width="w-50"
+            createAssets={createAssets}
+          />
+        </>
+      ) : null}
     </DndProvider>
   );
 };
