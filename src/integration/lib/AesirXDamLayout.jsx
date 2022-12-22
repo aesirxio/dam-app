@@ -23,7 +23,7 @@ class AesirXDamLayout extends React.Component {
       <div className="container-fluid h-100 dam-intergrate-layout">
         <div className={`row h-100 ${this.props?.theme ?? 'light'}`}>
           <DamStoreProvider viewModel={damsViewModel}>
-            <div className="main_content main_content_dashboard d-flex">
+            <div className="main_content main_content_dashboard h-100 d-flex">
               <div className="flex-1 bg-blue overflow-hidden overflow-y-auto position-relative main-content">
                 <div className="h-100 d-flex flex-column">
                   <div className="d-flex align-items-center justify-content-between mb-4">

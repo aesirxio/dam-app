@@ -121,22 +121,26 @@ function Thumb({
           isOver ? 'border border-success bg-gray-dark' : 'bg-white'
         }`}
         onDoubleClick={() => onDoubleClick(row.original)}
-        onContextMenu={(e) => {
-          onRightClickItem(e, row.original);
-        }}
         type={type}
       >
-        {newRowCells.map((cell) => {
-          return (
-            <div
-              {...cell.getCellProps()}
-              className={`ct_cell d-block w-100`}
-              key={Math.random(40, 200)}
-            >
-              {cell.render('Cell')}
-            </div>
-          );
-        })}
+        <div
+          className="w-100"
+          onContextMenu={(e) => {
+            onRightClickItem(e, row.original);
+          }}
+        >
+          {newRowCells.map((cell) => {
+            return (
+              <div
+                {...cell.getCellProps()}
+                className={`ct_cell d-block w-100`}
+                key={Math.random(40, 200)}
+              >
+                {cell.render('Cell')}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -38,8 +38,7 @@ const AesirXDamComponent = observer(
 
     componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
-      const collectionId = this.damListViewModel.damLinkFolder.split('/');
-      this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
+      this.damListViewModel.setDamLinkFolder('root');
       this.damListViewModel.getAllCollections();
     }
 
@@ -107,7 +106,7 @@ const AesirXDamComponent = observer(
     handleRightClick = (e) => {
       e.preventDefault();
 
-      const inside = e.target.closest('.col_thumb');
+      const inside = e.target.closest('.item_thumb');
       if (!inside) {
         this.damformModalViewModal.closeContextMenuItem();
 
@@ -361,6 +360,8 @@ const AesirXDamComponent = observer(
                 onRightClickItem={this.handleRightClickItem}
                 noSelection={true}
                 onBackClick={this.handleBack}
+                dataCollections={handleColections}
+                dataAssets={handleAssets}
               />
             </>
           ) : (
