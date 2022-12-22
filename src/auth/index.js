@@ -46,9 +46,7 @@ const login = async ({ username, password }) => {
 
 // LOGOUT
 const logout = () => {
-  const currentTheme = localStorage.getItem('theme');
   localStorage.clear();
-  localStorage.setItem('theme', currentTheme);
 
   history.push('/login');
 };

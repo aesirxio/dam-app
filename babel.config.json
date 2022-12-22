@@ -13,13 +13,5 @@
       [
         "inline-react-svg"
       ]
-      // ["react-css-modules", {
-      //   "exclude": "node_modules",
-      //   "filetypes": {
-      //     ".scss": {
-      //       "syntax": "postcss-scss"
-      //     }
-      //   }
-      // }]
       ]
 }

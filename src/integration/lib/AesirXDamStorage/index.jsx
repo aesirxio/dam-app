@@ -5,7 +5,6 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib';
 
-import '../index.scss';
 const Storage = React.lazy(() => import('SVG/Storage'));
 
 const calculatorPercentage = (a, b) => {

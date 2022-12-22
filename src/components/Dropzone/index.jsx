@@ -47,10 +47,10 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
           onDrag ? styles.ondragenter : 'position-relative '
         } `}
       >
-        <div {...getRootProps()} className={'cursor-auto w-100 h-100'}>
+        <div {...getRootProps()} className={'cursor-auto w-100 h-100 outline-none'}>
           <input
             {...getInputProps()}
-            className="position-absolute start-0 top-0 bottom-0 end-0 cursor-auto"
+            className="position-absolute start-0 top-0 bottom-0 end-0 cursor-auto outline-none"
           />
 
           {children}
