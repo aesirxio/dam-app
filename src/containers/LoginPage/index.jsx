@@ -16,6 +16,8 @@ import BannerLeft from '../../components/BannerLeft';
 import { login } from '../../auth';
 import InputPassword from '../../components/inputPassword';
 // import ComponentImage from 'components/ComponentImage';
+import { SSOButton } from 'aesirx-sso';
+import { AesirxAuthenticationApiService, Storage } from 'aesirx-dma-lib';
 
 const dataSlider = [
   {
@@ -69,7 +71,12 @@ class LoginPage extends React.Component {
 
   render() {
     const { t } = this.props;
-
+    const onGetData = async (response) => {
+      const authService = new AesirxAuthenticationApiService();
+      await authService.setTokenUser(response, false);
+      Storage.setItem('auth', true);
+      window.location.reload();
+    };
     return (
       <div className="row">
         <BannerLeft dataSlider={dataSlider} />
@@ -87,6 +94,16 @@ class LoginPage extends React.Component {
             </p>
             <p className="fs-2 fw-bold">{t('txt_sign_in_to_getting_started')}</p>
             <form>
+              <SSOButton
+                className="btn w-100 fw-medium btn-success position-relative d-flex align-item-center justify-content-center mb-3 px-6"
+                text={t('txt_sign_in_with_sso')}
+                onGetData={onGetData}
+              />
+              <div className="d-flex align-items-center flex-nowrap">
+                <div className="border-bottom w-50"></div>
+                <span className="px-2">or</span>
+                <div className="border-bottom w-50"></div>
+              </div>
               <label className="form-label mb-3" htmlFor="email">
                 Email <span>*</span>
               </label>

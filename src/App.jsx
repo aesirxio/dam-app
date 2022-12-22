@@ -13,7 +13,7 @@ import ErrorBoundary from './layouts/ErrorBoundary';
 import i18n from 'translations/i18n';
 import { I18nextProvider } from 'react-i18next';
 import { ThemesContextProvider } from 'themes/ThemeContextProvider';
-
+import { SSOContextProvider } from 'aesirx-sso';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +24,9 @@ class App extends React.Component {
       <ThemesContextProvider>
         <ErrorBoundary>
           <I18nextProvider i18n={i18n}>
-            <RouterLayout />
+            <SSOContextProvider>
+              <RouterLayout />
+            </SSOContextProvider>
           </I18nextProvider>
         </ErrorBoundary>
       </ThemesContextProvider>
