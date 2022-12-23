@@ -51,6 +51,8 @@ const Table = ({
   onSortby,
   onRightClickItem,
   onBackClick,
+  dataCollections,
+  // dataAssets,
 }) => {
   const { t } = useTranslation('common');
 
@@ -134,9 +136,13 @@ const Table = ({
     ],
   }));
 
-  let check = 0;
-
-  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    rows = [],
+  } = useTable(
     {
       columns,
       data,
@@ -330,24 +336,6 @@ const Table = ({
               </tbody>
             </table>
           ) : null}
-
-          {rows.length === 0 ? (
-            <>
-              <p
-                onClick={onBackClick}
-                className="d-flex zindex-2 align-items-center cursor-pointer"
-              >
-                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
-              </p>
-              <ComponentNoData
-                icons="/assets/images/ic_project.svg"
-                title="No Matching Results"
-                text="Can not found any project with that keyword. Please try another keyword."
-                width="w-50"
-                createAssets={createAssets}
-              />
-            </>
-          ) : null}
         </div>
       ) : (
         <div {...getTableBodyProps()} className={`row ${rows.length === 0 ? 'col' : ''}`}>
@@ -360,71 +348,10 @@ const Table = ({
               );
             }
 
-            if (row.original[DAM_ASSETS_FIELD_KEY.TYPE] && check === 0) {
-              check = 1;
-              return (
-                <React.Fragment key={Math.random(40, 200)}>
-                  <div className="col-12">
-                    <p className="fw-bold text-blue-0">{t('txt_file')}</p>
-                  </div>
-                  {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
-                    <div
-                      className={`col_thumb ${styles.col_thumb} col-${
-                        !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                      } mb-4 zindex-2`}
-                    >
-                      <div
-                        className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
-                        `}
-                        onClick={onBackClick}
-                      >
-                        <ArrowBack />
-                        <span>{t('txt_back')}</span>
-                      </div>
-                    </div>
-                  )}
-                  {/* Item */}
-                  <Thumb
-                    {...row.getRowProps()}
-                    className={`col_thumb ${styles.col_thumb} col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                    key={Math.random(40, 200)}
-                    newRowCells={newRowCells}
-                    index={row.original}
-                    row={row}
-                    onDoubleClick={onDoubleClick}
-                    onRightClickItem={onRightClickItem}
-                    moveRow={moveRow}
-                    type="assets"
-                  />
-                </React.Fragment>
-              );
-            } else if (check === 0 && rows.length === index + 1) {
-              check = 1;
-              return (
-                <React.Fragment key={Math.random(40, 200)}>
-                  <Thumb
-                    {...row.getRowProps()}
-                    className={`col_thumb ${styles.col_thumb} col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                    key={Math.random(40, 200)}
-                    newRowCells={newRowCells}
-                    index={row.original}
-                    row={row}
-                    onDoubleClick={onDoubleClick}
-                    onRightClickItem={onRightClickItem}
-                    moveRow={moveRow}
-                    type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
-                  />
-                </React.Fragment>
-              );
-            }
             return (
               newRowCells.length > 0 && (
-                <React.Fragment key={Math.random(40, 200)}>
-                  {index === 0 ? (
+                <React.Fragment key={row?.original?.id}>
+                  {index === 0 && !row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                     <>
                       <div className="col-12">
                         <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
@@ -437,7 +364,7 @@ const Table = ({
                         >
                           <div
                             className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
-                          `}
+                        `}
                             onClick={onBackClick}
                           >
                             <ArrowBack />
@@ -447,45 +374,66 @@ const Table = ({
                       )}
                     </>
                   ) : null}
-
+                  {dataCollections.length === index && row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
+                    <>
+                      <div className="col-12">
+                        <p className="fw-bold text-blue-0">{t('txt_file')}</p>
+                      </div>
+                      {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
+                        <div
+                          className={`col_thumb ${styles.col_thumb} col-${
+                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                          } mb-4 zindex-2`}
+                        >
+                          <div
+                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+                `}
+                            onClick={onBackClick}
+                          >
+                            <ArrowBack />
+                            <span>{t('txt_back')}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
                   <Thumb
                     {...row.getRowProps()}
                     className={`col_thumb ${styles.col_thumb} col-${
                       !thumbColumnsNumber ? '3' : thumbColumnsNumber
                     } mb-4 zindex-2`}
-                    key={Math.random(40, 200)}
                     newRowCells={newRowCells}
-                    index={row.original}
+                    index={index}
                     row={row}
                     onDoubleClick={onDoubleClick}
                     onRightClickItem={onRightClickItem}
                     moveRow={moveRow}
-                    type="folder"
+                    type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
                   />
                 </React.Fragment>
               )
             );
           })}
-          {rows.length === 0 ? (
-            <>
-              <p
-                onClick={onBackClick}
-                className="d-flex zindex-2 align-items-center cursor-pointer"
-              >
-                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
-              </p>
-              <ComponentNoData
-                icons="/assets/images/ic_project.svg"
-                title="No Matching Results"
-                text="Can not found any project with that keyword. Please try another keyword."
-                width="w-50"
-                createAssets={createAssets}
-              />
-            </>
-          ) : (
-            <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
-          )}
         </div>
+      )}
+      {rows.length === 0 ? (
+        <>
+          {listViewModel?.damLinkFolder.split('/').length > 1 && (
+            <p onClick={onBackClick} className="d-flex zindex-2 align-items-center cursor-pointer">
+              <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+            </p>
+          )}
+
+          <ComponentNoData
+            icons="/assets/images/ic_project.svg"
+            title="No Matching Results"
+            text="Can not found any project with that keyword. Please try another keyword."
+            width="w-50"
+            createAssets={createAssets}
+          />
+        </>
+      ) : (
+        <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
       )}
     </DndProvider>
   );

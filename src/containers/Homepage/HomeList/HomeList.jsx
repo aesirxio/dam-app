@@ -114,7 +114,7 @@ const HomeList = observer(
 
     handleRightClick = (e) => {
       e.preventDefault();
-      const inside = e.target.closest('.col_thumb');
+      const inside = e.target.closest('.item_thumb');
       if (!inside) {
         this.damformModalViewModal.closeContextMenuItem();
 
@@ -352,6 +352,9 @@ const HomeList = observer(
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
+                noSelection={true}
+                dataCollections={handleColections}
+                dataAssets={handleAssets}
               />
             </>
           ) : (
