@@ -1,6 +1,6 @@
 {
   "name": "aesirx-dam-app",
-  "version": "1.0.1-alpha.1",
+  "version": "1.1.0",
   "license": "GPL-3.0-only",
   "author": "AesirX",
   "main": "dist/index.js",
@@ -9,6 +9,7 @@
   "source": "src/integration/index.js",
   "repository": "https://github.com/aesirxio/dam-app",
   "dependencies": {
+    "aesirx-dma-lib": "^1.7.4",
     "aesirx-sso": "^1.0.0",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.1.6",
@@ -69,7 +70,6 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
-    "aesirx-dma-lib": "aesirxio/dma-lib",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-react-css-modules": "^5.2.6",
