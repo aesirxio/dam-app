@@ -194,8 +194,99 @@ const HomeList = observer(
       });
     };
 
+    clearItemSelection = () => {
+      // dispatch({ type: "CLEAR_SELECTION" });
+    };
+
+    handleItemSelection = (index, cmdKey, shiftKey) => {
+      console.log('handleItemSelection');
+      console.log(index, cmdKey, shiftKey);
+      // let newSelectedCards;
+      // const cards = state.cards;
+      // const card = index < 0 ? "" : cards[index];
+      // const newLastSelectedIndex = index;
+      // if (!cmdKey && !shiftKey) {
+      //   newSelectedCards = [card];
+      // } else if (shiftKey) {
+      //   if (state.lastSelectedIndex >= index) {
+      //     newSelectedCards = [].concat.apply(
+      //       state.selectedCards,
+      //       cards.slice(index, state.lastSelectedIndex)
+      //     );
+      //   } else {
+      //     newSelectedCards = [].concat.apply(
+      //       state.selectedCards,
+      //       cards.slice(state.lastSelectedIndex + 1, index + 1)
+      //     );
+      //   }
+      // } else if (cmdKey) {
+      //   const foundIndex = state.selectedCards.findIndex((f) => f === card);
+      //   // If found remove it to unselect it.
+      //   if (foundIndex >= 0) {
+      //     newSelectedCards = [
+      //       ...state.selectedCards.slice(0, foundIndex),
+      //       ...state.selectedCards.slice(foundIndex + 1),
+      //     ];
+      //   } else {
+      //     newSelectedCards = [...state.selectedCards, card];
+      //   }
+      // }
+      // const finalList = cards
+      //   ? cards.filter((f) => newSelectedCards.find((a) => a === f))
+      //   : [];
+      // dispatch({
+      //   type: "UPDATE_SELECTION",
+      //   newSelectedCards: finalList,
+      //   newLastSelectedIndex: newLastSelectedIndex,
+      // });
+    };
+
+    rearrangeCards = (dragItem) => {
+      console.log('rearrangeCards');
+      console.log(dragItem);
+      // let cards = state.cards.slice();
+      // const draggedCards = dragItem.cards;
+      // let dividerIndex;
+      // if ((state.insertIndex >= 0) & (state.insertIndex < cards.length)) {
+      //   dividerIndex = state.insertIndex;
+      // } else {
+      //   // If missing insert index, put the dragged cards to the end of the queue
+      //   dividerIndex = cards.length;
+      // }
+      // const upperHalfRemainingCards = cards
+      //   .slice(0, dividerIndex)
+      //   .filter((c) => !draggedCards.find((dc) => dc.id === c.id));
+      // const lowerHalfRemainingCards = cards
+      //   .slice(dividerIndex)
+      //   .filter((c) => !draggedCards.find((dc) => dc.id === c.id));
+      // const newCards = [
+      //   ...upperHalfRemainingCards,
+      //   ...draggedCards,
+      //   ...lowerHalfRemainingCards,
+      // ];
+      // dispatch({ type: "REARRANGE_CARDS", newCards: newCards });
+    };
+
+    setInsertIndex = (dragIndex, hoverIndex, newInsertIndex) => {
+      console.log('setInsertIndex');
+      console.log(dragIndex, hoverIndex, newInsertIndex);
+      // if (
+      //   state.dragIndex === dragIndex &&
+      //   state.hoverIndex === hoverIndex &&
+      //   state.insertIndex === newInsertIndex
+      // ) {
+      //   return;
+      // }
+      // dispatch({
+      //   type: "SET_INSERTINDEX",
+      //   dragIndex: dragIndex,
+      //   hoverIndex: hoverIndex,
+      //   insertIndex: newInsertIndex,
+      // });
+    };
+
     render() {
-      const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
+      const { assets, status, collections, isSearch } = this.damListViewModel;
       const { t } = this.props;
 
       if (status === PAGE_STATUS.LOADING) {
@@ -306,20 +397,26 @@ const HomeList = observer(
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
-          (asset) => asset.collection_id === +collectionId[collectionId.length - 1]
+          (asset) =>
+            +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
         handleColections = collections.filter(
-          (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
+          (collection) =>
+            +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
+            +collectionId[collectionId.length - 1]
         );
       } else {
         if (isSearch) {
           handleAssets = assets;
           handleColections = collections;
         } else {
-          handleAssets = assets.filter((asset) => asset.collection_id === 0);
-          handleColections = collections.filter((collection) => collection.parent_id === 0);
+          handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+          handleColections = collections.filter(
+            (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
+          );
         }
       }
+
       return (
         <div
           className="position-relative col d-flex flex-column"
@@ -330,6 +427,8 @@ const HomeList = observer(
             <>
               <Table
                 rowData={[...handleColections, ...handleAssets]}
+                dataCollections={handleColections}
+                dataAssets={handleAssets}
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
                 isThumb={true}

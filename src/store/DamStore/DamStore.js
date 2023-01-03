@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { AesirxDamApiService } from 'aesirx-dma-lib';
+import { AesirxDamApiService, DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
 
@@ -344,22 +344,15 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createAssets(data);
-      if (responsedDataFromLibary) {
-        const getDetailAsset = await damService.getAsset(responsedDataFromLibary);
-        if (getDetailAsset.item) {
-          runInAction(() => {
-            callbackOnSuccess({
-              item: getDetailAsset.item,
-              type: 'create',
-            });
+      console.log('asdasd');
+      console.log(responsedDataFromLibary);
+      if (responsedDataFromLibary.length) {
+        runInAction(() => {
+          callbackOnSuccess({
+            item: responsedDataFromLibary,
+            type: 'create',
           });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'error with getDetail',
-            });
-          });
-        }
+        });
       } else {
         if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
@@ -419,6 +412,63 @@ export default class DamStore {
         }
       }
     } catch (error) {
+      runInAction(() => {
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
+      });
+    }
+  };
+
+  moveToFolder = async (dragIndex = [], hoverIndex, callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const a = await Promise.all(
+        dragIndex.map(async (dragItem) => {
+          return await damService.updateAssets({
+            ...dragItem,
+            [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex,
+          });
+        })
+      );
+      console.log(dragIndex);
+      console.log(hoverIndex);
+
+      console.log(dragIndex);
+      console.log(hoverIndex);
+      console.log(a);
+      // if (responsedDataFromLibary) {
+      //   runInAction(() => {
+      //     callbackOnSuccess({
+      //       item: data,
+      //       type: 'update',
+      //     });
+      //   });
+      // } else {
+      //   if (responsedDataFromLibary?.message === 'isCancel') {
+      //     runInAction(() => {
+      //       callbackOnError({
+      //         message: 'isCancel',
+      //       });
+      //     });
+      //   } else {
+      //     runInAction(() => {
+      //       callbackOnError({
+      //         message: 'Something went wrong from Server response',
+      //       });
+      //     });
+      //   }
+      // }
+    } catch (error) {
+      console.log(error);
       runInAction(() => {
         if (error.response?.data.message) {
           callbackOnError({
