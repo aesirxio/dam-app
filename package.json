@@ -9,8 +9,8 @@
   "source": "src/integration/index.js",
   "repository": "https://github.com/aesirxio/dam-app",
   "dependencies": {
-    "aesirx-dma-lib": "^1.7.1",
-    "aesirx-sso": "^1.0.0",
+    "aesirx-dma-lib": "^1.7.4",
+    "aesirx-sso": "^1.0.1",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.1.6",
     "file-saver": "^2.0.5",
