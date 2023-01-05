@@ -174,19 +174,30 @@ class DamListViewModel {
   };
 
   moveToFolder = (dragIndex, hoverIndex) => {
-    console.log(dragIndex, hoverIndex);
     const list = [...this.collections, ...this.assets];
-
-    const dragItem = list.filter((item) => dragIndex.includes(item.id));
-    notify(
-      this.damStore.moveToFolder(
-        dragItem,
-        hoverIndex,
-        this.callBackOnMoveSuccessHandler,
-        this.callbackOnErrorHander
-      ),
-      'promise'
-    );
+    const selectedItem = this.actionState.selectedCards.map((selected) => selected.id);
+    const dragItem = list.filter((item) => selectedItem.includes(item.id));
+    if (selectedItem.length) {
+      notify(
+        this.damStore.moveToFolder(
+          [dragIndex],
+          hoverIndex,
+          this.callBackOnMoveSuccessHandler,
+          this.callbackOnErrorHander
+        ),
+        'promise'
+      );
+    } else {
+      notify(
+        this.damStore.moveToFolder(
+          selectedItem,
+          hoverIndex,
+          this.callBackOnMoveSuccessHandler,
+          this.callbackOnErrorHander
+        ),
+        'promise'
+      );
+    }
   };
 
   resetObservableProperties = () => {};
