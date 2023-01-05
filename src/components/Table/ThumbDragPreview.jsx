@@ -16,7 +16,7 @@ const ThumbsDragPreview = observer(({ thumbs }) => {
             key={card.id}
             className="card card-dragged"
             style={{
-              zIndex: thumbs.length - i,
+              zIndex: selectedCards.length - i,
               transform: `rotateZ(${-i * 2.5}deg)`,
             }}
           >

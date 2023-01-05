@@ -33,7 +33,7 @@ const FakeThumb = observer(({ id }) => {
   );
 });
 
-const Thumb = React.memo(
+const Thumb = observer(
   ({
     row,
     className,
@@ -57,10 +57,10 @@ const Thumb = React.memo(
         if (!ref.current) {
           return;
         }
-        const dragIndex = item.cards.map((card) => card.id);
-        const hoverIndex = row.original.id;
+        const dragIndex = +item.id;
+        const hoverIndex = +row.original.id;
         // Don't replace items with themselves
-        if (dragIndex.includes(hoverIndex)) {
+        if (dragIndex === hoverIndex) {
           return;
         }
         if (row.original?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
