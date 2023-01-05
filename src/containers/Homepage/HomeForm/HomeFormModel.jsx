@@ -41,8 +41,8 @@ const HomeFormModal = observer(
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
       const { viewModel } = props;
-      this.damFormModalViewModel = viewModel ? viewModel.damFormViewModel : null;
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
+      this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
     }
 
     updateDetail = () => {

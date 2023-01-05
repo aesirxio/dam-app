@@ -37,7 +37,7 @@ export default function ThumbDragLayer() {
   const renderItem = (type, item) => {
     switch (type) {
       case DND_ITEM_TYPE:
-        return <ThumbDragPreview thumbs={item.cards} />;
+        return <ThumbDragPreview thumbs={item} />;
       default:
         return null;
     }

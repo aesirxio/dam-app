@@ -34,8 +34,8 @@ const HomeList = observer(
       super(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
-      this.damformModalViewModal = this.viewModel ? this.viewModel.damFormViewModel : null;
+      this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
+      this.damformModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -199,90 +199,73 @@ const HomeList = observer(
     };
 
     handleItemSelection = (index, cmdKey, shiftKey) => {
-      console.log('handleItemSelection');
-      console.log(index, cmdKey, shiftKey);
-      // let newSelectedCards;
-      // const cards = state.cards;
-      // const card = index < 0 ? "" : cards[index];
-      // const newLastSelectedIndex = index;
-      // if (!cmdKey && !shiftKey) {
-      //   newSelectedCards = [card];
-      // } else if (shiftKey) {
-      //   if (state.lastSelectedIndex >= index) {
-      //     newSelectedCards = [].concat.apply(
-      //       state.selectedCards,
-      //       cards.slice(index, state.lastSelectedIndex)
-      //     );
-      //   } else {
-      //     newSelectedCards = [].concat.apply(
-      //       state.selectedCards,
-      //       cards.slice(state.lastSelectedIndex + 1, index + 1)
-      //     );
-      //   }
-      // } else if (cmdKey) {
-      //   const foundIndex = state.selectedCards.findIndex((f) => f === card);
-      //   // If found remove it to unselect it.
-      //   if (foundIndex >= 0) {
-      //     newSelectedCards = [
-      //       ...state.selectedCards.slice(0, foundIndex),
-      //       ...state.selectedCards.slice(foundIndex + 1),
-      //     ];
-      //   } else {
-      //     newSelectedCards = [...state.selectedCards, card];
-      //   }
-      // }
-      // const finalList = cards
-      //   ? cards.filter((f) => newSelectedCards.find((a) => a === f))
-      //   : [];
-      // dispatch({
-      //   type: "UPDATE_SELECTION",
-      //   newSelectedCards: finalList,
-      //   newLastSelectedIndex: newLastSelectedIndex,
-      // });
-    };
+      const { assets, collections, isSearch } = this.damListViewModel;
 
-    rearrangeCards = (dragItem) => {
-      console.log('rearrangeCards');
-      console.log(dragItem);
-      // let cards = state.cards.slice();
-      // const draggedCards = dragItem.cards;
-      // let dividerIndex;
-      // if ((state.insertIndex >= 0) & (state.insertIndex < cards.length)) {
-      //   dividerIndex = state.insertIndex;
-      // } else {
-      //   // If missing insert index, put the dragged cards to the end of the queue
-      //   dividerIndex = cards.length;
-      // }
-      // const upperHalfRemainingCards = cards
-      //   .slice(0, dividerIndex)
-      //   .filter((c) => !draggedCards.find((dc) => dc.id === c.id));
-      // const lowerHalfRemainingCards = cards
-      //   .slice(dividerIndex)
-      //   .filter((c) => !draggedCards.find((dc) => dc.id === c.id));
-      // const newCards = [
-      //   ...upperHalfRemainingCards,
-      //   ...draggedCards,
-      //   ...lowerHalfRemainingCards,
-      // ];
-      // dispatch({ type: "REARRANGE_CARDS", newCards: newCards });
-    };
+      const collectionId = history.location.pathname.split('/');
 
-    setInsertIndex = (dragIndex, hoverIndex, newInsertIndex) => {
-      console.log('setInsertIndex');
-      console.log(dragIndex, hoverIndex, newInsertIndex);
-      // if (
-      //   state.dragIndex === dragIndex &&
-      //   state.hoverIndex === hoverIndex &&
-      //   state.insertIndex === newInsertIndex
-      // ) {
-      //   return;
-      // }
-      // dispatch({
-      //   type: "SET_INSERTINDEX",
-      //   dragIndex: dragIndex,
-      //   hoverIndex: hoverIndex,
-      //   insertIndex: newInsertIndex,
-      // });
+      let handleColections = [];
+      let handleAssets = [];
+      if (!isNaN(+collectionId[collectionId.length - 1])) {
+        handleAssets = assets.filter(
+          (asset) =>
+            +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
+        );
+        handleColections = collections.filter(
+          (collection) =>
+            +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
+            +collectionId[collectionId.length - 1]
+        );
+      } else {
+        if (isSearch) {
+          handleAssets = assets;
+          handleColections = collections;
+        } else {
+          handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+          handleColections = collections.filter(
+            (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
+          );
+        }
+      }
+      let newSelectedCards;
+
+      const cards = [...handleColections, ...handleAssets];
+      const card = index < 0 ? '' : cards[index];
+      const newLastSelectedIndex = index;
+
+      if (!cmdKey && !shiftKey) {
+        newSelectedCards = [card];
+      } else if (shiftKey) {
+        if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(index, this.damListViewModel.actionState.lastSelectedIndex)
+          );
+        } else {
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(this.damListViewModel.actionState.lastSelectedIndex + 1, index + 1)
+          );
+        }
+      } else if (cmdKey) {
+        const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
+          (f) => f === card
+        );
+        // If found remove it to unselect it.
+        if (foundIndex >= 0) {
+          newSelectedCards = [
+            ...this.damListViewModel.actionState.selectedCards.slice(0, foundIndex),
+            ...this.damListViewModel.actionState.selectedCards.slice(foundIndex + 1),
+          ];
+        } else {
+          newSelectedCards = [...this.damListViewModel.actionState.selectedCards, card];
+        }
+      }
+      const finalList = cards ? cards.filter((f) => newSelectedCards.find((a) => a === f)) : [];
+
+      this.damListViewModel.setActionState({
+        selectedCards: finalList,
+        lastSelectedIndex: newLastSelectedIndex,
+      });
     };
 
     render() {
@@ -300,7 +283,8 @@ const HomeList = observer(
             <div
               className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
             >
-              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] &&
+              !row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ? (
                 // folder
                 <div
                   className={`${
@@ -452,8 +436,8 @@ const HomeList = observer(
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
                 noSelection={true}
-                dataCollections={handleColections}
-                dataAssets={handleAssets}
+                onSelectionChange={this.handleItemSelection}
+                // selectedCards={this.damListViewModel.actionState.selectedCards}
               />
             </>
           ) : (

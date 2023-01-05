@@ -31,8 +31,8 @@ const HomeActionBar = observer(
       this.state = {
         breadcrumb: [],
       };
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
-      this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
+      this.damformModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {}

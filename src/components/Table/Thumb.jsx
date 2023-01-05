@@ -8,11 +8,31 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import { observer } from 'mobx-react';
 
 export const DND_ITEM_TYPE = 'row';
 let timer = 0;
 let delay = 200;
 let prevent = false;
+
+const FakeThumb = observer(({ id }) => {
+  const {
+    damListViewModel: {
+      actionState: { selectedCards },
+    },
+  } = useDamViewModel();
+
+  const isSelect = selectedCards.map((selectedCard) => selectedCard.id).includes(id);
+  return (
+    <span
+      className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
+        isSelect ? 'border border-success bg-gray-dark' : ''
+      }`}
+    ></span>
+  );
+});
+
 const Thumb = React.memo(
   ({
     row,
@@ -24,11 +44,10 @@ const Thumb = React.memo(
     onRightClickItem,
     isList = false,
     type,
-    selectedCards,
     // rearrangeCards,
     // setInsertIndex,
     onSelectionChange,
-    clearItemSelection,
+    // clearItemSelection = () => {},
   }) => {
     const ref = React.useRef(null);
 
@@ -85,35 +104,33 @@ const Thumb = React.memo(
       },
     });
 
-    const [{ isDragging }, drag, preview] = useDrag({
+    const [{ opacity }, drag, preview] = useDrag({
       type: DND_ITEM_TYPE,
       item: () => {
-        const { id } = row.original;
-        const draggedCard = { id };
-        let cards;
-        if (selectedCards.find((card) => +card.id === +id)) {
-          cards = selectedCards;
-        } else {
-          clearItemSelection();
-          cards = [draggedCard];
-        }
+        // const { id } = row.original;
+        // const draggedCard = { id };
+        // let cards;
+        // if (selectedCards.find((card) => +card.id === +id)) {
+        //   cards = selectedCards;
+        // } else {
+        //   clearItemSelection();
+        //   cards = [draggedCard];
+        // }
 
-        const cardsIDs = cards.map((c) => +c.id);
-        return { cards, cardsIDs };
+        // const cardsIDs = cards.map((c) => +c.id);
+        return { ...row.original };
       },
-
-      isDragging: (monitor) => {
-        return monitor.getItem().cardsIDs.includes(+row.original.id);
-      },
+      // isDragging: (monitor) => {
+      //   return monitor.getItem().cardsIDs.includes(+row.original.id);
+      // },
       end: () => {
         // rearrangeCards(item);
-        clearItemSelection();
+        // clearItemSelection();
       },
       collect: (monitor) => ({
-        isDragging: monitor.isDragging(),
+        opacity: monitor.isDragging() ? 0.5 : 1,
       }),
     });
-    drag(drop(ref));
 
     const onClick = (e) => {
       onSelectionChange(index, e.metaKey, e.shiftKey);
@@ -135,8 +152,9 @@ const Thumb = React.memo(
       // it prior to unmounting.
       // return () => console.log('unmounting...');
     }, []);
-    const opacity = isDragging ? 0.4 : 1;
-    const isSelect = selectedCards.map((selectedCard) => selectedCard.id).includes(row.original.id);
+
+    drag(drop(ref));
+
     return isList ? (
       <tr
         key={row.getRowProps().key}
@@ -144,7 +162,19 @@ const Thumb = React.memo(
         className={`cursor-pointer ${
           isOver ? 'border border-success bg-gray-dark' : 'border-none'
         } ${className}`}
-        onDoubleClick={() => onDoubleClick(row.original)}
+        onDoubleClick={() => {
+          clearTimeout(timer);
+          prevent = true;
+          onDoubleClick(row.original);
+        }}
+        onClick={(e) => {
+          timer = setTimeout(function () {
+            if (!prevent) {
+              onClick(e);
+            }
+            prevent = false;
+          }, delay);
+        }}
         onContextMenu={(e) => {
           onRightClickItem(e, row.original);
         }}
@@ -169,18 +199,18 @@ const Thumb = React.memo(
     ) : (
       <div style={{ opacity }} className={className}>
         <div
-          className={`item_thumb d-flex cursor-move align-items-center  justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column ${
-            isOver || isSelect ? 'border border-success bg-gray-dark' : 'bg-white'
+          className={`position-relative item_thumb d-flex cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column ${
+            isOver ? 'border border-success bg-gray-dark' : 'bg-white'
           }`}
+          onContextMenu={(e) => {
+            onRightClickItem(e, row.original);
+          }}
+          ref={ref}
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
             onDoubleClick(row.original);
           }}
-          onContextMenu={(e) => {
-            onRightClickItem(e, row.original);
-          }}
-          ref={ref}
           onClick={(e) => {
             timer = setTimeout(function () {
               if (!prevent) {
@@ -202,6 +232,7 @@ const Thumb = React.memo(
               </div>
             );
           })}
+          <FakeThumb id={+row.original.id} />
         </div>
       </div>
     );

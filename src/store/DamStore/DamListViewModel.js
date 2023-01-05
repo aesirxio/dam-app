@@ -28,10 +28,27 @@ class DamListViewModel {
   subscription = null;
   damLinkFolder = 'root';
 
+  actionState = {
+    cards: [],
+    selectedCards: [],
+    lastSelectedIndex: -1,
+    dragIndex: -1,
+    hoverIndex: -1,
+    insertIndex: -1,
+    isDragging: false,
+  };
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
   }
+
+  setActionState = (state) => {
+    this.actionState = {
+      ...this.actionState,
+      ...state,
+    };
+  };
+
   // For intergate
   setDamLinkFolder = (link) => {
     this.damLinkFolder = link;
@@ -157,7 +174,6 @@ class DamListViewModel {
   };
 
   moveToFolder = (dragIndex, hoverIndex) => {
-    console.log('movetofolder');
     console.log(dragIndex, hoverIndex);
     const list = [...this.collections, ...this.assets];
 

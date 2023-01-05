@@ -13,13 +13,13 @@ import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import styles from './index.module.scss';
 
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
 const Select = React.lazy(() => import('../Select'));
 const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
 const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
-const ThumbContainer = React.lazy(() => import('./ThumbContainer'));
 
 let dataFilter = {
   searchText: '',
@@ -50,7 +50,9 @@ const Table = ({
   onRightClickItem,
   onBackClick,
   dataCollections,
-  dataAssets,
+  onSelectionChange,
+  // selectedCards,
+  // dataAssets,
 }) => {
   const { t } = useTranslation('common');
 
@@ -335,22 +337,88 @@ const Table = ({
           ) : null}
         </div>
       ) : (
-        <ThumbContainer
-          getTableBodyProps={getTableBodyProps}
-          dataThumb={dataThumb}
-          thumbColumnsNumber={thumbColumnsNumber}
-          rows={rows}
-          listViewModel={listViewModel}
-          prepareRow={prepareRow}
-          onDoubleClick={onDoubleClick}
-          onRightClickItem={onRightClickItem}
-          moveRow={moveRow}
-          onBackClick={onBackClick}
-          rowData={rowData}
-          createAssets={createAssets}
-          dataCollections={dataCollections}
-          dataAssets={dataAssets}
-        />
+        <div {...getTableBodyProps()} className={`row ${rows.length === 0 ? 'col' : ''}`}>
+          {rows.map((row, index) => {
+            prepareRow(row);
+            let newRowCells = row.cells;
+            if (dataThumb && dataThumb.length > 0) {
+              newRowCells = row.cells.filter(
+                (item) => !dataThumb.some((other) => item.column.id === other)
+              );
+            }
+
+            return (
+              newRowCells.length > 0 && (
+                <React.Fragment key={row?.original?.id}>
+                  {index === 0 && !row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+                    <>
+                      <div className="col-12">
+                        <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
+                      </div>
+                      {listViewModel?.damLinkFolder.split('/').length > 1 && (
+                        <div
+                          className={`col_thumb ${styles.col_thumb} col-${
+                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                          } mb-4 zindex-2`}
+                        >
+                          <div
+                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+                      `}
+                            onClick={onBackClick}
+                          >
+                            <ArrowBack />
+                            <span>{t('txt_back')}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : null}
+                  {dataCollections.length === index && row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
+                    <>
+                      <div className="col-12">
+                        <p className="fw-bold text-blue-0">{t('txt_file')}</p>
+                      </div>
+                      {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
+                        <div
+                          className={`col_thumb ${styles.col_thumb} col-${
+                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                          } mb-4 zindex-2`}
+                        >
+                          <div
+                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+              `}
+                            onClick={onBackClick}
+                          >
+                            <ArrowBack />
+                            <span>{t('txt_back')}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  <Thumb
+                    {...row.getRowProps()}
+                    className={`col_thumb ${styles.col_thumb} col-${
+                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                    } mb-4 zindex-2`}
+                    newRowCells={newRowCells}
+                    index={index}
+                    row={row}
+                    onDoubleClick={onDoubleClick}
+                    onRightClickItem={onRightClickItem}
+                    moveRow={moveRow}
+                    type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
+                    onSelectionChange={onSelectionChange}
+                    // selectedCards={state.selectedCards}
+                    // rearrangeCards={rearrangeCards}
+                    // setInsertIndex={setInsertIndex}
+                    // clearItemSelection={clearItemSelection}
+                  />
+                </React.Fragment>
+              )
+            );
+          })}
+        </div>
       )}
       {rows.length === 0 ? (
         <>
