@@ -65,11 +65,7 @@ const HomeFormModal = observer(
     handleDelete = () => {
       this.damFormModalViewModel.closeModal();
       this.damFormModalViewModel.closeDeleteModal();
-      if (this.damFormModalViewModel.damEditdata?.type) {
-        this.damListViewModel.deleteAssets(this.damFormModalViewModel.damEditdata);
-      } else {
-        this.damListViewModel.deleteCollections(this.damFormModalViewModel.damEditdata);
-      }
+      this.damListViewModel.deleteItem();
     };
 
     handleUpdate = (data) => {

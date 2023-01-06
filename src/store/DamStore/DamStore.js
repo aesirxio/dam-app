@@ -246,7 +246,7 @@ export default class DamStore {
   deleteCollections = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteCollections(data?.id);
+      const responsedDataFromLibary = await damService.deleteCollections(data);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({
@@ -488,7 +488,7 @@ export default class DamStore {
   deleteAssets = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteAssets(data?.id);
+      const responsedDataFromLibary = await damService.deleteAssets(data);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({
@@ -512,6 +512,7 @@ export default class DamStore {
         }
       }
     } catch (error) {
+      console.log(error);
       runInAction(() => {
         if (error.response?.data.message) {
           callbackOnError({

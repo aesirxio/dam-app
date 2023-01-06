@@ -117,7 +117,9 @@ const HomeList = observer(
       const inside = e.target.closest('.item_thumb');
       if (!inside) {
         this.damformModalViewModal.closeContextMenuItem();
-
+        this.damListViewModel.setActionState({
+          selectedCards: [],
+        });
         const innerHeight = window.innerHeight;
         const innerWidth = window.innerWidth;
         let style = {
@@ -144,6 +146,16 @@ const HomeList = observer(
           style: { ...style },
         };
         this.damformModalViewModal.openContextMenu();
+      }
+    };
+
+    handleClickOutSite = (e) => {
+      e.preventDefault();
+      const inside = e.target.closest('.item_thumb');
+      if (!inside) {
+        this.damListViewModel.setActionState({
+          selectedCards: [],
+        });
       }
     };
 
@@ -176,6 +188,9 @@ const HomeList = observer(
         ...data,
         style: { ...style },
       };
+      this.damListViewModel.setActionState({
+        style: style,
+      });
       this.damformModalViewModal.openContextMenuItem();
     };
 
@@ -406,6 +421,7 @@ const HomeList = observer(
           className="position-relative col d-flex flex-column"
           id="outside"
           onContextMenu={this.handleRightClick}
+          onClick={this.handleClickOutSite}
         >
           {handleColections || handleAssets ? (
             <>
