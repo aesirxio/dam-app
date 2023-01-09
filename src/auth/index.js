@@ -28,18 +28,23 @@ if (
 
 // LOGIN
 const login = async ({ username, password }) => {
-  document.body.classList.add('body_login_page');
-  const authService = new AesirxAuthenticationApiService();
-  const result = await authService.login(username, password);
-  if (result) {
-    Storage.setItem('auth', true);
-    document.body.classList.remove('body_login_page');
+  try {
+    document.body.classList.add('body_login_page');
+    const authService = new AesirxAuthenticationApiService();
+    const result = await authService.login(username, password);
+    if (result) {
+      Storage.setItem('auth', true);
+      document.body.classList.remove('body_login_page');
 
-    history.push('/root');
-    return true;
-  } else {
-    notify('Login information is incorrect', 'error');
-    document.body.classList.remove('body_login_page');
+      history.push('/root');
+      return true;
+    } else {
+      notify('Login information is incorrect', 'error');
+      document.body.classList.remove('body_login_page');
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
     return false;
   }
 };

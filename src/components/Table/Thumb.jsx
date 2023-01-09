@@ -57,7 +57,7 @@ const Thumb = observer(
         if (!ref.current) {
           return;
         }
-        const dragIndex = +item.id;
+        const dragIndex = +item;
         const hoverIndex = +row.original.id;
         // Don't replace items with themselves
         if (dragIndex === hoverIndex) {
@@ -118,7 +118,7 @@ const Thumb = observer(
         // }
 
         // const cardsIDs = cards.map((c) => +c.id);
-        return { ...row.original };
+        return { ...row.original.id };
       },
       // isDragging: (monitor) => {
       //   return monitor.getItem().cardsIDs.includes(+row.original.id);
@@ -132,7 +132,7 @@ const Thumb = observer(
       }),
     });
 
-    const onClick = (e) => {
+    const onSelect = (e) => {
       onSelectionChange(index, e.metaKey, e.shiftKey);
     };
 
@@ -170,13 +170,13 @@ const Thumb = observer(
         onClick={(e) => {
           timer = setTimeout(function () {
             if (!prevent) {
-              onClick(e);
+              onSelect(e);
             }
             prevent = false;
           }, delay);
         }}
         onContextMenu={(e) => {
-          onRightClickItem(e, row.original);
+          onRightClickItem(e, { ...row.original, index });
         }}
         style={{ opacity }}
         type={type}
@@ -203,18 +203,18 @@ const Thumb = observer(
             isOver ? 'border border-success bg-gray-dark' : 'bg-white'
           }`}
           onContextMenu={(e) => {
-            onRightClickItem(e, row.original);
+            onRightClickItem(e, { ...row.original.id, index });
           }}
           ref={ref}
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
-            onDoubleClick(row.original);
+            onDoubleClick(row.original.id);
           }}
           onClick={(e) => {
             timer = setTimeout(function () {
               if (!prevent) {
-                onClick(e);
+                onSelect(e);
               }
               prevent = false;
             }, delay);

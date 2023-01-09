@@ -142,26 +142,30 @@ class DamListViewModel {
     );
   };
 
-  deleteItem = () => {
-    let selectedCollections = [];
-    let selectedAssets = [];
-    console.log('asd');
-    console.log(this.actionState.selectedCards);
-    this.actionState.selectedCards.forEach((selected) => {
-      console.log(selected[DAM_ASSETS_FIELD_KEY.TYPE]);
-      if (selected[DAM_ASSETS_FIELD_KEY.TYPE]) {
-        console.log('assets');
-        selectedAssets.push(selected.id);
-      } else {
-        console.log('collection');
-        selectedCollections.push(selected.id);
+  deleteItem = (data) => {
+    if (data) {
+      console.log(data);
+    } else {
+      let selectedCollections = [];
+      let selectedAssets = [];
+      console.log('asd');
+      console.log(this.actionState.selectedCards);
+      this.actionState.selectedCards.forEach((selected) => {
+        console.log(selected[DAM_ASSETS_FIELD_KEY.TYPE]);
+        if (selected[DAM_ASSETS_FIELD_KEY.TYPE]) {
+          console.log('assets');
+          selectedAssets.push(selected.id);
+        } else {
+          console.log('collection');
+          selectedCollections.push(selected.id);
+        }
+      });
+      if (selectedAssets.length) {
+        this.deleteAssets(selectedAssets);
       }
-    });
-    if (selectedAssets.length) {
-      this.deleteAssets(selectedAssets);
-    }
-    if (selectedCollections.length) {
-      this.deleteCollections(selectedCollections);
+      if (selectedCollections.length) {
+        this.deleteCollections(selectedCollections);
+      }
     }
   };
 

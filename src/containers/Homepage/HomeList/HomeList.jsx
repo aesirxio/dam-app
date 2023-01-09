@@ -142,9 +142,9 @@ const HomeList = observer(
           };
         }
 
-        this.damformModalViewModal.damEditdata = {
-          style: { ...style },
-        };
+        this.damListViewModel.setActionState({
+          style: style,
+        });
         this.damformModalViewModal.openContextMenu();
       }
     };
@@ -160,6 +160,7 @@ const HomeList = observer(
     };
 
     handleRightClickItem = (e, data) => {
+      console.log(data);
       e.preventDefault();
       this.damformModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
@@ -184,13 +185,14 @@ const HomeList = observer(
         };
       }
 
-      this.damformModalViewModal.damEditdata = {
-        ...data,
-        style: { ...style },
-      };
+      // this.damformModalViewModal.damEditdata = {
+      //   ...data,
+      //   style: { ...style },
+      // };
       this.damListViewModel.setActionState({
         style: style,
       });
+      this.handleItemSelection(data.index, true, false);
       this.damformModalViewModal.openContextMenuItem();
     };
 
@@ -263,7 +265,7 @@ const HomeList = observer(
         }
       } else if (cmdKey) {
         const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
-          (f) => f === card
+          (f) => f.id === card.id
         );
         // If found remove it to unselect it.
         if (foundIndex >= 0) {
@@ -275,7 +277,9 @@ const HomeList = observer(
           newSelectedCards = [...this.damListViewModel.actionState.selectedCards, card];
         }
       }
-      const finalList = cards ? cards.filter((f) => newSelectedCards.find((a) => a === f)) : [];
+      const finalList = cards
+        ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
+        : [];
 
       this.damListViewModel.setActionState({
         selectedCards: finalList,

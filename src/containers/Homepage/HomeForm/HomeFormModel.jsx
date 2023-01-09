@@ -62,10 +62,10 @@ const HomeFormModal = observer(
       }
     };
 
-    handleDelete = () => {
+    handleDelete = (data) => {
       this.damFormModalViewModel.closeModal();
       this.damFormModalViewModel.closeDeleteModal();
-      this.damListViewModel.deleteItem();
+      this.damListViewModel.deleteItem(data);
     };
 
     handleUpdate = (data) => {
@@ -176,7 +176,7 @@ const HomeFormModal = observer(
             <div
               id="contextMenu"
               className={`col_thumb cursor-pointer align-self-center mb-4 bg-white zindex-5 position-fixed`}
-              style={{ ...this.damFormModalViewModel.damEditdata?.style }}
+              style={{ ...this.damListViewModel.actionState?.style }}
             >
               <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
                 <Dropzone createAssets={this.handleCreateAssets}>
@@ -207,7 +207,7 @@ const HomeFormModal = observer(
             <div
               id="contextMenuItem"
               className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
-              style={{ ...this.damFormModalViewModel.damEditdata?.style }}
+              style={{ ...this.damListViewModel.actionState?.style }}
             >
               <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
