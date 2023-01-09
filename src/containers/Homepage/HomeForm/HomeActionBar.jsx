@@ -31,8 +31,8 @@ const HomeActionBar = observer(
       this.state = {
         breadcrumb: [],
       };
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
-      this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
+      this.damformModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {}
@@ -49,8 +49,6 @@ const HomeActionBar = observer(
         const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
 
         this.damListViewModel.createAssets({
-          [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
             ? collectionId[collectionId.length - 1]
             : 0,

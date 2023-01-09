@@ -6,6 +6,7 @@
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 
 class DamListViewModel {
   damStore = null;
@@ -27,10 +28,29 @@ class DamListViewModel {
   isSearch = false;
   subscription = null;
   damLinkFolder = 'root';
+
+  actionState = {
+    cards: [],
+    selectedCards: [],
+    lastSelectedIndex: -1,
+    dragIndex: -1,
+    hoverIndex: -1,
+    insertIndex: -1,
+    isDragging: false,
+    style: {},
+  };
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
   }
+
+  setActionState = (state) => {
+    this.actionState = {
+      ...this.actionState,
+      ...state,
+    };
+  };
+
   // For intergate
   setDamLinkFolder = (link) => {
     this.damLinkFolder = link;
@@ -88,17 +108,6 @@ class DamListViewModel {
     );
   };
 
-  deleteCollections = (data) => {
-    notify(
-      this.damStore.deleteCollections(
-        data,
-        this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
-      ),
-      'promise'
-    );
-  };
-
   getAssets = (collectionId, dataFilter) => {
     this.status = PAGE_STATUS.LOADING;
     this.dataFilter = { ...this.dataFilter, dataFilter };
@@ -133,6 +142,44 @@ class DamListViewModel {
     );
   };
 
+  deleteItem = (data) => {
+    if (data) {
+      console.log(data);
+    } else {
+      let selectedCollections = [];
+      let selectedAssets = [];
+      console.log('asd');
+      console.log(this.actionState.selectedCards);
+      this.actionState.selectedCards.forEach((selected) => {
+        console.log(selected[DAM_ASSETS_FIELD_KEY.TYPE]);
+        if (selected[DAM_ASSETS_FIELD_KEY.TYPE]) {
+          console.log('assets');
+          selectedAssets.push(selected.id);
+        } else {
+          console.log('collection');
+          selectedCollections.push(selected.id);
+        }
+      });
+      if (selectedAssets.length) {
+        this.deleteAssets(selectedAssets);
+      }
+      if (selectedCollections.length) {
+        this.deleteCollections(selectedCollections);
+      }
+    }
+  };
+
+  deleteCollections = (data) => {
+    notify(
+      this.damStore.deleteCollections(
+        data,
+        this.callBackOnCollectionCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
+  };
+
   deleteAssets = (data) => {
     notify(
       this.damStore.deleteAssets(
@@ -155,6 +202,31 @@ class DamListViewModel {
     );
   };
 
+  moveToFolder = (dragIndex, hoverIndex) => {
+    const selectedItem = this.actionState.selectedCards.map((selected) => selected.id);
+    if (selectedItem.length) {
+      notify(
+        this.damStore.moveToFolder(
+          selectedItem,
+          hoverIndex,
+          this.callBackOnMoveSuccessHandler,
+          this.callbackOnErrorHander
+        ),
+        'promise'
+      );
+    } else {
+      notify(
+        this.damStore.moveToFolder(
+          [dragIndex],
+          hoverIndex,
+          this.callBackOnMoveSuccessHandler,
+          this.callbackOnErrorHander
+        ),
+        'promise'
+      );
+    }
+  };
+
   resetObservableProperties = () => {};
 
   callbackOnErrorHander = (error) => {
@@ -163,6 +235,11 @@ class DamListViewModel {
     } else notify(error.message, 'error');
   };
 
+  callBackOnMoveSuccessHandler = (data) => {
+    if (data) {
+      console.log(data);
+    }
+  };
   callbackOnAssetsSuccessHandler = (data) => {
     if (data) {
       this.status = PAGE_STATUS.READY;
@@ -184,11 +261,11 @@ class DamListViewModel {
             break;
           case 'delete':
             this.assets = this.assets.filter((asset) => {
-              return asset.id !== data.item?.id;
+              return !data.item.includes(asset.id);
             });
             break;
           case 'create':
-            this.assets = [...this.assets, data?.item];
+            this.assets = [...this.assets, ...data?.item];
             break;
 
           default:
@@ -232,7 +309,7 @@ class DamListViewModel {
             break;
           case 'delete':
             this.collections = this.collections.filter((collection) => {
-              return collection.id !== data.item?.id;
+              return !data.item.includes(collection.id);
             });
             break;
           case 'create':

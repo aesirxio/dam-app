@@ -34,8 +34,8 @@ const HomeList = observer(
       super(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
-      this.damformModalViewModal = this.viewModel ? this.viewModel.damFormViewModel : null;
+      this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
+      this.damformModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -117,7 +117,9 @@ const HomeList = observer(
       const inside = e.target.closest('.item_thumb');
       if (!inside) {
         this.damformModalViewModal.closeContextMenuItem();
-
+        this.damListViewModel.setActionState({
+          selectedCards: [],
+        });
         const innerHeight = window.innerHeight;
         const innerWidth = window.innerWidth;
         let style = {
@@ -140,14 +142,25 @@ const HomeList = observer(
           };
         }
 
-        this.damformModalViewModal.damEditdata = {
-          style: { ...style },
-        };
+        this.damListViewModel.setActionState({
+          style: style,
+        });
         this.damformModalViewModal.openContextMenu();
       }
     };
 
+    handleClickOutSite = (e) => {
+      e.preventDefault();
+      const inside = e.target.closest('.item_thumb');
+      if (!inside) {
+        this.damListViewModel.setActionState({
+          selectedCards: [],
+        });
+      }
+    };
+
     handleRightClickItem = (e, data) => {
+      console.log(data);
       e.preventDefault();
       this.damformModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
@@ -172,10 +185,14 @@ const HomeList = observer(
         };
       }
 
-      this.damformModalViewModal.damEditdata = {
-        ...data,
-        style: { ...style },
-      };
+      // this.damformModalViewModal.damEditdata = {
+      //   ...data,
+      //   style: { ...style },
+      // };
+      this.damListViewModel.setActionState({
+        style: style,
+      });
+      this.handleItemSelection(data.index, true, false);
       this.damformModalViewModal.openContextMenuItem();
     };
 
@@ -194,8 +211,84 @@ const HomeList = observer(
       });
     };
 
+    clearItemSelection = () => {
+      // dispatch({ type: "CLEAR_SELECTION" });
+    };
+
+    handleItemSelection = (index, cmdKey, shiftKey) => {
+      const { assets, collections, isSearch } = this.damListViewModel;
+
+      const collectionId = history.location.pathname.split('/');
+
+      let handleColections = [];
+      let handleAssets = [];
+      if (!isNaN(+collectionId[collectionId.length - 1])) {
+        handleAssets = assets.filter(
+          (asset) =>
+            +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
+        );
+        handleColections = collections.filter(
+          (collection) =>
+            +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
+            +collectionId[collectionId.length - 1]
+        );
+      } else {
+        if (isSearch) {
+          handleAssets = assets;
+          handleColections = collections;
+        } else {
+          handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+          handleColections = collections.filter(
+            (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
+          );
+        }
+      }
+      let newSelectedCards;
+
+      const cards = [...handleColections, ...handleAssets];
+      const card = index < 0 ? '' : cards[index];
+      const newLastSelectedIndex = index;
+
+      if (!cmdKey && !shiftKey) {
+        newSelectedCards = [card];
+      } else if (shiftKey) {
+        if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(index, this.damListViewModel.actionState.lastSelectedIndex)
+          );
+        } else {
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(this.damListViewModel.actionState.lastSelectedIndex + 1, index + 1)
+          );
+        }
+      } else if (cmdKey) {
+        const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
+          (f) => f.id === card.id
+        );
+        // If found remove it to unselect it.
+        if (foundIndex >= 0) {
+          newSelectedCards = [
+            ...this.damListViewModel.actionState.selectedCards.slice(0, foundIndex),
+            ...this.damListViewModel.actionState.selectedCards.slice(foundIndex + 1),
+          ];
+        } else {
+          newSelectedCards = [...this.damListViewModel.actionState.selectedCards, card];
+        }
+      }
+      const finalList = cards
+        ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
+        : [];
+
+      this.damListViewModel.setActionState({
+        selectedCards: finalList,
+        lastSelectedIndex: newLastSelectedIndex,
+      });
+    };
+
     render() {
-      const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
+      const { assets, status, collections, isSearch } = this.damListViewModel;
       const { t } = this.props;
 
       if (status === PAGE_STATUS.LOADING) {
@@ -209,7 +302,8 @@ const HomeList = observer(
             <div
               className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
             >
-              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] &&
+              !row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ? (
                 // folder
                 <div
                   className={`${
@@ -306,30 +400,39 @@ const HomeList = observer(
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
-          (asset) => asset.collection_id === +collectionId[collectionId.length - 1]
+          (asset) =>
+            +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
         handleColections = collections.filter(
-          (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
+          (collection) =>
+            +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
+            +collectionId[collectionId.length - 1]
         );
       } else {
         if (isSearch) {
           handleAssets = assets;
           handleColections = collections;
         } else {
-          handleAssets = assets.filter((asset) => asset.collection_id === 0);
-          handleColections = collections.filter((collection) => collection.parent_id === 0);
+          handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+          handleColections = collections.filter(
+            (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
+          );
         }
       }
+
       return (
         <div
           className="position-relative col d-flex flex-column"
           id="outside"
           onContextMenu={this.handleRightClick}
+          onClick={this.handleClickOutSite}
         >
           {handleColections || handleAssets ? (
             <>
               <Table
                 rowData={[...handleColections, ...handleAssets]}
+                dataCollections={handleColections}
+                dataAssets={handleAssets}
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
                 isThumb={true}
@@ -353,8 +456,8 @@ const HomeList = observer(
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
                 noSelection={true}
-                dataCollections={handleColections}
-                dataAssets={handleAssets}
+                onSelectionChange={this.handleItemSelection}
+                // selectedCards={this.damListViewModel.actionState.selectedCards}
               />
             </>
           ) : (

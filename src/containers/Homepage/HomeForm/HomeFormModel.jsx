@@ -41,8 +41,8 @@ const HomeFormModal = observer(
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
       const { viewModel } = props;
-      this.damFormModalViewModel = viewModel ? viewModel.damFormViewModel : null;
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
+      this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
     }
 
     updateDetail = () => {
@@ -62,14 +62,10 @@ const HomeFormModal = observer(
       }
     };
 
-    handleDelete = () => {
+    handleDelete = (data) => {
       this.damFormModalViewModel.closeModal();
       this.damFormModalViewModel.closeDeleteModal();
-      if (this.damFormModalViewModel.damEditdata?.type) {
-        this.damListViewModel.deleteAssets(this.damFormModalViewModel.damEditdata);
-      } else {
-        this.damListViewModel.deleteCollections(this.damFormModalViewModel.damEditdata);
-      }
+      this.damListViewModel.deleteItem(data);
     };
 
     handleUpdate = (data) => {
@@ -180,7 +176,7 @@ const HomeFormModal = observer(
             <div
               id="contextMenu"
               className={`col_thumb cursor-pointer align-self-center mb-4 bg-white zindex-5 position-fixed`}
-              style={{ ...this.damFormModalViewModel.damEditdata?.style }}
+              style={{ ...this.damListViewModel.actionState?.style }}
             >
               <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
                 <Dropzone createAssets={this.handleCreateAssets}>
@@ -211,7 +207,7 @@ const HomeFormModal = observer(
             <div
               id="contextMenuItem"
               className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
-              style={{ ...this.damFormModalViewModel.damEditdata?.style }}
+              style={{ ...this.damListViewModel.actionState?.style }}
             >
               <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}

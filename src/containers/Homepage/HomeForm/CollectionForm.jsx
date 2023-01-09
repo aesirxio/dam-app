@@ -99,7 +99,7 @@ class HomeForm extends Component {
               </div>
               <div className="col-3">
                 <Button
-                  text={t('txt_create')}
+                  text={this.props.type === 'create' ? t('txt_create') : t('txt_save')}
                   onClick={() => this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME])}
                   className="btn btn-success w-100"
                 />
