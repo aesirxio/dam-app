@@ -30,3 +30,24 @@ $rt-color-success: $green !default;
     color: $white !important;
   }
 }
+
+.Toastify__close-button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  align-self: unset !important;
+  opacity: 1 !important;
+}
+.Toastify__close-button > svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+.text-green > .Toastify__close-button {
+  color: $green !important;
+}
+.text-yellow-200 > .Toastify__close-button {
+  color: $yellow-200 !important;
+}
+.text-red-100 > .Toastify__close-button {
+  color: $red-100 !important;
+}

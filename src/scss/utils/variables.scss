@@ -38,9 +38,14 @@ $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
 $pink: #d63384 !default;
 $red: #cb222c !default;
+$red-100: #c8192e !default;
+$red-10: #fee2e2 !default;
 $orange: #f78464 !default;
 $yellow: #ff9e01 !default;
+$yellow-200: #946300 !default;
+$yellow-10: #fff8e9 !default;
 $green: #1ab394 !default;
+$green-10: #d1fae5 !default;
 $teal: #20c997 !default;
 $cyan: #1a73e8 !default;
 
@@ -61,10 +66,15 @@ $colors: (
   'gray-dark': $gray-800,
   'gray-900': $gray-900,
   'danger': $red,
+  'yellow-200': $yellow-200,
+  'red-100': $red-100,
 ) !default;
 // scss-docs-end colors-map
 
 $primary: $blue !default;
+$primary-10: $green-10 !default;
+$yellow-10: $yellow-10 !default;
+$red-10: $red-10 !default;
 $secondary: $gray-600 !default;
 $success: $green !default;
 $info: $white !default;
@@ -76,6 +86,9 @@ $dark: $gray-900 !default;
 // scss-docs-end theme-colors-map
 $theme-colors: (
   'primary': $primary,
+  'primary-10': $primary-10,
+  'yellow-10': $yellow-10,
+  'red-10': $red-10,
   'secondary': $secondary,
   'success': $success,
   'info': $info,
