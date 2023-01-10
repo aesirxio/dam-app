@@ -23,7 +23,7 @@ import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import Dropzone from 'components/Dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import styles from '../index.module.scss';
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
@@ -166,7 +166,7 @@ const HomeFormModal = observer(
               <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
                 <Dropzone createAssets={this.handleCreateAssets}>
                   <div
-                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer ${styles.txt_hover}`}
                   >
                     <FontAwesomeIcon
                       icon={faCloudUploadAlt}
@@ -177,7 +177,7 @@ const HomeFormModal = observer(
                   </div>
                 </Dropzone>
                 <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none ${styles.txt_hover}`}
                   onClick={openCreateCollectionModal}
                 >
                   <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
