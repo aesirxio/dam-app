@@ -9,7 +9,6 @@ import Button from 'components/Button';
 import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
-import SimpleReactValidator from 'simple-react-validator';
 import HomeForm from './HomeForm';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import {
@@ -38,29 +37,11 @@ const HomeFormModal = observer(
     damListViewModel = null;
     constructor(props) {
       super(props);
-      this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
       const { viewModel } = props;
       this.damFormModalViewModel = viewModel ? viewModel.damFormViewModel : null;
       this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
     }
-
-    updateDetail = () => {
-      if (this.isFormValid()) {
-        this.damFormModalViewModel.saveOnModal();
-      }
-    };
-
-    isFormValid = () => {
-      if (this.validator.allValid()) {
-        return true;
-      } else {
-        this.validator.showMessages();
-        // rerender to show messages for the first time
-        this.forceUpdate();
-        return false;
-      }
-    };
 
     handleDelete = () => {
       this.damFormModalViewModel.closeModal();
@@ -108,6 +89,8 @@ const HomeFormModal = observer(
     };
 
     handleCreateFolder = (name) => {
+      this.damFormModalViewModel.closeCreateCollectionModal();
+
       const collectionId = history.location.pathname.split('/');
       const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
       this.damListViewModel.createCollections({
@@ -116,7 +99,6 @@ const HomeFormModal = observer(
           ? collectionId[collectionId.length - 1]
           : 0,
       });
-      this.damFormModalViewModel.closeCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
@@ -168,7 +150,6 @@ const HomeFormModal = observer(
                     delete={this.handleDelete}
                     handleUpdate={this.handleUpdate}
                     viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
                   />
                 }
                 dialogClassName={'mw-100 px-3 home-modal'}
@@ -283,7 +264,6 @@ const HomeFormModal = observer(
                     onSubmit={this.handleCreateFolder}
                     close={this.damFormModalViewModel.closeCreateCollectionModal}
                     viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
                     type="create"
                   />
                 }
@@ -308,7 +288,6 @@ const HomeFormModal = observer(
                     onSubmit={this.handleRename}
                     close={this.damFormModalViewModel.closeUpdateCollectionModal}
                     viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
                     type="update"
                   />
                 }
