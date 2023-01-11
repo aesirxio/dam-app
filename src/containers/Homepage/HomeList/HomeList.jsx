@@ -41,8 +41,10 @@ const HomeList = observer(
     componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
-      this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
-      this.damListViewModel.getAllCollections();
+      const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
+      this.damListViewModel.goToFolder(curretnCollectionId);
     }
 
     componentWillUnmount() {
@@ -52,7 +54,10 @@ const HomeList = observer(
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        this.damListViewModel.getAssets(collectionId[collectionId.length - 1] ?? 0);
+        const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
+          ? collectionId[collectionId.length - 1]
+          : 0;
+        this.damListViewModel.goToFolder(curretnCollectionId);
       }
     }
 
@@ -84,14 +89,14 @@ const HomeList = observer(
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
-        const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+        const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+          ? collectionId[collectionId.length - 1]
+          : 0;
 
         this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
-            ? collectionId[collectionId.length - 1]
-            : 0,
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: currentCollection,
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
       }
@@ -181,14 +186,20 @@ const HomeList = observer(
 
     handleFilter = (data) => {
       const collectionId = history.location.pathname.split('/');
-      this.damListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
+      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
+      this.damListViewModel.goToFolder(currentCollection, {
         'filter[type]': data.value,
       });
     };
 
     handleSortby = (data) => {
       const collectionId = history.location.pathname.split('/');
-      this.damListViewModel.filterAssets(collectionId[collectionId.length - 1] ?? 0, {
+      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
+      this.damListViewModel.goToFolder(currentCollection, {
         'list[ordering]': data.value.ordering,
         'list[direction]': data.value.direction,
       });
@@ -334,7 +345,6 @@ const HomeList = observer(
                 onSelect={this.handleSelect}
                 isThumb={true}
                 isList={this.damListViewModel.isList}
-                pageSize={this.damListViewModel.pageSize}
                 dataThumb={[
                   'selection',
                   DAM_COLUMN_INDICATOR.FILE_SIZE,
