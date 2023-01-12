@@ -11,8 +11,6 @@ import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import BreadCrumbs from 'components/Breadcrumbs';
 
 const AesirXDamFormModel = React.lazy(() => import('./AesirXDamFormModel'));
