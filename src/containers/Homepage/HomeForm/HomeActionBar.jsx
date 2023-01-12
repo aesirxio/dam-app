@@ -42,14 +42,15 @@ const HomeActionBar = observer(
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
-        const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+        const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+          ? collectionId[collectionId.length - 1]
+          : 0;
 
         this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
-            ? collectionId[collectionId.length - 1]
-            : 0,
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: currentCollection,
+
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
       }
@@ -78,7 +79,7 @@ const HomeActionBar = observer(
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end col-auto">
             <ButtonNormal
               onClick={this.handleCreateFolder}
               iconStart={faFolder}

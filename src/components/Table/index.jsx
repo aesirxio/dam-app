@@ -82,6 +82,10 @@ const Table = ({
     placeholder: t('txt_type'),
     options: [
       {
+        label: t('txt_type'),
+        value: '',
+      },
+      {
         label: t('txt_image'),
         value: 'image',
       },
@@ -105,6 +109,13 @@ const Table = ({
     placeholder: t('txt_sort_by'),
     className: 'border-end border-gray-select',
     options: [
+      {
+        label: t('txt_sort_by'),
+        value: {
+          ordering: '',
+          direction: '',
+        },
+      },
       {
         label: t('txt_date_create'),
         value: {

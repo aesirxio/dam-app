@@ -39,14 +39,13 @@ const AesirXDamActionBar = observer(
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = this.damListViewModel.damLinkFolder.split('/');
-        const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
-
+        const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+          ? collectionId[collectionId.length - 1]
+          : 0;
         this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
-            ? collectionId[collectionId.length - 1]
-            : 0,
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: currentCollection,
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
       }

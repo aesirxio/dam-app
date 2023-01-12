@@ -13,7 +13,11 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
     return;
   }
   return (
-    <div className="text-gray-900 fs-2 mb-0 fw-bold d-flex flex-wrap align-items-center">
+    <div
+      className={`text-gray-900 ${
+        data.length > 2 ? 'fs-3' : 'fs-2'
+      } mb-0 fw-bold d-flex flex-wrap align-items-center`}
+    >
       <span>
         <Link className="text-body" to="/root">
           {t('txt_your_digital_assets')}
