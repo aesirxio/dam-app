@@ -103,6 +103,7 @@ const UpdateGeneral = observer(
               type: FORM_FIELD_TYPE.INPUT,
               value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.USERNAME],
               className: 'col-6',
+              inputClassName: 'border',
               readOnly: true,
             },
             {
@@ -111,6 +112,7 @@ const UpdateGeneral = observer(
               type: FORM_FIELD_TYPE.INPUT,
               value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.EMAIL],
               className: 'col-6',
+              inputClassName: 'border',
               readOnly: true,
             },
 
@@ -120,6 +122,7 @@ const UpdateGeneral = observer(
               type: FORM_FIELD_TYPE.INPUT,
               value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME],
               className: 'col-6',
+              inputClassName: 'border',
               changed: (event) => {
                 this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME] = event.target.value;
               },
@@ -130,6 +133,7 @@ const UpdateGeneral = observer(
               type: FORM_FIELD_TYPE.INPUT,
               value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.PHONE],
               className: 'col-6',
+              inputClassName: 'border',
               changed: (event) => {
                 this.formPropsData[UPDATE_GENERAL_FIELD_KEY.PHONE] = event.target.value;
               },
