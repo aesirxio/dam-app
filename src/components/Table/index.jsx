@@ -108,8 +108,8 @@ const Table = ({
       {
         label: t('txt_date_create'),
         value: {
-          ordering: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
-          direction: 'asc',
+          ordering: DAM_ASSETS_FIELD_KEY.CREATE_DATE,
+          direction: 'desc',
         },
       },
       {
