@@ -114,7 +114,7 @@ const UpdatePassword = observer(
                   </label>
                   <input
                     type="password"
-                    className="form-control mb-3"
+                    className="form-control mb-3 border"
                     id="curr_password"
                     onBlur={this.blurringFieldHandler}
                     disabled={this.state.loading}
@@ -137,7 +137,7 @@ const UpdatePassword = observer(
                   </label>
                   <input
                     type="password"
-                    className="form-control mb-3"
+                    className="form-control mb-3 border"
                     id="new_password"
                     onBlur={this.blurringFieldHandler}
                     disabled={this.state.loading}
@@ -158,7 +158,7 @@ const UpdatePassword = observer(
                   </label>
                   <input
                     type="password"
-                    className="form-control mb-3"
+                    className="form-control mb-3 border"
                     id="new_checked_password"
                     onBlur={this.blurringFieldHandler}
                     disabled={this.state.loading}

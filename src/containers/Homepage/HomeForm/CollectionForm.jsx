@@ -57,6 +57,7 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME],
             validation: 'required',
+            inputClassName: 'border',
             className: 'col-12',
             changed: (event) => {
               this.formPropsData[DAM_COLLECTION_FIELD_KEY.NAME] = event.target.value;
