@@ -8,22 +8,15 @@ import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
 
 export default class DamStore {
-  getSubscription = async (callbackOnSuccess, callbackOnError) => {
+  getSubscription = async () => {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.getDamSubscription();
       if (responsedDataFromLibary) {
-        runInAction(() => {
-          callbackOnSuccess(responsedDataFromLibary);
-        });
+        return responsedDataFromLibary;
       }
     } catch (error) {
       console.log(error);
-      runInAction(() => {
-        callbackOnError({
-          message: 'Something went wrong',
-        });
-      });
       return error;
     }
   };
@@ -43,92 +36,39 @@ export default class DamStore {
     }
   };
 
-  getCollections = async (collectionId, callbackOnSuccess, callbackOnError) => {
+  goToFolder = async (collectionId, dataFilter, callbackOnSuccess, callbackOnError) => {
     try {
+      let data = [];
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.getCollections(collectionId);
-      if (responsedDataFromLibary?.list) {
-        const collectionDataModel = responsedDataFromLibary?.list;
-        if (collectionDataModel) {
-          runInAction(() => {
-            callbackOnSuccess({
-              list: collectionDataModel,
-              pagination: responsedDataFromLibary.pagination,
-            });
-          });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'No Result',
-            });
-          });
-        }
-      } else {
-        if (responsedDataFromLibary?.message === 'isCancel') {
-          runInAction(() => {
-            callbackOnError({
-              message: 'isCancel',
-            });
-          });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'Something went wrong from Server response',
-            });
-          });
-        }
-      }
-    } catch (error) {
-      runInAction(() => {
-        if (error.response?.data.message) {
-          callbackOnError({
-            message: error.response?.data?.message,
-          });
-        } else {
-          callbackOnError({
-            message:
-              error.response?.data?._messages[0]?.message ??
-              'Something went wrong from Server response',
-          });
-        }
-      });
-    }
-  };
+      const responsedDataAssetsFromLibary = await damService.getAssets(collectionId, dataFilter);
 
-  getAllCollections = async (callbackOnSuccess, callbackOnError) => {
-    try {
-      const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.getAllCollections();
-      if (responsedDataFromLibary?.list) {
-        const collectionDataModel = responsedDataFromLibary?.list;
-        if (collectionDataModel) {
-          runInAction(() => {
-            callbackOnSuccess({
-              list: collectionDataModel,
-              pagination: responsedDataFromLibary.pagination,
-            });
+      const responsedDataCollectionFromLibary = await damService.getCollections(
+        collectionId,
+        dataFilter
+      );
+
+      if (responsedDataCollectionFromLibary?.list) {
+        const collectionsData = DamUtils.transformPersonaResponseIntoModel(
+          responsedDataCollectionFromLibary.list
+        );
+        data = [...data, ...collectionsData];
+      }
+      if (responsedDataAssetsFromLibary?.list) {
+        const assetsData = DamUtils.transformPersonaResponseIntoModel(
+          responsedDataAssetsFromLibary.list
+        );
+        data = [...data, ...assetsData];
+      }
+      if (data.length) {
+        runInAction(() => {
+          callbackOnSuccess({
+            list: data,
           });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'No Result',
-            });
-          });
-        }
+        });
       } else {
-        if (responsedDataFromLibary?.message === 'isCancel') {
-          runInAction(() => {
-            callbackOnError({
-              message: 'isCancel',
-            });
-          });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'Something went wrong from Server response',
-            });
-          });
-        }
+        callbackOnError({
+          message: 'Something went wrong from Server response',
+        });
       }
     } catch (error) {
       console.log(error);
@@ -145,6 +85,24 @@ export default class DamStore {
           });
         }
       });
+    }
+  };
+
+  getAllCollections = async () => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.getAllCollections();
+      if (responsedDataFromLibary?.list) {
+        const collectionDataModel = responsedDataFromLibary?.list;
+        if (collectionDataModel) {
+          return collectionDataModel;
+        }
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   };
 
@@ -254,60 +212,6 @@ export default class DamStore {
             type: 'delete',
           });
         });
-      } else {
-        if (responsedDataFromLibary?.message === 'isCancel') {
-          runInAction(() => {
-            callbackOnError({
-              message: 'isCancel',
-            });
-          });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'Something went wrong from Server response',
-            });
-          });
-        }
-      }
-    } catch (error) {
-      runInAction(() => {
-        if (error.response?.data.message) {
-          callbackOnError({
-            message: error.response?.data?.message,
-          });
-        } else {
-          callbackOnError({
-            message:
-              error.response?.data?._messages[0]?.message ??
-              'Something went wrong from Server response',
-          });
-        }
-      });
-    }
-  };
-
-  getAssets = async (collectionId, dataFilter, callbackOnSuccess, callbackOnError) => {
-    try {
-      const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.getAssets(collectionId, dataFilter);
-      if (responsedDataFromLibary?.list) {
-        const homeDataModels = DamUtils.transformPersonaResponseIntoModel(
-          responsedDataFromLibary.list
-        );
-        if (homeDataModels) {
-          runInAction(() => {
-            callbackOnSuccess({
-              list: homeDataModels,
-              pagination: responsedDataFromLibary.pagination,
-            });
-          });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'No Result',
-            });
-          });
-        }
       } else {
         if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {

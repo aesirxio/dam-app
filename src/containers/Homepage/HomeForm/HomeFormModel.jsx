@@ -9,7 +9,6 @@ import Button from 'components/Button';
 import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
-import SimpleReactValidator from 'simple-react-validator';
 import HomeForm from './HomeForm';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import {
@@ -24,7 +23,7 @@ import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import Dropzone from 'components/Dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import styles from '../index.module.scss';
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
@@ -38,7 +37,6 @@ const HomeFormModal = observer(
     damListViewModel = null;
     constructor(props) {
       super(props);
-      this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
       const { viewModel } = props;
       this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
@@ -104,28 +102,29 @@ const HomeFormModal = observer(
     };
 
     handleCreateFolder = (name) => {
+      this.damFormModalViewModel.closeCreateCollectionModal();
+
       const collectionId = history.location.pathname.split('/');
-      const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
       this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: name,
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: checkCollection
-          ? collectionId[collectionId.length - 1]
-          : 0,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
       });
-      this.damFormModalViewModel.closeCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
-        const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+        const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+          ? collectionId[collectionId.length - 1]
+          : 0;
 
         this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
-          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: checkCollection
-            ? collectionId[collectionId.length - 1]
-            : 0,
+          [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: currentCollection,
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
         this.damFormModalViewModel.closeContextMenu();
@@ -164,7 +163,6 @@ const HomeFormModal = observer(
                     delete={this.handleDelete}
                     handleUpdate={this.handleUpdate}
                     viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
                   />
                 }
                 dialogClassName={'mw-100 px-3 home-modal'}
@@ -181,7 +179,7 @@ const HomeFormModal = observer(
               <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
                 <Dropzone createAssets={this.handleCreateAssets}>
                   <div
-                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer`}
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer ${styles.txt_hover}`}
                   >
                     <FontAwesomeIcon
                       icon={faCloudUploadAlt}
@@ -192,7 +190,7 @@ const HomeFormModal = observer(
                   </div>
                 </Dropzone>
                 <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none ${styles.txt_hover}`}
                   onClick={openCreateCollectionModal}
                 >
                   <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
@@ -237,17 +235,20 @@ const HomeFormModal = observer(
                   {t('txt_move_to_folder')}
                 </span>
               </div>
-              <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                onClick={downloadFile}
-              >
-                <Suspense fallback={<div>Loading...</div>}>
-                  <DownLoadIcon />
-                </Suspense>
-                <span className="ms-3 text-color py-1 d-inline-block">
-                  {t('txt_download_folder')}
-                </span>
-              </div>
+              {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] && (
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  onClick={downloadFile}
+                >
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <DownLoadIcon />
+                  </Suspense>
+                  <span className="ms-3 text-color py-1 d-inline-block">
+                    {t('txt_download_folder')}
+                  </span>
+                </div>
+              )}
+
               <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
@@ -279,7 +280,6 @@ const HomeFormModal = observer(
                     onSubmit={this.handleCreateFolder}
                     close={this.damFormModalViewModel.closeCreateCollectionModal}
                     viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
                     type="create"
                   />
                 }
@@ -304,7 +304,6 @@ const HomeFormModal = observer(
                     onSubmit={this.handleRename}
                     close={this.damFormModalViewModel.closeUpdateCollectionModal}
                     viewModel={this.damFormModalViewModel}
-                    validator={this.validator}
                     type="update"
                   />
                 }

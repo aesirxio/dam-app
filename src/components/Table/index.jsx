@@ -82,6 +82,10 @@ const Table = ({
     placeholder: t('txt_type'),
     options: [
       {
+        label: t('txt_type'),
+        value: '',
+      },
+      {
         label: t('txt_image'),
         value: 'image',
       },
@@ -131,10 +135,17 @@ const Table = ({
     className: 'border-end border-gray-select',
     options: [
       {
+        label: t('txt_sort_by'),
+        value: {
+          ordering: '',
+          direction: '',
+        },
+      },
+      {
         label: t('txt_date_create'),
         value: {
-          ordering: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
-          direction: 'asc',
+          ordering: DAM_ASSETS_FIELD_KEY.CREATE_DATE,
+          direction: 'desc',
         },
       },
       {

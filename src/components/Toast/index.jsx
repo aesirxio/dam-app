@@ -17,17 +17,20 @@ const notify = (msg, type = 'success') => {
   switch (type) {
     case 'error':
       toast.error(msg, {
-        className: 'bg-danger',
+        className: 'bg-red-10 fw-bold text-red-100 ps-4',
+        icon: () => <img alt="error" src="/assets/images/error.png" />,
       });
       break;
     case 'warn':
       toast.warn(msg, {
-        className: 'bg-info',
+        className: 'bg-yellow-10 fw-bold text-yellow-200 ps-4',
+        icon: () => <img alt="warn" src="/assets/images/warn.png" />,
       });
       break;
     case 'success':
       toast.success(msg, {
-        className: 'bg-success',
+        className: 'bg-primary-10 text-green fw-bold ps-4',
+        icon: () => <img alt="success" src="/assets/images/success.png" />,
       });
       break;
     case 'promise':
@@ -51,8 +54,21 @@ const notify = (msg, type = 'success') => {
             },
             icon: true,
           },
-          success: 'Complete. 👌',
-          error: 'Error! 🤯',
+          success: {
+            render() {
+              return `Successful`;
+            },
+            className: 'bg-primary-10 text-green fw-bold ps-4',
+
+            icon: () => <img alt="success" src="/assets/images/success.png" />,
+          },
+          error: {
+            render() {
+              return `Error`;
+            },
+            className: 'bg-red-10 fw-bold text-red-100 ps-4',
+            icon: () => <img alt="error" src="/assets/images/error.png" />,
+          },
         },
         {
           className: 'bg-dark',

@@ -10,7 +10,7 @@
   "repository": "https://www.npmjs.com/settings/kakahuy113/packages",
   "dependencies": {
     "aesirx-dma-lib": "^1.7.4",
-    "aesirx-sso": "^1.0.0",
+    "aesirx-sso": "^1.0.3",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.1.6",
     "file-saver": "^2.0.5",

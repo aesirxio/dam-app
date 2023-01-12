@@ -106,12 +106,12 @@ const AesirXDamFormModal = observer(
 
     handleCreateFolder = (name) => {
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
-      const checkCollection = !isNaN(collectionId[collectionId.length - 1]);
+      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
       this.damListViewModel.createCollections({
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: name,
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: checkCollection
-          ? collectionId[collectionId.length - 1]
-          : 0,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
       });
       this.damFormModalViewModel.closeCreateCollectionModal();
     };

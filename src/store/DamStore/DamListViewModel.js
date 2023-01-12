@@ -10,11 +10,9 @@ import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 
 class DamListViewModel {
   damStore = null;
-  paginationCollections = null;
   collections = [];
   status = PAGE_STATUS.READY;
   assets = [];
-  paginationAssets = null;
   tableRowHeader = null;
   dataFilter = {
     'filter[type]': '',
@@ -22,7 +20,7 @@ class DamListViewModel {
     'list[direction]': '',
     'filter[search]': '',
   };
-  pageSize = 5;
+
   isList = false;
   damIdsSelected = null;
   isSearch = false;
@@ -55,33 +53,21 @@ class DamListViewModel {
   setDamLinkFolder = (link) => {
     this.damLinkFolder = link;
     const collectionId = link.split('/');
-    this.getAssets(collectionId[collectionId.length - 1] ?? 0);
+    const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+      ? collectionId[collectionId.length - 1]
+      : 0;
+    this.goToFolder(currentCollection);
   };
-
   // end of intergate
 
-  getSubscription = () => {
-    this.damStore.getSubscription(
-      this.callbackOnSubscriptionSuccessHandler,
-      this.callbackOnErrorHander
-    );
-  };
-
-  getCollections = (collectionId) => {
+  goToFolder = (collectionId, dataFilter = {}) => {
     this.isSearch = false;
     this.status = PAGE_STATUS.LOADING;
-    this.damStore.getCollections(
+    this.dataFilter = { ...this.dataFilter, ...dataFilter };
+    this.damStore.goToFolder(
       collectionId,
-      this.callbackOnCollectionsSuccessHandler,
-      this.callbackOnErrorHander
-    );
-  };
-
-  getAllCollections = () => {
-    this.isSearch = false;
-    this.status = PAGE_STATUS.LOADING;
-    this.damStore.getAllCollections(
-      this.callbackOnCollectionsSuccessHandler,
+      this.dataFilter,
+      this.callbackOnSuccessHandler,
       this.callbackOnErrorHander
     );
   };
@@ -235,19 +221,21 @@ class DamListViewModel {
     } else notify(error.message, 'error');
   };
 
-  callBackOnMoveSuccessHandler = (data) => {
-    if (data) {
-      console.log(data);
-    }
-  };
-  callbackOnAssetsSuccessHandler = (data) => {
-    if (data) {
+  callbackOnSuccessHandler = (data) => {
+    if (data.list) {
       this.status = PAGE_STATUS.READY;
-      this.assets = [...data?.list];
-      this.paginationAssets = data.pagination;
+      const collections = data.list.filter(
+        (collection) => !collection?.[DAM_ASSETS_FIELD_KEY.TYPE]
+      );
+      const assets = data.list.filter((asset) => asset?.[DAM_ASSETS_FIELD_KEY.TYPE]);
+      if (collections) {
+        this.collections = [...collections];
+      }
+      if (assets) {
+        this.assets = [...assets];
+      }
     } else {
       this.status = PAGE_STATUS.ERROR;
-      this.paginationAssets = null;
     }
   };
 
@@ -275,28 +263,6 @@ class DamListViewModel {
     }
   };
 
-  callBackOnAssetsFilterSuccessHandler = (data) => {
-    if (data) {
-      this.status = PAGE_STATUS.READY;
-      this.assets = [...data?.list];
-      this.paginationAssets = data.pagination;
-    } else {
-      this.status = PAGE_STATUS.ERROR;
-      this.paginationAssets = null;
-    }
-  };
-
-  callbackOnCollectionsSuccessHandler = (data) => {
-    if (data) {
-      this.status = PAGE_STATUS.READY;
-      this.collections = [...data?.list];
-      this.paginationCollections = data.pagination;
-    } else {
-      this.status = PAGE_STATUS.ERROR;
-      this.paginationCollections = null;
-    }
-  };
-
   callBackOnCollectionCreateSuccessHandler = (data) => {
     if (data.item) {
       if (data?.type) {
@@ -320,14 +286,6 @@ class DamListViewModel {
             break;
         }
       }
-    }
-  };
-
-  callbackOnSubscriptionSuccessHandler = (data) => {
-    if (data) {
-      this.subscription = data;
-    } else {
-      this.status = PAGE_STATUS.READY;
     }
   };
 }
