@@ -11,8 +11,7 @@ import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
+import BreadCrumbs from 'components/Breadcrumbs';
 
 const AesirXDamFormModel = React.lazy(() => import('./AesirXDamFormModel'));
 const ButtonNormal = React.lazy(() => import('components/ButtonNormal'));
@@ -71,40 +70,17 @@ const AesirXDamActionBar = observer(
       const { t } = this.props;
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
 
-      const breadcrumb = collectionId.map((id, index) => {
-        if (!isNaN(id) && index !== 0) {
-          return this.damListViewModel.collections.find((collection) => +collection.id === +id);
-        }
-      });
+      const breadcrumb =
+        collectionId
+          .map((id, index) => {
+            if (!isNaN(id) && index !== 0) {
+              return this.damListViewModel.collections.find((collection) => +collection.id === +id);
+            }
+          })
+          .filter((item) => (item ? true : false)) ?? [];
       return (
         <>
-          <h2 className="text-gray-900 fw-bold">
-            <span className="text-body cursor-pointer" onClick={this.handleLinkBreadCrumb}>
-              {t('txt_digital_assets_media')}
-            </span>
-            {breadcrumb
-              ? breadcrumb.map((_breadcrumb) => {
-                  if (_breadcrumb) {
-                    return _breadcrumb?.name ? (
-                      <span
-                        className="text-body cursor-pointer"
-                        onClick={() => this.handleLinkBreadCrumb(_breadcrumb?.id)}
-                        key={_breadcrumb?.id}
-                      >
-                        <FontAwesomeIcon
-                          size={'1x'}
-                          className="text-green text-color px-2"
-                          icon={faAngleRight}
-                        />
-                        {_breadcrumb.name}
-                      </span>
-                    ) : (
-                      ''
-                    );
-                  }
-                })
-              : null}
-          </h2>
+          <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
           <div className="d-flex justify-content-end">
             <ButtonNormal
               onClick={this.handleCreateFolder}

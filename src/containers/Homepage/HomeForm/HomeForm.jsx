@@ -44,7 +44,6 @@ class HomeForm extends Component {
   }
 
   handleOnSubmit = () => {
-    console.log(this.validator.allValid());
     if (this.validator.allValid()) {
       // this.props.handleUpdate(this.formPropsData);
     } else {

@@ -15,10 +15,8 @@ import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import ButtonNormal from '../../../components/ButtonNormal';
 import HomeFormModal from './HomeFormModel';
-import { Link, withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
-
+import BreadCrumbs from 'components/Breadcrumbs';
+import { withRouter } from 'react-router-dom';
 const HomeActionBar = observer(
   class HomeActionBar extends Component {
     damFormModalViewModel = null;
@@ -28,9 +26,7 @@ const HomeActionBar = observer(
     constructor(props) {
       super(props);
       const { viewModel } = props;
-      this.state = {
-        breadcrumb: [],
-      };
+
       this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
       this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
     }
@@ -71,42 +67,19 @@ const HomeActionBar = observer(
     render() {
       const { t } = this.props;
       const collectionId = history.location.pathname.split('/');
-      const breadcrumb = collectionId.map((id, index) => {
-        if (!isNaN(id) && index !== 0) {
-          return this.damListViewModel.collections.find((collection) => +collection.id === +id);
-        }
-      });
+
+      const breadcrumb =
+        collectionId
+          .map((id, index) => {
+            if (!isNaN(id) && index !== 0) {
+              return this.damListViewModel.collections.find((collection) => +collection.id === +id);
+            }
+          })
+          .filter((item) => (item ? true : false)) ?? [];
       return (
         <>
-          <h2 className="text-gray-900 fw-bold">
-            <span>
-              <Link className="text-body" to="/root">
-                {t('txt_your_digital_assets')}
-              </Link>
-            </span>
-            {breadcrumb
-              ? breadcrumb.map((_breadcrumb) => {
-                  if (_breadcrumb) {
-                    return _breadcrumb?.name ? (
-                      <span key={_breadcrumb?.id}>
-                        <FontAwesomeIcon
-                          size={'1x'}
-                          className="text-green  px-2"
-                          icon={faAngleRight}
-                        />
-                        <Link className="text-body" to={this.handleLinkBreadCrumb(_breadcrumb?.id)}>
-                          {_breadcrumb.name}
-                        </Link>
-                      </span>
-                    ) : (
-                      ''
-                    );
-                  }
-                  return;
-                })
-              : null}
-          </h2>
-          <div className="d-flex justify-content-end">
+          <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
+          <div className="d-flex justify-content-end col-auto">
             <ButtonNormal
               onClick={this.handleCreateFolder}
               iconStart={faFolder}

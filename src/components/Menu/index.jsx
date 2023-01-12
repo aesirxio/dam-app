@@ -7,7 +7,6 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import ComponentImage from 'components/ComponentImage';
 import Accordion from 'react-bootstrap/Accordion';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
@@ -18,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
 import { useState } from 'react';
 import DamStore from 'store/DamStore/DamStore';
+import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 
 const dataMenu = [
   // {
@@ -153,12 +153,7 @@ class Menu extends React.Component {
             }`}
             activeClassName={`active`}
           >
-            <ComponentImage
-              alt={'folder'}
-              src="/assets/images/folder-outline.svg"
-              className=" d-inline-block align-text-bottom"
-              wrapperClassName="col-auto"
-            />
+            <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
             <span className="ms-3 py-1 d-inline-block col">{parent_id.name}</span>
           </NavLink>
         </CustomToggle>
@@ -184,12 +179,8 @@ class Menu extends React.Component {
         }`}
         activeClassName={`active`}
       >
-        <ComponentImage
-          alt={'folder'}
-          src="/assets/images/folder-outline.svg"
-          className=" d-inline-block align-text-bottom"
-          wrapperClassName="col-auto"
-        />
+        <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
+
         <span className="ms-3 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
       </NavLink>
     );
@@ -208,12 +199,8 @@ class Menu extends React.Component {
                 to={'/root'}
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
               >
-                <ComponentImage
-                  alt={'folder'}
-                  src="/assets/images/folder-outline.svg"
-                  className=" d-inline-block align-text-bottom"
-                  wrapperClassName="col-auto"
-                />
+                <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
+
                 <span className="ms-3 py-1 d-inline-block col">{t('txt_my_assets')}</span>
               </NavLink>
             </CustomToggle>

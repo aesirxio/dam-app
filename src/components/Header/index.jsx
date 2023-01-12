@@ -8,7 +8,6 @@ import { withTranslation } from 'react-i18next';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons/faQuestionCircle';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
 
 import './index.scss';
@@ -26,18 +25,8 @@ import i18n from 'translations/i18n';
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isMini: false,
-    };
+    this.state = {};
   }
-
-  handleCollap = () => {
-    let { isMini } = this.state;
-    document.querySelector('.main-layout').classList.toggle('mini_left');
-    this.setState({
-      isMini: !isMini,
-    });
-  };
 
   handleMenuLeft = () => {
     document.querySelector('.main-layout').classList.toggle('show_menu_left');
@@ -45,7 +34,6 @@ class Header extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { isMini } = this.state;
 
     const listLanguages = Object.keys(i18n.options.resources).map(function (key) {
       return { value: key, label: i18n.options.resources[key].title };
@@ -63,39 +51,14 @@ class Header extends React.Component {
         <ComponentHambuger handleAction={this.handleMenuLeft} />
         <div className="wrapper_header_logo bg-dark w-248 h-80 d-flex align-items-center">
           <a href="/" className={`header_logo d-block px-3`}>
-            {isMini ? (
-              <ComponentImage
-                className="logo_white pe-0"
-                src="/assets/images/logo/logo-white.svg"
-                alt="R Digital"
-              />
-            ) : (
-              <ComponentImage
-                className="logo_white pe-6"
-                src="/assets/images/logo/logo-white.svg"
-                alt="R Digital"
-              />
-            )}
+            <ComponentImage
+              className="logo_white pe-6"
+              src="/assets/images/logo/logo-white.svg"
+              alt="R Digital"
+            />
           </a>
         </div>
         <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center ps-4 pr-4 position-relative bg-white">
-          <span
-            className="
-              item_collap
-              d-flex
-              position-absolute
-              text-green
-              bg-gray-200
-              rounded-circle
-              align-items-center
-              justify-content-center
-              fs-12
-              cursor-pointer
-            "
-            // onClick={this.handleCollap}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} className="text-green" />
-          </span>
           <div className="d-flex flex-1 align-items-center">
             <Search />
             <div className="ms-auto d-flex align-items-center">
