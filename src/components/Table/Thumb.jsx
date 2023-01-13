@@ -132,7 +132,7 @@ const Thumb = observer(
     });
 
     const onSelect = (e) => {
-      onSelectionChange(index, e.metaKey, e.shiftKey);
+      onSelectionChange(index, e.metaKey, e.shiftKey, e.ctrlKey);
     };
 
     useEffect(() => {

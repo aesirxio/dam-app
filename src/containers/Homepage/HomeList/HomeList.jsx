@@ -198,7 +198,7 @@ const HomeList = observer(
       this.damListViewModel.setActionState({
         style: style,
       });
-      this.handleItemSelection(data.index, false, false, true);
+      this.handleItemSelection(data.index, false, false, false, true);
       this.damformModalViewModal.openContextMenuItem();
     };
 
@@ -227,7 +227,7 @@ const HomeList = observer(
       // dispatch({ type: "CLEAR_SELECTION" });
     };
 
-    handleItemSelection = (index, cmdKey, shiftKey, contextClick = false) => {
+    handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
       const { assets, collections, isSearch } = this.damListViewModel;
 
       const collectionId = history.location.pathname.split('/');
@@ -260,7 +260,7 @@ const HomeList = observer(
       const cards = [...handleColections, ...handleAssets];
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
-      if (!cmdKey && !shiftKey && !contextClick) {
+      if (!cmdKey && !shiftKey && !ctrlKey && !contextClick) {
         newSelectedCards = [card];
       } else if (shiftKey) {
         if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
@@ -274,7 +274,7 @@ const HomeList = observer(
             cards.slice(this.damListViewModel.actionState.lastSelectedIndex + 1, index + 1)
           );
         }
-      } else if (cmdKey) {
+      } else if (cmdKey || ctrlKey) {
         const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
           (f) => f.id === card.id
         );

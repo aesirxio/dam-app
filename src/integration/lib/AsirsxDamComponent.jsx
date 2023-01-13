@@ -178,7 +178,7 @@ const AesirXDamComponent = observer(
       this.damListViewModel.setActionState({
         style: style,
       });
-      this.handleItemSelection(data.index, false, false, true);
+      this.handleItemSelection(data.index, false, false, false, true);
 
       this.damformModalViewModal.openContextMenuItem();
     };
@@ -220,7 +220,7 @@ const AesirXDamComponent = observer(
       // dispatch({ type: "CLEAR_SELECTION" });
     };
 
-    handleItemSelection = (index, cmdKey, shiftKey, contextClick = false) => {
+    handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
       const { assets, collections, isSearch, damLinkFolder } = this.damListViewModel;
 
       const collectionId = damLinkFolder.split('/');
@@ -267,7 +267,7 @@ const AesirXDamComponent = observer(
             cards.slice(this.damListViewModel.actionState.lastSelectedIndex + 1, index + 1)
           );
         }
-      } else if (cmdKey) {
+      } else if (cmdKey || ctrlKey) {
         const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
           (f) => f.id === card.id
         );

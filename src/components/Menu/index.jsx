@@ -112,7 +112,7 @@ class Menu extends React.Component {
       return (
         <Accordion.Collapse eventKey={'root'} className="pb-3">
           <ul id="wr_list_menu" className="list-unstyled mb-0">
-            {this.state.collections.map((value, key) => {
+            {this.state?.collections.map((value, key) => {
               return (
                 value.parent_id === 0 && (
                   <li
