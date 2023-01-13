@@ -69,7 +69,7 @@ class LoginPage extends React.Component {
         <div className="row justify-content-center align-items-center h-100">
           <div className="col-lg-7 col-xxl-5">
             <div className="d-block p-2 p-lg-5">
-              <p className="fs-2 fw-bold mb-2 text-center text-blue-0">
+              <p className="fs-2 fw-semibold mb-2 text-center text-blue-0">
                 {t('txt_welcome_to')}
                 <img
                   className="pe-2"
@@ -79,27 +79,27 @@ class LoginPage extends React.Component {
                 />
                 DMA.
               </p>
-              <p className="fs-2 fw-bold text-center text-blue-0">
+              <p className="fs-2 mb-4 fw-semibold text-center text-blue-0">
                 {t('txt_sign_in_to_getting_started')}
               </p>
 
               <form>
                 <SSOButton
-                  className="btn btn-primary w-100 fw-medium position-relative d-flex align-item-center justify-content-center mb-3 px-6"
+                  className="btn btn-primary w-100 fs-18px fw-bold position-relative d-flex align-item-center justify-content-center mb-3 px-6"
                   text={t('txt_sign_in_with_sso')}
                   onGetData={onGetData}
                 />
                 <div className="d-flex align-items-center flex-nowrap">
                   <div className="border-bottom w-50"></div>
-                  <span className="px-2">or</span>
+                  <span className="px-2 text-uppercase fw-medium text-gray-901">{t('txt_or')}</span>
                   <div className="border-bottom w-50"></div>
                 </div>
-                <label className="form-label mb-16">
-                  Username <span>*</span>
+                <label className="form-label mb-4 fw-semibold text-black mb-16">
+                  Username <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control border"
                   name="username"
                   value={this.state.username}
                   onChange={this.handleInputChange}
@@ -111,12 +111,12 @@ class LoginPage extends React.Component {
                 {this.validator.message('Email or username', this.state.username, 'required', {
                   className: 'text-danger',
                 })}
-                <label className="form-label mt-2 mb-16" htmlFor="password">
-                  Password <span>*</span>
+                <label className="form-label mt-2 mb-4 fw-semibold text-black" htmlFor="password">
+                  Password <span className="text-danger">*</span>
                 </label>
                 <InputPassword
                   type="password"
-                  className="form-control"
+                  className="form-control border"
                   name="password"
                   value={this.state.password}
                   onChange={this.handleInputChange}
@@ -130,7 +130,7 @@ class LoginPage extends React.Component {
                 })}
                 <button
                   type="button"
-                  className={`btn w-100 fw-medium btn-success position-relative d-flex align-item-center justify-content-center wr_btn_login mt-3`}
+                  className={`btn w-100 mt-4 fw-medium btn-success position-relative d-flex align-item-center justify-content-center wr_btn_login mt-3 fw-bold text-uppercase`}
                   onClick={this.handleSubmit}
                 >
                   {t('txt_sign_in')}
