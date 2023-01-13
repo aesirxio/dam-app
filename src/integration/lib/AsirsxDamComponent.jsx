@@ -302,7 +302,7 @@ const AesirXDamComponent = observer(
       });
       if (this.props.onSelect) {
         const filterCollection = finalList.filter(
-          (collection) => !collection[DAM_ASSETS_FIELD_KEY.TYPE]
+          (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
         );
         return this.props.onSelect(filterCollection);
       }
