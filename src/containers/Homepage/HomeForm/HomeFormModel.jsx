@@ -26,7 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
-const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
+// const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));
 const DownLoadIcon = React.lazy(() => import('SVG/DownloadIcon'));
 const DeleteIcon = React.lazy(() => import('SVG/TrashIcon'));
@@ -223,7 +223,7 @@ const HomeFormModal = observer(
                   <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
                 </div>
               )}
-              <div
+              {/* <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
               >
                 <Suspense fallback={<div>Loading...</div>}>
@@ -232,7 +232,7 @@ const HomeFormModal = observer(
                 <span className="ms-3 text-color py-1 d-inline-block">
                   {t('txt_move_to_folder')}
                 </span>
-              </div>
+              </div> */}
               {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}

@@ -218,7 +218,7 @@ const AesirXDamFormModal = observer(
                   <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
                 </div>
               )}
-              <div
+              {/* <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
               >
                 <Suspense fallback={<div>Loading...</div>}>
@@ -227,7 +227,7 @@ const AesirXDamFormModal = observer(
                 <span className="ms-3 text-color py-1 d-inline-block">
                   {t('txt_move_to_folder')}
                 </span>
-              </div>
+              </div> */}
               {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}

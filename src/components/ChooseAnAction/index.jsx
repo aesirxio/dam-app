@@ -39,18 +39,18 @@ const ChooseAction = observer(() => {
     className: 'border-end border-gray-select choose-an-action col-auto ',
     placeholder: t('choose_an_action'),
     options: [
-      {
-        label: t('txt_preview'),
-        value: t('txt_preview'),
-      },
-      {
-        label: t('txt_move_to_folder'),
-        value: t('txt_move_to_folder'),
-      },
-      {
-        label: t('txt_download'),
-        value: t('txt_download'),
-      },
+      // {
+      //   label: t('txt_preview'),
+      //   value: t('txt_preview'),
+      // },
+      // {
+      //   label: t('txt_move_to_folder'),
+      //   value: t('txt_move_to_folder'),
+      // },
+      // {
+      //   label: t('txt_download'),
+      //   value: t('txt_download'),
+      // },
       {
         label: t('txt_delete'),
         value: t('txt_delete'),
