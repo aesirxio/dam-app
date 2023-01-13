@@ -5,7 +5,6 @@
  */
 import React, { useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
@@ -159,7 +158,7 @@ const Thumb = observer(
       <tr
         key={row.getRowProps().key}
         {...row.getRowProps()}
-        className={`cursor-pointer ${
+        className={`position-relative item_thumb cursor-move ${
           isOver ? 'border border-success bg-gray-dark' : 'border-none'
         } ${className}`}
         onDoubleClick={() => {
@@ -180,21 +179,31 @@ const Thumb = observer(
         }}
         style={{ opacity }}
         type={type}
+        ref={ref}
       >
         {newRowCells.map((cell, index) => {
-          if (cell.column.id === DAM_COLUMN_INDICATOR.NAME) {
-            return (
-              <td key={index} {...cell.getCellProps()} className="fw-normal px-2 py-3 cursor-move">
-                {cell.render('Cell')}
-              </td>
-            );
-          }
+          // if (cell.column.id === DAM_COLUMN_INDICATOR.NAME) {
+          //   return (
+          //     <td
+          //       key={index}
+          //       {...cell.getCellProps()}
+          //       className="fw-normal px-2 py-3 cursor-move position-relative"
+          //     >
+          //       {cell.render('Cell')}
+          //     </td>
+          //   );
+          // }
           return (
-            <td key={index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
+            <td
+              key={index}
+              {...cell.getCellProps()}
+              className="fw-normal px-2 py-3 position-relative"
+            >
               {cell.render('Cell')}
             </td>
           );
         })}
+        <FakeThumb id={+row.original.id} />
       </tr>
     ) : (
       <div style={{ opacity }} className={className}>

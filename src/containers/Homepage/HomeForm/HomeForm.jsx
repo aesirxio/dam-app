@@ -45,7 +45,7 @@ class HomeForm extends Component {
 
   handleOnSubmit = () => {
     if (this.validator.allValid()) {
-      // this.props.handleUpdate(this.formPropsData);
+      this.props.handleUpdate(this.formPropsData);
     } else {
       this.validator.showMessages();
       // rerender to show messages for the first time

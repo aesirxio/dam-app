@@ -167,7 +167,6 @@ const HomeList = observer(
     };
 
     handleRightClickItem = (e, data) => {
-      console.log(data);
       e.preventDefault();
       this.damformModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;

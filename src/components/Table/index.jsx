@@ -302,12 +302,13 @@ const Table = ({
                         className={`zindex-2 ${index % 2 === 0 ? 'bg-gray-400' : 'bg-white'}`}
                         key={Math.random(40, 200)}
                         newRowCells={newRowCells}
-                        index={row.original}
+                        index={index}
                         row={row}
                         onDoubleClick={onDoubleClick}
                         onRightClickItem={onRightClickItem}
                         moveRow={moveRow}
                         type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
+                        onSelectionChange={onSelectionChange}
                       />
                     );
                   })}

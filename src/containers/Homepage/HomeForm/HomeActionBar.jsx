@@ -63,7 +63,8 @@ const HomeActionBar = observer(
 
       const currentLinkIndexMap = currentLink.findIndex((a) => +a === id);
 
-      return currentLink.splice(0, currentLinkIndexMap + 1).join('/');
+      const linkToPush = currentLink.splice(0, currentLinkIndexMap + 1).join('/');
+      history.push(linkToPush);
     };
 
     render() {
