@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import styles from './index.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -19,9 +18,9 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
       } mb-0 fw-bold d-flex flex-wrap align-items-center`}
     >
       <span>
-        <Link className="text-body" to="/root">
+        <span className="text-body" to="/root">
           {t('txt_your_digital_assets')}
-        </Link>
+        </span>
       </span>
       {data.length <= 2 ? (
         data.map((_breadcrumb, index) => {
@@ -30,9 +29,9 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
               _breadcrumb?.name && (
                 <span key={_breadcrumb?.id}>
                   <FontAwesomeIcon size={'2xs'} className="text-green px-2" icon={faAngleRight} />
-                  <Link className="text-body" to={handleLink(_breadcrumb?.id)}>
+                  <span className="text-body" onClick={() => handleLink(_breadcrumb?.id)}>
                     {_breadcrumb.name}
-                  </Link>
+                  </span>
                 </span>
               )
             );
@@ -43,9 +42,9 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
         <>
           <span>
             <FontAwesomeIcon size={'2xs'} className="text-green px-2" icon={faAngleRight} />
-            <Link className="text-body" to={handleLink(data[0]?.id)}>
+            <span className="text-body" onClick={() => handleLink(data[0]?.id)}>
               {data[0].name}
-            </Link>
+            </span>
             <FontAwesomeIcon size={'2xs'} className="text-green px-2" icon={faAngleRight} />
           </span>
           <div className={`text-body fs-5 d-flex align-items-center cursor-pointer ${styles.dot}`}>
@@ -57,16 +56,16 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
                 if (index !== 0 || index !== data.length - 1) {
                   return (
                     _breadcrumb?.name && (
-                      <Link
+                      <span
                         key={index}
                         className="text-body m-0 btn border-bottom px-2 d-flex align-items-center"
-                        to={handleLink(_breadcrumb?.id)}
+                        onClick={() => handleLink(_breadcrumb?.id)}
                       >
                         <>
                           <FontAwesomeIcon className="text-body px-2" icon={faFolder} />
                           {_breadcrumb.name}
                         </>
-                      </Link>
+                      </span>
                     )
                   );
                 }
@@ -76,9 +75,9 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
           </div>
           <span>
             <FontAwesomeIcon size={'2xs'} className="text-green px-2" icon={faAngleRight} />
-            <Link className="text-body" to={handleLink(data[data.length - 1]?.id)}>
+            <span className="text-body" onClick={() => handleLink(data[data.length - 1]?.id)}>
               {data[data.length - 1].name}
-            </Link>
+            </span>
           </span>
         </>
       ) : null}
