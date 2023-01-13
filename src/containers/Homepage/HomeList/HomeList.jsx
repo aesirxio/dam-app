@@ -15,12 +15,12 @@ import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import history from 'routes/history';
-import ComponentImage from '../../../components/ComponentImage';
-import ComponentNoData from '../../../components/ComponentNoData';
-import Spinner from '../../../components/Spinner';
-import Table from '../../../components/Table';
-import { DAM_COLUMN_INDICATOR } from '../../../constants/DamConstant';
-import PAGE_STATUS from '../../../constants/PageStatus';
+import ComponentImage from 'components/ComponentImage';
+import ComponentNoData from 'components/ComponentNoData';
+import Spinner from 'components/Spinner';
+import Table from 'components/Table';
+import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
+import PAGE_STATUS from 'constants/PageStatus';
 import styles from '../index.module.scss';
 import utils from '../HomeUtils/HomeUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
@@ -64,6 +64,7 @@ const HomeList = observer(
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
       const checkContextMenuItem = e.target.closest('#contextMenuItem');
+
       if (checkContextMenu || checkContextMenuItem) {
         return;
       } else {
@@ -157,7 +158,8 @@ const HomeList = observer(
     handleClickOutSite = (e) => {
       e.preventDefault();
       const inside = e.target.closest('.item_thumb');
-      if (!inside) {
+      const checkChooseAction = e.target.closest('.choose-an-action');
+      if (!inside && !checkChooseAction) {
         this.damListViewModel.setActionState({
           selectedCards: [],
         });
@@ -190,14 +192,14 @@ const HomeList = observer(
         };
       }
 
-      // this.damformModalViewModal.damEditdata = {
-      //   ...data,
-      //   style: { ...style },
-      // };
+      this.damformModalViewModal.damEditdata = {
+        ...data,
+        style: { ...style },
+      };
       this.damListViewModel.setActionState({
         style: style,
       });
-      this.handleItemSelection(data.index, true, false);
+      this.handleItemSelection(data.index, false, false, true);
       this.damformModalViewModal.openContextMenuItem();
     };
 
@@ -226,7 +228,7 @@ const HomeList = observer(
       // dispatch({ type: "CLEAR_SELECTION" });
     };
 
-    handleItemSelection = (index, cmdKey, shiftKey) => {
+    handleItemSelection = (index, cmdKey, shiftKey, contextClick = false) => {
       const { assets, collections, isSearch } = this.damListViewModel;
 
       const collectionId = history.location.pathname.split('/');
@@ -259,8 +261,7 @@ const HomeList = observer(
       const cards = [...handleColections, ...handleAssets];
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
-
-      if (!cmdKey && !shiftKey) {
+      if (!cmdKey && !shiftKey && !contextClick) {
         newSelectedCards = [card];
       } else if (shiftKey) {
         if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
@@ -287,7 +288,18 @@ const HomeList = observer(
         } else {
           newSelectedCards = [...this.damListViewModel.actionState.selectedCards, card];
         }
+      } else if (contextClick) {
+        const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
+          (f) => f.id === card.id
+        );
+        // If found remove it to unselect it.
+        if (foundIndex >= 0) {
+          newSelectedCards = [...this.damListViewModel.actionState.selectedCards];
+        } else {
+          newSelectedCards = [card];
+        }
       }
+
       const finalList = cards
         ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
         : [];

@@ -60,12 +60,6 @@ const HomeFormModal = observer(
       }
     };
 
-    handleDelete = (data) => {
-      this.damFormModalViewModel.closeModal();
-      this.damFormModalViewModel.closeDeleteModal();
-      this.damListViewModel.deleteItem(data);
-    };
-
     handleUpdate = (data) => {
       this.damFormModalViewModel.closeModal();
       if (this.damFormModalViewModel.damEditdata?.type) {
@@ -102,8 +96,6 @@ const HomeFormModal = observer(
     };
 
     handleCreateFolder = (name) => {
-      this.damFormModalViewModel.closeCreateCollectionModal();
-
       const collectionId = history.location.pathname.split('/');
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
@@ -144,6 +136,10 @@ const HomeFormModal = observer(
         showUpdateModal,
         openCreateCollectionModal,
       } = this.damFormModalViewModel;
+      const {
+        deleteItem,
+        actionState: { selectedCards },
+      } = this.damListViewModel;
       const { t } = this.props;
       return (
         <>
@@ -160,7 +156,7 @@ const HomeFormModal = observer(
                 contentClassName={'bg-white shadow'}
                 body={
                   <HomeForm
-                    delete={this.handleDelete}
+                    delete={deleteItem}
                     handleUpdate={this.handleUpdate}
                     viewModel={this.damFormModalViewModel}
                   />
@@ -216,15 +212,17 @@ const HomeFormModal = observer(
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">{t('txt_preview')}</span>
               </div>
-              <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                onClick={openUpdateCollectionModal}
-              >
-                <Suspense fallback={<div>Loading...</div>}>
-                  <EditingIcon />
-                </Suspense>
-                <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
-              </div>
+              {selectedCards.length < 2 && (
+                <div
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  onClick={openUpdateCollectionModal}
+                >
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <EditingIcon />
+                  </Suspense>
+                  <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
+                </div>
+              )}
               <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
               >
@@ -342,7 +340,7 @@ const HomeFormModal = observer(
                       <div className="col-auto">
                         <Button
                           text={t('txt_yes_delete')}
-                          onClick={this.handleDelete}
+                          onClick={deleteItem}
                           className="btn btn-danger "
                         />
                       </div>

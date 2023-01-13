@@ -203,13 +203,13 @@ const Thumb = observer(
             isOver ? 'border border-success bg-gray-dark' : 'bg-white'
           }`}
           onContextMenu={(e) => {
-            onRightClickItem(e, { ...row.original.id, index });
+            onRightClickItem(e, { ...row.original, index });
           }}
           ref={ref}
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
-            onDoubleClick(row.original.id);
+            onDoubleClick(row.original);
           }}
           onClick={(e) => {
             timer = setTimeout(function () {

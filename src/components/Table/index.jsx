@@ -14,6 +14,7 @@ import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styles from './index.module.scss';
+import ChooseAction from '../ChooseAnAction';
 
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
@@ -51,7 +52,6 @@ const Table = ({
   onBackClick,
   dataCollections,
   onSelectionChange,
-  // selectedCards,
   // dataAssets,
 }) => {
   const { t } = useTranslation('common');
@@ -78,7 +78,7 @@ const Table = ({
 
   const filterBar = useMemo(() => ({
     id: 'type',
-    className: 'border-end border-gray-select',
+    className: 'border-end border-gray-select col-auto',
     placeholder: t('txt_type'),
     options: [
       {
@@ -104,35 +104,10 @@ const Table = ({
     ],
   }));
 
-  const Action = useMemo(() => ({
-    id: 'action',
-    // className: styles.w_272,
-    className: 'border-end border-gray-select',
-    placeholder: t('choose_an_action'),
-    options: [
-      {
-        label: t('txt_preview'),
-        value: t('txt_preview'),
-      },
-      {
-        label: t('txt_move_to_folder'),
-        value: t('txt_move_to_folder'),
-      },
-      {
-        label: t('txt_download'),
-        value: t('txt_download'),
-      },
-      {
-        label: t('txt_delete'),
-        value: t('txt_delete'),
-      },
-    ],
-  }));
-
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     placeholder: t('txt_sort_by'),
-    className: 'border-end border-gray-select',
+    className: 'border-end border-gray-select col-auto',
     options: [
       {
         label: t('txt_sort_by'),
@@ -213,7 +188,7 @@ const Table = ({
     <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
-          <div className="wrapper_search_global d-flex align-items-center">
+          <div className="wrapper_search_global row">
             <div className={filterBar.className}>
               <Select
                 placeholder={filterBar.placeholder}
@@ -226,14 +201,7 @@ const Table = ({
                 )}
               />
             </div>
-            <div className={Action.className}>
-              <Select
-                placeholder={Action.placeholder}
-                isClearable={false}
-                isSearchable={false}
-                options={Action.options}
-              />
-            </div>
+            <ChooseAction />
             <div className={sortBy.className}>
               <Select
                 placeholder={sortBy.placeholder}
@@ -420,10 +388,6 @@ const Table = ({
                     moveRow={moveRow}
                     type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
                     onSelectionChange={onSelectionChange}
-                    // selectedCards={state.selectedCards}
-                    // rearrangeCards={rearrangeCards}
-                    // setInsertIndex={setInsertIndex}
-                    // clearItemSelection={clearItemSelection}
                   />
                 </React.Fragment>
               )

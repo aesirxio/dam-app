@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { AesirxDamApiService, DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { AesirxDamApiService, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
 
@@ -332,45 +332,32 @@ export default class DamStore {
     }
   };
 
-  moveToFolder = async (dragIndex = [], hoverIndex, callbackOnSuccess, callbackOnError) => {
+  moveToFolder = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const a = await Promise.all(
-        dragIndex.map(async (dragItem) => {
-          return await damService.updateAssets({
-            ...dragItem,
-            [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex,
+      const responsedDataFromLibary = await damService.moveToFolder(data);
+      if (responsedDataFromLibary) {
+        runInAction(() => {
+          callbackOnSuccess({
+            collections: data[DAM_COLLECTION_FIELD_KEY.COLLECTIONIDS],
+            assets: data[DAM_COLLECTION_FIELD_KEY.ASSETSIDS],
           });
-        })
-      );
-      console.log(dragIndex);
-      console.log(hoverIndex);
-
-      console.log(dragIndex);
-      console.log(hoverIndex);
-      console.log(a);
-      // if (responsedDataFromLibary) {
-      //   runInAction(() => {
-      //     callbackOnSuccess({
-      //       item: data,
-      //       type: 'update',
-      //     });
-      //   });
-      // } else {
-      //   if (responsedDataFromLibary?.message === 'isCancel') {
-      //     runInAction(() => {
-      //       callbackOnError({
-      //         message: 'isCancel',
-      //       });
-      //     });
-      //   } else {
-      //     runInAction(() => {
-      //       callbackOnError({
-      //         message: 'Something went wrong from Server response',
-      //       });
-      //     });
-      //   }
-      // }
+        });
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancel') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancel',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
     } catch (error) {
       console.log(error);
       runInAction(() => {

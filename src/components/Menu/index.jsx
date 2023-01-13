@@ -95,7 +95,7 @@ class Menu extends React.Component {
       const collections = await store.getAllCollections();
       if (collections) {
         this.setState({
-          collections: collections,
+          collections: collections ?? [],
         });
       }
     } catch (error) {

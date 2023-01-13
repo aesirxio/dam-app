@@ -49,7 +49,7 @@ class Header extends React.Component {
         className="wrapper_header d-flex position-fixed w-100 top-0 left-0 right-0 pr-3 align-items-center shadow-sm z-index-100 bg-white"
       >
         <ComponentHambuger handleAction={this.handleMenuLeft} />
-        <div className="wrapper_header_logo bg-dark w-248 h-80 d-flex align-items-center">
+        <div className="wrapper_header_logo bg-dark flex-248 h-80 d-flex align-items-center">
           <a href="/" className={`header_logo d-block px-3`}>
             <ComponentImage
               className="logo_white pe-6"
@@ -58,7 +58,7 @@ class Header extends React.Component {
             />
           </a>
         </div>
-        <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center ps-4 pr-4 position-relative bg-white">
+        <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center position-relative bg-white">
           <div className="d-flex flex-1 align-items-center">
             <Search />
             <div className="ms-auto d-flex align-items-center">

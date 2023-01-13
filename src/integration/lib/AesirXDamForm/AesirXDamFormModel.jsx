@@ -59,16 +59,6 @@ const AesirXDamFormModal = observer(
       }
     };
 
-    handleDelete = () => {
-      this.damFormModalViewModel.closeModal();
-      this.damFormModalViewModel.closeDeleteModal();
-      if (this.damFormModalViewModel.damEditdata?.type) {
-        this.damListViewModel.deleteAssets(this.damFormModalViewModel.damEditdata);
-      } else {
-        this.damListViewModel.deleteCollections(this.damFormModalViewModel.damEditdata);
-      }
-    };
-
     handleUpdate = (data) => {
       this.damFormModalViewModel.closeModal();
       if (this.damFormModalViewModel.damEditdata?.type) {
@@ -113,7 +103,6 @@ const AesirXDamFormModal = observer(
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: name,
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
       });
-      this.damFormModalViewModel.closeCreateCollectionModal();
     };
 
     render() {
@@ -129,6 +118,7 @@ const AesirXDamFormModal = observer(
         showContextMenuItem,
         openCreateCollectionModal,
       } = this.damFormModalViewModel;
+      const { deleteItem } = this.damListViewModel;
       const { t } = this.props;
       return (
         <>
@@ -140,7 +130,7 @@ const AesirXDamFormModal = observer(
                 onShow={this.damFormModalViewModel.closeContextMenu}
                 body={
                   <AesirXDamForm
-                    delete={this.handleDelete}
+                    delete={deleteItem}
                     handleUpdate={this.handleUpdate}
                     viewModel={this.damFormModalViewModel}
                     validator={this.validator}
@@ -307,7 +297,7 @@ const AesirXDamFormModal = observer(
                       <div className="col-auto">
                         <Button
                           text={t('txt_yes_delete')}
-                          onClick={this.handleDelete}
+                          onClick={deleteItem}
                           className="btn btn-danger "
                         />
                       </div>
