@@ -2799,10 +2799,10 @@ adjust-sourcemap-loader@^4.0.0:
     loader-utils "^2.0.0"
     regex-parser "^2.2.11"
 
-aesirx-dma-lib@^1.7.4:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/aesirx-dma-lib/-/aesirx-dma-lib-1.7.4.tgz#d0787a6f2fa09890b2042c8be04b3eb47a9d3d9f"
-  integrity sha512-GWS/7rkyYBCPCZo7+M8Ov6m0zmleHV3AIDzxkoDihja9sz33wPKcFLbeGyXGoTYSmRJIqk0GJQklz5fD9U3w8Q==
+aesirx-dma-lib@^1.7.5:
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/aesirx-dma-lib/-/aesirx-dma-lib-1.7.5.tgz#1a8ff94dd3fece33d456a50ccf22ec60d3a0f397"
+  integrity sha512-jCj1yToTPghAcwO7p6FIyZKVJsS0D2IYwSTmAXFKIGxa0YlV6Z8702COBiJ47FpTj6Xg1wkp5wk4M/7/MUbhqA==
   dependencies:
     axios "^0.21.0"
     axios-auth-refresh "^3.0.0"
