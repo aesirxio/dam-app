@@ -101,9 +101,10 @@ const AesirXDamComponent = observer(
           this.damListViewModel.damLinkFolder + '/' + collection.id
         );
       } else {
-        if (this.props.onSelect) {
-          return this.props.onSelect([collection]);
-        } else return collection;
+        this.damformModalViewModal.damEditdata = {
+          ...collection,
+        };
+        this.damformModalViewModal.openModal();
       }
     };
 
@@ -113,7 +114,9 @@ const AesirXDamComponent = observer(
       const inside = e.target.closest('.item_thumb');
       if (!inside) {
         this.damformModalViewModal.closeContextMenuItem();
-
+        this.damListViewModel.setActionState({
+          selectedCards: [],
+        });
         const innerHeight = window.innerHeight;
         const innerWidth = window.innerWidth;
         let style = {
@@ -136,9 +139,9 @@ const AesirXDamComponent = observer(
           };
         }
 
-        this.damformModalViewModal.damEditdata = {
-          style: { ...style },
-        };
+        this.damListViewModel.setActionState({
+          style: style,
+        });
         this.damformModalViewModal.openContextMenu();
       }
     };
@@ -148,6 +151,7 @@ const AesirXDamComponent = observer(
       this.damformModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
       const innerWidth = window.innerWidth;
+
       let style = {
         transition: 'none',
         top: e.clientY,
@@ -167,11 +171,15 @@ const AesirXDamComponent = observer(
           top: 'unset',
         };
       }
-
       this.damformModalViewModal.damEditdata = {
         ...data,
         style: { ...style },
       };
+      this.damListViewModel.setActionState({
+        style: style,
+      });
+      this.handleItemSelection(data.index, false, false, false, true);
+
       this.damformModalViewModal.openContextMenuItem();
     };
 
@@ -205,6 +213,109 @@ const AesirXDamComponent = observer(
         this.damListViewModel.setDamLinkFolder(backLink);
       } else {
         this.damListViewModel.setDamLinkFolder('/root');
+      }
+    };
+
+    clearItemSelection = () => {
+      // dispatch({ type: "CLEAR_SELECTION" });
+    };
+
+    handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
+      const { assets, collections, isSearch, damLinkFolder } = this.damListViewModel;
+
+      const collectionId = damLinkFolder.split('/');
+
+      let handleColections = [];
+      let handleAssets = [];
+      if (!isNaN(+collectionId[collectionId.length - 1])) {
+        handleAssets = assets.filter(
+          (asset) =>
+            +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
+        );
+        handleColections = collections.filter(
+          (collection) =>
+            +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
+            +collectionId[collectionId.length - 1]
+        );
+      } else {
+        if (isSearch) {
+          handleAssets = assets;
+          handleColections = collections;
+        } else {
+          handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+          handleColections = collections.filter(
+            (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
+          );
+        }
+      }
+      let newSelectedCards;
+
+      const cards = [...handleColections, ...handleAssets];
+      const card = index < 0 ? '' : cards[index];
+      const newLastSelectedIndex = index;
+      if (!cmdKey && !shiftKey && !contextClick) {
+        newSelectedCards = [card];
+      } else if (shiftKey) {
+        if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(index, this.damListViewModel.actionState.lastSelectedIndex)
+          );
+        } else {
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(this.damListViewModel.actionState.lastSelectedIndex + 1, index + 1)
+          );
+        }
+      } else if (cmdKey || ctrlKey) {
+        const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
+          (f) => f.id === card.id
+        );
+        // If found remove it to unselect it.
+        if (foundIndex >= 0) {
+          newSelectedCards = [
+            ...this.damListViewModel.actionState.selectedCards.slice(0, foundIndex),
+            ...this.damListViewModel.actionState.selectedCards.slice(foundIndex + 1),
+          ];
+        } else {
+          newSelectedCards = [...this.damListViewModel.actionState.selectedCards, card];
+        }
+      } else if (contextClick) {
+        const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
+          (f) => f.id === card.id
+        );
+        // If found remove it to unselect it.
+        if (foundIndex >= 0) {
+          newSelectedCards = [...this.damListViewModel.actionState.selectedCards];
+        } else {
+          newSelectedCards = [card];
+        }
+      }
+
+      const finalList = cards
+        ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
+        : [];
+
+      this.damListViewModel.setActionState({
+        selectedCards: finalList,
+        lastSelectedIndex: newLastSelectedIndex,
+      });
+      if (this.props.onSelect) {
+        const filterCollection = finalList.filter(
+          (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
+        );
+        return this.props.onSelect(filterCollection);
+      }
+    };
+
+    handleClickOutSite = (e) => {
+      e.preventDefault();
+      const inside = e.target.closest('.item_thumb');
+      const checkChooseAction = e.target.closest('.choose-an-action');
+      if (!inside && !checkChooseAction) {
+        this.damListViewModel.setActionState({
+          selectedCards: [],
+        });
       }
     };
 
@@ -322,18 +433,23 @@ const AesirXDamComponent = observer(
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
-          (asset) => asset.collection_id === +collectionId[collectionId.length - 1]
+          (asset) =>
+            +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
         handleColections = collections.filter(
-          (collection) => collection.parent_id === +collectionId[collectionId.length - 1]
+          (collection) =>
+            +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
+            +collectionId[collectionId.length - 1]
         );
       } else {
         if (isSearch) {
           handleAssets = assets;
           handleColections = collections;
         } else {
-          handleAssets = assets.filter((asset) => asset.collection_id === 0);
-          handleColections = collections.filter((collection) => collection.parent_id === 0);
+          handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+          handleColections = collections.filter(
+            (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
+          );
         }
       }
       return (
@@ -341,6 +457,7 @@ const AesirXDamComponent = observer(
           className="position-relative col d-flex flex-column"
           id="outside"
           onContextMenu={this.handleRightClick}
+          onClick={this.handleClickOutSite}
         >
           {handleColections || handleAssets ? (
             <>
@@ -369,6 +486,7 @@ const AesirXDamComponent = observer(
                 onRightClickItem={this.handleRightClickItem}
                 noSelection={true}
                 onBackClick={this.handleBack}
+                onSelectionChange={this.handleItemSelection}
                 dataCollections={handleColections}
                 dataAssets={handleAssets}
               />

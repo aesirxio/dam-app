@@ -55,7 +55,7 @@ function AesirXDam() {
   return (
     <div className="py-4 px-3 h-100 flex-direction-column">
       <div className="h-100 flex-1">
-        <AesirXDam onSelect={onSelect} />
+        <AesirXDam onSelect={onSelect} lang={'your_lang_code'} theme={'your_theme'} />
       </div>
       <div>
        <AesirXDamStorage />
@@ -73,3 +73,5 @@ export default AesirXDam;
 Common props you may want to specify include:
 
 - `onSelect` - subscribe to select event
+- `lang` - lang code
+- `theme` - light or dark property

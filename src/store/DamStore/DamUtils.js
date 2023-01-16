@@ -11,6 +11,10 @@ class DamUtils {
   transformResponseIntoSearchItems = (response) => {
     return response;
   };
+
+  transformDataToApiMoveToFolder = (data) => {
+    console.log(data);
+  };
 }
 
 const utils = new DamUtils();

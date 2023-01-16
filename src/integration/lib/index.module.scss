@@ -2,6 +2,7 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
+@import '../../scss/utils/bootstrap.scss';
 
 .item_collap_fixed {
   left: 250px;
@@ -36,4 +37,18 @@
 }
 .popupImageHeight {
   height: calc(100% - 50px);
+}
+
+.txt_hover {
+  &:hover {
+    span {
+      color: $success;
+    }
+    svg {
+      fill: $success;
+      path {
+        fill: $success;
+      }
+    }
+  }
 }

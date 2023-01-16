@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { AesirxDamApiService } from 'aesirx-dma-lib';
+import { AesirxDamApiService, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
 
@@ -204,7 +204,7 @@ export default class DamStore {
   deleteCollections = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteCollections(data?.id);
+      const responsedDataFromLibary = await damService.deleteCollections(data);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({
@@ -248,22 +248,15 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createAssets(data);
-      if (responsedDataFromLibary) {
-        const getDetailAsset = await damService.getAsset(responsedDataFromLibary);
-        if (getDetailAsset.item) {
-          runInAction(() => {
-            callbackOnSuccess({
-              item: getDetailAsset.item,
-              type: 'create',
-            });
+      console.log('asdasd');
+      console.log(responsedDataFromLibary);
+      if (responsedDataFromLibary.length) {
+        runInAction(() => {
+          callbackOnSuccess({
+            item: responsedDataFromLibary,
+            type: 'create',
           });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'error with getDetail',
-            });
-          });
-        }
+        });
       } else {
         if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
@@ -339,10 +332,54 @@ export default class DamStore {
     }
   };
 
+  moveToFolder = async (data, callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.moveToFolder(data);
+      if (responsedDataFromLibary) {
+        runInAction(() => {
+          callbackOnSuccess({
+            collections: data[DAM_COLLECTION_FIELD_KEY.COLLECTIONIDS],
+            assets: data[DAM_COLLECTION_FIELD_KEY.ASSETSIDS],
+          });
+        });
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancel') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancel',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
+      });
+    }
+  };
+
   deleteAssets = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteAssets(data?.id);
+      const responsedDataFromLibary = await damService.deleteAssets(data);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({
@@ -366,6 +403,7 @@ export default class DamStore {
         }
       }
     } catch (error) {
+      console.log(error);
       runInAction(() => {
         if (error.response?.data.message) {
           callbackOnError({

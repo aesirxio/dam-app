@@ -20,8 +20,8 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
     // accept: '*',
     noClick: noClick,
     noDrag: noDrag,
-    maxFiles: 1,
-    multiple: false,
+    // maxFiles: 1,
+    multiple: true,
     onDragEnter: () => {
       setOnDrag(true);
     },
@@ -30,7 +30,7 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
     },
     onDrop: (acceptedFiles) => {
       setOnDrag(false);
-      createAssets(acceptedFiles[0]);
+      createAssets(acceptedFiles);
     },
   });
 

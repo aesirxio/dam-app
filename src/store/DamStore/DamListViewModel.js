@@ -6,8 +6,8 @@
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
+import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 class DamListViewModel {
   damStore = null;
   collections = [];
@@ -26,11 +26,44 @@ class DamListViewModel {
   isSearch = false;
   subscription = null;
   damLinkFolder = 'root';
-
+  damFormModalViewModel = null;
+  actionState = {
+    cards: [],
+    selectedCards: [],
+    lastSelectedIndex: -1,
+    dragIndex: -1,
+    hoverIndex: -1,
+    insertIndex: -1,
+    isDragging: false,
+    style: {},
+  };
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
   }
+
+  setActionState = (state) => {
+    this.actionState = {
+      ...this.actionState,
+      ...state,
+    };
+  };
+  resetActionState = () => {
+    this.actionState = {
+      cards: [],
+      selectedCards: [],
+      lastSelectedIndex: -1,
+      dragIndex: -1,
+      hoverIndex: -1,
+      insertIndex: -1,
+      isDragging: false,
+      style: {},
+    };
+  };
+
+  setDamFormViewModel = (model) => {
+    this.damFormModalViewModel = model;
+  };
 
   // For intergate
   setDamLinkFolder = (link) => {
@@ -77,14 +110,26 @@ class DamListViewModel {
     );
   };
 
-  deleteCollections = (data) => {
-    notify(
-      this.damStore.deleteCollections(
-        data,
-        this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
-      ),
-      'promise'
+  getAssets = (collectionId, dataFilter) => {
+    this.status = PAGE_STATUS.LOADING;
+    this.dataFilter = { ...this.dataFilter, dataFilter };
+    this.damStore.getAssets(
+      collectionId,
+      this.dataFilter,
+      this.callbackOnAssetsSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
+
+  filterAssets = (collectionId, dataFilter) => {
+    this.status = PAGE_STATUS.LOADING;
+    this.dataFilter = { ...this.dataFilter, ...dataFilter };
+
+    this.damStore.getAssets(
+      collectionId,
+      this.dataFilter,
+      this.callBackOnAssetsFilterSuccessHandler,
+      this.callbackOnErrorHander
     );
   };
 
@@ -93,6 +138,42 @@ class DamListViewModel {
       this.damStore.createAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
+  };
+
+  deleteItem = () => {
+    this.damFormModalViewModel.closeModal();
+    this.damFormModalViewModel.closeDeleteModal();
+    let selectedCollections = [];
+    let selectedAssets = [];
+    console.log('asd');
+    console.log(this.actionState.selectedCards);
+    this.actionState.selectedCards.forEach((selected) => {
+      console.log(selected[DAM_ASSETS_FIELD_KEY.TYPE]);
+      if (selected[DAM_ASSETS_FIELD_KEY.TYPE]) {
+        console.log('assets');
+        selectedAssets.push(selected.id);
+      } else {
+        console.log('collection');
+        selectedCollections.push(selected.id);
+      }
+    });
+    if (selectedAssets.length) {
+      this.deleteAssets(selectedAssets);
+    }
+    if (selectedCollections.length) {
+      this.deleteCollections(selectedCollections);
+    }
+  };
+
+  deleteCollections = (data) => {
+    notify(
+      this.damStore.deleteCollections(
+        data,
+        this.callBackOnCollectionCreateSuccessHandler,
         this.callbackOnErrorHander
       ),
       'promise'
@@ -119,6 +200,33 @@ class DamListViewModel {
       ),
       'promise'
     );
+  };
+
+  moveToFolder = (dragIndex, hoverIndex) => {
+    const selectedItem = this.actionState.selectedCards;
+
+    if (selectedItem.length) {
+      const assets = selectedItem
+        .filter((asset) => asset[DAM_ASSETS_FIELD_KEY.TYPE])
+        .map((item) => item.id);
+      const collections = selectedItem
+        .filter((collection) => !collection[DAM_ASSETS_FIELD_KEY.TYPE])
+        .map((item) => item.id)
+        .filter((_collection) => !(+_collection === +hoverIndex));
+      const data = {
+        [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: hoverIndex,
+        [DAM_COLLECTION_FIELD_KEY.ASSETSIDS]: assets ?? [],
+        [DAM_COLLECTION_FIELD_KEY.COLLECTIONIDS]: collections ?? [],
+      };
+      notify(
+        this.damStore.moveToFolder(
+          data,
+          this.callBackOnMoveSuccessHandler,
+          this.callbackOnErrorHander
+        ),
+        'promise'
+      );
+    }
   };
 
   resetObservableProperties = () => {};
@@ -157,11 +265,11 @@ class DamListViewModel {
             break;
           case 'delete':
             this.assets = this.assets.filter((asset) => {
-              return asset.id !== data.item?.id;
+              return !data.item.includes(asset.id);
             });
             break;
           case 'create':
-            this.assets = [...this.assets, data?.item];
+            this.assets = [...this.assets, ...data?.item];
             break;
 
           default:
@@ -177,23 +285,38 @@ class DamListViewModel {
         switch (data.type) {
           case 'update':
             const findIndex = this.collections.findIndex(
-              (collection) => collection.id === data.item.id
+              (collection) => collection?.id === data?.item?.id
             );
             this.collections[findIndex] = { ...this.collections[findIndex], ...data.item };
             break;
           case 'delete':
             this.collections = this.collections.filter((collection) => {
-              return collection.id !== data.item?.id;
+              return !data.item.includes(collection.id);
             });
             break;
           case 'create':
+            this.damFormModalViewModel.closeCreateCollectionModal();
             this.collections = [...this.collections, data?.item];
             break;
-
           default:
             break;
         }
       }
+    }
+  };
+  callBackOnMoveSuccessHandler = (data) => {
+    if (data.collections.length || data.assets.length) {
+      if (data.collections.length) {
+        const newCollections = this.collections.filter(
+          (collection) => !data.collections.includes(+collection.id)
+        );
+        this.collections = newCollections;
+      }
+      if (data.assets.length) {
+        const newAssets = this.assets.filter((asset) => !data.assets.includes(+asset.id));
+        this.assets = newAssets;
+      }
+      this.resetActionState();
     }
   };
 }
