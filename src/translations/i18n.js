@@ -13,7 +13,7 @@ import common_vn from './vi/common.json';
 import common_th from './th/common.json';
 import common_hr from './hr/common.json';
 import common_ua from './ua/common.json';
-// import common_es from './es/common.json';
+import common_fr from './fr/common.json';
 
 i18n
   .use(LanguageDetector)
@@ -44,6 +44,10 @@ i18n
       ua: {
         title: 'Yкраїнська',
         common: common_ua,
+      },
+      fr: {
+        title: 'Français',
+        common: common_fr,
       },
 
       // es: {
