@@ -26,7 +26,7 @@ const Dropzone = React.lazy(() => import('components/Dropzone'));
 const CollectionForm = React.lazy(() => import('./CollectionForm'));
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
-const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
+// const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));
 const DownLoadIcon = React.lazy(() => import('SVG/DownloadIcon'));
 const DeleteIcon = React.lazy(() => import('SVG/TrashIcon'));
