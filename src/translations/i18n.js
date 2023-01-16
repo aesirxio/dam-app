@@ -8,10 +8,11 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 import common_en from './en/common.json';
-// import common_de from './dk/common.json';
+import common_dk from './dk/common.json';
 import common_vn from './vi/common.json';
 import common_th from './th/common.json';
-// import common_uk from './ua/common.json';
+import common_hr from './hr/common.json';
+import common_ua from './ua/common.json';
 // import common_es from './es/common.json';
 
 i18n
@@ -24,10 +25,10 @@ i18n
         title: 'English',
         common: common_en,
       },
-      // de: {
-      //   title: 'Dansk',
-      //   common: common_de,
-      // },
+      dk: {
+        title: 'Dansk',
+        common: common_dk,
+      },
       vi: {
         title: 'Tiếng Việt',
         common: common_vn,
@@ -36,10 +37,15 @@ i18n
         title: 'ภาษาไทย',
         common: common_th,
       },
-      // uk: {
-      //   title: 'Yкраїнська',
-      //   common: common_uk,
-      // },
+      hr: {
+        title: 'Croatian',
+        common: common_hr,
+      },
+      ua: {
+        title: 'Yкраїнська',
+        common: common_ua,
+      },
+
       // es: {
       //   title: 'Español',
       //   common: common_es,
