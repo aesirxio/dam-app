@@ -14,6 +14,7 @@ import common_th from './th/common.json';
 import common_hr from './hr/common.json';
 import common_ua from './ua/common.json';
 import common_fr from './fr/common.json';
+import common_es from './es/common.json';
 
 i18n
   .use(LanguageDetector)
@@ -50,10 +51,10 @@ i18n
         common: common_fr,
       },
 
-      // es: {
-      //   title: 'Español',
-      //   common: common_es,
-      // },
+      es: {
+        title: 'Español',
+        common: common_es,
+      },
     },
     lng: localStorage.getItem('i18nextLng') || 'en',
     fallbackLng: 'en',
