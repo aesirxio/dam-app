@@ -144,5 +144,6 @@
   "txt_can_not_move": "Can't Move",
   "txt_move_with_file_or_folder": "Had move {{type}} {{name}} to folder {{name_folder}}",
   "txt_drop_to_upload": "Drop to upload",
-  "txt_digital_assets_media": "Digital Asset Media"
+  "txt_digital_assets_media": "Digital Asset Media",
+  "txt_remember_me": "Remember me"
 }
