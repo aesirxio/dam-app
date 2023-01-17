@@ -145,5 +145,9 @@
   "txt_move_with_file_or_folder": "Had move {{type}} {{name}} to folder {{name_folder}}",
   "txt_drop_to_upload": "Drop to upload",
   "txt_digital_assets_media": "Digital Asset Media",
-  "txt_remember_me": "Remember me"
+  "txt_remember_me": "Remember me",
+  "txt_by": "by",
+  "txt_warning": "Warning",
+  "txt_successful": "Successful",
+  "txt_error": "Error"
 }

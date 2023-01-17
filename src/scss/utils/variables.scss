@@ -86,6 +86,13 @@ $danger: $red !default;
 $light: $gray-100 !default;
 $dark: $gray-900 !default;
 
+//notify color
+$noti-bg-success: #d1fae5 !default;
+$noti-warn: #946300;
+$noti-bg-warn: #fff8e9 !default;
+$noti-error: #c8192e;
+$noti-bg-error: #fee2e2 !default;
+
 // scss-docs-end theme-colors-map
 $theme-colors: (
   'primary': $primary,
@@ -106,6 +113,11 @@ $theme-colors: (
   'gray-200': $gray-200,
   'gray-400': $gray-400,
   'white': $white,
+  'noti-error': $noti-error,
+  'noti-warn': $noti-warn,
+  'noti-bg-error': $noti-bg-error,
+  'noti-bg-warn': $noti-bg-warn,
+  'noti-bg-success': $noti-bg-success,
 ) !default;
 
 // Body
