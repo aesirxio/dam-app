@@ -67,96 +67,99 @@ class LoginPage extends React.Component {
       window.location.reload();
     };
     return (
-      <div className="vh-100 bg-blue-9">
-        <div className="row justify-content-center align-items-center h-100 bg-white">
-          <div className="col-md-6 col-xxl-4">
-            <div className="d-block p-2 p-lg-5">
-              <h1 className="fs-2 text-blue-0 fw-semibold text-center mb-4 lh-base">
-                {t('txt_welcome_to')}
-                <img
-                  className="px-1"
-                  style={{ verticalAlign: 'inherit' }}
-                  alt="aesirx"
-                  src="/assets/images/logo/welcome-logo.png"
-                />
-                DAM
-                <br />
-                {t('txt_sign_in_to_getting_started')}
-              </h1>
-              <form className="login-form">
-                <SSOButton
-                  className="btn w-100 fw-bold btn-blue-3 position-relative d-flex align-item-center justify-content-center mb-4 px-6 btn-primary"
-                  text={t('txt_sign_in_with_sso')}
-                  onGetData={onGetData}
-                />
-                <div className="d-flex align-items-center flex-nowrap mb-4">
-                  <div className="border-bottom w-50"></div>
-                  <span className="px-2 text-uppercase fw-medium text-gray">{t('txt_or')}</span>
-                  <div className="border-bottom w-50"></div>
-                </div>
-                <label className="form-label fw-semibold mb-1 text-black">
-                  {t('txt_Email')} <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control border"
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleInputChange}
-                  ref={this.usernameInput}
-                  onBlur={() => {
-                    this.validator.showMessageFor('Email or username');
-                  }}
-                />
-                {this.validator.message('Email or username', this.state.username, 'required', {
+      <div className="vh-100 bg-blue-9 ">
+        <div className="row g-0 justify-content-center align-items-center h-100 bg-white">
+          <div className="d-block login-container">
+            <h1 className="fs-2 text-blue-0 fw-semibold text-center mb-4 lh-base">
+              {t('txt_welcome_to')}
+              <img
+                className="px-1"
+                style={{ verticalAlign: 'inherit' }}
+                alt="aesirx"
+                src="/assets/images/logo/welcome-logo.png"
+              />{' '}
+              DAM
+              <br />
+              {t('txt_sign_in_to_getting_started')}
+            </h1>
+            <form className="login-form">
+              <SSOButton
+                className="btn w-100 fw-bold btn-blue-3 position-relative d-flex align-item-center justify-content-center mb-4 px-6 btn-primary h-48px"
+                text={t('txt_sign_in_with_sso')}
+                onGetData={onGetData}
+              />
+              <div className="d-flex align-items-center flex-nowrap mb-4">
+                <div className="border-bottom w-50"></div>
+                <span className="px-2 text-uppercase fw-medium text-gray">{t('txt_or')}</span>
+                <div className="border-bottom w-50"></div>
+              </div>
+              <label className="form-label fw-semibold text-black mb-10">
+                {t('txt_Email')} <span className="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                className="form-control border h-48px"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleInputChange}
+                ref={this.usernameInput}
+                onBlur={() => {
+                  this.validator.showMessageFor(t('txt_Email'));
+                }}
+              />
+              {this.validator.message(t('txt_Email'), this.state.username, 'required', {
+                className: 'text-danger',
+              })}
+              <label className="form-label fw-semibold mt-4 mb-10 text-black" htmlFor="password">
+                {t('txt_projectpage_password')} <span className="text-danger">*</span>
+              </label>
+              <InputPassword
+                type="password"
+                className="form-control border h-48px"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInputChange}
+                onKeyPress={this.onKeyPress}
+                onBlur={() => {
+                  this.validator.showMessageFor(t('txt_projectpage_password'));
+                }}
+              />
+              {this.validator.message(
+                t('txt_projectpage_password'),
+                this.state.password,
+                'required',
+                {
                   className: 'text-danger',
-                })}
-                <label className="form-label fw-semibold mt-4 mb-1 text-black" htmlFor="password">
-                  {t('txt_projectpage_password')} <span className="text-danger">*</span>
-                </label>
-                <InputPassword
-                  type="password"
-                  className="form-control border"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.handleInputChange}
-                  onKeyPress={this.onKeyPress}
-                  onBlur={() => {
-                    this.validator.showMessageFor('password');
-                  }}
-                />
-                {this.validator.message('password', this.state.password, 'required', {
-                  className: 'text-danger',
-                })}
-                <div className="d-flex justify-content-between pt-4 text-black">
-                  <Checkbox text={t('txt_remember_me')} />
-                  <a
-                    href="https://dam.aesirx.io/auth/forgotpassword"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="d-flex fw-semibold fs-6"
-                  >
-                    {t('tx_forgot_password')}
-                  </a>
-                </div>
-                <button
-                  type="button"
-                  className={`btn w-100 fw-bold btn-success position-relative d-flex align-item-center justify-content-center wr_btn_login mt-4 text-uppercase py-14`}
-                  onClick={this.handleSubmit}
+                }
+              )}
+              <div className="d-flex justify-content-between pt-4 text-black">
+                <Checkbox text={t('txt_remember_me')} />
+                <a
+                  href="https://dam.aesirx.io/auth/forgotpassword"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="d-flex fw-semibold fs-6"
                 >
-                  {t('txt_sign_in')}
-                  <div className="ps-2 btn_loading">
-                    <div
-                      className="spinner-border"
-                      style={{ width: '1.7rem', height: '1.7rem' }}
-                      role="status"
-                    >
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
+                  {t('tx_forgot_password')}
+                </a>
+              </div>
+              <button
+                type="button"
+                className={`btn w-100 fw-bold btn-success position-relative d-flex align-item-center justify-content-center wr_btn_login mt-4 text-uppercase py-14`}
+                onClick={this.handleSubmit}
+              >
+                {t('txt_sign_in')}
+                <div className="ps-2 btn_loading">
+                  <div
+                    className="spinner-border"
+                    style={{ width: '1.7rem', height: '1.7rem' }}
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
                   </div>
-                </button>
-              </form>
-            </div>
+                </div>
+              </button>
+            </form>
           </div>
         </div>
       </div>
