@@ -13,6 +13,7 @@ class DamViewModel {
       this.damListViewModel = new DamListViewModel(damStore);
       this.damFormViewModel = new DamFromViewModel(damStore);
       this.damListViewModel.setDamFormViewModel(this.damFormViewModel);
+      this.damFormViewModel.setDamListViewModel(this.damListViewModel);
     }
   }
 
