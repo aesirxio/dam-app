@@ -144,7 +144,7 @@ const HomeFormModal = observer(
       return (
         <>
           {show ? (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={''}>
               <ModalComponent
                 show={show}
                 onHide={this.damFormModalViewModel.closeModal}
@@ -207,7 +207,7 @@ const HomeFormModal = observer(
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                 onClick={openModal}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <PreviewIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">{t('txt_preview')}</span>
@@ -217,7 +217,7 @@ const HomeFormModal = observer(
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                   onClick={openUpdateCollectionModal}
                 >
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense fallback={''}>
                     <EditingIcon />
                   </Suspense>
                   <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
@@ -226,7 +226,7 @@ const HomeFormModal = observer(
               {/* <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <MoveFolderIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">
@@ -238,7 +238,7 @@ const HomeFormModal = observer(
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                   onClick={downloadFile}
                 >
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense fallback={''}>
                     <DownLoadIcon />
                   </Suspense>
                   <span className="ms-3 text-color py-1 d-inline-block">
@@ -251,7 +251,7 @@ const HomeFormModal = observer(
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <DeleteIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block text-danger">
@@ -262,7 +262,7 @@ const HomeFormModal = observer(
           ) : null}
 
           {showCreateCollectionModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={''}>
               <ModalComponent
                 closeButton
                 show={showCreateCollectionModal}
@@ -286,7 +286,7 @@ const HomeFormModal = observer(
           ) : null}
 
           {showUpdateModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={''}>
               <ModalComponent
                 closeButton
                 show={showUpdateModal}
@@ -310,7 +310,7 @@ const HomeFormModal = observer(
           ) : null}
 
           {showDeleteModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={''}>
               <ModalComponent
                 closeButton
                 show={showDeleteModal}

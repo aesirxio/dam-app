@@ -91,7 +91,7 @@ export default class DamStore {
   getAllCollections = async () => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.getAllCollections();
+      const responsedDataFromLibary = await damService.getCollections();
       if (responsedDataFromLibary?.list) {
         const collectionDataModel = responsedDataFromLibary?.list;
         if (collectionDataModel) {
