@@ -42,6 +42,10 @@ class DamListViewModel {
     this.damStore = damStore;
   }
 
+  setLoading = () => {
+    this.status = PAGE_STATUS.LOADING;
+  };
+
   setActionState = (state) => {
     this.actionState = {
       ...this.actionState,
@@ -78,12 +82,36 @@ class DamListViewModel {
 
   goToFolder = (collectionId, dataFilter = {}) => {
     this.isSearch = false;
-    this.status = PAGE_STATUS.LOADING;
+
     this.dataFilter = { ...this.dataFilter, ...dataFilter };
+    // const isFetchCollections = this.collections.find(
+    //   (collection) => +collection.parent_id === +collectionId
+    // );
+    const isFetchAssets = this.assets.find((asset) => +asset.collection_id === +collectionId);
+    if (isFetchAssets && this.collections.length) {
+      this.status = PAGE_STATUS.LOADING;
+    }
     this.damStore.goToFolder(
       collectionId,
       this.dataFilter,
+      this.collections.length ? false : true,
+      isFetchAssets ? false : true,
       this.callbackOnSuccessHandler,
+      this.callbackOnErrorHander
+    );
+  };
+
+  onFilter = (collectionId, dataFilter = {}, isSort = false) => {
+    this.isSearch = false;
+    this.status = PAGE_STATUS.LOADING;
+    this.dataFilter = { ...this.dataFilter, ...dataFilter };
+
+    this.damStore.goToFolder(
+      collectionId,
+      this.dataFilter,
+      isSort,
+      true,
+      this.callbackOnFilterSuccessHandler,
       this.callbackOnErrorHander
     );
   };
@@ -231,6 +259,21 @@ class DamListViewModel {
 
   resetObservableProperties = () => {};
 
+  callbackOnFilterSuccessHandler = (data) => {
+    if (data.collections.length || data.assets.length) {
+      this.status = PAGE_STATUS.READY;
+
+      if (data.collections.length) {
+        this.collections = [...data.collections];
+      }
+      if (data.assets.length) {
+        this.assets = [...data.assets];
+      }
+    } else {
+      this.assets = [];
+      this.status = PAGE_STATUS.ERROR;
+    }
+  };
   callbackOnErrorHander = (error) => {
     if (error.message === 'isCancel') {
       this.status = PAGE_STATUS.READY;
@@ -238,17 +281,14 @@ class DamListViewModel {
   };
 
   callbackOnSuccessHandler = (data) => {
-    if (data.list) {
+    if (data.collections.length || data.assets.length) {
       this.status = PAGE_STATUS.READY;
-      const collections = data.list.filter(
-        (collection) => !collection?.[DAM_ASSETS_FIELD_KEY.TYPE]
-      );
-      const assets = data.list.filter((asset) => asset?.[DAM_ASSETS_FIELD_KEY.TYPE]);
-      if (collections) {
-        this.collections = [...collections];
+
+      if (data.collections.length) {
+        this.collections = [...this.collections, ...data.collections];
       }
-      if (assets) {
-        this.assets = [...assets];
+      if (data.assets.length) {
+        this.assets = [...this.assets, ...data.assets];
       }
     } else {
       this.status = PAGE_STATUS.ERROR;

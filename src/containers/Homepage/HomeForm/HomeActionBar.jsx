@@ -73,8 +73,8 @@ const HomeActionBar = observer(
 
       const breadcrumb =
         collectionId
-          .map((id, index) => {
-            if (!isNaN(id) && index !== 0) {
+          .map((id) => {
+            if (!isNaN(id)) {
               return this.damListViewModel.collections.find((collection) => +collection.id === +id);
             }
           })

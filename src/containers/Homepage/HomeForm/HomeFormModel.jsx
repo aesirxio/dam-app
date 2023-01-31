@@ -24,9 +24,10 @@ import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploa
 import Dropzone from 'components/Dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
+import MoveToFolder from 'components/MoveToFolder';
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
-// const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
+const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));
 const DownLoadIcon = React.lazy(() => import('SVG/DownloadIcon'));
 const DeleteIcon = React.lazy(() => import('SVG/TrashIcon'));
@@ -135,15 +136,22 @@ const HomeFormModal = observer(
         showCreateCollectionModal,
         showUpdateModal,
         openCreateCollectionModal,
+        showMoveToFolder,
+        openMoveToFolder,
       } = this.damFormModalViewModel;
       const {
         deleteItem,
         actionState: { selectedCards },
       } = this.damListViewModel;
       const { t } = this.props;
+      const collectionId = history.location.pathname.split('/');
+      const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
+
       return (
         <>
-          {show ? (
+          {show && (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
                 show={show}
@@ -164,9 +172,9 @@ const HomeFormModal = observer(
                 dialogClassName={'mw-100 px-3 home-modal'}
               />
             </Suspense>
-          ) : null}
+          )}
 
-          {showContextMenu ? (
+          {showContextMenu && (
             <div
               id="contextMenu"
               className={`col_thumb cursor-pointer align-self-center mb-4 bg-white zindex-5 position-fixed`}
@@ -195,9 +203,9 @@ const HomeFormModal = observer(
                 </div>
               </div>
             </div>
-          ) : null}
+          )}
 
-          {showContextMenuItem ? (
+          {showContextMenuItem && (
             <div
               id="contextMenuItem"
               className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
@@ -223,8 +231,9 @@ const HomeFormModal = observer(
                   <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
                 </div>
               )}
-              {/* <div
+              <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                onClick={openMoveToFolder}
               >
                 <Suspense fallback={<div>Loading...</div>}>
                   <MoveFolderIcon />
@@ -232,8 +241,8 @@ const HomeFormModal = observer(
                 <span className="ms-3 text-color py-1 d-inline-block">
                   {t('txt_move_to_folder')}
                 </span>
-              </div> */}
-              {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] && (
+              </div>
+              {selectedCards.length < 2 && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                   onClick={downloadFile}
@@ -259,9 +268,9 @@ const HomeFormModal = observer(
                 </span>
               </div>
             </div>
-          ) : null}
+          )}
 
-          {showCreateCollectionModal ? (
+          {showCreateCollectionModal && (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
                 closeButton
@@ -283,9 +292,9 @@ const HomeFormModal = observer(
                 }
               />
             </Suspense>
-          ) : null}
+          )}
 
-          {showUpdateModal ? (
+          {showUpdateModal && (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
                 closeButton
@@ -307,9 +316,9 @@ const HomeFormModal = observer(
                 }
               />
             </Suspense>
-          ) : null}
+          )}
 
-          {showDeleteModal ? (
+          {showDeleteModal && (
             <Suspense fallback={<div>Loading...</div>}>
               <ModalComponent
                 closeButton
@@ -349,7 +358,17 @@ const HomeFormModal = observer(
                 }
               />
             </Suspense>
-          ) : null}
+          )}
+
+          {showMoveToFolder && (
+            <div
+              id="contextMenuItemMoveToFolder"
+              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed `}
+              style={{ ...this.damListViewModel.actionState?.style }}
+            >
+              <MoveToFolder current={currentCollectionId} />
+            </div>
+          )}
         </>
       );
     }
