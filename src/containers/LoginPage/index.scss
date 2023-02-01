@@ -2,7 +2,7 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-
+@import '../../scss/utils/bootstrap.scss';
 .btn_loading {
   display: none;
 }
@@ -20,5 +20,14 @@
     pointer-events: none;
     cursor: default;
     opacity: 0.6;
+  }
+}
+
+.login-container {
+  max-width: 480px;
+  input:focus {
+    background-color: transparent;
+    border: 1px solid #0a083b !important;
+    box-shadow: none;
   }
 }

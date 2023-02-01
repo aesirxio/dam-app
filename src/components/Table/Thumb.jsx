@@ -182,17 +182,6 @@ const Thumb = observer(
         ref={ref}
       >
         {newRowCells.map((cell, index) => {
-          // if (cell.column.id === DAM_COLUMN_INDICATOR.NAME) {
-          //   return (
-          //     <td
-          //       key={index}
-          //       {...cell.getCellProps()}
-          //       className="fw-normal px-2 py-3 cursor-move position-relative"
-          //     >
-          //       {cell.render('Cell')}
-          //     </td>
-          //   );
-          // }
           return (
             <td
               key={index}

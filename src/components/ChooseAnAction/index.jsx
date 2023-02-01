@@ -31,7 +31,8 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
 
 const ChooseAction = observer(() => {
   const { t } = useTranslation('common');
-  const { openDeleteModal } = useDamViewModel().getDamFormViewModel();
+  const { openDeleteModal, openMoveToFolder } = useDamViewModel().getDamFormViewModel();
+  const { setActionState } = useDamViewModel().getDamListViewModel();
 
   const Action = useMemo(() => ({
     id: 'action',
@@ -39,14 +40,41 @@ const ChooseAction = observer(() => {
     className: 'border-end border-gray-select choose-an-action col-auto ',
     placeholder: t('choose_an_action'),
     options: [
-      // {
-      //   label: t('txt_preview'),
-      //   value: t('txt_preview'),
-      // },
-      // {
-      //   label: t('txt_move_to_folder'),
-      //   value: t('txt_move_to_folder'),
-      // },
+      {
+        label: t('txt_preview'),
+        value: t('txt_preview'),
+      },
+      {
+        label: t('txt_move_to_folder'),
+        value: t('txt_move_to_folder'),
+        onSelect: (e) => {
+          const innerHeight = window.innerHeight;
+          const innerWidth = window.innerWidth;
+          let style = {
+            transition: 'none',
+            top: e.clientY,
+            left: e.clientX,
+          };
+          if (e.clientX + 200 > innerWidth) {
+            style = {
+              ...style,
+              right: innerWidth - e.clientX,
+              left: 'unset',
+            };
+          }
+          if (e.clientY + 260 > innerHeight) {
+            style = {
+              ...style,
+              bottom: innerHeight - e.clientY,
+              top: 'unset',
+            };
+          }
+          setActionState({
+            style: style,
+          });
+          openMoveToFolder();
+        },
+      },
       // {
       //   label: t('txt_download'),
       //   value: t('txt_download'),

@@ -36,40 +36,48 @@ export default class DamStore {
     }
   };
 
-  goToFolder = async (collectionId, dataFilter, callbackOnSuccess, callbackOnError) => {
+  goToFolder = async (
+    collectionId,
+    dataFilter,
+    isFetchCollection,
+    isFetchAssets,
+    callbackOnSuccess,
+    callbackOnError
+  ) => {
     try {
-      let data = [];
+      let collections = [];
+      let assets = [];
       const damService = new AesirxDamApiService();
-      const responsedDataAssetsFromLibary = await damService.getAssets(collectionId, dataFilter);
-
-      const responsedDataCollectionFromLibary = await damService.getCollections(
-        collectionId,
-        dataFilter
-      );
-
-      if (responsedDataCollectionFromLibary?.list) {
-        const collectionsData = DamUtils.transformPersonaResponseIntoModel(
-          responsedDataCollectionFromLibary.list
+      if (isFetchCollection) {
+        const responsedDataCollectionFromLibary = await damService.getCollections(
+          collectionId,
+          dataFilter
         );
-        data = [...data, ...collectionsData];
+
+        if (responsedDataCollectionFromLibary?.list) {
+          const collectionsData = DamUtils.transformPersonaResponseIntoModel(
+            responsedDataCollectionFromLibary.list
+          );
+          collections = [...collectionsData];
+        }
       }
-      if (responsedDataAssetsFromLibary?.list) {
-        const assetsData = DamUtils.transformPersonaResponseIntoModel(
-          responsedDataAssetsFromLibary.list
-        );
-        data = [...data, ...assetsData];
+
+      if (isFetchAssets) {
+        const responsedDataAssetsFromLibary = await damService.getAssets(collectionId, dataFilter);
+
+        if (responsedDataAssetsFromLibary?.list) {
+          const assetsData = DamUtils.transformPersonaResponseIntoModel(
+            responsedDataAssetsFromLibary.list
+          );
+          assets = [...assetsData];
+        }
       }
-      if (data.length) {
-        runInAction(() => {
-          callbackOnSuccess({
-            list: data,
-          });
+      runInAction(() => {
+        callbackOnSuccess({
+          collections: collections,
+          assets: assets,
         });
-      } else {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
-      }
+      });
     } catch (error) {
       console.log(error);
       runInAction(() => {
@@ -110,22 +118,14 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createCollections(data);
+      console.log(responsedDataFromLibary);
       if (responsedDataFromLibary) {
-        const getDetailCollection = await damService.getCollection(responsedDataFromLibary);
-        if (getDetailCollection?.item) {
-          runInAction(() => {
-            callbackOnSuccess({
-              item: getDetailCollection.item,
-              type: 'create',
-            });
+        runInAction(() => {
+          callbackOnSuccess({
+            item: responsedDataFromLibary,
+            type: 'create',
           });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'error with getDetail',
-            });
-          });
-        }
+        });
       } else {
         if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
@@ -155,6 +155,23 @@ export default class DamStore {
           });
         }
       });
+    }
+  };
+
+  downloadCollections = async (id) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.downloadCollections(id);
+
+      if (responsedDataFromLibary) {
+        // saveAs(responsedDataFromLibary, 'aesirx-dam-assets.zip');
+        return responsedDataFromLibary;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   };
 
