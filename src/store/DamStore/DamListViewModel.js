@@ -347,9 +347,16 @@ class DamListViewModel {
   callBackOnMoveSuccessHandler = (data) => {
     if (data.collections.length || data.assets.length) {
       if (data.collections.length) {
-        const newCollections = this.collections.filter(
-          (collection) => !data.collections.includes(+collection.id)
-        );
+        const newCollections = this.collections.map((collection) => {
+          if (data.collections.includes(+collection.id)) {
+            return {
+              ...collection,
+              [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: data.parentCollection,
+            };
+          } else {
+            return collection;
+          }
+        });
         this.collections = newCollections;
       }
       if (data.assets.length) {

@@ -45,12 +45,9 @@ const UpdateGeneral = observer(
         loading: false,
         getUrlImage: '',
       };
-      this.validator = new SimpleReactValidator();
+      this.validator = new SimpleReactValidator({ autoForceUpdate: this });
       const { viewModel } = props;
       this.updateGeneralViewModel = viewModel ? viewModel.getUpdateGeneralViewModel() : null;
-      this.updateGeneralViewModel.setAllValue(this);
-      this.validateInfoBeforeSending = this.validateInfoBeforeSending.bind(this);
-      this.handleDamAssets = this.handleDamAssets.bind(this);
       this.updateGeneralViewModel.setForm(this);
     }
 
@@ -58,14 +55,14 @@ const UpdateGeneral = observer(
       this.updateGeneralViewModel.initializeData();
     }
 
-    handleDamAssets(data) {
+    handleDamAssets = (data) => {
       if (data[0].extension !== 'mp4') {
         this.setState({
           getUrlImage: data,
         });
         this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] = data[0].url;
       }
-    }
+    };
 
     saveGeneralHandler = () => {
       this.updateGeneralViewModel.saveGeneralInformationOnPage();
@@ -77,8 +74,10 @@ const UpdateGeneral = observer(
 
     validateInfoBeforeSending = () => {
       if (this.validator.allValid()) {
+        console.log(this.validator);
+        console.log(123);
         this.setState({ loading: true });
-        this.saveGeneralHandler();
+        // this.saveGeneralHandler();
       } else {
         this.validator.showMessages();
         this.forceUpdate();
@@ -122,6 +121,8 @@ const UpdateGeneral = observer(
               type: FORM_FIELD_TYPE.INPUT,
               value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME],
               className: 'col-6',
+              required: true,
+              validation: 'required',
               inputClassName: 'border',
               changed: (event) => {
                 this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME] = event.target.value;
