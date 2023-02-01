@@ -191,12 +191,11 @@ const Table = ({
           <div className="wrapper_search_global row">
             <div className={filterBar.className}>
               <Select
-                placeholder={filterBar.placeholder}
                 isClearable={false}
                 isSearchable={false}
                 options={filterBar.options}
                 onChange={onFilter}
-                defaultValue={filterBar.options.find(
+                value={filterBar.options.find(
                   (e) => e.value === listViewModel.dataFilter['filter[type]']
                 )}
               />
@@ -204,12 +203,11 @@ const Table = ({
             <ChooseAction />
             <div className={sortBy.className}>
               <Select
-                placeholder={sortBy.placeholder}
                 isClearable={false}
                 isSearchable={false}
                 options={sortBy.options}
                 onChange={onSortby}
-                defaultValue={sortBy.options.find(
+                value={sortBy.options.find(
                   (e) =>
                     e.value.ordering === listViewModel.dataFilter['list[ordering]'] &&
                     e.value.direction === listViewModel.dataFilter['list[direction]']
