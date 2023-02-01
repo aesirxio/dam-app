@@ -45,7 +45,7 @@ const UpdateGeneral = observer(
         loading: false,
         getUrlImage: '',
       };
-      this.validator = new SimpleReactValidator({ autoForceUpdate: this });
+      this.validator = new SimpleReactValidator();
       const { viewModel } = props;
       this.updateGeneralViewModel = viewModel ? viewModel.getUpdateGeneralViewModel() : null;
       this.updateGeneralViewModel.setForm(this);
@@ -64,20 +64,17 @@ const UpdateGeneral = observer(
       }
     };
 
-    saveGeneralHandler = () => {
-      this.updateGeneralViewModel.saveGeneralInformationOnPage();
+    saveGeneralHandler = async () => {
+      await this.updateGeneralViewModel.saveGeneralInformationOnPage();
     };
 
     blurringFieldHandler = () => {
       this.validator.hideMessageFor('password');
     };
 
-    validateInfoBeforeSending = () => {
+    validateInfoBeforeSending = async () => {
       if (this.validator.allValid()) {
-        console.log(this.validator);
-        console.log(123);
-        this.setState({ loading: true });
-        // this.saveGeneralHandler();
+        await this.saveGeneralHandler();
       } else {
         this.validator.showMessages();
         this.forceUpdate();
@@ -158,6 +155,7 @@ const UpdateGeneral = observer(
                   formPropsData={this.formPropsData}
                   viewModel={this.updateGeneralViewModel}
                   key={Math.random(40, 200)}
+                  validator={this.validator}
                 />
 
                 {/* <AvatarDAM>
