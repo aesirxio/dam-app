@@ -24,6 +24,7 @@ import PAGE_STATUS from 'constants/PageStatus';
 import styles from '../index.module.scss';
 import utils from '../HomeUtils/HomeUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import moment from 'moment';
 
 const HomeList = observer(
   class HomeList extends Component {
@@ -44,6 +45,7 @@ const HomeList = observer(
       const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
+      this.damListViewModel.setLoading();
       this.damListViewModel.goToFolder(curretnCollectionId);
     }
 
@@ -64,12 +66,14 @@ const HomeList = observer(
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
       const checkContextMenuItem = e.target.closest('#contextMenuItem');
+      const checkContextItemMoveToFolder = e.target.closest('#contextMenuItemMoveToFolder');
 
-      if (checkContextMenu || checkContextMenuItem) {
+      if (checkContextMenu || checkContextMenuItem || checkContextItemMoveToFolder) {
         return;
       } else {
         this.damformModalViewModal.closeContextMenu();
         this.damformModalViewModal.closeContextMenuItem();
+        this.damformModalViewModal.closeMoveToFolder();
       }
     };
 
@@ -207,7 +211,7 @@ const HomeList = observer(
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-      this.damListViewModel.goToFolder(currentCollection, {
+      this.damListViewModel.onFilter(currentCollection, {
         'filter[type]': data.value,
       });
     };
@@ -217,10 +221,14 @@ const HomeList = observer(
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-      this.damListViewModel.goToFolder(currentCollection, {
-        'list[ordering]': data.value.ordering,
-        'list[direction]': data.value.direction,
-      });
+      this.damListViewModel.onFilter(
+        currentCollection,
+        {
+          'list[ordering]': data.value.ordering,
+          'list[direction]': data.value.direction,
+        },
+        true
+      );
     };
 
     clearItemSelection = () => {
@@ -348,7 +356,9 @@ const HomeList = observer(
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                     <br />
-                    {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}
+                    {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                      'DD MMM, YYYY'
+                    )}
                   </span>
                 </div>
               ) : (
@@ -413,6 +423,9 @@ const HomeList = observer(
         {
           Header: t('txt_last_modified'),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
+          Cell: ({ row }) => (
+            <>{moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format('DD MMM, YYYY')}</>
+          ),
         },
       ];
 

@@ -3,11 +3,12 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+// import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
-import { saveAs } from 'file-saver';
 import { makeAutoObservable } from 'mobx';
+import { saveAs } from 'file-saver';
 
 class DamFormViewModel {
   show = false;
@@ -19,6 +20,7 @@ class DamFormViewModel {
   damEditdata = null;
   editMode = null;
   damListViewModel = null;
+  showMoveToFolder = null;
   formStatus = PAGE_STATUS.READY;
   damStore = null;
 
@@ -26,6 +28,24 @@ class DamFormViewModel {
     makeAutoObservable(this);
     this.damStore = damStore;
   }
+
+  openMoveToFolder = () => {
+    this.closeContextMenuItem();
+    console.log(this.damListViewModel);
+    if (this.damListViewModel.actionState.selectedCards.length) {
+      this.showMoveToFolder = true;
+    } else {
+      notify('please choose item to move', 'warn');
+    }
+  };
+
+  setDamListViewModel = (damListViewModel) => {
+    this.damListViewModel = damListViewModel;
+  };
+
+  closeMoveToFolder = () => {
+    this.showMoveToFolder = false;
+  };
 
   openContextMenu = () => {
     this.showContextMenu = true;
@@ -76,16 +96,27 @@ class DamFormViewModel {
     this.showUpdateModal = false;
   };
 
-  downloadFile = () => {
-    const fileSave = new Promise((resolve) => {
+  downloadFile = async () => {
+    if (!this.damEditdata) {
+      notify('', 'error');
+      return;
+    }
+    if (!this.damEditdata[DAM_ASSETS_FIELD_KEY.TYPE]) {
+      const file = await this.damStore.downloadCollections(
+        this.damEditdata?.[DAM_COLLECTION_FIELD_KEY.ID]
+      );
+      if (file) {
+        saveAs(file, 'aesirx-dam-assets.zip');
+      } else {
+        notify('', 'error');
+      }
+    } else {
       saveAs(
         this.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
         this.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
       );
-      resolve();
-    });
-
-    notify(fileSave, 'promise');
+    }
+    this.closeContextMenuItem();
   };
 
   callbackOnErrorHander = (data) => {

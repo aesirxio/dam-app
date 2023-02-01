@@ -14,7 +14,7 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
   return (
     <div
       className={`text-gray-900 ${
-        data.length > 2 ? 'fs-3' : 'fs-2'
+        data.length >= 2 ? 'fs-3' : 'fs-2'
       } mb-0 fw-bold d-flex flex-wrap align-items-center`}
     >
       <span className="text-body mb-0 cursor-pointer" onClick={() => handleLink('/root')}>
@@ -61,7 +61,7 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
                     _breadcrumb?.name && (
                       <span
                         key={index}
-                        className="text-body m-0 btn border-bottom px-2 d-flex align-items-center cursor-pointer"
+                        className="text-body py-1 m-0 btn border-bottom px-2 d-flex align-items-center cursor-pointer"
                         onClick={() => handleLink(_breadcrumb?.id)}
                       >
                         <>

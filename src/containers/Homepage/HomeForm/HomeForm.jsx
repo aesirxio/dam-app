@@ -163,7 +163,7 @@ class HomeForm extends Component {
               >
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                   <ComponentImage
-                    wrapperClassName="h-100 w-100"
+                    wrapperClassName="h-50 w-50"
                     className="h-100 w-100 object-fit-contain"
                     src={'/assets/images/folder-big.png'}
                   />
@@ -175,7 +175,7 @@ class HomeForm extends Component {
                   />
                 ) : (
                   <ComponentImage
-                    wrapperClassName="h-100 w-100"
+                    wrapperClassName="h-50 w-50"
                     className="h-100 w-100 object-fit-contain"
                     src={utils.checkFileTypeFormData(this.props.viewModel.damEditdata)}
                   />
