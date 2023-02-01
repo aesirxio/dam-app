@@ -146,5 +146,9 @@
   "txt_drop_to_upload": "Drop to upload",
   "txt_digital_assets_media": "Digital Asset Media",
   "txt_remember_me": "Remember me",
-  "txt_item_aldready_in_this_folder": "Item aldready in the Folder"
+  "txt_by": "by",
+  "txt_warning": "Warning",
+  "txt_successful": "Successful",
+  "txt_error": "Error",
+  "txt_item_already_in_this_folder": "Item already in the Folder"
 }
