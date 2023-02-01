@@ -144,5 +144,9 @@
   "txt_can_not_move": "ไม่สามารถย้าย",
   "txt_move_with_file_or_folder": "ได้ทำการย้าย {{type}} {{name}} ไปยังโฟรเดอร์ {{name_folder}}",
   "txt_drop_to_upload": "วางเพื่ออัปโหลด",
-  "txt_digital_assets_media": "สื่อสินทรัพย์ดิจิทัล"
+  "txt_digital_assets_media": "สื่อสินทรัพย์ดิจิทัล",
+  "txt_by": "โดย",
+  "txt_warning": "คำเตือน",
+  "txt_successful": "ประสบความสำเร็จ",
+  "txt_error": "ข้อผิดพลาด"
 }
