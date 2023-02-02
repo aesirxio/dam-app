@@ -172,7 +172,7 @@ const Menu = observer(
       const { t } = this.props;
       return (
         <>
-          <nav className="main-menu pt-3 pb-1">
+          <nav className="pt-3 pb-1">
             <p className="text-gray-700 text-uppercase fs-14 px-3">{t('txt_main_menu')}</p>
             <Accordion alwaysOpen defaultActiveKey={'root'}>
               <CustomToggle className="item_menu" as={'div'} isRoot={true} alway eventKey={'root'}>
@@ -186,7 +186,7 @@ const Menu = observer(
                   <span className="ms-3 py-1 d-inline-block col">{t('txt_my_assets')}</span>
                 </NavLink>
               </CustomToggle>
-              {this.recurseMenu(0)}
+              <div className="main-menu">{this.recurseMenu(0)}</div>
             </Accordion>
           </nav>
           <nav className="border-top py-3 border-gray-700">

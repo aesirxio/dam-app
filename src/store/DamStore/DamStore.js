@@ -118,7 +118,6 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createCollections(data);
-      console.log(responsedDataFromLibary);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({
@@ -358,6 +357,7 @@ export default class DamStore {
           callbackOnSuccess({
             collections: data[DAM_COLLECTION_FIELD_KEY.COLLECTIONIDS],
             assets: data[DAM_COLLECTION_FIELD_KEY.ASSETSIDS],
+            parentCollection: data[DAM_COLLECTION_FIELD_KEY.PARENT_ID],
           });
         });
       } else {

@@ -33,11 +33,14 @@ class HomeForm extends Component {
           ? 'New Folder'
           : this.viewModel?.damEditdata?.[DAM_COLLECTION_FIELD_KEY.NAME] ?? '',
     };
+    this.state = {
+      loadding: false,
+    };
   }
 
-  handleOnSubmit = () => {
+  handleOnSubmit = async () => {
     if (this.validator.allValid()) {
-      this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME]);
+      await this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME]);
     } else {
       this.validator.showMessages();
       // rerender to show messages for the first time
@@ -115,6 +118,7 @@ class HomeForm extends Component {
                   text={this.props.type === 'create' ? t('txt_create') : t('txt_save')}
                   onClick={this.handleOnSubmit}
                   className="btn btn-success w-100"
+                  disabled={!this.validator.allValid()}
                 />
               </div>
             </div>

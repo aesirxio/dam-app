@@ -48,9 +48,6 @@ const UpdateGeneral = observer(
       this.validator = new SimpleReactValidator();
       const { viewModel } = props;
       this.updateGeneralViewModel = viewModel ? viewModel.getUpdateGeneralViewModel() : null;
-      this.updateGeneralViewModel.setAllValue(this);
-      this.validateInfoBeforeSending = this.validateInfoBeforeSending.bind(this);
-      this.handleDamAssets = this.handleDamAssets.bind(this);
       this.updateGeneralViewModel.setForm(this);
     }
 
@@ -58,27 +55,26 @@ const UpdateGeneral = observer(
       this.updateGeneralViewModel.initializeData();
     }
 
-    handleDamAssets(data) {
+    handleDamAssets = (data) => {
       if (data[0].extension !== 'mp4') {
         this.setState({
           getUrlImage: data,
         });
         this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] = data[0].url;
       }
-    }
+    };
 
-    saveGeneralHandler = () => {
-      this.updateGeneralViewModel.saveGeneralInformationOnPage();
+    saveGeneralHandler = async () => {
+      await this.updateGeneralViewModel.saveGeneralInformationOnPage();
     };
 
     blurringFieldHandler = () => {
       this.validator.hideMessageFor('password');
     };
 
-    validateInfoBeforeSending = () => {
+    validateInfoBeforeSending = async () => {
       if (this.validator.allValid()) {
-        this.setState({ loading: true });
-        this.saveGeneralHandler();
+        await this.saveGeneralHandler();
       } else {
         this.validator.showMessages();
         this.forceUpdate();
@@ -122,6 +118,8 @@ const UpdateGeneral = observer(
               type: FORM_FIELD_TYPE.INPUT,
               value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME],
               className: 'col-6',
+              required: true,
+              validation: 'required',
               inputClassName: 'border',
               changed: (event) => {
                 this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME] = event.target.value;
@@ -157,6 +155,7 @@ const UpdateGeneral = observer(
                   formPropsData={this.formPropsData}
                   viewModel={this.updateGeneralViewModel}
                   key={Math.random(40, 200)}
+                  validator={this.validator}
                 />
 
                 {/* <AvatarDAM>
