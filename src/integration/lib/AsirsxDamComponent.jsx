@@ -38,17 +38,13 @@ const AesirXDamComponent = observer(
 
     componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
-
+      this.damListViewModel.setLoading();
       this.damListViewModel.setDamLinkFolder('root');
-      const collectionId = this.damListViewModel.damLinkFolder.split('/');
-      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
-        ? collectionId[collectionId.length - 1]
-        : 0;
-      this.damListViewModel.goToFolder(currentCollection);
     }
 
     componentWillUnmount() {
       document.removeEventListener('mousedown', this.handleClickOutside);
+      this.damListViewModel.resetObservableProperties();
     }
 
     handleClickOutside = (e) => {

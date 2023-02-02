@@ -65,8 +65,8 @@ $rt-color-success: $green !default;
       bottom: 0;
       background-repeat: repeat;
       background-size: cover;
-      -webkit-mask-image: url('../../../public/assets/images/toast_bg.svg');
-      mask-image: url('../../../public/assets/images/toast_bg.svg');
+      // -webkit-mask-image: url('../../../public/assets/images/toast_bg.svg');
+      // mask-image: url('../../../public/assets/images/toast_bg.svg');
       z-index: 0;
     }
     &.Toastify__toast--success {

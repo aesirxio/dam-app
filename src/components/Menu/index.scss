@@ -70,8 +70,24 @@
 }
 
 .main-menu {
-  max-height: 400px;
+  max-height: 300px;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: rgba($color: #fff, $alpha: 0.2);
+  }
+  &::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px transparent;
+    border-radius: 5px;
+    background-color: rgba($color: #fff, $alpha: 0.5);
+    box-shadow: inset 0 0 6px transparent;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px transparent;
+    background-color: transparent;
+    box-shadow: inset 0 0 6px transparent;
+  }
 }
 body.mini_left {
   .sidebar {

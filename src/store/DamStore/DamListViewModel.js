@@ -95,7 +95,7 @@ class DamListViewModel {
       collectionId,
       this.dataFilter,
       this.collections.length ? false : true,
-      isFetchAssets ? false : true,
+      true,
       this.callbackOnSuccessHandler,
       this.callbackOnErrorHander
     );
@@ -257,7 +257,35 @@ class DamListViewModel {
     }
   };
 
-  resetObservableProperties = () => {};
+  resetObservableProperties = () => {
+    this.collections = [];
+    this.status = PAGE_STATUS.READY;
+    this.assets = [];
+    this.tableRowHeader = null;
+    this.dataFilter = {
+      'filter[type]': '',
+      'list[ordering]': '',
+      'list[direction]': '',
+      'filter[search]': '',
+    };
+
+    this.isList = false;
+    this.damIdsSelected = null;
+    this.isSearch = false;
+    this.subscription = null;
+    this.damLinkFolder = 'root';
+    this.damFormModalViewModel = null;
+    this.actionState = {
+      cards: [],
+      selectedCards: [],
+      lastSelectedIndex: -1,
+      dragIndex: -1,
+      hoverIndex: -1,
+      insertIndex: -1,
+      isDragging: false,
+      style: {},
+    };
+  };
 
   callbackOnFilterSuccessHandler = (data) => {
     if (data.collections.length || data.assets.length) {
@@ -347,9 +375,16 @@ class DamListViewModel {
   callBackOnMoveSuccessHandler = (data) => {
     if (data.collections.length || data.assets.length) {
       if (data.collections.length) {
-        const newCollections = this.collections.filter(
-          (collection) => !data.collections.includes(+collection.id)
-        );
+        const newCollections = this.collections.map((collection) => {
+          if (data.collections.includes(+collection.id)) {
+            return {
+              ...collection,
+              [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: data.parentCollection,
+            };
+          } else {
+            return collection;
+          }
+        });
         this.collections = newCollections;
       }
       if (data.assets.length) {

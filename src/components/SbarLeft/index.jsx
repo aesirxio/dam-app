@@ -25,7 +25,7 @@ class SbarLeft extends React.Component {
 
     return (
       <aside
-        className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden overflow-y-auto d-flex flex-column z-index-100 `}
+        className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden d-flex flex-column z-index-100 `}
       >
         {!settingPage ? (
           <>

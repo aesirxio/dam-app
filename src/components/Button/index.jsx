@@ -12,11 +12,26 @@ import { withTranslation } from 'react-i18next';
 class Button extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false,
+    };
   }
 
+  handleClick = async () => {
+    if (this.props.onClick) {
+      this.setState({
+        loading: true,
+      });
+      const click = await this.props.onClick();
+      click();
+      this.setState({
+        loading: false,
+      });
+    }
+  };
+
   render() {
-    let { icon, text, className, onClick, image, disabled, svg } = this.props;
+    let { icon, text, className, image, disabled, svg } = this.props;
 
     if (className !== undefined && styles[className] !== undefined) {
       className = styles[className];
@@ -26,8 +41,8 @@ class Button extends React.Component {
       <button
         type="button"
         className={`d-flex justify-content-center btn ${className}`}
-        onClick={onClick}
-        disabled={disabled}
+        onClick={this.handleClick}
+        disabled={disabled || this.state?.loading}
       >
         {icon && (
           <i className="pe-1">
@@ -36,7 +51,14 @@ class Button extends React.Component {
         )}
         {image && <ComponentImage alt={text} src={image} className="pe-1" />}
         {svg ? svg : null}
-        <span className="ms-1 text-nowrap">{t(text)}</span>
+        <span className="ms-1 text-nowrap d-flex align-items-center">
+          {t(text)}
+          {this.state?.loading && (
+            <span className={`ms-1 spinner-border text-body ${styles.loading}`} role="status">
+              <span className="visually-hidden">Loading...</span>
+            </span>
+          )}
+        </span>
       </button>
     );
   }
