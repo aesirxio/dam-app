@@ -73,9 +73,7 @@ class AesirDamForm extends Component {
               this.forceUpdate();
             },
             blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Name');
-              }
+              this.validator.showMessageFor('Name');
             },
           },
           {
