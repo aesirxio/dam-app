@@ -173,7 +173,7 @@ const Menu = observer(
       return (
         <>
           <nav className="pt-3 pb-1">
-            <p className="text-white-50 fs-14 px-3">{t('txt_main_menu')}</p>
+            <p className="text-gray-700 text-uppercase fs-14 px-3">{t('txt_main_menu')}</p>
             <Accordion alwaysOpen defaultActiveKey={'root'}>
               <CustomToggle className="item_menu" as={'div'} isRoot={true} alway eventKey={'root'}>
                 <NavLink
@@ -190,7 +190,7 @@ const Menu = observer(
             </Accordion>
           </nav>
           <nav className="border-top py-3 border-gray-700">
-            <p className="text-white-50 fs-14 px-3 mb-0">{t('txt_set_up')}</p>
+            <p className="text-gray-700 text-uppercase fs-14 px-3 mb-0">{t('txt_set_up')}</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0">
               {dataMenu.map((value, key) => {
                 return (
