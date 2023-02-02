@@ -11,7 +11,6 @@
   &.index {
     right: 10px;
     left: unset;
-    transform: translate(-50%, -50%) rotate(90deg) !important;
   }
   &.down {
     transform: translate(-50%, -50%) rotate(90deg) !important;
@@ -20,18 +19,19 @@
 }
 .item_menu {
   .link_menu {
-    transition: all 0.3s ease;
+    transition: color 0.2s ease-in-out;
     white-space: nowrap;
     font-size: 1.1rem;
 
     &.active,
     &:hover {
       color: $green !important;
+      font-weight: 600;
     }
 
     i,
     span {
-      transition: all 0.3s ease;
+      transition: color 0.2s ease-in-out;
     }
 
     .icon {

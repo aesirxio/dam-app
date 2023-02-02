@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 import { observer } from 'mobx-react';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 const dataMenu = [
   // {
@@ -53,7 +54,7 @@ const dataMenu = [
   // },
 ];
 
-function CustomToggle({ children, eventKey, isRoot }) {
+function CustomToggle({ children, eventKey }) {
   const [open, setOpen] = useState(false);
   const custom = () => {
     setOpen((prevState) => !prevState);
@@ -62,20 +63,23 @@ function CustomToggle({ children, eventKey, isRoot }) {
   return (
     <div className="item_menu position-relative ">
       {children}
-
-      <FontAwesomeIcon
-        className={` position-absolute top-50 translate-middle carvet-toggle text-green ${
-          eventKey === 'root' ? 'index' : ''
-        } ${open ? 'down' : ''}`}
-        onClick={
-          isRoot
-            ? (e) => {
-                e.preventDefault();
-              }
-            : decoratedOnClick
-        }
-        icon={faCaretRight}
-      />
+      {eventKey === 'root' ? (
+        <FontAwesomeIcon
+          className={` position-absolute top-50 translate-middle carvet-toggle text-white index`}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          // }}
+          icon={faAngleDown}
+        />
+      ) : (
+        <FontAwesomeIcon
+          className={` position-absolute top-50 translate-middle carvet-toggle text-green  ${
+            open ? 'down' : ''
+          }`}
+          onClick={decoratedOnClick}
+          icon={faCaretRight}
+        />
+      )}
     </div>
   );
 }
@@ -173,24 +177,26 @@ const Menu = observer(
       return (
         <>
           <nav className="pt-3 pb-1">
-            <p className="text-white-50 fs-14 px-3">{t('txt_main_menu')}</p>
+            <p className="text-gray-700 text-uppercase fs-14 px-3">{t('txt_main_menu')}</p>
             <Accordion alwaysOpen defaultActiveKey={'root'}>
               <CustomToggle className="item_menu" as={'div'} isRoot={true} alway eventKey={'root'}>
                 <NavLink
                   exact={true}
                   to={'/root'}
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
+                  className={`d-flex align-items-center px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
                 >
                   <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
 
-                  <span className="ms-3 py-1 d-inline-block col">{t('txt_my_assets')}</span>
+                  <span className="ms-3 py-1 d-inline-block col fw-semibold">
+                    {t('txt_my_assets')}
+                  </span>
                 </NavLink>
               </CustomToggle>
               <div className="main-menu">{this.recurseMenu(0)}</div>
             </Accordion>
           </nav>
           <nav className="border-top py-3 border-gray-700">
-            <p className="text-white-50 fs-14 px-3 mb-0">{t('txt_set_up')}</p>
+            <p className="text-gray-700 text-uppercase fs-14 px-3 mb-0">{t('txt_set_up')}</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0">
               {dataMenu.map((value, key) => {
                 return (
