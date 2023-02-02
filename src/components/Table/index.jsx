@@ -6,15 +6,14 @@
 import React, { useEffect, useMemo } from 'react';
 import { usePagination, useRowSelect, useTable } from 'react-table';
 
-import { faList } from '@fortawesome/free-solid-svg-icons/faList';
-import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styles from './index.module.scss';
 import ChooseAction from '../ChooseAnAction';
+import ListCheck from '../../SVG/ListCheck';
+import ThumbNails from '../../SVG/ThumbNails';
 
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
@@ -219,26 +218,22 @@ const Table = ({
             <div className="d-flex align-items-center">
               <button
                 type="button"
-                className={`btn fw-bold rounded-0 px-4 shadow-none ${
-                  isList ? 'bg-blue-3 text-white' : 'text-blue-0'
+                className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
+                  isList ? 'bg-blue-6 text-white' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('list')}
               >
-                <i>
-                  <FontAwesomeIcon icon={faList} />
-                </i>
+                <ListCheck />
                 <span className="ms-2">{t('txt_list')}</span>
               </button>
               <button
                 type="button"
-                className={`btn fw-bold rounded-0 px-4 shadow-none ${
-                  !isList ? 'bg-blue-3 text-white' : 'text-blue-0'
+                className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
+                  !isList ? 'bg-blue-6 text-white' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('thumb')}
               >
-                <i>
-                  <FontAwesomeIcon icon={faTh} />
-                </i>
+                <ThumbNails />
                 <span className="ms-2">{t('txt_thumb')}</span>
               </button>
             </div>
