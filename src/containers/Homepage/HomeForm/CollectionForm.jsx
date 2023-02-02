@@ -59,6 +59,7 @@ class HomeForm extends Component {
             validation: 'required',
             inputClassName: 'border',
             className: 'col-12',
+            autoFocus: true,
             changed: (event) => {
               this.formPropsData[DAM_COLLECTION_FIELD_KEY.NAME] = event.target.value;
               this.forceUpdate();
@@ -69,9 +70,7 @@ class HomeForm extends Component {
               }
             },
             blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor(DAM_ASSETS_FIELD_KEY.NAME);
-              }
+              this.validator.showMessageFor(DAM_ASSETS_FIELD_KEY.NAME);
             },
           },
         ],
