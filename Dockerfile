@@ -24,7 +24,6 @@ CMD [ "yarn", "dev" ]
 ## Production
 FROM node:16-alpine AS builder
 
-
 # Add a work directory
 WORKDIR /app
 
