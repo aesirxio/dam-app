@@ -248,7 +248,7 @@ const Table = ({
       <ThumbDragLayer />
       {isList ? (
         <div className="py-3 rounded-3 col">
-          {rows.length ? (
+          {rows.length && (
             <table {...getTableProps()} className={`w-100 bg-white shadow mb-4 ${classNameTable}`}>
               <thead>
                 {headerGroups.map((headerGroup) => {
@@ -312,7 +312,7 @@ const Table = ({
                   })}
               </tbody>
             </table>
-          ) : null}
+          )}
         </div>
       ) : (
         <div {...getTableBodyProps()} className={`row ${rows.length === 0 ? 'col' : ''}`}>
@@ -328,7 +328,7 @@ const Table = ({
             return (
               newRowCells.length > 0 && (
                 <React.Fragment key={row?.original?.id}>
-                  {index === 0 && !row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+                  {index === 0 && !row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
                     <>
                       <div className="col-12">
                         <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
@@ -350,7 +350,7 @@ const Table = ({
                         </div>
                       )}
                     </>
-                  ) : null}
+                  )}
                   {dataCollections.length === index && row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
                     <>
                       <div className="col-12">
@@ -394,10 +394,14 @@ const Table = ({
           })}
         </div>
       )}
-      {rows.length === 0 ? (
+      {rows.length === 0 && (
         <>
           <p onClick={onBackClick} className="d-flex zindex-2 align-items-center cursor-pointer">
-            <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+            {listViewModel?.damLinkFolder.split('/').length > 1 && (
+              <>
+                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+              </>
+            )}
           </p>
           <ComponentNoData
             icons="/assets/images/ic_project.svg"
@@ -407,7 +411,7 @@ const Table = ({
             createAssets={createAssets}
           />
         </>
-      ) : null}
+      )}
     </DndProvider>
   );
 };
