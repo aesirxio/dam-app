@@ -39,8 +39,6 @@ const UpdatePassword = observer(
       this.currentPassword = createRef();
       this.newPassword = createRef();
       this.newCheckedPassword = createRef();
-      this.handleInputChange = this.handleInputChange.bind(this);
-      this.validateInfoBeforeSending = this.validateInfoBeforeSending.bind(this);
     }
 
     resetValue(content_id) {
@@ -54,10 +52,10 @@ const UpdatePassword = observer(
       this.updatePasswordViewModel.successResponse.state = true;
     }
 
-    handleInputChange(type, value) {
+    handleInputChange = (type, value) => {
       this.formPropsData[type] = value;
       this.forceUpdate();
-    }
+    };
 
     savePasswordHandler = () => {
       this.updatePasswordViewModel.savePasswordInformationOnPage();
