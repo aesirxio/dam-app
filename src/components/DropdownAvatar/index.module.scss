@@ -1,0 +1,30 @@
+/*
+ * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
+ * @license     GNU General Public License version 3, see LICENSE.
+ */
+@import '../../scss/utils/bootstrap.scss';
+
+.list_menu_avatar {
+  a {
+    &:hover {
+      background-color: #e8f1f6;
+    }
+  }
+}
+
+.wrapper_avatar {
+  .dropdown-menu {
+    &.show {
+      min-width: 230px;
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .wrapper_avatar {
+    .text,
+    .icons {
+      display: none;
+    }
+  }
+}

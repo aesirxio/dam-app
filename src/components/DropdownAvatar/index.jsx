@@ -10,12 +10,10 @@ import { AUTHORIZATION_KEY, Storage } from 'aesirx-dma-lib';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
-import './index.scss';
-
 import { logout } from '../../auth';
 import Helper from '../../utils/helper';
 import ComponentImage from '../ComponentImage';
-
+import styles from './index.module.scss';
 const data = [
   {
     key: 1,
@@ -91,7 +89,7 @@ class DropdownAvatar extends React.Component {
           ></Dropdown.Toggle>
           <Dropdown.Menu className="shadow border-0">
             <div className="p-3">
-              <ul className="list-unstyled ps-0 mb-0 list_menu_avatar">
+              <ul className={`list-unstyled ps-0 mb-0 ${styles.list_menu_avatar}`}>
                 {data.map((value, index) => {
                   return (
                     <li key={index}>
