@@ -3,7 +3,6 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-// import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
@@ -97,26 +96,28 @@ class DamFormViewModel {
   };
 
   downloadFile = async () => {
-    if (!this.damEditdata) {
+    if (!this.damListViewModel.actionState.selectedCards.length) {
       notify('', 'error');
       return;
-    }
-    if (!this.damEditdata[DAM_ASSETS_FIELD_KEY.TYPE]) {
-      const file = await this.damStore.downloadCollections(
-        this.damEditdata?.[DAM_COLLECTION_FIELD_KEY.ID]
+    } else {
+      const collectionIds = this.damListViewModel.actionState.selectedCards.map(
+        (item) => item?.[DAM_COLLECTION_FIELD_KEY.ID]
       );
+      console.log(collectionIds);
+      const file = await this.damStore.downloadCollections(collectionIds);
       if (file) {
         saveAs(file, 'aesirx-dam-assets.zip');
       } else {
         notify('', 'error');
       }
-    } else {
+    }
+    if (this.damEditdata[DAM_ASSETS_FIELD_KEY.TYPE]) {
       saveAs(
         this.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
         this.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
       );
     }
-    this.closeContextMenuItem();
+    // this.closeContextMenuItem();
   };
 
   callbackOnErrorHander = (data) => {

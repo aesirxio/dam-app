@@ -17,20 +17,18 @@ import PAGE_STATUS from '../../../constants/PageStatus';
 import { renderingGroupFieldHandler } from '../../../utils/form';
 
 class HomeForm extends Component {
-  formPropsData = {
-    [DAM_COLLECTION_FIELD_KEY.NAME]: 'New Folder',
-  };
+  formPropsData = null;
 
   constructor(props) {
     super(props);
-
+    const { t } = props;
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     this.viewModel = props.viewModel;
     this.formPropsData = {
       [DAM_COLLECTION_FIELD_KEY.NAME]:
         props.type === 'create' && this.viewModel
-          ? 'New Folder'
+          ? t('txt_new_folder')
           : this.viewModel?.damEditdata?.[DAM_COLLECTION_FIELD_KEY.NAME] ?? '',
     };
     this.state = {
