@@ -78,14 +78,13 @@ const HomeList = observer(
     };
 
     handleSelect = (data) => {
-      console.log(data);
-      // this.damListViewModel.damIdsSelected = data
-      //   .map((item) => {
-      //     return item[this.key];
-      //   })
-      //   .reduce((arr, el) => {
-      //     return arr.concat(el);
-      //   }, []);
+      this.damListViewModel.damIdsSelected = data
+        .map((item) => {
+          return item[this.key];
+        })
+        .reduce((arr, el) => {
+          return arr.concat(el);
+        }, []);
     };
 
     handleCreateFolder = () => {
@@ -345,7 +344,6 @@ const HomeList = observer(
                 >
                   <ComponentImage
                     alt={row.original.name}
-                    visibleByDefault={true}
                     src="/assets/images/folder.svg"
                     className={this.damListViewModel.isList ? '' : styles.folder}
                   />
@@ -357,13 +355,9 @@ const HomeList = observer(
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    {!this.damListViewModel.isList && (
-                      <>
-                        <br />
-                        {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                          'DD MMM, YYYY'
-                        )}
-                      </>
+                    <br />
+                    {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                      'DD MMM, YYYY'
                     )}
                   </span>
                 </div>
@@ -383,13 +377,11 @@ const HomeList = observer(
                       <ComponentImage
                         wrapperClassName="w-100 h-100"
                         className="w-100 h-100 object-fit-cover"
-                        visibleByDefault={true}
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
                       <ComponentImage
                         wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center"
-                        visibleByDefault={true}
                         src={utils.checkFileTypeFormData(row.original)}
                       />
                     )}
@@ -462,11 +454,6 @@ const HomeList = observer(
           );
         }
       }
-      const rowData =
-        []
-          .concat(handleColections)
-          .concat(handleAssets)
-          .map((data) => ({ ...data })) ?? [];
 
       return (
         <div
@@ -475,36 +462,38 @@ const HomeList = observer(
           onContextMenu={this.handleRightClick}
           onClick={this.handleClickOutSite}
         >
-          {rowData.length ? (
-            <Table
-              rowData={rowData ?? []}
-              dataCollections={handleColections}
-              dataAssets={handleAssets}
-              tableRowHeader={tableRowHeader}
-              onSelect={this.handleSelect}
-              isThumb={true}
-              isList={this.damListViewModel.isList}
-              dataThumb={[
-                'selection',
-                DAM_COLUMN_INDICATOR.FILE_SIZE,
-                DAM_COLUMN_INDICATOR.OWNER,
-                DAM_COLUMN_INDICATOR.LAST_MODIFIED,
-              ]}
-              listViewModel={this.damListViewModel}
-              hasSubRow={false}
-              _handleList={this._handleList}
-              view={this.view}
-              thumbColumnsNumber={2}
-              onDoubleClick={this.handleDoubleClick}
-              createFolder={this.handleCreateFolder}
-              createAssets={this.handleCreateAssets}
-              onFilter={this.handleFilter}
-              onSortby={this.handleSortby}
-              onRightClickItem={this.handleRightClickItem}
-              // noSelection={true}
-              onSelectionChange={this.handleItemSelection}
-              // selectedCards={this.damListViewModel.actionState.selectedCards}
-            />
+          {handleColections || handleAssets ? (
+            <>
+              <Table
+                rowData={[...handleColections, ...handleAssets]}
+                dataCollections={handleColections}
+                dataAssets={handleAssets}
+                tableRowHeader={tableRowHeader}
+                onSelect={this.handleSelect}
+                isThumb={true}
+                isList={this.damListViewModel.isList}
+                dataThumb={[
+                  'selection',
+                  DAM_COLUMN_INDICATOR.FILE_SIZE,
+                  DAM_COLUMN_INDICATOR.OWNER,
+                  DAM_COLUMN_INDICATOR.LAST_MODIFIED,
+                ]}
+                listViewModel={this.damListViewModel}
+                hasSubRow={false}
+                _handleList={this._handleList}
+                view={this.view}
+                thumbColumnsNumber={2}
+                onDoubleClick={this.handleDoubleClick}
+                createFolder={this.handleCreateFolder}
+                createAssets={this.handleCreateAssets}
+                onFilter={this.handleFilter}
+                onSortby={this.handleSortby}
+                onRightClickItem={this.handleRightClickItem}
+                noSelection={true}
+                onSelectionChange={this.handleItemSelection}
+                // selectedCards={this.damListViewModel.actionState.selectedCards}
+              />
+            </>
           ) : (
             <ComponentNoData
               icons="/assets/images/ic_project.svg"
