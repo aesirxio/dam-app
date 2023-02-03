@@ -17,27 +17,28 @@ import PAGE_STATUS from '../../../constants/PageStatus';
 import { renderingGroupFieldHandler } from '../../../utils/form';
 
 class HomeForm extends Component {
-  formPropsData = {
-    [DAM_COLLECTION_FIELD_KEY.NAME]: 'New Folder',
-  };
+  formPropsData = null;
 
   constructor(props) {
     super(props);
-
+    const { t } = props;
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     this.viewModel = props.viewModel;
     this.formPropsData = {
       [DAM_COLLECTION_FIELD_KEY.NAME]:
         props.type === 'create' && this.viewModel
-          ? 'New Folder'
+          ? t('txt_new_folder')
           : this.viewModel?.damEditdata?.[DAM_COLLECTION_FIELD_KEY.NAME] ?? '',
+    };
+    this.state = {
+      loadding: false,
     };
   }
 
-  handleOnSubmit = () => {
+  handleOnSubmit = async () => {
     if (this.validator.allValid()) {
-      this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME]);
+      await this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME]);
     } else {
       this.validator.showMessages();
       // rerender to show messages for the first time
@@ -59,6 +60,7 @@ class HomeForm extends Component {
             validation: 'required',
             inputClassName: 'border',
             className: 'col-12',
+            autoFocus: true,
             changed: (event) => {
               this.formPropsData[DAM_COLLECTION_FIELD_KEY.NAME] = event.target.value;
               this.forceUpdate();
@@ -69,9 +71,7 @@ class HomeForm extends Component {
               }
             },
             blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor(DAM_ASSETS_FIELD_KEY.NAME);
-              }
+              this.validator.showMessageFor(DAM_ASSETS_FIELD_KEY.NAME);
             },
           },
         ],
@@ -116,6 +116,7 @@ class HomeForm extends Component {
                   text={this.props.type === 'create' ? t('txt_create') : t('txt_save')}
                   onClick={this.handleOnSubmit}
                   className="btn btn-success w-100"
+                  disabled={!this.validator.allValid()}
                 />
               </div>
             </div>

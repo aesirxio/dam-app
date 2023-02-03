@@ -26,11 +26,13 @@ class ComponentNoData extends Component {
         <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true}>
           <div className="d-flex align-items-center justify-content-center h-100 w-100">
             <div>
-              <p className="fs-4 fw-semibold">{t('txt_drop_files_anywhere_to_upload')}</p>
-              <p className="fs-5">{t('txt_or')}</p>
+              <p className="fs-4 text-blue-6 fw-semibold">
+                {t('txt_drop_files_anywhere_to_upload')}
+              </p>
+              <p className="fs-5 text-gray">{t('txt_or')}</p>
               <Dropzone noDrag={false} createAssets={createAssets}>
                 <Button
-                  className="text-gray-900 fw-semibold bg-white btn-white border mx-auto w-248"
+                  className="text-blue-6 fw-semibold bg-white btn-white border mx-auto w-248"
                   text="txt_select_file"
                 />
               </Dropzone>

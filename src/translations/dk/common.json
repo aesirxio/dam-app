@@ -144,5 +144,10 @@
   "txt_can_not_move": "Kan ikke flyt",
   "txt_move_with_file_or_folder": "Har flyttet {{type}} {{name}} til mappe {{name_folder}}",
   "txt_drop_to_upload": "Slip for at oploade",
-  "txt_digital_assets_media": "Digital Asset Media"
+  "txt_digital_assets_media": "Digital Asset Media",
+  "txt_remember_me": "Husk mig",
+  "txt_by": "ved",
+  "txt_warning": "Advarsel",
+  "txt_successful": "Vellykket",
+  "txt_error": "Fejl"
 }

@@ -36,6 +36,15 @@ class AesirXCollectionForm extends Component {
     };
   }
 
+  handleOnSubmit = () => {
+    if (this.validator.allValid()) {
+      this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME]);
+    } else {
+      this.validator.showMessages();
+      // rerender to show messages for the first time
+      this.forceUpdate();
+    }
+  };
   generateFormSetting = () => {
     // const { t } = this.props;
     return [
@@ -43,22 +52,25 @@ class AesirXCollectionForm extends Component {
         fields: [
           {
             key: DAM_ASSETS_FIELD_KEY.NAME,
+            label: DAM_ASSETS_FIELD_KEY.NAME,
+            labelClassName: 'd-none',
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME],
             validation: 'required',
+            inputClassName: 'border',
             className: 'col-12',
+            autoFocus: true,
             changed: (event) => {
               this.formPropsData[DAM_COLLECTION_FIELD_KEY.NAME] = event.target.value;
+              this.forceUpdate();
             },
             onKeyDown: (e) => {
               if (e.keyCode === 13) {
-                this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME]);
+                this.handleOnSubmit();
               }
             },
             blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Name');
-              }
+              this.validator.showMessageFor(DAM_ASSETS_FIELD_KEY.NAME);
             },
           },
         ],
@@ -83,7 +95,7 @@ class AesirXCollectionForm extends Component {
               {Object.keys(formSetting)
                 .map((groupIndex) => {
                   return [...Array(formSetting[groupIndex])].map((group) => {
-                    return renderingGroupFieldHandler(group, this.props.validator);
+                    return renderingGroupFieldHandler(group, this.validator);
                   });
                 })
                 .reduce((arr, el) => {
@@ -100,8 +112,8 @@ class AesirXCollectionForm extends Component {
               </div>
               <div className="col-3">
                 <Button
-                  text={t('txt_create')}
-                  onClick={() => this.props.onSubmit(this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME])}
+                  text={this.props.type === 'create' ? t('txt_create') : t('txt_save')}
+                  onClick={this.handleOnSubmit}
                   className="btn btn-success w-100"
                 />
               </div>

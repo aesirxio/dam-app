@@ -13,15 +13,24 @@ Find out more in [https://dam.aesirx.io](https://dam.aesirx.io)
 1. Get your `REACT_APP_CLIENT_SECRET` key from https://dam.aesirx.io by creating an account.
 1. Rename the `.env.dist` file to `.env`.
 1. Replace the `REACT_APP_CLIENT_SECRET` in the `.env` file with the one provided in your profile account.
+1. Run `yarn install`
 
-### `npm start`
+### `yarn dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### `npm build`
+### `yarn build`
 
 Get a full build and install it in your favorite web server.
+
+
+## Dockerize
+#### Development
+`docker compose -f "docker-compose.dev.yml" up -d --build`
+
+#### Production
+`docker compose -f "docker-compose.pro.yml" up -d --build`
 
 
 ## Integrate setup
@@ -55,7 +64,7 @@ function AesirXDam() {
   return (
     <div className="py-4 px-3 h-100 flex-direction-column">
       <div className="h-100 flex-1">
-        <AesirXDam onSelect={onSelect} />
+        <AesirXDam onSelect={onSelect} lang={'your_lang_code'} theme={'your_theme'} />
       </div>
       <div>
        <AesirXDamStorage />
@@ -73,3 +82,5 @@ export default AesirXDam;
 Common props you may want to specify include:
 
 - `onSelect` - subscribe to select event
+- `lang` - lang code
+- `theme` - light or dark property

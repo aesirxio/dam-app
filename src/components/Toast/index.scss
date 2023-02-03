@@ -19,7 +19,16 @@ $rt-color-success: $green !default;
 @import '~react-toastify/scss/animations/zoom.scss';
 @import '~react-toastify/scss/animations/flip.scss';
 @import '~react-toastify/scss/animations/slide.scss';
+:root {
+  --toastify-color-success: #fff;
+}
 
+.#{$rt-namespace}__close-button {
+  &--light {
+    color: #fff;
+    opacity: 0.5;
+  }
+}
 #wr_custom_notify {
   background-color: $color-blue-7;
   padding-left: 15px !important;
@@ -31,13 +40,6 @@ $rt-color-success: $green !default;
   }
 }
 
-.Toastify__close-button {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  align-self: unset !important;
-  opacity: 1 !important;
-}
 .Toastify__close-button > svg {
   width: 19px !important;
   height: 19px !important;
@@ -45,9 +47,60 @@ $rt-color-success: $green !default;
 .text-green > .Toastify__close-button {
   color: $green !important;
 }
-.text-yellow-200 > .Toastify__close-button {
-  color: $yellow-200 !important;
+.text-noti-warn > .Toastify__close-button {
+  color: $noti-warn !important;
 }
-.text-red-100 > .Toastify__close-button {
-  color: $red-100 !important;
+.text-noti-error > .Toastify__close-button {
+  color: $noti-error !important;
+}
+
+.Toastify__toast-container {
+  .Toastify__toast-theme--light {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-repeat: repeat;
+      background-size: cover;
+      // -webkit-mask-image: url('../../../public/assets/images/toast_bg.svg');
+      // mask-image: url('../../../public/assets/images/toast_bg.svg');
+      z-index: 0;
+    }
+    &.Toastify__toast--success {
+      &:before {
+        background-color: $success;
+      }
+    }
+    &.Toastify__toast--warning {
+      &:before {
+        background-color: $noti-warn;
+      }
+    }
+    &.Toastify__toast--error {
+      &:before {
+        background-color: $noti-error;
+      }
+    }
+  }
+}
+
+.Toastify {
+  .Toastify__toast-icon {
+    width: auto;
+    height: 48px;
+    margin-inline-end: 16px;
+  }
+  .Toastify__close-button {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    align-self: flex-start !important;
+    opacity: 1 !important;
+  }
+  .Toastify__toast-body {
+    padding: 0;
+  }
 }

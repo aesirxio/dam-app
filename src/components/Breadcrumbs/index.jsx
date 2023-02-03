@@ -14,13 +14,11 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
   return (
     <div
       className={`text-gray-900 ${
-        data.length > 2 ? 'fs-3' : 'fs-2'
+        data.length >= 2 ? 'fs-3' : 'fs-2'
       } mb-0 fw-bold d-flex flex-wrap align-items-center`}
     >
-      <span>
-        <span className="text-body" to="/root">
-          {t('txt_your_digital_assets')}
-        </span>
+      <span className="text-body mb-0 cursor-pointer" onClick={() => handleLink('/root')}>
+        {t('txt_your_digital_assets')}
       </span>
       {data.length <= 2 ? (
         data.map((_breadcrumb, index) => {
@@ -29,7 +27,10 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
               _breadcrumb?.name && (
                 <span key={_breadcrumb?.id}>
                   <FontAwesomeIcon size={'2xs'} className="text-green px-2" icon={faAngleRight} />
-                  <span className="text-body" onClick={() => handleLink(_breadcrumb?.id)}>
+                  <span
+                    className="text-body cursor-pointer"
+                    onClick={() => handleLink(_breadcrumb?.id)}
+                  >
                     {_breadcrumb.name}
                   </span>
                 </span>
@@ -38,7 +39,7 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
           }
           return <span key={index} className={styles.dot}></span>;
         })
-      ) : data.length > 3 ? (
+      ) : data.length >= 3 ? (
         <>
           <span>
             <FontAwesomeIcon size={'2xs'} className="text-green px-2" icon={faAngleRight} />
@@ -50,15 +51,17 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
           <div className={`text-body fs-5 d-flex align-items-center cursor-pointer ${styles.dot}`}>
             <Dot />
             <div
-              className={` position-absolute start-0 shadow-sm top-100 bg-white rounded-3 border zindex-5 ${styles.list}`}
+              className={`w-max position-absolute start-0 shadow-sm top-100 bg-white rounded-3 border zindex-5 ${styles.list}`}
             >
               {data.map((_breadcrumb, index) => {
-                if (index !== 0 || index !== data.length - 1) {
+                if (index === 0 || index === data.length - 1) {
+                  return;
+                } else {
                   return (
                     _breadcrumb?.name && (
                       <span
                         key={index}
-                        className="text-body m-0 btn border-bottom px-2 d-flex align-items-center"
+                        className="text-body py-1 m-0 btn border-bottom px-2 d-flex align-items-center cursor-pointer"
                         onClick={() => handleLink(_breadcrumb?.id)}
                       >
                         <>
@@ -69,13 +72,15 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
                     )
                   );
                 }
-                return;
               })}
             </div>
           </div>
           <span>
             <FontAwesomeIcon size={'2xs'} className="text-green px-2" icon={faAngleRight} />
-            <span className="text-body" onClick={() => handleLink(data[data.length - 1]?.id)}>
+            <span
+              className="text-body cursor-pointer"
+              onClick={() => handleLink(data[data.length - 1]?.id)}
+            >
               {data[data.length - 1].name}
             </span>
           </span>

@@ -33,6 +33,7 @@ $utilities: map-merge(
             'blue-0': $color-blue,
             'red-1': $color-red,
             'blue-3': $color-blue-3,
+            'blue-6': $color-blue-6,
             'red-2': $color-red-4,
             'white': $white,
           )
@@ -188,6 +189,7 @@ $utilities: map-merge(
         2: 2,
         3: 3,
         5: 5,
+        10: 10,
       ),
     ),
     'min-height': (
@@ -213,10 +215,12 @@ $utilities: map-merge(
     ),
     'min-width': (
       property: min-width,
+      responsive: true,
       class: minw,
       values: (
         auto: auto,
         90px: 90px,
+        248px: 248px,
       ),
     ),
     'max-width': (

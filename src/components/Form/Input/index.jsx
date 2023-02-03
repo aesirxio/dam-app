@@ -30,6 +30,7 @@ const Input = ({ field }) => {
         readOnly={field.readOnly}
         disabled={field.disabled}
         onKeyDown={field.onKeyDown}
+        autoFocus={field.autoFocus}
       />
     </>
   );

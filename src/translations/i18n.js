@@ -13,7 +13,8 @@ import common_vn from './vi/common.json';
 import common_th from './th/common.json';
 import common_hr from './hr/common.json';
 import common_ua from './ua/common.json';
-// import common_es from './es/common.json';
+import common_fr from './fr/common.json';
+import common_es from './es/common.json';
 
 i18n
   .use(LanguageDetector)
@@ -45,15 +46,19 @@ i18n
         title: 'Yкраїнська',
         common: common_ua,
       },
+      fr: {
+        title: 'Français',
+        common: common_fr,
+      },
 
-      // es: {
-      //   title: 'Español',
-      //   common: common_es,
-      // },
+      es: {
+        title: 'Español',
+        common: common_es,
+      },
     },
     lng: localStorage.getItem('i18nextLng') || 'en',
     fallbackLng: 'en',
-    debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
+    debug: false,
 
     // have a common namespace used around the full app
     ns: ['translations'],

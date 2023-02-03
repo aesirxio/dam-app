@@ -11,7 +11,6 @@
   &.index {
     right: 10px;
     left: unset;
-    transform: translate(-50%, -50%) rotate(90deg) !important;
   }
   &.down {
     transform: translate(-50%, -50%) rotate(90deg) !important;
@@ -20,18 +19,19 @@
 }
 .item_menu {
   .link_menu {
-    transition: all 0.3s ease;
+    transition: color 0.2s ease-in-out;
     white-space: nowrap;
     font-size: 1.1rem;
 
     &.active,
     &:hover {
       color: $green !important;
+      font-weight: 600;
     }
 
     i,
     span {
-      transition: all 0.3s ease;
+      transition: color 0.2s ease-in-out;
     }
 
     .icon {
@@ -70,8 +70,24 @@
 }
 
 .main-menu {
-  max-height: 400px;
+  max-height: 300px;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: rgba($color: #fff, $alpha: 0.2);
+  }
+  &::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px transparent;
+    border-radius: 5px;
+    background-color: rgba($color: #fff, $alpha: 0.5);
+    box-shadow: inset 0 0 6px transparent;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px transparent;
+    background-color: transparent;
+    box-shadow: inset 0 0 6px transparent;
+  }
 }
 body.mini_left {
   .sidebar {

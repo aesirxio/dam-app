@@ -45,6 +45,15 @@ class AesirDamForm extends Component {
     this.viewModel = this.props.viewModel;
   }
 
+  handleOnSubmit = () => {
+    if (this.validator.allValid()) {
+      this.props.handleUpdate(this.formPropsData);
+    } else {
+      this.validator.showMessages();
+      // rerender to show messages for the first time
+      this.forceUpdate();
+    }
+  };
   generateFormSetting = () => {
     const { t } = this.props;
     return [
@@ -61,11 +70,10 @@ class AesirDamForm extends Component {
             inputClassName: 'border bg-transparent fs-sm',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME] = event.target.value;
+              this.forceUpdate();
             },
             blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Name');
-              }
+              this.validator.showMessageFor('Name');
             },
           },
           {
@@ -83,9 +91,7 @@ class AesirDamForm extends Component {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
             },
             blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Name');
-              }
+              this.validator.showMessageFor(t('txt_title'));
             },
           },
           {
@@ -102,11 +108,6 @@ class AesirDamForm extends Component {
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
             },
-            blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Name');
-              }
-            },
           },
           {
             label: t('txt_file_size'),
@@ -122,28 +123,20 @@ class AesirDamForm extends Component {
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
             },
-            blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Name');
-              }
-            },
           },
           {
             label: t('txt_last_modified'),
             key: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
             type: FORM_FIELD_TYPE.INPUT,
-            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
+            value: moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
+              'DD MMM, YYYY'
+            ),
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0',
             validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
-            },
-            blurred: () => {
-              if (!this.viewModel.editMode) {
-                this.validator.showMessageFor('Name');
-              }
             },
           },
         ],
@@ -193,7 +186,7 @@ class AesirDamForm extends Component {
               {Object.keys(formSetting)
                 .map((groupIndex) => {
                   return [...Array(formSetting[groupIndex])].map((group) => {
-                    return renderingGroupFieldHandler(group, this.props.validator);
+                    return renderingGroupFieldHandler(group, this.validator);
                   });
                 })
                 .reduce((arr, el) => {
@@ -211,7 +204,7 @@ class AesirDamForm extends Component {
               <div className="col-xxl-4 col-xl-5 col-6">
                 <Button
                   text={t('txt_save_update')}
-                  onClick={() => this.props.handleUpdate(this.formPropsData)}
+                  onClick={this.handleOnSubmit}
                   className="btn btn-success w-100"
                 />
               </div>

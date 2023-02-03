@@ -180,6 +180,11 @@
     }
   }
 }
+.flex-248 {
+  -ms-flex: 0 0 248px;
+  flex: 0 0 248px;
+  max-width: 248px;
+}
 
 @include media-breakpoint-down(lg) {
   .wrapper_avatar {
@@ -193,5 +198,10 @@
     .text {
       display: none;
     }
+  }
+  .flex-248 {
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    max-width: auto;
   }
 }

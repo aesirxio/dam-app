@@ -5,7 +5,6 @@
 
 import React, { Component } from 'react';
 
-import SimpleReactValidator from 'simple-react-validator';
 import { Form } from 'react-bootstrap';
 
 import { renderingGroupFieldHandler } from '../../utils/form';
@@ -21,7 +20,7 @@ class FormComponent extends Component {
     super(props);
 
     this.isEditMode = props.editMode === true;
-    this.validator = new SimpleReactValidator();
+    this.validator = props.validator;
     this.viewModel = this.props.viewModel;
     this.formPropsData = props.formPropsData;
 

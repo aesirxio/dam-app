@@ -4,37 +4,54 @@
  */
 
 import React, { useEffect, useMemo } from 'react';
-import { usePagination, useRowSelect, useTable } from 'react-table';
+import { useRowSelect, useTable } from 'react-table';
 
-import { faList } from '@fortawesome/free-solid-svg-icons/faList';
-import { faTh } from '@fortawesome/free-solid-svg-icons/faTh';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from './index.module.scss';
-import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-
-import { notify } from 'components/Toast';
+import styles from './index.module.scss';
+import ChooseAction from '../ChooseAnAction';
+import ListCheck from '../../SVG/ListCheck';
+import ThumbNails from '../../SVG/ThumbNails';
 
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
 const Select = React.lazy(() => import('../Select'));
-const Dropzone = React.lazy(() => import('components/Dropzone'));
 const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
+const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
 
-let dataFilter = {
-  searchText: '',
-  columns: [],
-  titleFilter: {},
-  datetime: null,
-  page: '',
-};
+// let dataFilter = {
+//   searchText: '',
+//   columns: [],
+//   titleFilter: {},
+//   datetime: null,
+//   page: '',
+// };
+
+// eslint-disable-next-line react/display-name
+const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
+  const defaultRef = React.useRef();
+  const resolvedRef = ref || defaultRef;
+
+  React.useEffect(() => {
+    resolvedRef.current.indeterminate = indeterminate;
+  }, [resolvedRef, indeterminate]);
+
+  return (
+    <input
+      className="form-check-input p-0 w-100 h-100"
+      type="checkbox"
+      ref={resolvedRef}
+      {...rest}
+    />
+  );
+});
 
 const Table = ({
-  rowData,
-  tableRowHeader,
-  onSelect,
+  rowData = [],
+  tableRowHeader = [],
+  // onSelect,
   isThumb,
   dataList,
   dataThumb,
@@ -52,25 +69,10 @@ const Table = ({
   onRightClickItem,
   onBackClick,
   dataCollections,
+  onSelectionChange,
   // dataAssets,
 }) => {
   const { t } = useTranslation('common');
-
-  // eslint-disable-next-line react/display-name, react/prop-types
-  const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return (
-      <>
-        <input className="form-check-input p-0" type="checkbox" ref={resolvedRef} {...rest} />
-      </>
-    );
-  });
 
   const columns = useMemo(() => tableRowHeader, [tableRowHeader]);
 
@@ -78,7 +80,7 @@ const Table = ({
 
   const filterBar = useMemo(() => ({
     id: 'type',
-    className: 'border-end border-gray-select',
+    className: 'border-end border-gray-select col-auto',
     placeholder: t('txt_type'),
     options: [
       {
@@ -107,7 +109,7 @@ const Table = ({
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     placeholder: t('txt_sort_by'),
-    className: 'border-end border-gray-select',
+    className: 'border-end border-gray-select col-auto',
     options: [
       {
         label: t('txt_sort_by'),
@@ -147,103 +149,76 @@ const Table = ({
     ],
   }));
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    rows = [],
-  } = useTable(
-    {
-      columns,
-      data,
-      onSelect,
-      initialState: {
-        hiddenColumns: dataFilter.columns,
-        pageSize: -1,
+  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows } =
+    useTable(
+      {
+        columns,
+        data,
+        // onSelect,
+        initialState: {
+          // hiddenColumns: dataFilter.columns,
+          // pageSize: rowData.length ?? -1,
+        },
       },
-    },
-    (hooks) => {
-      !noSelection &&
-        hooks.visibleColumns.push((columns) => [
-          {
-            id: 'selection',
-            Header: ({ getToggleAllPageRowsSelectedProps }) => (
-              <div>
-                <IndeterminateCheckbox {...getToggleAllPageRowsSelectedProps()} />
-              </div>
-            ),
-            Cell: ({ row }) => (
-              <div className="wrapper_checkbox">
-                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-              </div>
-            ),
-          },
-          ...columns,
-        ]);
-    },
-    usePagination,
-    useRowSelect
-  );
+      // usePagination,
+      useRowSelect,
+      (hooks) => {
+        !noSelection &&
+          hooks.visibleColumns.push((columns) => [
+            {
+              id: 'selection',
+              Header: ({ getToggleAllRowsSelectedProps }) => (
+                <div className={styles.checkbox}>
+                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                </div>
+              ),
+              // The cell can use the individual row's getToggleRowSelectedProps method
+              // to the render a checkbox
+              Cell: ({ row }) => (
+                <div className={styles.checkbox}>
+                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                </div>
+              ),
+            },
+            ...columns,
+          ]);
+      }
+    );
 
   const moveRow = (dragIndex, hoverIndex) => {
-    if (dragIndex?.[DAM_ASSETS_FIELD_KEY.TYPE] && !hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
-      // eslint-disable-next-line react/prop-types
-      listViewModel.updateAssets({
-        ...dragIndex,
-        [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
-      });
-      notify(
-        t('txt_move_with_file_or_folder', {
-          type: t('txt_file'),
-          name: dragIndex?.[DAM_ASSETS_FIELD_KEY.NAME],
-          name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
-        })
-      );
-    } else if (!hoverIndex?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
-      // eslint-disable-next-line react/prop-types
-      listViewModel.updateCollections({
-        ...dragIndex,
-        [DAM_COLLECTION_FIELD_KEY.PARENT_ID]: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.ID],
-      });
-      notify(
-        t('txt_move_with_file_or_folder', {
-          type: t('txt_folders'),
-          name: dragIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
-          name_folder: hoverIndex?.[DAM_COLLECTION_FIELD_KEY.NAME],
-        })
-      );
-    } else {
-      notify(t('txt_can_not_move'), 'warning');
-    }
+    listViewModel.moveToFolder(dragIndex, hoverIndex);
   };
+
+  useEffect(() => {
+    console.log(selectedFlatRows);
+
+    return () => {};
+  }, [selectedFlatRows]);
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
-          <div className="wrapper_search_global d-flex align-items-center">
+          <div className="wrapper_search_global row">
             <div className={filterBar.className}>
               <Select
-                placeholder={filterBar.placeholder}
                 isClearable={false}
                 isSearchable={false}
                 options={filterBar.options}
                 onChange={onFilter}
-                defaultValue={filterBar.options.find(
+                value={filterBar.options.find(
                   (e) => e.value === listViewModel.dataFilter['filter[type]']
                 )}
               />
             </div>
-
+            <ChooseAction />
             <div className={sortBy.className}>
               <Select
-                placeholder={sortBy.placeholder}
                 isClearable={false}
                 isSearchable={false}
                 options={sortBy.options}
                 onChange={onSortby}
-                defaultValue={sortBy.options.find(
+                value={sortBy.options.find(
                   (e) =>
                     e.value.ordering === listViewModel.dataFilter['list[ordering]'] &&
                     e.value.direction === listViewModel.dataFilter['list[direction]']
@@ -255,32 +230,29 @@ const Table = ({
             <div className="d-flex align-items-center">
               <button
                 type="button"
-                className={`btn fw-bold rounded-0 px-4 shadow-none ${
-                  isList ? 'bg-blue-3 text-white' : 'text-blue-0'
+                className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
+                  isList ? 'bg-blue-3 text-white' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('list')}
               >
-                <i>
-                  <FontAwesomeIcon icon={faList} />
-                </i>
+                <ListCheck className={isList ? styles.active : styles.inactive} />
                 <span className="ms-2">{t('txt_list')}</span>
               </button>
               <button
                 type="button"
-                className={`btn fw-bold rounded-0 px-4 shadow-none ${
-                  !isList ? 'bg-blue-3 text-white' : 'text-blue-0'
+                className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
+                  !isList ? 'bg-blue-3 text-white' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('thumb')}
               >
-                <i>
-                  <FontAwesomeIcon icon={faTh} />
-                </i>
+                <ThumbNails className={!isList ? styles.active : styles.inactive} />
                 <span className="ms-2">{t('txt_thumb')}</span>
               </button>
             </div>
           )}
         </div>
       </div>
+      <ThumbDragLayer />
       {isList ? (
         <div className="py-3 rounded-3 col">
           {rows.length ? (
@@ -335,12 +307,13 @@ const Table = ({
                         className={`zindex-2 ${index % 2 === 0 ? 'bg-gray-400' : 'bg-white'}`}
                         key={Math.random(40, 200)}
                         newRowCells={newRowCells}
-                        index={row.original}
+                        index={index}
                         row={row}
                         onDoubleClick={onDoubleClick}
                         onRightClickItem={onRightClickItem}
                         moveRow={moveRow}
                         type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
+                        onSelectionChange={onSelectionChange}
                       />
                     );
                   })}
@@ -350,91 +323,96 @@ const Table = ({
         </div>
       ) : (
         <div {...getTableBodyProps()} className={`row ${rows.length === 0 ? 'col' : ''}`}>
-          {rows.map((row, index) => {
-            prepareRow(row);
-            let newRowCells = row.cells;
-            if (dataThumb && dataThumb.length > 0) {
-              newRowCells = row.cells.filter(
-                (item) => !dataThumb.some((other) => item.column.id === other)
-              );
-            }
+          {rows.length
+            ? rows.map((row, index) => {
+                prepareRow(row);
+                let newRowCells = row.cells;
+                if (dataThumb && dataThumb.length > 0) {
+                  newRowCells = row.cells.filter(
+                    (item) => !dataThumb.some((other) => item.column.id === other)
+                  );
+                }
 
-            return (
-              newRowCells.length > 0 && (
-                <React.Fragment key={row?.original?.id}>
-                  {index === 0 && !row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
-                    <>
-                      <div className="col-12">
-                        <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
-                      </div>
-                      {listViewModel?.damLinkFolder.split('/').length > 1 && (
-                        <div
-                          className={`col_thumb ${styles.col_thumb} col-${
-                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                          } mb-4 zindex-2`}
-                        >
-                          <div
-                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
-                        `}
-                            onClick={onBackClick}
-                          >
-                            <ArrowBack />
-                            <span>{t('txt_back')}</span>
+                return (
+                  newRowCells.length > 0 && (
+                    <React.Fragment key={row?.original?.id}>
+                      {index === 0 && !row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
+                        <>
+                          <div className="col-12">
+                            <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
                           </div>
-                        </div>
+                          {listViewModel?.damLinkFolder.split('/').length > 1 && (
+                            <div
+                              className={`col_thumb ${styles.col_thumb} col-${
+                                !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                              } mb-4 zindex-2`}
+                            >
+                              <div
+                                className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+                      `}
+                                onClick={onBackClick}
+                              >
+                                <ArrowBack />
+                                <span>{t('txt_back')}</span>
+                              </div>
+                            </div>
+                          )}
+                        </>
                       )}
-                    </>
-                  ) : null}
-                  {dataCollections.length === index && row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
-                    <>
-                      <div className="col-12">
-                        <p className="fw-bold text-blue-0">{t('txt_file')}</p>
-                      </div>
-                      {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
-                        <div
-                          className={`col_thumb ${styles.col_thumb} col-${
-                            !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                          } mb-4 zindex-2`}
-                        >
-                          <div
-                            className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
-                `}
-                            onClick={onBackClick}
-                          >
-                            <ArrowBack />
-                            <span>{t('txt_back')}</span>
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  )}
-                  <Thumb
-                    {...row.getRowProps()}
-                    className={`col_thumb ${styles.col_thumb} col-${
-                      !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                    } mb-4 zindex-2`}
-                    newRowCells={newRowCells}
-                    index={index}
-                    row={row}
-                    onDoubleClick={onDoubleClick}
-                    onRightClickItem={onRightClickItem}
-                    moveRow={moveRow}
-                    type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
-                  />
-                </React.Fragment>
-              )
-            );
-          })}
+                      {dataCollections.length === index &&
+                        row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
+                          <>
+                            <div className="col-12">
+                              <p className="fw-bold text-blue-0">{t('txt_file')}</p>
+                            </div>
+                            {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
+                              <div
+                                className={`col_thumb ${styles.col_thumb} col-${
+                                  !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                                } mb-4 zindex-2`}
+                              >
+                                <div
+                                  className={`item_thumb d-flex cursor-pointer align-items-center justify-content-center  shadow-sm h-100 rounded-2 overflow-hidden flex-column bg-white
+              `}
+                                  onClick={onBackClick}
+                                >
+                                  <ArrowBack />
+                                  <span>{t('txt_back')}</span>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      <Thumb
+                        {...row.getRowProps()}
+                        className={`col_thumb ${styles.col_thumb} col-${
+                          !thumbColumnsNumber ? '3' : thumbColumnsNumber
+                        } mb-4 zindex-2`}
+                        newRowCells={newRowCells}
+                        index={index}
+                        row={row}
+                        onDoubleClick={onDoubleClick}
+                        onRightClickItem={onRightClickItem}
+                        moveRow={moveRow}
+                        type={row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? 'assets' : 'folder'}
+                        onSelectionChange={onSelectionChange}
+                      />
+                    </React.Fragment>
+                  )
+                );
+              })
+            : null}
         </div>
       )}
-      {rows.length === 0 ? (
+      {rows.length === 0 && (
         <>
-          {listViewModel?.damLinkFolder.split('/').length > 1 && (
-            <p onClick={onBackClick} className="d-flex zindex-2 align-items-center cursor-pointer">
-              <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
-            </p>
-          )}
-
+          <p onClick={onBackClick} className="d-flex zindex-2 align-items-center cursor-pointer">
+            {listViewModel?.damLinkFolder.split('/').length > 1 && (
+              <>
+                <ArrowBack /> <span className="fw-semibold ps-2">{t('txt_back')}</span>
+              </>
+            )}
+          </p>
           <ComponentNoData
             icons="/assets/images/ic_project.svg"
             title="No Matching Results"
@@ -443,8 +421,6 @@ const Table = ({
             createAssets={createAssets}
           />
         </>
-      ) : (
-        <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
       )}
     </DndProvider>
   );

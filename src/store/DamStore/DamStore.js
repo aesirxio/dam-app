@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { AesirxDamApiService } from 'aesirx-dma-lib';
+import { AesirxDamApiService, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
 
@@ -36,40 +36,48 @@ export default class DamStore {
     }
   };
 
-  goToFolder = async (collectionId, dataFilter, callbackOnSuccess, callbackOnError) => {
+  goToFolder = async (
+    collectionId,
+    dataFilter,
+    isFetchCollection,
+    isFetchAssets,
+    callbackOnSuccess,
+    callbackOnError
+  ) => {
     try {
-      let data = [];
+      let collections = [];
+      let assets = [];
       const damService = new AesirxDamApiService();
-      const responsedDataAssetsFromLibary = await damService.getAssets(collectionId, dataFilter);
-
-      const responsedDataCollectionFromLibary = await damService.getCollections(
-        collectionId,
-        dataFilter
-      );
-
-      if (responsedDataCollectionFromLibary?.list) {
-        const collectionsData = DamUtils.transformPersonaResponseIntoModel(
-          responsedDataCollectionFromLibary.list
+      if (isFetchCollection) {
+        const responsedDataCollectionFromLibary = await damService.getCollections(
+          collectionId,
+          dataFilter
         );
-        data = [...data, ...collectionsData];
+
+        if (responsedDataCollectionFromLibary?.list) {
+          const collectionsData = DamUtils.transformPersonaResponseIntoModel(
+            responsedDataCollectionFromLibary.list
+          );
+          collections = [...collectionsData];
+        }
       }
-      if (responsedDataAssetsFromLibary?.list) {
-        const assetsData = DamUtils.transformPersonaResponseIntoModel(
-          responsedDataAssetsFromLibary.list
-        );
-        data = [...data, ...assetsData];
+
+      if (isFetchAssets) {
+        const responsedDataAssetsFromLibary = await damService.getAssets(collectionId, dataFilter);
+
+        if (responsedDataAssetsFromLibary?.list) {
+          const assetsData = DamUtils.transformPersonaResponseIntoModel(
+            responsedDataAssetsFromLibary.list
+          );
+          assets = [...assetsData];
+        }
       }
-      if (data.length) {
-        runInAction(() => {
-          callbackOnSuccess({
-            list: data,
-          });
+      runInAction(() => {
+        callbackOnSuccess({
+          collections: collections,
+          assets: assets,
         });
-      } else {
-        callbackOnError({
-          message: 'Something went wrong from Server response',
-        });
-      }
+      });
     } catch (error) {
       console.log(error);
       runInAction(() => {
@@ -91,7 +99,7 @@ export default class DamStore {
   getAllCollections = async () => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.getAllCollections();
+      const responsedDataFromLibary = await damService.getCollections();
       if (responsedDataFromLibary?.list) {
         const collectionDataModel = responsedDataFromLibary?.list;
         if (collectionDataModel) {
@@ -111,21 +119,12 @@ export default class DamStore {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createCollections(data);
       if (responsedDataFromLibary) {
-        const getDetailCollection = await damService.getCollection(responsedDataFromLibary);
-        if (getDetailCollection?.item) {
-          runInAction(() => {
-            callbackOnSuccess({
-              item: getDetailCollection.item,
-              type: 'create',
-            });
+        runInAction(() => {
+          callbackOnSuccess({
+            item: responsedDataFromLibary,
+            type: 'create',
           });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'error with getDetail',
-            });
-          });
-        }
+        });
       } else {
         if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
@@ -155,6 +154,23 @@ export default class DamStore {
           });
         }
       });
+    }
+  };
+
+  downloadCollections = async (id) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.downloadCollections(id);
+
+      if (responsedDataFromLibary) {
+        // saveAs(responsedDataFromLibary, 'aesirx-dam-assets.zip');
+        return responsedDataFromLibary;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   };
 
@@ -204,7 +220,7 @@ export default class DamStore {
   deleteCollections = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteCollections(data?.id);
+      const responsedDataFromLibary = await damService.deleteCollections(data);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({
@@ -248,22 +264,15 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responsedDataFromLibary = await damService.createAssets(data);
-      if (responsedDataFromLibary) {
-        const getDetailAsset = await damService.getAsset(responsedDataFromLibary);
-        if (getDetailAsset.item) {
-          runInAction(() => {
-            callbackOnSuccess({
-              item: getDetailAsset.item,
-              type: 'create',
-            });
+      console.log('asdasd');
+      console.log(responsedDataFromLibary);
+      if (responsedDataFromLibary.length) {
+        runInAction(() => {
+          callbackOnSuccess({
+            item: responsedDataFromLibary,
+            type: 'create',
           });
-        } else {
-          runInAction(() => {
-            callbackOnError({
-              message: 'error with getDetail',
-            });
-          });
-        }
+        });
       } else {
         if (responsedDataFromLibary?.message === 'isCancel') {
           runInAction(() => {
@@ -339,10 +348,55 @@ export default class DamStore {
     }
   };
 
+  moveToFolder = async (data, callbackOnSuccess, callbackOnError) => {
+    try {
+      const damService = new AesirxDamApiService();
+      const responsedDataFromLibary = await damService.moveToFolder(data);
+      if (responsedDataFromLibary) {
+        runInAction(() => {
+          callbackOnSuccess({
+            collections: data[DAM_COLLECTION_FIELD_KEY.COLLECTIONIDS],
+            assets: data[DAM_COLLECTION_FIELD_KEY.ASSETSIDS],
+            parentCollection: data[DAM_COLLECTION_FIELD_KEY.PARENT_ID],
+          });
+        });
+      } else {
+        if (responsedDataFromLibary?.message === 'isCancel') {
+          runInAction(() => {
+            callbackOnError({
+              message: 'isCancel',
+            });
+          });
+        } else {
+          runInAction(() => {
+            callbackOnError({
+              message: 'Something went wrong from Server response',
+            });
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        if (error.response?.data.message) {
+          callbackOnError({
+            message: error.response?.data?.message,
+          });
+        } else {
+          callbackOnError({
+            message:
+              error.response?.data?._messages[0]?.message ??
+              'Something went wrong from Server response',
+          });
+        }
+      });
+    }
+  };
+
   deleteAssets = async (data, callbackOnSuccess, callbackOnError) => {
     try {
       const damService = new AesirxDamApiService();
-      const responsedDataFromLibary = await damService.deleteAssets(data?.id);
+      const responsedDataFromLibary = await damService.deleteAssets(data);
       if (responsedDataFromLibary) {
         runInAction(() => {
           callbackOnSuccess({
@@ -366,6 +420,7 @@ export default class DamStore {
         }
       }
     } catch (error) {
+      console.log(error);
       runInAction(() => {
         if (error.response?.data.message) {
           callbackOnError({

@@ -26,9 +26,11 @@ const HomeActionBar = observer(
     constructor(props) {
       super(props);
       const { viewModel } = props;
-
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
-      this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
+      this.state = {
+        breadcrumb: [],
+      };
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
+      this.damformModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {}
@@ -61,7 +63,8 @@ const HomeActionBar = observer(
 
       const currentLinkIndexMap = currentLink.findIndex((a) => +a === id);
 
-      return currentLink.splice(0, currentLinkIndexMap + 1).join('/');
+      const linkToPush = currentLink.splice(0, currentLinkIndexMap + 1).join('/');
+      history.push(linkToPush);
     };
 
     render() {
@@ -70,8 +73,8 @@ const HomeActionBar = observer(
 
       const breadcrumb =
         collectionId
-          .map((id, index) => {
-            if (!isNaN(id) && index !== 0) {
+          .map((id) => {
+            if (!isNaN(id)) {
               return this.damListViewModel.collections.find((collection) => +collection.id === +id);
             }
           })

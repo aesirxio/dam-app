@@ -3,6 +3,8 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+@import '../../scss/utils/bootstrap.scss';
+
 .btn {
   width: 35px;
   height: 35px;
@@ -31,4 +33,33 @@
 }
 .w_136 {
   min-width: 136px;
+}
+
+.image_thumb {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.active {
+  fill: $white;
+}
+
+.inactive {
+  fill: $color-blue-6;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0 auto;
+  input {
+    width: 100%;
+    height: 100%;
+  }
 }

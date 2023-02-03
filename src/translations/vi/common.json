@@ -144,5 +144,10 @@
   "txt_can_not_move": "Không thể di chuyển",
   "txt_move_with_file_or_folder": "Đã chuyển {{Kiểu}} {{Tên}} đến thư mục {{Tên thư mục}}",
   "txt_drop_to_upload": "Thả để tải lên",
-  "txt_digital_assets_media": "Phương tiện tài sản kỹ thuật số"
+  "txt_digital_assets_media": "Phương tiện tài sản kỹ thuật số",
+  "txt_remember_me": "Lưu mật khẩu",
+  "txt_by": "bởi",
+  "txt_warning": "Cảnh báo",
+  "txt_successful": "Thành công",
+  "txt_error": "Lỗi"
 }
