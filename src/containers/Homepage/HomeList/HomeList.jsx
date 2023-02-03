@@ -25,7 +25,6 @@ import styles from '../index.module.scss';
 import utils from '../HomeUtils/HomeUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
-import { notify } from 'components/Toast';
 
 const HomeList = observer(
   class HomeList extends Component {
@@ -41,9 +40,6 @@ const HomeList = observer(
     }
 
     componentDidMount() {
-      notify('test', 'success');
-      notify('test', 'error');
-      notify('test', 'warn');
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
       const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
