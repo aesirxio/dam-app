@@ -9,6 +9,10 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import './index.scss';
 import { Translation } from 'react-i18next';
+import error from './error.png';
+import warn from './warn.png';
+import success from './success.png';
+
 const Toast = () => {
   return <ToastContainer hideProgressBar={true} />;
 };
@@ -22,8 +26,8 @@ const notify = (msg, type = 'success') => {
           {msg && <p className="fw-normal m-0"></p>}
         </>,
         {
-          className: 'bg-noti-bg-error fw-bold text-noti-error px-2 py-1',
-          icon: () => <img alt="error" src="/assets/images/error.png" />,
+          className: 'bg-red-10 fw-bold text-red-100 ps-4',
+          icon: () => <img alt="error" src={error} />,
         }
       );
       break;
@@ -34,8 +38,8 @@ const notify = (msg, type = 'success') => {
           {msg && <p className="fw-normal m-0"></p>}
         </>,
         {
-          className: 'bg-noti-bg-warn fw-bold text-noti-warn px-2 py-1',
-          icon: () => <img alt="warn" src="/assets/images/warn.png" />,
+          className: 'bg-yellow-10 fw-bold text-yellow-200 ps-4',
+          icon: () => <img alt="warn" src={warn} />,
         }
       );
       break;
@@ -46,8 +50,8 @@ const notify = (msg, type = 'success') => {
           {msg && <p className="fw-normal m-0"></p>}
         </>,
         {
-          className: 'bg-noti-bg-success text-green fw-bold px-2 py-1',
-          icon: () => <img alt="success" src="/assets/images/success.png" />,
+          className: 'bg-primary-10 text-green fw-bold ps-4',
+          icon: () => <img alt="success" src={success} />,
         }
       );
       break;
@@ -82,7 +86,7 @@ const notify = (msg, type = 'success') => {
               );
             },
             className: 'bg-noti-bg-success text-green fw-bold px-2 py-1',
-            icon: () => <img alt="success" src="/assets/images/success.png" />,
+            icon: () => <img alt="success" src={success} />,
           },
           error: {
             render() {
@@ -94,7 +98,7 @@ const notify = (msg, type = 'success') => {
               );
             },
             className: 'bg-noti-bg-error fw-bold text-noti-error px-2 py-1',
-            icon: () => <img alt="error" src="/assets/images/error.png" />,
+            icon: () => <img alt="error" src={error} />,
           },
         },
         {
