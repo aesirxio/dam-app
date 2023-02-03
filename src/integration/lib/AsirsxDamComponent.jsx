@@ -21,6 +21,7 @@ import PAGE_STATUS from 'constants/PageStatus';
 import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import moment from 'moment';
 
 const Folder = React.lazy(() => import('SVG/Folder'));
 const AesirXDamComponent = observer(
@@ -353,10 +354,15 @@ const AesirXDamComponent = observer(
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
+                    {!this.damListViewModel.isList && (
+                      <>
+                        <br />
+                        {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                          'DD MMM, YYYY'
+                        )}
+                      </>
+                    )}
                   </span>
-                  <br />
-
-                  <span>{row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]}</span>
                 </div>
               ) : (
                 // file
@@ -480,7 +486,6 @@ const AesirXDamComponent = observer(
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
-                noSelection={true}
                 onBackClick={this.handleBack}
                 onSelectionChange={this.handleItemSelection}
                 dataCollections={handleColections}

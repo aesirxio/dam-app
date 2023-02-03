@@ -95,7 +95,7 @@ class DamListViewModel {
       collectionId,
       this.dataFilter,
       this.collections.length ? false : true,
-      true,
+      isFetchAssets ? false : true,
       this.callbackOnSuccessHandler,
       this.callbackOnErrorHander
     );
