@@ -14,7 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "aesirx-dma-lib": "^1.7.5",
+    "aesirx-dma-lib": "^1.7.7",
     "aesirx-sso": "^1.0.3",
     "date-fns": "^2.16.1",
     "date-fns-tz": "^1.1.6",
@@ -59,9 +59,7 @@
     "prepublishOnly": "yarn microbundle && yarn build:css",
     "microbundle": "microbundle --globals react=React,react-dom=ReactDOM --no-sourcemap --jsx React.createElement --jsxFragment React.Fragment --generateTypes true --no-compress --format modern,cjs,esm",
     "microbundle:watch": "microbundle --globals react=React,react-dom=ReactDOM --jsx React.createElement --jsxFragment React.Fragment --generateTypes true --no-compress --format modern,cjs,esm -w",
-    "build:css": "sass  --no-source-map --style=compressed ./src/integration/lib/index.scss ./dist/app.css",
-    "@comment_postinstall": "Behavior of the node-js subscript below: if '.git' doesn't exist under my-lib, it's installed as a dep, so do nothing -- else, return error-code 1, causing patch-package to run.",
-    "postinstall": "node -e \"let myLibAsDep = !require('fs').existsSync('.git'); if (!myLibAsDep) process.exit(1);\" || yarn install && yarn microbundle && yarn build:css"
+    "build:css": "sass  --no-source-map --style=compressed ./src/integration/lib/index.scss ./dist/app.css"
   },
   "eslintConfig": {
     "extends": [
