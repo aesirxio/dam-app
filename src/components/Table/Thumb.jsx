@@ -162,17 +162,7 @@ const Thumb = observer(
           isOver ? 'border border-success bg-gray-dark' : 'border-none'
         } ${className}`}
         onDoubleClick={() => {
-          clearTimeout(timer);
-          prevent = true;
           onDoubleClick(row.original);
-        }}
-        onClick={(e) => {
-          timer = setTimeout(function () {
-            if (!prevent) {
-              onSelect(e);
-            }
-            prevent = false;
-          }, delay);
         }}
         onContextMenu={(e) => {
           onRightClickItem(e, { ...row.original, index });
@@ -183,16 +173,11 @@ const Thumb = observer(
       >
         {newRowCells.map((cell, index) => {
           return (
-            <td
-              key={index}
-              {...cell.getCellProps()}
-              className="fw-normal px-2 py-3 position-relative"
-            >
+            <td key={index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
               {cell.render('Cell')}
             </td>
           );
         })}
-        <FakeThumb id={+row.original.id} />
       </tr>
     ) : (
       <div style={{ opacity }} className={className}>

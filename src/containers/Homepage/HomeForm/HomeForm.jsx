@@ -47,6 +47,7 @@ class HomeForm extends Component {
     if (this.validator.allValid()) {
       this.props.handleUpdate(this.formPropsData);
     } else {
+      console.log(123);
       this.validator.showMessages();
       // rerender to show messages for the first time
       this.forceUpdate();
@@ -85,7 +86,6 @@ class HomeForm extends Component {
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'border bg-transparent fs-sm',
-            validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
             },
@@ -100,7 +100,6 @@ class HomeForm extends Component {
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'bg-transparent border-0 p-0',
-            validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
             },
@@ -113,7 +112,6 @@ class HomeForm extends Component {
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0',
-            validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
             },
@@ -128,7 +126,6 @@ class HomeForm extends Component {
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0',
-            validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
             },

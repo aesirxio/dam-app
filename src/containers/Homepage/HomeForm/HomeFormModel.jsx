@@ -242,19 +242,19 @@ const HomeFormModal = observer(
                   {t('txt_move_to_folder')}
                 </span>
               </div>
-              {selectedCards.length < 2 && (
-                <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  onClick={downloadFile}
-                >
-                  <Suspense fallback={''}>
-                    <DownLoadIcon />
-                  </Suspense>
-                  <span className="ms-3 text-color py-1 d-inline-block">
-                    {t('txt_download_folder')}
-                  </span>
-                </div>
-              )}
+              {/* {selectedCards.length < 2 && ( */}
+              <div
+                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                onClick={downloadFile}
+              >
+                <Suspense fallback={''}>
+                  <DownLoadIcon />
+                </Suspense>
+                <span className="ms-3 text-color py-1 d-inline-block">
+                  {t('txt_download_folder')}
+                </span>
+              </div>
+              {/* )} */}
 
               <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
