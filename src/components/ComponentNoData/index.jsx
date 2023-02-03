@@ -2,10 +2,9 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-import React from 'react';
+import React, { Component } from 'react';
 import Dropzone from 'components/Dropzone';
-import { Component } from 'react';
-import './index.scss';
+
 import { withTranslation } from 'react-i18next';
 import Button from 'components/Button';
 

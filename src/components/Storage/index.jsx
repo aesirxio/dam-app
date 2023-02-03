@@ -46,7 +46,7 @@ class Storage extends React.Component {
     const { t } = this.props;
 
     return (
-      <div className="w-100 mb-3 px-3 py-3">
+      <div className={`w-100 mb-3 px-3 py-3 ${this.props.theme ?? 'light'}`}>
         <p className="mb-0">
           <ComponentImage src="/assets/images/storage.svg" />
           <span className="text-white ps-3">{t('txt_storage')}</span>

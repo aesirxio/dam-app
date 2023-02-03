@@ -4,18 +4,19 @@
  */
 
 @import '../../scss/utils/bootstrap.scss';
+.dam-integrate-layout {
+  .item_hambuger {
+    width: 25px;
+    height: 3px;
+    background-color: $red;
+    transition: all 0.4s ease;
+    margin-bottom: 5px;
+    margin: 4px 0;
+  }
 
-.item_hambuger {
-  width: 25px;
-  height: 3px;
-  background-color: $red;
-  transition: all 0.4s ease;
-  margin-bottom: 5px;
-  margin: 4px 0;
-}
-
-@include media-breakpoint-down(xl) {
-  .wrapper_hambuger {
-    display: inline-block !important;
+  @include media-breakpoint-down(xl) {
+    .wrapper_hambuger {
+      display: inline-block !important;
+    }
   }
 }

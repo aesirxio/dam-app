@@ -47,7 +47,7 @@ const RouterLayout = () => {
       return arr.concat(el);
     }, []);
   return (
-    <>
+    <div className="dam-integrate-layout">
       <Toast />
       <BrowserRouter>
         <Router history={history}>
@@ -70,7 +70,7 @@ const RouterLayout = () => {
           </Switch>
         </Router>
       </BrowserRouter>
-    </>
+    </div>
   );
 };
 
