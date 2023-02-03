@@ -6,7 +6,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withTranslation } from 'react-i18next';
-import './index.scss';
 
 class ButtonNormal extends React.Component {
   render() {

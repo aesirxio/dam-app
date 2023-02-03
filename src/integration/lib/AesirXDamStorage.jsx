@@ -14,7 +14,9 @@ class AesirXDamStorage extends Component {
     return (
       <ErrorBoundary>
         <I18nextProvider i18n={i18n}>
-          <Storage {...this.props} />;
+          <div className="dam-integrate-layout">
+            <Storage {...this.props} />;
+          </div>
         </I18nextProvider>
       </ErrorBoundary>
     );

@@ -7,68 +7,69 @@
 
 @import '~bootstrap/scss/modal';
 @import '~bootstrap/scss/close';
-
-.close {
-  @extend .btn-close;
-
-  span {
-    display: none;
-  }
-}
-
-.modal {
+.dam-integrate-layout {
   .close {
-    background: none;
-    position: relative;
-    opacity: 1;
-    border: 3px solid $green;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    box-sizing: border-box;
-    cursor: pointer;
-    &:before,
-    &:after {
-      position: absolute;
-      left: 0;
-      content: ' ';
-      height: 12px;
-      width: 3px;
-      border-radius: 5px;
-      background-color: $green;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      margin: auto;
-    }
+    @extend .btn-close;
 
-    &:before {
-      transform: rotate(45deg);
-    }
-
-    &:after {
-      transform: rotate(-45deg);
+    span {
+      display: none;
     }
   }
 
-  .modal-content {
-    border-radius: 0.8rem;
-  }
+  .modal {
+    .close {
+      background: none;
+      position: relative;
+      opacity: 1;
+      border: 3px solid $green;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      box-sizing: border-box;
+      cursor: pointer;
+      &:before,
+      &:after {
+        position: absolute;
+        left: 0;
+        content: ' ';
+        height: 12px;
+        width: 3px;
+        border-radius: 5px;
+        background-color: $green;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+      }
 
-  .modal-footer {
-    border-top: 0;
+      &:before {
+        transform: rotate(45deg);
+      }
 
-    > * {
-      margin: 0;
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
+
+    .modal-content {
+      border-radius: 0.8rem;
+    }
+
+    .modal-footer {
+      border-top: 0;
+
+      > * {
+        margin: 0;
+      }
     }
   }
-}
 
-@include media-breakpoint-up(xl) {
-  .modal,
-  .modal-backdrop {
-    width: calc(100vw - 248px) !important;
-    right: 0 !important;
-    left: unset !important;
+  @include media-breakpoint-up(xl) {
+    .modal,
+    .modal-backdrop {
+      width: calc(100vw - 248px) !important;
+      right: 0 !important;
+      left: unset !important;
+    }
   }
 }

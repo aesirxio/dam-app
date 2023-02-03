@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import './index.scss';
 import { withTranslation } from 'react-i18next';
 
 class Checkbox extends React.Component {

@@ -9,10 +9,9 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import './index.scss';
 import { Translation } from 'react-i18next';
-import error from './error.png';
-import warn from './warn.png';
-import success from './success.png';
-
+import Error from 'SVG/Error';
+import Success from 'SVG/Success';
+import Warn from 'SVG/Warn';
 const Toast = () => {
   return <ToastContainer hideProgressBar={true} />;
 };
@@ -27,7 +26,7 @@ const notify = (msg, type = 'success') => {
         </>,
         {
           className: 'bg-red-10 fw-bold text-red-100 ps-4',
-          icon: () => <img alt="error" src={error} />,
+          icon: () => <Error />,
         }
       );
       break;
@@ -39,7 +38,7 @@ const notify = (msg, type = 'success') => {
         </>,
         {
           className: 'bg-yellow-10 fw-bold text-yellow-200 ps-4',
-          icon: () => <img alt="warn" src={warn} />,
+          icon: () => <Warn />,
         }
       );
       break;
@@ -51,7 +50,7 @@ const notify = (msg, type = 'success') => {
         </>,
         {
           className: 'bg-primary-10 text-green fw-bold ps-4',
-          icon: () => <img alt="success" src={success} />,
+          icon: () => <Success />,
         }
       );
       break;
@@ -85,8 +84,8 @@ const notify = (msg, type = 'success') => {
                 </>
               );
             },
-            className: 'bg-noti-bg-success text-green fw-bold px-2 py-1',
-            icon: () => <img alt="success" src={success} />,
+            className: 'bg-primary-10 text-green fw-bold ps-4',
+            icon: () => <Success />,
           },
           error: {
             render() {
@@ -97,8 +96,8 @@ const notify = (msg, type = 'success') => {
                 </>
               );
             },
-            className: 'bg-noti-bg-error fw-bold text-noti-error px-2 py-1',
-            icon: () => <img alt="error" src={error} />,
+            className: 'bg-red-10 fw-bold text-red-100 ps-4',
+            icon: () => <Error />,
           },
         },
         {

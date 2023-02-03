@@ -24,7 +24,7 @@ const AesirXDamLayout = ({ lang = 'en', theme = 'light', ...props }) => {
   }, [lang, i18n.language]);
 
   return (
-    <div className="container-fluid h-100 dam-intergrate-layout">
+    <div className="container-fluid h-100 dam-integrate-layout">
       <div className={`row h-100 ${theme ?? 'light'}`}>
         <DamStoreProvider viewModel={damsViewModel}>
           <div className="main_content main_content_dashboard h-100 d-flex">
