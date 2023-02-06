@@ -1,6 +1,6 @@
 {
   "name": "aesirx-dam-app",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "license": "GPL-3.0-only",
   "author": "AesirX",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "aesirx-dma-lib": "^1.7.7",
+    "aesirx-dma-lib": "^1.7.8",
     "aesirx-sso": "^1.0.3",
     "babel-plugin-file-loader": "^2.0.0",
     "bootstrap": "^5.2.2",
