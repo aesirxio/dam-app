@@ -22,8 +22,6 @@
     "date-fns-tz": "^1.1.6",
     "file-saver": "^2.0.5",
     "html-react-parser": "^1.2.7",
-    "i18next": "^19.8.4",
-    "i18next-browser-languagedetector": "^6.0.1",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
     "moment": "^2.29.4",
@@ -33,7 +31,6 @@
     "react-dnd": "^15.1.2",
     "react-dnd-html5-backend": "^15.1.2",
     "react-dropzone": "^11.2.4",
-    "react-i18next": "^11.7.3",
     "react-lazy-load-image-component": "^1.5.1",
     "react-number-format": "^4.6.4",
     "react-router-dom": "^5.2.0",
@@ -107,7 +104,10 @@
     "sass": "^1.52",
     "serve": "^13.0.2",
     "url": "^0.11.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "i18next": "^19.8.4",
+    "i18next-browser-languagedetector": "^6.0.1",
+    "react-i18next": "^11.7.3"
   },
   "files": [
     "dist",

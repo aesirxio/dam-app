@@ -20,7 +20,7 @@ import Search from 'components/Search';
 
 import SwitchThemes from 'components/SwitchThemes/index';
 import Select from 'components/Select/index';
-
+import styles from './index.module.scss';
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -60,7 +60,7 @@ class Header extends React.Component {
         <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center position-relative bg-white">
           <div className="d-flex flex-1 align-items-center">
             <Search />
-            <div className="ms-auto d-flex align-items-center">
+            <div className={`ms-auto d-flex align-items-center ${styles.custom_select}`}>
               <FontAwesomeIcon icon={faGlobe} className="text-body" />
               <Select
                 isClearable={false}
