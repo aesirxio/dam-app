@@ -1,44 +1,38 @@
 import React from 'react';
-import { observer } from 'mobx-react';
-import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+
 import ComponentImage from 'components/ComponentImage';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import styles from './index.module.scss';
-const ThumbsDragPreview = observer(({ thumbs }) => {
-  const {
-    damListViewModel: {
-      actionState: { selectedCards },
-    },
-  } = useDamViewModel();
+const ThumbsDragPreview = ({ thumbs }) => {
   return (
     <div>
-      {selectedCards.length ? (
-        selectedCards.slice(0, 3).map((card, i) => (
+      {thumbs.length ? (
+        thumbs.slice(0, 3).map((thumb, i) => (
           <div
-            key={card.id}
-            className="card card-dragged"
+            key={thumb.id}
+            className="d-flex align-items-center"
             style={{
-              zIndex: selectedCards.length - i,
+              zIndex: thumbs.length - i,
               transform: `rotateZ(${-i * 2.5}deg)`,
             }}
           >
             <ComponentImage
-              alt={card.name}
+              alt={thumb.name}
               src={
-                card?.[DAM_ASSETS_FIELD_KEY.TYPE]
-                  ? card?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]
+                thumb?.[DAM_ASSETS_FIELD_KEY.TYPE]
+                  ? thumb?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]
                   : '/assets/images/folder.svg'
               }
               wrapperClassName={styles.image_thumb}
             />
-            <span> {card.name}</span>
+            <span className="ps-1"> {thumb.name}</span>
           </div>
         ))
       ) : (
-        <div className="card card-dragged">{thumbs.id}</div>
+        <div className="">File</div>
       )}
     </div>
   );
-});
+};
 
 export default ThumbsDragPreview;

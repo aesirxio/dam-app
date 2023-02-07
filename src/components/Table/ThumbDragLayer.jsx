@@ -22,7 +22,7 @@ const getItemStyles = (currentOffset) => {
   const { x, y } = currentOffset;
   return {
     transform: `translate(${x}px, ${y}px)`,
-    filter: 'drop-shadow(0 2px 12px rgba(0,0,0,0.45))',
+    filter: 'drop-shadow(0 2px 5px rgba(0,0,0,0.45))',
   };
 };
 
@@ -37,7 +37,7 @@ export default function ThumbDragLayer() {
   const renderItem = (type, item) => {
     switch (type) {
       case DND_ITEM_TYPE:
-        return <ThumbDragPreview thumbs={item} />;
+        return <ThumbDragPreview thumbs={item?.items ?? []} />;
       default:
         return null;
     }

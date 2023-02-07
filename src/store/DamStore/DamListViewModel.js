@@ -231,7 +231,7 @@ class DamListViewModel {
   };
 
   moveToFolder = (dragIndex, hoverIndex) => {
-    const selectedItem = this.actionState.selectedCards;
+    const selectedItem = dragIndex;
 
     if (selectedItem.length) {
       const assets = selectedItem
