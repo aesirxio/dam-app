@@ -1,0 +1,36 @@
+{
+    "name": "tests",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "codeceptjs": "codeceptjs run --steps",
+        "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
+        "codeceptjs:ui": "codecept-ui --app",
+        "codeceptjs:demo": "codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.puppeteer.conf.js",
+        "codeceptjs:demo:headless": "HEADLESS=true codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.puppeteer.conf.js",
+        "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.puppeteer.conf.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/cli": "^7.19.3",
+        "@babel/core": "^7.19.3",
+        "@babel/preset-env": "^7.19.4",
+        "babel-eslint": "^10.1.0",
+        "chai": "^4.3.6",
+        "@codeceptjs/configure": "^0.10.0",
+        "@codeceptjs/examples": "^1.2.1",
+        "@codeceptjs/ui": "^0.4.7",
+        "codeceptjs": "^3.3.6",
+        "puppeteer": "^5.5.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-formatter-friendly": "^7.0.0",
+        "eslint-plugin-codeceptjs": "^1.3.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-react": "^7.31.10",
+        "import-export": "^1.0.1"
+    }
+}
