@@ -177,15 +177,10 @@ class DamListViewModel {
     this.damFormModalViewModel.closeDeleteModal();
     let selectedCollections = [];
     let selectedAssets = [];
-    console.log('asd');
-    console.log(this.actionState.selectedCards);
     this.actionState.selectedCards.forEach((selected) => {
-      console.log(selected[DAM_ASSETS_FIELD_KEY.TYPE]);
       if (selected[DAM_ASSETS_FIELD_KEY.TYPE]) {
-        console.log('assets');
         selectedAssets.push(selected.id);
       } else {
-        console.log('collection');
         selectedCollections.push(selected.id);
       }
     });

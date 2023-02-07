@@ -6,6 +6,7 @@
 import { AesirxDamApiService, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
+import { saveAs } from 'file-saver';
 
 export default class DamStore {
   getSubscription = async () => {
@@ -163,7 +164,7 @@ export default class DamStore {
       const responsedDataFromLibary = await damService.downloadCollections(id);
 
       if (responsedDataFromLibary) {
-        // saveAs(responsedDataFromLibary, 'aesirx-dam-assets.zip');
+        saveAs(responsedDataFromLibary, 'aesirx-dam-assets.zip');
         return responsedDataFromLibary;
       } else {
         return false;
