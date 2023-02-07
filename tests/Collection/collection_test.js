@@ -10,11 +10,10 @@ Feature('Collection');
 
 Scenario('Create collection', ({ Data, Collection }) => {
     login.loginOnApp(Data.email, Data.password);
-    // collection.createCollection(Collection.name);
+    collection.createCollection(Collection.name);
     collection.updateCollectionName(Collection.name, Collection.nameUpdate);
     collection.deleteCollection(Collection.nameUpdate);
 }).injectDependencies({
     Data: AuthenticationMockData.getInformationForLogin(),
     Collection: CollectionMockData.getInformationCollectionForCreate()
-
 });
