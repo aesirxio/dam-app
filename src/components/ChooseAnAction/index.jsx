@@ -31,7 +31,8 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
 
 const ChooseAction = observer(() => {
   const { t } = useTranslation('common');
-  const { openDeleteModal, openMoveToFolder } = useDamViewModel().getDamFormViewModel();
+  const { openDeleteModal, openMoveToFolder, downloadFile } =
+    useDamViewModel().getDamFormViewModel();
   const { setActionState } = useDamViewModel().getDamListViewModel();
 
   const Action = useMemo(() => ({
@@ -75,10 +76,11 @@ const ChooseAction = observer(() => {
           openMoveToFolder();
         },
       },
-      // {
-      //   label: t('txt_download'),
-      //   value: t('txt_download'),
-      // },
+      {
+        label: t('txt_download'),
+        value: t('txt_download'),
+        onSelect: downloadFile,
+      },
       {
         label: t('txt_delete'),
         value: t('txt_delete'),
