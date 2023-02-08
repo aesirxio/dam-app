@@ -12,13 +12,6 @@ class CollectionStep
         I.waitForText(this.page.locators.h2Text, 30);
         I.waitForElement(this.page.locators.createFolderButton, 30);
         I.click(this.page.locators.createFolderButton);
-        // I.waitForText(this.page.locators.messageSuccess, 30);
-        // I.refreshPage();
-        // I.waitForElement(this.page.locators.newFolderTitleXpath, 30);
-        // I.rightClick(this.page.locators.newFolderTitleXpath);
-        // I.waitForElement(this.page.locators.previewSpan);
-        // I.click(this.page.locators.previewSpan);
-        // I.waitForElement(this.page.locators.nameInput);
         I.fillField(this.page.locators.nameInput, collectionName);
         I.waitForElement(this.page.locators.createButton);
         I.click(this.page.locators.createButton);
