@@ -3,11 +3,14 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import {
+  DAM_ASSETS_API_FIELD_KEY,
+  DAM_ASSETS_FIELD_KEY,
+  DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
+} from 'aesirx-dma-lib';
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
-import { saveAs } from 'file-saver';
 
 class DamFormViewModel {
   show = false;
@@ -30,7 +33,6 @@ class DamFormViewModel {
 
   openMoveToFolder = () => {
     this.closeContextMenuItem();
-    console.log(this.damListViewModel);
     if (this.damListViewModel.actionState.selectedCards.length) {
       this.showMoveToFolder = true;
     } else {
@@ -97,27 +99,28 @@ class DamFormViewModel {
 
   downloadFile = async () => {
     if (!this.damListViewModel.actionState.selectedCards.length) {
-      notify('', 'error');
+      notify('Please choose one item to download', 'warn');
       return;
     } else {
-      const collectionIds = this.damListViewModel.actionState.selectedCards.map(
-        (item) => item?.[DAM_COLLECTION_FIELD_KEY.ID]
-      );
-      console.log(collectionIds);
-      const file = await this.damStore.downloadCollections(collectionIds);
-      if (file) {
-        saveAs(file, 'aesirx-dam-assets.zip');
-      } else {
-        notify('', 'error');
+      const collectionIds = this.damListViewModel.actionState.selectedCards
+        .filter((item) => !item?.[DAM_ASSETS_FIELD_KEY.TYPE])
+        .map((id) => id[DAM_COLLECTION_API_RESPONSE_FIELD_KEY.ID]);
+
+      const assetIds = this.damListViewModel.actionState.selectedCards
+        .filter((item) => item?.[DAM_ASSETS_FIELD_KEY.TYPE])
+        .map((id) => id[DAM_ASSETS_API_FIELD_KEY.ID]);
+      if (collectionIds || assetIds) {
+        notify(
+          this.damStore.downloadCollections({
+            [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.ASSETSIDS]: assetIds,
+            [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.COLLECTIONIDS]: collectionIds,
+          }),
+          'promise'
+        );
       }
     }
-    if (this.damEditdata[DAM_ASSETS_FIELD_KEY.TYPE]) {
-      saveAs(
-        this.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
-        this.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
-      );
-    }
-    // this.closeContextMenuItem();
+
+    this.closeContextMenuItem();
   };
 
   callbackOnErrorHander = (data) => {
