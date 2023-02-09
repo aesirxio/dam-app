@@ -10,7 +10,7 @@ import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
 
-export const DND_ITEM_TYPE = 'row';
+export const DND_ITEM_TYPE = 'thumb';
 let timer = 0;
 let delay = 200;
 let prevent = false;
@@ -21,8 +21,7 @@ const FakeThumb = observer(({ id }) => {
       actionState: { selectedCards },
     },
   } = useDamViewModel();
-
-  const isSelect = selectedCards.map((selectedCard) => selectedCard.id).includes(id);
+  const isSelect = selectedCards.map((selectedCard) => +selectedCard.id).includes(+id);
   return (
     <span
       className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
@@ -30,6 +29,18 @@ const FakeThumb = observer(({ id }) => {
       }`}
     ></span>
   );
+});
+
+const ThumbContainer = React.memo(({ newRowCells }) => {
+  return newRowCells.map((cell) => (
+    <div
+      {...cell.getCellProps()}
+      className={`ct_cell d-block w-100 user-select-none pe-none`}
+      key={Math.random(40, 200)}
+    >
+      {cell.render('Cell')}
+    </div>
+  ));
 });
 
 const Thumb = observer(
@@ -49,6 +60,11 @@ const Thumb = observer(
     // clearItemSelection = () => {},
   }) => {
     const ref = React.useRef(null);
+    const {
+      damListViewModel: {
+        actionState: { selectedCards },
+      },
+    } = useDamViewModel();
 
     const [{ isOver }, drop] = useDrop({
       accept: DND_ITEM_TYPE,
@@ -56,72 +72,57 @@ const Thumb = observer(
         if (!ref.current) {
           return;
         }
-        const dragIndex = +item;
+        const dragIndex = item.items;
         const hoverIndex = +row.original.id;
         // Don't replace items with themselves
-        if (dragIndex === hoverIndex) {
+        if (dragIndex.map((dragItem) => +dragItem.id).includes(hoverIndex)) {
           return;
         }
+
+        // If assets don't do anything
         if (row.original?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
           return;
         }
-        // // Determine rectangle on screen
-        // const hoverBoundingRect = ref.current.getBoundingClientRect();
-        // // Get vertical middle
-        // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-        // // Determine mouse position
-        // const clientOffset = monitor.getClientOffset();
-        // // Get pixels to the top
-        // const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-        // // Only perform the move when the mouse has crossed half of the items height
-        // // When dragging downwards, only move when the cursor is below 50%
-        // // When dragging upwards, only move when the cursor is above 50%
-        // // Dragging downwards
-        // if (hoverClientY < hoverMiddleY) {
-        //   return;
-        // }
-        // // Dragging upwards
-        // if (hoverClientY > hoverMiddleY) {
-        //   return;
-        // }
-        // Time to actually perform the action
 
         moveRow(dragIndex, hoverIndex);
-        // Note: we're mutating the monitor item here!
-        // Generally it's better to avoid mutations,
-        // but it's good here for the sake of performance
-        // to avoid expensive index searches.    // Note: we're mutating the monitor item here!
-        // Generally it's better to avoid mutations,
-        // but it's good here for the sake of performance
-        // to avoid expensive index searches.
-        item.index = hoverIndex;
       },
       collect: (monitor) => {
-        return {
-          isOver: monitor.isOver(),
-        };
+        if (monitor.getItem()) {
+          const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
+          if (checkItemSelect.includes(+row?.original.id)) {
+            return false;
+          } else {
+            return {
+              isOver: monitor.isOver(),
+            };
+          }
+        } else {
+          return false;
+        }
       },
     });
 
     const [{ opacity }, drag, preview] = useDrag({
       type: DND_ITEM_TYPE,
       item: () => {
-        // const { id } = row.original;
-        // const draggedCard = { id };
-        // let cards;
-        // if (selectedCards.find((card) => +card.id === +id)) {
-        //   cards = selectedCards;
-        // } else {
-        //   clearItemSelection();
-        //   cards = [draggedCard];
-        // }
-
-        // const cardsIDs = cards.map((c) => +c.id);
-        return { ...row.original.id };
+        const { id } = row.original;
+        const draggedCard = row.original;
+        let cards = [];
+        if (selectedCards.find((card) => +card.id === +id)) {
+          cards = selectedCards;
+        } else {
+          // clearItemSelection();
+          cards = [draggedCard];
+        }
+        const cardsIDs = cards;
+        return { items: cardsIDs };
       },
-      // isDragging: (monitor) => {
-      //   return monitor.getItem().cardsIDs.includes(+row.original.id);
-      // },
+      isDragging: (monitor) => {
+        return monitor
+          .getItem()
+          .items.map((item) => +item.id)
+          .includes(+row.original.id);
+      },
       end: () => {
         // rearrangeCards(item);
         // clearItemSelection();
@@ -204,17 +205,7 @@ const Thumb = observer(
           }}
           type={type}
         >
-          {newRowCells.map((cell) => {
-            return (
-              <div
-                {...cell.getCellProps()}
-                className={`ct_cell d-block w-100 user-select-none pe-none`}
-                key={Math.random(40, 200)}
-              >
-                {cell.render('Cell')}
-              </div>
-            );
-          })}
+          <ThumbContainer newRowCells={newRowCells} />
           <FakeThumb id={+row.original.id} />
         </div>
       </div>

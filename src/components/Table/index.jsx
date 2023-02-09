@@ -14,6 +14,7 @@ import styles from './index.module.scss';
 import ChooseAction from '../ChooseAnAction';
 import ListCheck from '../../SVG/ListCheck';
 import ThumbNails from '../../SVG/ThumbNails';
+import Dropzone from 'components/Dropzone';
 
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
@@ -404,7 +405,7 @@ const Table = ({
             : null}
         </div>
       )}
-      {rows.length === 0 && (
+      {rows.length === 0 ? (
         <>
           <p onClick={onBackClick} className="d-flex zindex-2 align-items-center cursor-pointer">
             {listViewModel?.damLinkFolder.split('/').length > 1 && (
@@ -421,6 +422,8 @@ const Table = ({
             createAssets={createAssets}
           />
         </>
+      ) : (
+        <Dropzone isBtn={false} noDrag={false} createAssets={createAssets} noClick={true} />
       )}
     </DndProvider>
   );
