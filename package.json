@@ -63,7 +63,9 @@
     "prepublishOnly": "yarn microbundle && yarn build:css",
     "microbundle": "microbundle --globals react=React,react-dom=ReactDOM --no-sourcemap --jsx React.createElement --jsxFragment React.Fragment --generateTypes true --no-compress --format modern,cjs,esm",
     "microbundle:watch": "microbundle --globals react=React,react-dom=ReactDOM --jsx React.createElement --jsxFragment React.Fragment --generateTypes true --no-compress --format modern,cjs,esm -w",
-    "build:css": "sass  --no-source-map --style=compressed ./src/integration/lib/index.scss ./dist/app.css"
+    "build:css": "sass  --no-source-map --style=compressed ./src/integration/lib/index.scss ./dist/app.css",
+    "format:check": "prettier --check 'src/**/*.{js,jsx,ts,tsx}'",
+    "format:write": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": [
@@ -104,6 +106,7 @@
     "lodash": "^4.17.21",
     "microbundle": "^0.15.1",
     "postcss-scss": "^4.0.6",
+    "prettier": "^2.8.4",
     "react-scripts": "^5.0.1",
     "sass": "^1.52",
     "serve": "^14.2.0",
