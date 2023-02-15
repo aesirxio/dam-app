@@ -10,10 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { withTranslation } from 'react-i18next';
 
-
 class ButtonCancel extends React.Component {
   render() {
-    const {t}= this.props;
+    const { t } = this.props;
     return (
       <>
         <div>
