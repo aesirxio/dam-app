@@ -35,7 +35,7 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
   const defaultRef = React.useRef();
   const resolvedRef = ref || defaultRef;
 
-  React.useEffect(() => {
+  useEffect(() => {
     resolvedRef.current.indeterminate = indeterminate;
   }, [resolvedRef, indeterminate]);
 
@@ -150,51 +150,38 @@ const Table = ({
     ],
   }));
 
-  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows } =
-    useTable(
-      {
-        columns,
-        data,
-        // onSelect,
-        initialState: {
-          // hiddenColumns: dataFilter.columns,
-          // pageSize: rowData.length ?? -1,
-        },
-      },
-      // usePagination,
-      useRowSelect,
-      (hooks) => {
-        !noSelection &&
-          hooks.visibleColumns.push((columns) => [
-            {
-              id: 'selection',
-              Header: ({ getToggleAllRowsSelectedProps }) => (
-                <div className={styles.checkbox}>
-                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                </div>
-              ),
-              // The cell can use the individual row's getToggleRowSelectedProps method
-              // to the render a checkbox
-              Cell: ({ row }) => (
-                <div className={styles.checkbox}>
-                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-                </div>
-              ),
-            },
-            ...columns,
-          ]);
-      }
-    );
+  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
+    {
+      columns,
+      data,
+    },
+    useRowSelect,
+    (hooks) => {
+      !noSelection &&
+        hooks.visibleColumns.push((columns) => [
+          {
+            id: 'selection',
+            Header: () => (
+              <div className={styles.checkbox}>
+                {/* <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} /> */}
+              </div>
+            ),
+            // The cell can use the individual row's getToggleRowSelectedProps method
+            // to the render a checkbox
+            Cell: ({ row }) => (
+              <div className={styles.checkbox}>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+              </div>
+            ),
+          },
+          ...columns,
+        ]);
+    }
+  );
 
   const moveRow = (dragIndex, hoverIndex) => {
     listViewModel.moveToFolder(dragIndex, hoverIndex);
   };
-
-  useEffect(() => {
-    console.log(selectedFlatRows);
-
-    return () => {};
-  }, [selectedFlatRows]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -203,6 +190,7 @@ const Table = ({
           <div className="wrapper_search_global row">
             <div className={filterBar.className}>
               <Select
+                isShadow={false}
                 isClearable={false}
                 isSearchable={false}
                 options={filterBar.options}
@@ -215,6 +203,7 @@ const Table = ({
             <ChooseAction />
             <div className={sortBy.className}>
               <Select
+                isShadow={false}
                 isClearable={false}
                 isSearchable={false}
                 options={sortBy.options}
@@ -272,7 +261,7 @@ const Table = ({
                     <tr
                       key={Math.random(40, 200)}
                       {...headerGroup.getHeaderGroupProps()}
-                      className="bg-white border-bottom border-gray-500"
+                      className=" position-relative bg-white border-bottom border-gray-500 zindex-2"
                     >
                       {newHeaderGroup.map((column, index) => {
                         return (

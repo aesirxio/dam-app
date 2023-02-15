@@ -87,7 +87,7 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()) {
+        if (monitor.getItem()?.items.length && selectedCards.length) {
           const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
           if (checkItemSelect.includes(+row?.original.id)) {
             return false;
@@ -173,11 +173,19 @@ const Thumb = observer(
         ref={ref}
       >
         {newRowCells.map((cell, index) => {
-          return (
-            <td key={index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
-              {cell.render('Cell')}
-            </td>
-          );
+          if (cell.column.id === 'selection') {
+            return (
+              <td key={index} {...cell.getCellProps()} style={{ width: 32 }}>
+                {cell.render('Cell')}
+              </td>
+            );
+          } else {
+            return (
+              <td key={index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
+                {cell.render('Cell')}
+              </td>
+            );
+          }
         })}
       </tr>
     ) : (

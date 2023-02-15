@@ -23,10 +23,12 @@
       white-space: nowrap;
       font-size: 1.1rem;
 
-      &.active,
-      &:hover {
+      &.active {
         color: $green !important;
         font-weight: 600;
+      }
+      &:hover {
+        color: $green !important;
       }
 
       i,
