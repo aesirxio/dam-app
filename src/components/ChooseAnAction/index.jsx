@@ -17,10 +17,10 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
         e.preventDefault();
         onClick(e);
       }}
-      className="d-flex align-items-center text-decoration-none cursor-pointer choose-an-action"
+      className="d-flex align-items-center text-decoration-none cursor-pointer choose-an-action justify-content-between w-100"
     >
-      <div className="text-body ps-3 pe-3 pe-none">
-        <p className="mb-0 text-body fw-semibold">{t('choose_an_action')}</p>
+      <div className="text-body pe-3 pe-none">
+        <p className="mb-0 text-blue-0 fw-semibold fs-14">{t('choose_an_action')}</p>
       </div>
       <i className="icons text-green pe-none">
         <FontAwesomeIcon icon={faChevronDown} />
@@ -38,7 +38,7 @@ const ChooseAction = observer(() => {
   const Action = useMemo(() => ({
     id: 'action',
     // className: styles.w_272,
-    className: 'border-end border-gray-select choose-an-action col-auto ',
+    className: 'border-end border-gray-select choose-an-action col-auto px-4 fs-14 minw-272px',
     placeholder: t('choose_an_action'),
     options: [
       {

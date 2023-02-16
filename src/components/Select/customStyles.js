@@ -59,13 +59,13 @@ const customStyles = (isBorder, isShadow = true) => {
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: 'var(--bs-body-color)',
+      color: 'var(--text-title-color)',
       fontWeight: 600,
     }),
     placeholder: (defaultStyles) => {
       return {
         ...defaultStyles,
-        color: 'var(--bs-body-color)',
+        color: 'var(--text-title-color)',
         fontWeight: 600,
       };
     },
@@ -77,7 +77,7 @@ const customStyles = (isBorder, isShadow = true) => {
     },
     multiValueLabel: (styles) => ({
       ...styles,
-      color: 'var(--bs-body-color)',
+      color: 'var(--text-title-color)',
     }),
   };
 };

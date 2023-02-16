@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import history from '../../../routes/history';
+import history from 'routes/history';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
@@ -13,7 +13,7 @@ import Dropzone from 'components/Dropzone';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import ButtonNormal from '../../../components/ButtonNormal';
+import ButtonNormal from 'components/ButtonNormal';
 import HomeFormModal from './HomeFormModel';
 import BreadCrumbs from 'components/Breadcrumbs';
 import { withRouter } from 'react-router-dom';

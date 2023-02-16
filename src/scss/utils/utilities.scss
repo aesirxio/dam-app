@@ -62,6 +62,7 @@ $utilities: map-merge(
             'red-2': rgba($red, 0.15),
             'transparent': transparent,
             'sidebar': #0c1215,
+            'success-10': rgba($success, 0.1),
           )
         ),
     ),
@@ -221,6 +222,7 @@ $utilities: map-merge(
         auto: auto,
         90px: 90px,
         248px: 248px,
+        272px: 272px,
       ),
     ),
     'max-width': (

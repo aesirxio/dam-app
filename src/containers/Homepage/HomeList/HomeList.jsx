@@ -42,11 +42,11 @@ const HomeList = observer(
     componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
-      const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
+      const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
       this.damListViewModel.setLoading();
-      this.damListViewModel.goToFolder(curretnCollectionId);
+      this.damListViewModel.goToFolder(currentCollectionId);
     }
 
     componentWillUnmount() {
@@ -56,10 +56,10 @@ const HomeList = observer(
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
+        const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
           ? collectionId[collectionId.length - 1]
           : 0;
-        this.damListViewModel.goToFolder(curretnCollectionId);
+        this.damListViewModel.goToFolder(currentCollectionId);
       }
     }
 
@@ -247,6 +247,7 @@ const HomeList = observer(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
+
         handleColections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
@@ -258,6 +259,7 @@ const HomeList = observer(
           handleColections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+
           handleColections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
@@ -265,7 +267,10 @@ const HomeList = observer(
       }
       let newSelectedCards;
 
-      const cards = [...handleColections, ...handleAssets];
+      const cards = [...handleColections, ...handleAssets].map((item, index) => ({
+        ...item,
+        index,
+      }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
       if (!cmdKey && !shiftKey && !ctrlKey && !contextClick) {
@@ -306,7 +311,6 @@ const HomeList = observer(
           newSelectedCards = [card];
         }
       }
-
       const finalList = cards
         ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
         : [];
@@ -325,6 +329,9 @@ const HomeList = observer(
         return <Spinner />;
       }
       const tableRowHeader = [
+        {
+          id: 'selection',
+        },
         {
           Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
@@ -351,7 +358,7 @@ const HomeList = observer(
                   <span
                     className={
                       this.damListViewModel.isList
-                        ? 'ms-3 text-color'
+                        ? 'ms-32px text-color'
                         : '' + 'text-center text-color'
                     }
                   >
@@ -495,7 +502,7 @@ const HomeList = observer(
                 onSortby={this.handleSortby}
                 onRightClickItem={this.handleRightClickItem}
                 onSelectionChange={this.handleItemSelection}
-                // selectedCards={this.damListViewModel.actionState.selectedCards}
+                onRowSelectStateChange={this.onRowSelectStateChange}
               />
             </>
           ) : (
