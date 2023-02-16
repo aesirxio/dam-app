@@ -3,8 +3,8 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React from 'react';
-import { withTranslation } from 'react-i18next';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
@@ -17,36 +17,33 @@ const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
 };
 
-class Storage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      subscription: null,
-    };
-  }
+const Storage = ({ lang = 'en', theme = 'light' }) => {
+  const [subscription , setSubscription] = useState(null);
+  const { i18n , t } = useTranslation('common');
 
-  getSubscription = async () => {
+  const getSubscription = async () => {
     try {
       const store = new DamStore();
-      const subscription = await store.getSubscription();
-      if (subscription) {
-        this.setState({
-          subscription: subscription,
-        });
+      const subscriptionFromLibrary = await store.getSubscription();
+      if (subscriptionFromLibrary) {
+        setSubscription(subscriptionFromLibrary);
       }
     } catch (error) {
       console.log(error);
       return error;
     }
   };
-  componentDidMount() {
-    this.getSubscription();
-  }
-  render() {
-    const { t } = this.props;
-
+  
+    useEffect(() => {
+      if(!subscription) {
+        getSubscription()
+      }
+      i18n.changeLanguage(lang ?? 'en');
+      return () => {};
+    }, [lang, i18n.language, subscription]);
+  
     return (
-      <div className={`w-100 mb-3 px-3 py-3 ${this.props.theme ?? 'light'}`}>
+      <div className={`w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
         <p className="mb-0">
           <ComponentImage src="/assets/images/storage.svg" />
           <span className="text-white ps-3">{t('txt_storage')}</span>
@@ -57,20 +54,20 @@ class Storage extends React.Component {
             role="progressbar"
             style={{
               width: `${calculatorPercentage(
-                this.state?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+                subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
                   DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
                 ],
-                this.state?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+                subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
                   DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
                 ]
               )}%`,
             }}
             aria-label="Basic example"
             aria-valuenow={calculatorPercentage(
-              this.state?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+              subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
                 DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
               ],
-              this.state?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+              subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
                 DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
               ]
             )}
@@ -80,17 +77,17 @@ class Storage extends React.Component {
         </div>
         <p className="mb-0 d-flex flex-wrap ">
           <span className="text-white fs-14">
-            {this.state?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+            {subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
               DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
             ] ?? 0}
             {'MB '}
             {t('txt_of')}{' '}
-            {this.state?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+            {subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
               DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
             ] ?? 0}
             {'MB '}
             {t('txt_used')}
-            {/* {this.state?.subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+            {/* {subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
               DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
             ] ?? 'Unlimited'} */}
           </span>
@@ -103,7 +100,6 @@ class Storage extends React.Component {
         </p>
       </div>
     );
-  }
 }
 
-export default withTranslation('common')(Storage);
+export default (Storage);
