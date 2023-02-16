@@ -133,6 +133,7 @@
   "tx_forgot_password": "Glemt adgangskode?",
   "txt_file_size": "Størrelse",
   "txt_url": "URL",
+  "txt_max_file_size": "Maximal filstørre er: 2 MB (Tilladte fil filesize udvidelse: jpg, jpeg, gif, png)",
   "txt_file_type": "Fil type",
   "txt_sign_in_to_getting_started": "Log ind for at komme igang.",
   "txt_folders": "MAPPER",
@@ -149,5 +150,6 @@
   "txt_by": "ved",
   "txt_warning": "Advarsel",
   "txt_successful": "Vellykket",
-  "txt_error": "Fejl"
+  "txt_error": "Fejl",
+  "txt_click_to_change_image": "Klik for at ændre billede"
 }

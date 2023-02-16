@@ -19,6 +19,8 @@ import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
+
+const MoveToFolder = React.lazy(() => import('components/MoveToFolder'));
 const Button = React.lazy(() => import('components/Button'));
 const ComponentImage = React.lazy(() => import('components/ComponentImage'));
 const AesirXDamForm = React.lazy(() => import('./AesirXDamForm'));
@@ -26,7 +28,7 @@ const Dropzone = React.lazy(() => import('components/Dropzone'));
 const CollectionForm = React.lazy(() => import('./CollectionForm'));
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
-// const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
+const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));
 const DownLoadIcon = React.lazy(() => import('SVG/DownloadIcon'));
 const DeleteIcon = React.lazy(() => import('SVG/TrashIcon'));
@@ -40,8 +42,8 @@ const AesirXDamFormModal = observer(
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
       const { viewModel } = props;
-      this.damFormModalViewModel = viewModel ? viewModel.damFormViewModel : null;
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
+      this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
     }
 
     updateDetail = () => {
@@ -108,7 +110,8 @@ const AesirXDamFormModal = observer(
 
     handleCreateAssets = (data) => {
       if (data) {
-        const collectionId = history.location.pathname.split('/');
+        const collectionId = this.damListViewModel.damLinkFolder.split('/');
+
         const currentCollection = !isNaN(collectionId[collectionId.length - 1])
           ? collectionId[collectionId.length - 1]
           : 0;
@@ -128,27 +131,39 @@ const AesirXDamFormModal = observer(
         show,
         showDeleteModal,
         showContextMenu,
+        showContextMenuItem,
         openModal,
         openUpdateCollectionModal,
         downloadFile,
         showCreateCollectionModal,
         showUpdateModal,
-        showContextMenuItem,
         openCreateCollectionModal,
+        showMoveToFolder,
+        openMoveToFolder,
       } = this.damFormModalViewModel;
       const {
         deleteItem,
         actionState: { selectedCards },
       } = this.damListViewModel;
       const { t } = this.props;
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
+
+      const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
       return (
         <>
-          {show ? (
-            <Suspense fallback={<div>Loading...</div>}>
+          {show && (
+            <Suspense fallback={''}>
               <ModalComponent
                 show={show}
                 onHide={this.damFormModalViewModel.closeModal}
-                onShow={this.damFormModalViewModel.closeContextMenu}
+                onShow={() => {
+                  this.damFormModalViewModel.closeContextMenuItem();
+                  this.damFormModalViewModel.closeContextMenu();
+                }}
+                closeButton
+                contentClassName={'bg-white shadow'}
                 body={
                   <AesirXDamForm
                     delete={deleteItem}
@@ -156,12 +171,12 @@ const AesirXDamFormModal = observer(
                     viewModel={this.damFormModalViewModel}
                   />
                 }
-                dialogClassName={'mh-80vh mw-80 home-modal'}
+                dialogClassName={'mw-100 px-3 home-modal'}
               />
             </Suspense>
-          ) : null}
+          )}
 
-          {showContextMenu ? (
+          {showContextMenu && (
             <div
               id="contextMenu"
               className={`col_thumb cursor-pointer align-self-center mb-4 bg-white zindex-5 position-fixed`}
@@ -181,7 +196,7 @@ const AesirXDamFormModal = observer(
                   </div>
                 </Dropzone>
                 <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none ${styles.txt_hover}`}
                   onClick={openCreateCollectionModal}
                 >
                   <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
@@ -190,9 +205,9 @@ const AesirXDamFormModal = observer(
                 </div>
               </div>
             </div>
-          ) : null}
+          )}
 
-          {showContextMenuItem ? (
+          {showContextMenuItem && (
             <div
               id="contextMenuItem"
               className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
@@ -202,7 +217,7 @@ const AesirXDamFormModal = observer(
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                 onClick={openModal}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <PreviewIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">{t('txt_preview')}</span>
@@ -212,40 +227,42 @@ const AesirXDamFormModal = observer(
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                   onClick={openUpdateCollectionModal}
                 >
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense fallback={''}>
                     <EditingIcon />
                   </Suspense>
                   <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
                 </div>
               )}
-              {/* <div
+              <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                onClick={openMoveToFolder}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <MoveFolderIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">
                   {t('txt_move_to_folder')}
                 </span>
-              </div> */}
-              {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] && (
-                <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  onClick={downloadFile}
-                >
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <DownLoadIcon />
-                  </Suspense>
-                  <span className="ms-3 text-color py-1 d-inline-block">
-                    {t('txt_download_folder')}
-                  </span>
-                </div>
-              )}
+              </div>
+              {/* {selectedCards.length < 2 && ( */}
+              <div
+                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                onClick={downloadFile}
+              >
+                <Suspense fallback={''}>
+                  <DownLoadIcon />
+                </Suspense>
+                <span className="ms-3 text-color py-1 d-inline-block">
+                  {t('txt_download_folder')}
+                </span>
+              </div>
+              {/* )} */}
+
               <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <DeleteIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block text-danger">
@@ -253,10 +270,10 @@ const AesirXDamFormModal = observer(
                 </span>
               </div>
             </div>
-          ) : null}
+          )}
 
-          {showCreateCollectionModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
+          {showCreateCollectionModal && (
+            <Suspense fallback={''}>
               <ModalComponent
                 closeButton
                 show={showCreateCollectionModal}
@@ -277,10 +294,10 @@ const AesirXDamFormModal = observer(
                 }
               />
             </Suspense>
-          ) : null}
+          )}
 
-          {showUpdateModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
+          {showUpdateModal && (
+            <Suspense fallback={''}>
               <ModalComponent
                 closeButton
                 show={showUpdateModal}
@@ -301,10 +318,10 @@ const AesirXDamFormModal = observer(
                 }
               />
             </Suspense>
-          ) : null}
+          )}
 
-          {showDeleteModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
+          {showDeleteModal && (
+            <Suspense fallback={''}>
               <ModalComponent
                 closeButton
                 show={showDeleteModal}
@@ -343,7 +360,17 @@ const AesirXDamFormModal = observer(
                 }
               />
             </Suspense>
-          ) : null}
+          )}
+
+          {showMoveToFolder && (
+            <div
+              id="contextMenuItemMoveToFolder"
+              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed `}
+              style={{ ...this.damListViewModel.actionState?.style }}
+            >
+              <MoveToFolder current={currentCollectionId} />
+            </div>
+          )}
         </>
       );
     }

@@ -26,14 +26,14 @@ const AesirXDamActionBar = observer(
       super(props);
       const { viewModel } = props;
 
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
-      this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
+      this.damFormModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {}
 
     handleCreateFolder = () => {
-      this.damformModalViewModal.openCreateCollectionModal();
+      this.damFormModalViewModal.openCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
@@ -81,12 +81,12 @@ const AesirXDamActionBar = observer(
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end col-auto">
             <ButtonNormal
               onClick={this.handleCreateFolder}
               iconStart={faFolder}
               text="txt_create_folder"
-              className="btn-outline-gray-300 text-blue-0 me-3"
+              className="btn-outline-gray-300 bg-white text-blue-0 me-3"
             />
             <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
