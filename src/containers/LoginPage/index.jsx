@@ -70,7 +70,7 @@ class LoginPage extends React.Component {
       <div className="vh-100 bg-blue-9 ">
         <div className="row g-0 justify-content-center align-items-center h-100 bg-white">
           <div className="d-block login-container">
-            <h1 className="fs-2 text-blue-0 fw-semibold text-center mb-4 lh-base">
+            <h1 className="fs-2 text-blue-new fw-semibold text-center mb-4 lh-base">
               {t('txt_welcome_to')}
               <img
                 className="px-1"
