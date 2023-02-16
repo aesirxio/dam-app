@@ -16,22 +16,16 @@ Find out more in [https://dam.aesirx.io](https://dam.aesirx.io)
   ![guilde](./public/assets/images/install_guide_1.jpeg)
   If you don't have any license, select one from our homepage.
   ![guilde](./public/assets/images/price.png)
-
 4. Enter domain and test domain of license. For example:
   ![guilde](./public/assets/images/install_guide_6.png)
-
-
-6. At dam-app folder, rename the .env.dist file to .env
-
-Or use this command:
-### `mv .env.dist .env`
-
-7. Replace the REACT_APP_CLIENT_SECRET  and REACT_APP_LICENSE in the .env file with the one provided in your profile account.
+5. At dam-app folder, rename the .env.dist file to .env
+    Or use this command:
+    ### `mv .env.dist .env`
+6. Replace the REACT_APP_CLIENT_SECRET  and REACT_APP_LICENSE in the .env file with the one provided in your profile account.
 ### `yarn install`
-
 ### `yarn dev`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `yarn build`
