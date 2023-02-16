@@ -33,7 +33,7 @@ const Storage = ({ lang = 'en', theme = 'light' }) => {
       return error;
     }
   };
-  
+
     useEffect(() => {
       if(!subscription) {
         getSubscription()
@@ -102,4 +102,4 @@ const Storage = ({ lang = 'en', theme = 'light' }) => {
     );
 }
 
-export default (Storage);
+export default Storage;
