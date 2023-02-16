@@ -10,10 +10,24 @@ Find out more in [https://dam.aesirx.io](https://dam.aesirx.io)
 
 ### Configure
 
-1. Get your `REACT_APP_CLIENT_SECRET` key from https://dam.aesirx.io by creating an account.
-1. Rename the `.env.dist` file to `.env`.
-1. Replace the `REACT_APP_CLIENT_SECRET` in the `.env` file with the one provided in your profile account.
-1. Run `yarn install`
+1. Register your account at https://dam.aesirx.io/. You will then get an email for user creation account.
+2. Activate your account by clicking verify in the email.
+3. Login to https://dam.aesirx.io/ site to get the REACT_APP_CLIENT_SECRET and REACT_APP_LICENSE in your profile.
+  ![guilde](./public/assets/images/install_guide_1.jpeg)
+  If you don't have any license, select one from our homepage.
+  ![guilde](./public/assets/images/price.png)
+
+4. Enter domain and test domain of license. For example:
+  ![guilde](./public/assets/images/install_guide_6.png)
+
+
+6. At dam-app folder, rename the .env.dist file to .env
+
+Or use this command:
+### `mv .env.dist .env`
+
+7. Replace the REACT_APP_CLIENT_SECRET  and REACT_APP_LICENSE in the .env file with the one provided in your profile account.
+### `yarn install`
 
 ### `yarn dev`
 
@@ -33,7 +47,7 @@ Get a full build and install it in your favorite web server.
 `docker compose -f "docker-compose.pro.yml" up -d --build`
 
 
-## Integrate setup
+## Integrate use
 
 The easiest way to use aesirx-dam-app is to install it from npm and build it into your app with Webpack.
 
