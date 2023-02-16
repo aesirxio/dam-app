@@ -90,7 +90,7 @@ class LoginPage extends React.Component {
               />
               <div className="d-flex align-items-center flex-nowrap mb-4">
                 <div className="border-bottom w-50"></div>
-                <span className="px-2 text-uppercase fw-medium text-gray">{t('txt_or')}</span>
+                <span className="text-uppercase fw-medium text-gray px-3">{t('txt_or')}</span>
                 <div className="border-bottom w-50"></div>
               </div>
               <label className="form-label fw-semibold text-black mb-10">
