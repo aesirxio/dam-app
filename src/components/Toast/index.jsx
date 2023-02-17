@@ -25,7 +25,7 @@ const notify = (msg, type = 'success') => {
           {msg && <p className="fw-normal m-0"></p>}
         </>,
         {
-          className: 'bg-red-10 fw-bold text-red-100 ps-4',
+          className: 'bg-red-10 fw-bold text-red-100 ps-4 bg-noti-bg-error text-noti-error',
           icon: () => <Error />,
         }
       );
@@ -37,7 +37,7 @@ const notify = (msg, type = 'success') => {
           {msg && <p className="fw-normal m-0"></p>}
         </>,
         {
-          className: 'bg-yellow-10 fw-bold text-yellow-200 ps-4',
+          className: 'bg-yellow-10 fw-bold text-yellow-200 ps-4 bg-noti-bg-warn text-noti-warn',
           icon: () => <Warn />,
         }
       );
@@ -49,7 +49,7 @@ const notify = (msg, type = 'success') => {
           {msg && <p className="fw-normal m-0"></p>}
         </>,
         {
-          className: 'bg-primary-10 text-green fw-bold ps-4',
+          className: 'bg-primary-10 bg-noti-bg-success text-green fw-bold ps-4',
           icon: () => <Success />,
         }
       );
@@ -84,7 +84,7 @@ const notify = (msg, type = 'success') => {
                 </>
               );
             },
-            className: 'bg-primary-10 text-green fw-bold ps-4',
+            className: 'bg-primary-10 text-green bg-noti-bg-success  fw-bold ps-4',
             icon: () => <Success />,
           },
           error: {
@@ -96,7 +96,7 @@ const notify = (msg, type = 'success') => {
                 </>
               );
             },
-            className: 'bg-red-10 fw-bold text-red-100 ps-4',
+            className: 'bg-red-10 fw-bold bg-noti-bg-error text-noti-error text-red-100 ps-4',
             icon: () => <Error />,
           },
         },
