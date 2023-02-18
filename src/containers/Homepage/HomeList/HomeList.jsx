@@ -89,7 +89,7 @@ const HomeList = observer(
     };
 
     handleCreateFolder = () => {
-      this.damformModalViewModal.openCreateCollectionModal();
+      this.damformModalViewModal.setOnEditCollection();
     };
 
     handleCreateAssets = (data) => {
@@ -331,19 +331,19 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
-              className={`d-flex  ${
-                this.damListViewModel.isList ? '' : ' justify-content-center w-100'
+              className={`d-flex w-100 ${
+                this.damListViewModel.isList ? '' : ' justify-content-center'
               }`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] &&
               !row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ? (
                 // folder
                 <div
-                  className={`${
+                  className={`w-100 ${
                     this.damListViewModel.isList
                       ? 'd-flex align-items-center'
                       : 'd-flex flex-column align-items-center justify-content-center'
-                  } w-100`}
+                  }`}
                 >
                   <ComponentImage
                     alt={row.original.name}
@@ -354,7 +354,7 @@ const HomeList = observer(
                     className={`${
                       this.damListViewModel.isList
                         ? 'ms-3 text-color'
-                        : '' + 'text-center text-color'
+                        : 'text-center text-color lcl lcl-2 d-block w-space'
                     } w-100`}
                   >
                     <CollectionName item={row.original} />

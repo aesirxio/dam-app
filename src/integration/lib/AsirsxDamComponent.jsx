@@ -22,6 +22,7 @@ import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
+import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 
 const Folder = React.lazy(() => import('SVG/Folder'));
 const AesirXDamComponent = observer(
@@ -70,7 +71,7 @@ const AesirXDamComponent = observer(
     };
 
     handleCreateFolder = () => {
-      this.damformModalViewModal.openCreateCollectionModal();
+      this.damformModalViewModal.setOnEditCollection();
     };
 
     handleCreateAssets = (data) => {
@@ -342,26 +343,23 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <div className={this.damListViewModel.isList ? '' : styles.folder}>
+                  <div className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}>
                     <Folder />
                   </div>
                   <span
                     title={row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    className={
+                    className={`${
                       this.damListViewModel.isList
                         ? 'ms-3 text-color'
-                        : 'text-center text-color lcl lcl-2 w-100 d-block w-space'
-                    }
+                        : 'text-center text-color lcl lcl-2 d-block w-space'
+                    } w-100`}
                   >
-                    {row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    {!this.damListViewModel.isList && (
-                      <>
-                        <br />
-                        {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                          'DD MMM, YYYY'
-                        )}
-                      </>
-                    )}
+                    <CollectionName item={row.original} />
+                    <span className="text-gray">
+                      {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                        'DD MMM, YYYY'
+                      )}
+                    </span>
                   </span>
                 </div>
               ) : (
@@ -378,12 +376,12 @@ const AesirXDamComponent = observer(
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
-                        wrapperClassName="w-100 h-100"
+                        wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
-                      <div className="w-100 h-100 d-flex align-items-center justify-content-center">
+                      <div className="w-100 h-100 d-flex align-items-center justify-content-center pe-none">
                         {utils.checkFileTypeFormData(row.original)}
                       </div>
                     )}

@@ -19,14 +19,14 @@ import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
+import MoveToFolder from 'components/MoveToFolder';
 const Button = React.lazy(() => import('components/Button'));
 const ComponentImage = React.lazy(() => import('components/ComponentImage'));
 const AesirXDamForm = React.lazy(() => import('./AesirXDamForm'));
 const Dropzone = React.lazy(() => import('components/Dropzone'));
-const CollectionForm = React.lazy(() => import('./CollectionForm'));
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
-// const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
+const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));
 const DownLoadIcon = React.lazy(() => import('SVG/DownloadIcon'));
 const DeleteIcon = React.lazy(() => import('SVG/TrashIcon'));
@@ -80,39 +80,31 @@ const AesirXDamFormModal = observer(
       }
     };
 
-    handleRename = (name) => {
-      this.damFormModalViewModel.closeUpdateCollectionModal();
-      if (this.damFormModalViewModel.damEditdata?.type) {
-        this.damListViewModel.updateAssets({
-          ...this.damFormModalViewModel.damEditdata,
-          [DAM_ASSETS_FIELD_KEY.NAME]: name,
-        });
-      } else {
-        this.damListViewModel.updateCollections({
-          ...this.damFormModalViewModel.damEditdata,
-          [DAM_COLLECTION_FIELD_KEY.NAME]: name,
-        });
-      }
+    handleRename = () => {
+      this.damFormModalViewModel.openCreateCollectionModal();
+      this.damFormModalViewModel.closeContextMenuItem();
+      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).focus();
     };
 
-    handleCreateFolder = (name) => {
+    handleCreateFolder = () => {
+      const { t } = this.props;
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
+      this.damFormModalViewModel.closeContextMenu();
       this.damListViewModel.createCollections({
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: name,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: t('txt_new_folder'),
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
       });
     };
 
     handleCreateAssets = (data) => {
       if (data) {
-        const collectionId = history.location.pathname.split('/');
+        const collectionId = this.damListViewModel.damLinkFolder.split('/');
         const currentCollection = !isNaN(collectionId[collectionId.length - 1])
           ? collectionId[collectionId.length - 1]
           : 0;
-
         this.damListViewModel.createAssets({
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
@@ -129,18 +121,21 @@ const AesirXDamFormModal = observer(
         showDeleteModal,
         showContextMenu,
         openModal,
-        openUpdateCollectionModal,
         downloadFile,
-        showCreateCollectionModal,
-        showUpdateModal,
         showContextMenuItem,
-        openCreateCollectionModal,
+        setOnEditCollection,
+        showMoveToFolder,
       } = this.damFormModalViewModel;
       const {
         deleteItem,
         actionState: { selectedCards },
       } = this.damListViewModel;
       const { t } = this.props;
+
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
+      const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
       return (
         <>
           {show ? (
@@ -182,7 +177,7 @@ const AesirXDamFormModal = observer(
                 </Dropzone>
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none `}
-                  onClick={openCreateCollectionModal}
+                  onClick={setOnEditCollection}
                 >
                   <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
 
@@ -210,7 +205,7 @@ const AesirXDamFormModal = observer(
               {selectedCards.length < 2 && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  onClick={openUpdateCollectionModal}
+                  onClick={this.handleRename}
                 >
                   <Suspense fallback={<div>Loading...</div>}>
                     <EditingIcon />
@@ -218,7 +213,7 @@ const AesirXDamFormModal = observer(
                   <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
                 </div>
               )}
-              {/* <div
+              <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
               >
                 <Suspense fallback={<div>Loading...</div>}>
@@ -227,7 +222,7 @@ const AesirXDamFormModal = observer(
                 <span className="ms-3 text-color py-1 d-inline-block">
                   {t('txt_move_to_folder')}
                 </span>
-              </div> */}
+              </div>
               {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
@@ -253,54 +248,6 @@ const AesirXDamFormModal = observer(
                 </span>
               </div>
             </div>
-          ) : null}
-
-          {showCreateCollectionModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
-              <ModalComponent
-                closeButton
-                show={showCreateCollectionModal}
-                onHide={this.damFormModalViewModel.closeCreateCollectionModal}
-                onShow={() => {
-                  this.damFormModalViewModel.closeContextMenuItem();
-                  this.damFormModalViewModel.closeContextMenu();
-                }}
-                header={t('txt_new_folder')}
-                contentClassName={'bg-white shadow'}
-                body={
-                  <CollectionForm
-                    onSubmit={this.handleCreateFolder}
-                    close={this.damFormModalViewModel.closeCreateCollectionModal}
-                    viewModel={this.damFormModalViewModel}
-                    type="create"
-                  />
-                }
-              />
-            </Suspense>
-          ) : null}
-
-          {showUpdateModal ? (
-            <Suspense fallback={<div>Loading...</div>}>
-              <ModalComponent
-                closeButton
-                show={showUpdateModal}
-                onHide={this.damFormModalViewModel.closeUpdateCollectionModal}
-                onShow={() => {
-                  this.damFormModalViewModel.closeContextMenuItem();
-                  this.damFormModalViewModel.closeContextMenu();
-                }}
-                header={t('txt_rename')}
-                contentClassName={'bg-white shadow'}
-                body={
-                  <CollectionForm
-                    onSubmit={this.handleRename}
-                    close={this.damFormModalViewModel.closeUpdateCollectionModal}
-                    viewModel={this.damFormModalViewModel}
-                    type="update"
-                  />
-                }
-              />
-            </Suspense>
           ) : null}
 
           {showDeleteModal ? (
@@ -344,6 +291,16 @@ const AesirXDamFormModal = observer(
               />
             </Suspense>
           ) : null}
+
+          {showMoveToFolder && (
+            <div
+              id="contextMenuItemMoveToFolder"
+              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed `}
+              style={{ ...this.damListViewModel.actionState?.style }}
+            >
+              <MoveToFolder current={currentCollectionId} />
+            </div>
+          )}
         </>
       );
     }

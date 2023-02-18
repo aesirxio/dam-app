@@ -64,7 +64,7 @@ const Thumb = observer(
       damListViewModel: {
         actionState: { selectedCards },
       },
-      damFormViewModel: { showCreateCollectionModal },
+      damFormViewModel: { isEditCollection },
     } = useDamViewModel();
 
     const [{ isOver }, drop] = useDrop({
@@ -125,7 +125,7 @@ const Thumb = observer(
           .includes(+row.original.id);
       },
       canDrag: () => {
-        return showCreateCollectionModal ? false : true;
+        return isEditCollection ? false : true;
       },
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
@@ -193,7 +193,7 @@ const Thumb = observer(
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
-            if (!showCreateCollectionModal) {
+            if (!isEditCollection) {
               onDoubleClick(row.original);
             }
           }}

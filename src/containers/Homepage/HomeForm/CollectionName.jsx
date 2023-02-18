@@ -9,9 +9,9 @@ const CollectionName = observer(({ item }) => {
   const { damListViewModel, damFormViewModel } = useDamViewModel();
   const [value, setValue] = useState(item[DAM_COLUMN_INDICATOR.NAME]);
   const [isFocus, setIsFocus] = useState(false);
-  const handleUpdateFolder = useCallback(() => {
+  const handleUpdateFolder = useCallback(async () => {
     if (value !== item[DAM_COLUMN_INDICATOR.NAME] && value) {
-      damListViewModel.updateCollections({
+      await damListViewModel.updateCollections({
         ...item,
         [DAM_COLLECTION_FIELD_KEY.NAME]: value,
       });
@@ -19,16 +19,16 @@ const CollectionName = observer(({ item }) => {
       setValue(item[DAM_COLUMN_INDICATOR.NAME]);
     }
 
-    damFormViewModel.closeCreateCollectionModal();
+    damFormViewModel.setOffEditCollection();
   }, [value]);
 
   return (
     <Form.Control
       as={'input'}
       type={'text'}
-      className={`text-center px-0 py-1 w-fit mx-auto ${isFocus ? 'pe-auto' : 'pe-none'} ${
-        styles.input
-      }`}
+      className={`${
+        !damListViewModel.isList ? 'text-center  mx-auto ' : ''
+      } bg-transparent px-0 py-1 w-fit ${isFocus ? 'pe-auto' : 'pe-none'} ${styles.input}`}
       id={`id_${item[DAM_COLUMN_INDICATOR.ID]}`}
       // defaultValue={value}
       value={value}
@@ -38,13 +38,14 @@ const CollectionName = observer(({ item }) => {
         setIsFocus(true);
       }}
       onBlur={() => {
-        handleUpdateFolder();
-        setIsFocus(false);
+        if (isFocus) {
+          handleUpdateFolder();
+          setIsFocus(false);
+        }
       }}
       onKeyDown={(e) => {
         if (e.keyCode === 13) {
           e.target.blur();
-          handleUpdateFolder();
         }
       }}
     />

@@ -81,22 +81,9 @@ const HomeFormModal = observer(
     };
 
     handleRename = () => {
-      // this.damFormModalViewModel.closeUpdateCollectionModal();
-      // if (this.damFormModalViewModel.damEditdata?.type) {
-      //   this.damListViewModel.updateAssets({
-      //     ...this.damFormModalViewModel.damEditdata,
-      //     [DAM_ASSETS_FIELD_KEY.NAME]: name,
-      //   });
-      // } else {
-      //   this.damListViewModel.updateCollections({
-      //     ...this.damFormModalViewModel.damEditdata,
-      //     [DAM_COLLECTION_FIELD_KEY.NAME]: name,
-      //   });
-      // }
-      this.damFormModalViewModel.openCreateCollectionModal();
+      this.damFormModalViewModel.setOnEditCollection();
       this.damFormModalViewModel.closeContextMenuItem();
       document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).focus();
-      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).select();
     };
 
     handleCreateFolder = () => {
@@ -138,7 +125,7 @@ const HomeFormModal = observer(
         showContextMenuItem,
         openModal,
         downloadFile,
-        // showCreateCollectionModal,
+        // isEditCollection,
         // showUpdateModal,
         showMoveToFolder,
         openMoveToFolder,
@@ -273,54 +260,6 @@ const HomeFormModal = observer(
               </div>
             </div>
           )}
-          {/* 
-          {showCreateCollectionModal && (
-            <Suspense fallback={''}>
-              <ModalComponent
-                closeButton
-                show={showCreateCollectionModal}
-                onHide={this.damFormModalViewModel.closeCreateCollectionModal}
-                onShow={() => {
-                  this.damFormModalViewModel.closeContextMenuItem();
-                  this.damFormModalViewModel.closeContextMenu();
-                }}
-                header={t('txt_new_folder')}
-                contentClassName={'bg-white shadow'}
-                body={
-                  <CollectionForm
-                    onSubmit={this.handleCreateFolder}
-                    close={this.damFormModalViewModel.closeCreateCollectionModal}
-                    viewModel={this.damFormModalViewModel}
-                    type="create"
-                  />
-                }
-              />
-            </Suspense>
-          )} */}
-          {/* 
-          {showUpdateModal && (
-            <Suspense fallback={''}>
-              <ModalComponent
-                closeButton
-                show={showUpdateModal} 
-                onHide={this.damFormModalViewModel.closeUpdateCollectionModal}
-                onShow={() => {
-                  this.damFormModalViewModel.closeContextMenuItem();
-                  this.damFormModalViewModel.closeContextMenu();
-                }}
-                header={t('txt_rename')}
-                contentClassName={'bg-white shadow'}
-                body={
-                  <CollectionForm
-                    onSubmit={this.handleRename}
-                    close={this.damFormModalViewModel.closeUpdateCollectionModal}
-                    viewModel={this.damFormModalViewModel}
-                    type="update"
-                  />
-                }
-              />
-            </Suspense>
-          )} */}
 
           {showDeleteModal && (
             <Suspense fallback={''}>
