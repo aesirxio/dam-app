@@ -21,7 +21,7 @@ class DamListViewModel {
     'filter[search]': '',
   };
 
-  isList = true;
+  isList = false;
   damIdsSelected = null;
   isSearch = false;
   subscription = null;

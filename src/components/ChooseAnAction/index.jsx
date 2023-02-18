@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-
+import styles from './index.module.scss';
 // eslint-disable-next-line react/display-name
 const CustomToggle = React.forwardRef(({ onClick }, ref) => {
   const { t } = useTranslation('common');
@@ -17,9 +17,9 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
         e.preventDefault();
         onClick(e);
       }}
-      className="d-flex align-items-center text-decoration-none cursor-pointer choose-an-action justify-content-between w-100"
+      className="d-flex align-items-center text-decoration-none cursor-pointer choose-an-action justify-content-between w-100 h-100 mt-n1"
     >
-      <div className="text-body pe-3 pe-none">
+      <div className="pe-3 pe-none">
         <p className="mb-0 text-blue-0 fw-semibold fs-14">{t('choose_an_action')}</p>
       </div>
       <i className="icons text-green pe-none">
@@ -95,7 +95,7 @@ const ChooseAction = observer(() => {
           as={CustomToggle}
           id="dropdown-custom-components position-relative pe-none"
         ></Dropdown.Toggle>
-        <Dropdown.Menu className="shadow border-0">
+        <Dropdown.Menu className="shadow border-0 w-100 border-top">
           <div className="">
             <ul className="list-unstyled ps-0 mb-0 list_menu_avatar">
               {Action.options.map((value, index) => {
@@ -103,7 +103,7 @@ const ChooseAction = observer(() => {
                   <li key={index}>
                     <Dropdown.Item
                       as={'p'}
-                      className="cursor-pointer text-body d-block rounded-1 text-decoration-none mb-0"
+                      className={`cursor-pointer text-blue-0 d-block rounded-1 text-decoration-none mb-0 ${styles.dropdown_item}`}
                       onClick={value?.onSelect}
                     >
                       {t(value.label)}

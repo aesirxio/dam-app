@@ -1,0 +1,8 @@
+@import '../../scss/utils/bootstrap.scss';
+
+.dropdown_item {
+  &:hover {
+    background-color: transparent;
+    color: $green !important;
+  }
+}

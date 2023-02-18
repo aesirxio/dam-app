@@ -295,7 +295,7 @@ const Table = ({
                           </div>
                           {listViewModel?.damLinkFolder.split('/').length > 1 && (
                             <div
-                              className={`col_thumb ${styles.col_thumb} col-${
+                              className={`col_thumb ${styles.col_thumb_folder} col-${
                                 !thumbColumnsNumber ? '3' : thumbColumnsNumber
                               } mb-4 zindex-2`}
                             >
@@ -319,7 +319,7 @@ const Table = ({
                             </div>
                             {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
                               <div
-                                className={`col_thumb ${styles.col_thumb} col-${
+                                className={`col_thumb ${styles.col_thumb_folder} col-${
                                   !thumbColumnsNumber ? '3' : thumbColumnsNumber
                                 } mb-4 zindex-2`}
                               >
@@ -337,9 +337,11 @@ const Table = ({
                         )}
                       <Thumb
                         {...row.getRowProps()}
-                        className={`col_thumb ${styles.col_thumb} col-${
-                          !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                        } mb-4 zindex-2`}
+                        className={`col_thumb  ${
+                          !isList && !row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                            ? styles.col_thumb_folder
+                            : styles.col_thumb
+                        }  col-${!thumbColumnsNumber ? '3' : thumbColumnsNumber} mb-4 zindex-2`}
                         newRowCells={newRowCells}
                         index={index}
                         row={row}

@@ -17,7 +17,7 @@ const customStyles = (isBorder, isShadow = true) => {
 
         backgroundColor: 'var(--bs-white)',
         cursor: 'pointer',
-        borderRadius: 0,
+        borderRadius: 5,
         width: 'auto',
       };
     },
@@ -46,6 +46,7 @@ const customStyles = (isBorder, isShadow = true) => {
           color: 'var(--dropdown-item-hover-color)',
           backgroundColor: 'var(--dropdown-item-hover-bg)',
         },
+        fontWeight: state.isSelected ? 600 : 400,
       };
     },
     indicatorSeparator: () => ({ display: 'none' }),
