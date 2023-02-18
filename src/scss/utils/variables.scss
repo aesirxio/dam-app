@@ -266,6 +266,11 @@ $nav-tabs-link-active-color: #fff;
 $nav-tabs-link-active-bg: $color-blue-3;
 $grid-gutter-width: 1.25rem;
 
+$form-check-input-checked-color: $white;
+$form-check-radio-checked-color: $success;
+$form-check-input-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$form-check-input-checked-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>") !default;
+$form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$form-check-radio-checked-color}'/></svg>") !default;
+
 // for react-select
 :root {
   --dropdown-item-hover-color: #1ab394;
