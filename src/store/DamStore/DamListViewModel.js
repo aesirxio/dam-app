@@ -6,11 +6,7 @@
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
-import {
-  DAM_ASSETS_FIELD_KEY,
-  DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
-  DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
 
 class DamListViewModel {
   damStore = null;
@@ -120,32 +116,15 @@ class DamListViewModel {
     );
   };
 
-  createCollections = (data, type = 'client') => {
-    if (type === 'client') {
-      // fake data in client view
-      this.damFormModalViewModel.setOnEditCollection();
-
-      this.collections = this.collections.concat({
-        ...data,
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.ID]: 0,
-      });
-      setTimeout(() => {
-        if (document.querySelector(`#id_0`)) {
-          document.querySelector(`#id_0`).focus();
-        }
-      }, 0);
-    }
-    if (type === 'server') {
-      // make real call api to create collection
-      notify(
-        this.damStore.createCollections(
-          data,
-          this.callBackOnCollectionCreateSuccessHandler,
-          this.callbackOnErrorHander
-        ),
-        'promise'
-      );
-    }
+  createCollections = (data) => {
+    notify(
+      this.damStore.createCollections(
+        data,
+        this.callBackOnCollectionCreateSuccessHandler,
+        this.callbackOnErrorHander
+      ),
+      'promise'
+    );
   };
 
   updateCollections = (data) => {
@@ -379,7 +358,10 @@ class DamListViewModel {
             });
             break;
           case 'create':
-            this.collections[this.collections.length - 1] = data?.item;
+            this.collections = [...this.collections, data?.item];
+            setTimeout(() => {
+              document.querySelector(`#id_${data?.item.id}`).focus();
+            }, 0);
 
             break;
           default:
