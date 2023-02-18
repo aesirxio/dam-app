@@ -6,13 +6,12 @@
 import React from 'react';
 
 import { withTranslation } from 'react-i18next';
-
 class Checkbox extends React.Component {
   render() {
     let { name, text, checked, onCheckBoxChange, disabled } = this.props;
     const { t } = this.props;
     return (
-      <div className="form-check">
+      <div className={`form-check`}>
         <input
           name={name}
           id={`id_${name}`}
