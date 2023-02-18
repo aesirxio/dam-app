@@ -32,7 +32,7 @@ const AvatarDAM = ({ formPropsData, avatarOnSelectHandler }) => {
           {t('txt_your_avatar')}
         </label>
         <div
-          className="position-relative d-inline-block cursor-pointer rounded-circle h-196 w-196 bg-gray-dark mb-4"
+          className="position-relative d-inline-block cursor-pointer rounded-circle h-196 w-196 bg-gray-dark-70 mb-4"
           onClick={() => setShow(true)}
         >
           {formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] != '' ? (

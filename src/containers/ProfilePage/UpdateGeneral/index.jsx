@@ -159,14 +159,16 @@ const UpdateGeneral = observer(
           ) : (
             <div className="bg-white p-3 rounded-3">
               <div className="row">
-                <FormComponent
-                  formClassName={'col-9 row'}
-                  generateFormSetting={() => this.generateFormSetting()}
-                  formPropsData={this.formPropsData}
-                  viewModel={this.updateGeneralViewModel}
-                  key={Math.random(40, 200)}
-                  validator={this.validator}
-                />
+                <div className="col-9">
+                  <FormComponent
+                    formClassName={'row h-100'}
+                    generateFormSetting={() => this.generateFormSetting()}
+                    formPropsData={this.formPropsData}
+                    viewModel={this.updateGeneralViewModel}
+                    key={Math.random(40, 200)}
+                    validator={this.validator}
+                  />
+                </div>
 
                 <div className="col-3">
                   <AvatarDAM
