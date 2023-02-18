@@ -18,7 +18,6 @@ class DamFormViewModel {
   showContextMenu = false;
   showDeleteModal = false;
   isEditCollection = false;
-  showUpdateModal = false;
   damEditdata = null;
   editMode = null;
   damListViewModel = null;
@@ -87,14 +86,6 @@ class DamFormViewModel {
 
   setOffEditCollection = () => {
     this.isEditCollection = false;
-  };
-
-  openUpdateCollectionModal = () => {
-    this.showUpdateModal = true;
-  };
-
-  closeUpdateCollectionModal = () => {
-    this.showUpdateModal = false;
   };
 
   downloadFile = async () => {

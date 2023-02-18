@@ -70,10 +70,6 @@ const AesirXDamComponent = observer(
         }, []);
     };
 
-    handleCreateFolder = () => {
-      this.damformModalViewModal.setOnEditCollection();
-    };
-
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = this.damListViewModel.damLinkFolder.split('/');
@@ -479,7 +475,6 @@ const AesirXDamComponent = observer(
                 view={this.view}
                 thumbColumnsNumber={2}
                 onDoubleClick={this.handleDoubleClick}
-                createFolder={this.handleCreateFolder}
                 createAssets={this.handleCreateAssets}
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortby}

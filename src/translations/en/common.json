@@ -150,5 +150,6 @@
   "txt_warning": "Warning",
   "txt_successful": "Successful",
   "txt_error": "Error",
-  "txt_item_already_in_this_folder": "Item already in the Folder"
+  "txt_item_already_in_this_folder": "Item already in the Folder",
+  "txt_name_can_not_blank": "Folder name can not be blank!"
 }

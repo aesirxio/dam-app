@@ -88,10 +88,6 @@ const HomeList = observer(
         }, []);
     };
 
-    handleCreateFolder = () => {
-      this.damformModalViewModal.setOnEditCollection();
-    };
-
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = history.location.pathname.split('/');
@@ -346,6 +342,7 @@ const HomeList = observer(
                   }`}
                 >
                   <ComponentImage
+                    visibleByDefault
                     alt={row.original.name}
                     src="/assets/images/folder.svg"
                     className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}
@@ -379,12 +376,14 @@ const HomeList = observer(
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
+                        visibleByDefault
                         wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
                       <ComponentImage
+                        visibleByDefault
                         wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center pe-none"
                         src={utils.checkFileTypeFormData(row.original)}
                       />
@@ -488,7 +487,6 @@ const HomeList = observer(
                 view={this.view}
                 thumbColumnsNumber={2}
                 onDoubleClick={this.handleDoubleClick}
-                createFolder={this.handleCreateFolder}
                 createAssets={this.handleCreateAssets}
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortby}

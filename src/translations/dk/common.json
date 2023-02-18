@@ -149,5 +149,6 @@
   "txt_by": "ved",
   "txt_warning": "Advarsel",
   "txt_successful": "Vellykket",
-  "txt_error": "Fejl"
+  "txt_error": "Fejl",
+  "txt_name_can_not_blank": "Folder name can not be blank!"
 }

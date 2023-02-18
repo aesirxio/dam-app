@@ -82,7 +82,7 @@ const HomeActionBar = observer(
               return this.damListViewModel.collections.find((collection) => +collection.id === +id);
             }
           })
-          .filter((item) => (item ? true : false)) ?? [];
+          .filter((item) => (item?.id ? true : false)) ?? [];
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />

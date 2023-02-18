@@ -149,5 +149,6 @@
   "txt_by": "bởi",
   "txt_warning": "Cảnh báo",
   "txt_successful": "Thành công",
-  "txt_error": "Lỗi"
+  "txt_error": "Lỗi",
+  "txt_name_can_not_blank": "Tên thư mục không thể để trống!"
 }
