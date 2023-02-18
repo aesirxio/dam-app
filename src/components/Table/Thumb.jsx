@@ -35,7 +35,7 @@ const ThumbContainer = React.memo(({ newRowCells }) => {
   return newRowCells.map((cell) => (
     <div
       {...cell.getCellProps()}
-      className={`ct_cell d-block w-100 user-select-none pe-none`}
+      className={`ct_cell d-block w-100 user-select-none`}
       key={Math.random(40, 200)}
     >
       {cell.render('Cell')}
@@ -64,6 +64,7 @@ const Thumb = observer(
       damListViewModel: {
         actionState: { selectedCards },
       },
+      damFormViewModel: { showCreateCollectionModal },
     } = useDamViewModel();
 
     const [{ isOver }, drop] = useDrop({
@@ -123,9 +124,8 @@ const Thumb = observer(
           .items.map((item) => +item.id)
           .includes(+row.original.id);
       },
-      end: () => {
-        // rearrangeCards(item);
-        // clearItemSelection();
+      canDrag: () => {
+        return showCreateCollectionModal ? false : true;
       },
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
@@ -193,7 +193,9 @@ const Thumb = observer(
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
-            onDoubleClick(row.original);
+            if (!showCreateCollectionModal) {
+              onDoubleClick(row.original);
+            }
           }}
           onClick={(e) => {
             timer = setTimeout(function () {

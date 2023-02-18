@@ -117,6 +117,8 @@ class DamListViewModel {
   };
 
   createCollections = (data) => {
+    this.damFormModalViewModel.openCreateCollectionModal();
+
     notify(
       this.damStore.createCollections(
         data,
@@ -128,13 +130,18 @@ class DamListViewModel {
   };
 
   updateCollections = (data) => {
-    notify(
-      this.damStore.updateCollections(
-        data,
-        this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
-      ),
-      'promise'
+    // notify(
+    //   this.damStore.updateCollections(
+    //     data,
+    //     this.callBackOnCollectionCreateSuccessHandler,
+    //     this.callbackOnErrorHander
+    //   ),
+    //   'promise'
+    // );
+    this.damStore.updateCollections(
+      data,
+      this.callBackOnCollectionCreateSuccessHandler,
+      this.callbackOnErrorHander
     );
   };
 
@@ -358,8 +365,11 @@ class DamListViewModel {
             });
             break;
           case 'create':
-            this.damFormModalViewModel.closeCreateCollectionModal();
             this.collections = [...this.collections, data?.item];
+            setTimeout(() => {
+              document.querySelector(`#id_${data?.item.id}`).focus();
+            }, 0);
+
             break;
           default:
             break;

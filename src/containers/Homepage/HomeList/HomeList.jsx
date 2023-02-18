@@ -25,6 +25,7 @@ import styles from '../index.module.scss';
 import utils from '../HomeUtils/HomeUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
+import CollectionName from '../HomeForm/CollectionName';
 
 const HomeList = observer(
   class HomeList extends Component {
@@ -330,7 +331,9 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
-              className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
+              className={`d-flex  ${
+                this.damListViewModel.isList ? '' : ' justify-content-center w-100'
+              }`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] &&
               !row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ? (
@@ -340,25 +343,26 @@ const HomeList = observer(
                     this.damListViewModel.isList
                       ? 'd-flex align-items-center'
                       : 'd-flex flex-column align-items-center justify-content-center'
-                  }`}
+                  } w-100`}
                 >
                   <ComponentImage
                     alt={row.original.name}
                     src="/assets/images/folder.svg"
-                    className={this.damListViewModel.isList ? '' : styles.folder}
+                    className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}
                   />
                   <span
-                    className={
+                    className={`${
                       this.damListViewModel.isList
                         ? 'ms-3 text-color'
                         : '' + 'text-center text-color'
-                    }
+                    } w-100`}
                   >
-                    {row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    <br />
-                    {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                      'DD MMM, YYYY'
-                    )}
+                    <CollectionName item={row.original} />
+                    <span className="text-gray">
+                      {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                        'DD MMM, YYYY'
+                      )}
+                    </span>
                   </span>
                 </div>
               ) : (
@@ -375,13 +379,13 @@ const HomeList = observer(
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
-                        wrapperClassName="w-100 h-100"
+                        wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
                       <ComponentImage
-                        wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center"
+                        wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center pe-none"
                         src={utils.checkFileTypeFormData(row.original)}
                       />
                     )}

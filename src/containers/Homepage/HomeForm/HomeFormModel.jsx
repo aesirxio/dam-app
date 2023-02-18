@@ -17,7 +17,6 @@ import {
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
 } from 'aesirx-dma-lib';
-import CollectionForm from './CollectionForm';
 import history from 'routes/history';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
@@ -81,28 +80,35 @@ const HomeFormModal = observer(
       }
     };
 
-    handleRename = (name) => {
-      this.damFormModalViewModel.closeUpdateCollectionModal();
-      if (this.damFormModalViewModel.damEditdata?.type) {
-        this.damListViewModel.updateAssets({
-          ...this.damFormModalViewModel.damEditdata,
-          [DAM_ASSETS_FIELD_KEY.NAME]: name,
-        });
-      } else {
-        this.damListViewModel.updateCollections({
-          ...this.damFormModalViewModel.damEditdata,
-          [DAM_COLLECTION_FIELD_KEY.NAME]: name,
-        });
-      }
+    handleRename = () => {
+      // this.damFormModalViewModel.closeUpdateCollectionModal();
+      // if (this.damFormModalViewModel.damEditdata?.type) {
+      //   this.damListViewModel.updateAssets({
+      //     ...this.damFormModalViewModel.damEditdata,
+      //     [DAM_ASSETS_FIELD_KEY.NAME]: name,
+      //   });
+      // } else {
+      //   this.damListViewModel.updateCollections({
+      //     ...this.damFormModalViewModel.damEditdata,
+      //     [DAM_COLLECTION_FIELD_KEY.NAME]: name,
+      //   });
+      // }
+      this.damFormModalViewModel.openCreateCollectionModal();
+      this.damFormModalViewModel.closeContextMenuItem();
+      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).focus();
+      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).select();
     };
 
-    handleCreateFolder = (name) => {
+    handleCreateFolder = () => {
+      const { t } = this.props;
+
       const collectionId = history.location.pathname.split('/');
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
+      this.damFormModalViewModel.closeContextMenu();
       this.damListViewModel.createCollections({
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: name,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: t('txt_new_folder'),
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
       });
     };
@@ -131,11 +137,9 @@ const HomeFormModal = observer(
         showContextMenu,
         showContextMenuItem,
         openModal,
-        openUpdateCollectionModal,
         downloadFile,
-        showCreateCollectionModal,
-        showUpdateModal,
-        openCreateCollectionModal,
+        // showCreateCollectionModal,
+        // showUpdateModal,
         showMoveToFolder,
         openMoveToFolder,
       } = this.damFormModalViewModel;
@@ -195,7 +199,7 @@ const HomeFormModal = observer(
                 </Dropzone>
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none ${styles.txt_hover}`}
-                  onClick={openCreateCollectionModal}
+                  onClick={this.handleCreateFolder}
                 >
                   <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
 
@@ -223,7 +227,7 @@ const HomeFormModal = observer(
               {selectedCards.length < 2 && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
-                  onClick={openUpdateCollectionModal}
+                  onClick={this.handleRename}
                 >
                   <Suspense fallback={''}>
                     <EditingIcon />
@@ -269,7 +273,7 @@ const HomeFormModal = observer(
               </div>
             </div>
           )}
-
+          {/* 
           {showCreateCollectionModal && (
             <Suspense fallback={''}>
               <ModalComponent
@@ -292,13 +296,13 @@ const HomeFormModal = observer(
                 }
               />
             </Suspense>
-          )}
-
+          )} */}
+          {/* 
           {showUpdateModal && (
             <Suspense fallback={''}>
               <ModalComponent
                 closeButton
-                show={showUpdateModal}
+                show={showUpdateModal} 
                 onHide={this.damFormModalViewModel.closeUpdateCollectionModal}
                 onShow={() => {
                   this.damFormModalViewModel.closeContextMenuItem();
@@ -316,7 +320,7 @@ const HomeFormModal = observer(
                 }
               />
             </Suspense>
-          )}
+          )} */}
 
           {showDeleteModal && (
             <Suspense fallback={''}>
