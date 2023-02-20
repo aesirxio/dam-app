@@ -15,13 +15,14 @@ import InputPassword from '../../components/inputPassword';
 import { SSOButton } from 'aesirx-sso';
 import { AesirxAuthenticationApiService, Storage } from 'aesirx-dma-lib';
 import Checkbox from 'components/Checkbox';
+import { env } from 'env';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: process.env.REACT_APP_DEMO_USER ?? '',
-      password: process.env.REACT_APP_DEMO_PASSWORD ?? '',
+      username: env.REACT_APP_DEMO_USER ?? '',
+      password: env.REACT_APP_DEMO_PASSWORD ?? '',
       remember: false,
       isProcessing: false,
     };
@@ -70,7 +71,7 @@ class LoginPage extends React.Component {
       <div className="vh-100 bg-blue-9 ">
         <div className="row g-0 justify-content-center align-items-center h-100 bg-white">
           <div className="d-block login-container">
-            <h1 className="fs-2 text-blue-0 fw-semibold text-center mb-4 lh-base">
+            <h1 className="fs-2 text-blue-new fw-semibold text-center mb-4 lh-base">
               {t('txt_welcome_to')}
               <img
                 className="px-1"
@@ -90,7 +91,7 @@ class LoginPage extends React.Component {
               />
               <div className="d-flex align-items-center flex-nowrap mb-4">
                 <div className="border-bottom w-50"></div>
-                <span className="px-2 text-uppercase fw-medium text-gray">{t('txt_or')}</span>
+                <span className="text-uppercase fw-medium text-gray px-3">{t('txt_or')}</span>
                 <div className="border-bottom w-50"></div>
               </div>
               <label className="form-label fw-semibold text-black mb-10">

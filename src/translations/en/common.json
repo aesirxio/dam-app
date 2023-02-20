@@ -2,7 +2,7 @@
   "txt_welcome_to": "Welcome to ",
   "txt_email": "Email",
   "txt_sign_in": "Sign In",
-  "txt_sign_in_with_sso": "Sign In with SSO",
+  "txt_sign_in_with_sso": "Sign in with SSO",
   "txt_sign_up": "Sign Up",
   "txt_do_not_have_an_account": "Don't have an account? Create Free Account",
   "txt_username": "Username",
@@ -147,8 +147,10 @@
   "txt_digital_assets_media": "Digital Asset Media",
   "txt_remember_me": "Remember me",
   "txt_by": "by",
+  "txt_max_file_size": "Max filesize is: 2 MB (Allowed file extension: jpg, jpeg, gif, png)",
   "txt_warning": "Warning",
   "txt_successful": "Successful",
   "txt_error": "Error",
-  "txt_item_already_in_this_folder": "Item already in the Folder"
+  "txt_item_already_in_this_folder": "Item already in the Folder",
+  "txt_click_to_change_image": "Click to change image"
 }

@@ -23,7 +23,7 @@ class ButtonNormal extends React.Component {
               <FontAwesomeIcon icon={iconStart} />
             </i>
           )}
-          {t(text)}
+          <span>{t(text)}</span>
 
           {iconEnd && (
             <i className="ms-1">

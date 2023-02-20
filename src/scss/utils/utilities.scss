@@ -36,6 +36,7 @@ $utilities: map-merge(
             'blue-6': $color-blue-6,
             'red-2': $color-red-4,
             'white': $white,
+            'blue-new': #0a083b,
           )
         ),
     ),
@@ -62,6 +63,7 @@ $utilities: map-merge(
             'red-2': rgba($red, 0.15),
             'transparent': transparent,
             'sidebar': #0c1215,
+            'gray-dark-70': rgba($gray-800, 0.7),
           )
         ),
     ),
@@ -164,6 +166,7 @@ $utilities: map-merge(
         50: 50%,
         75: 75%,
         100: 100%,
+        196: 196px,
         fit: fit-content,
         max: max-content,
         auto: auto,
@@ -211,6 +214,7 @@ $utilities: map-merge(
         100: 100%,
         auto: auto,
         48px: 48px,
+        196: 196px,
       ),
     ),
     'min-width': (
