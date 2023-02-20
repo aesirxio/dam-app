@@ -33,8 +33,8 @@ const AesirXDamComponent = observer(
       super(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
-      this.damformModalViewModal = this.viewModel ? this.viewModel.damFormViewModel : null;
+      this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
+      this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -51,11 +51,14 @@ const AesirXDamComponent = observer(
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
       const checkContextMenuItem = e.target.closest('#contextMenuItem');
-      if (checkContextMenu || checkContextMenuItem) {
+      const checkContextItemMoveToFolder = e.target.closest('#contextMenuItemMoveToFolder');
+
+      if (checkContextMenu || checkContextMenuItem || checkContextItemMoveToFolder) {
         return;
       } else {
-        this.damformModalViewModal.closeContextMenu();
-        this.damformModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeContextMenu();
+        this.damFormModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeMoveToFolder();
       }
     };
 
@@ -70,7 +73,7 @@ const AesirXDamComponent = observer(
     };
 
     handleCreateFolder = () => {
-      this.damformModalViewModal.openCreateCollectionModal();
+      this.damFormModalViewModal.openCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
@@ -98,10 +101,10 @@ const AesirXDamComponent = observer(
           this.damListViewModel.damLinkFolder + '/' + collection.id
         );
       } else {
-        this.damformModalViewModal.damEditdata = {
+        this.damFormModalViewModal.damEditdata = {
           ...collection,
         };
-        this.damformModalViewModal.openModal();
+        this.damFormModalViewModal.openModal();
       }
     };
 
@@ -110,7 +113,7 @@ const AesirXDamComponent = observer(
 
       const inside = e.target.closest('.item_thumb');
       if (!inside) {
-        this.damformModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeContextMenuItem();
         this.damListViewModel.setActionState({
           selectedCards: [],
         });
@@ -139,13 +142,13 @@ const AesirXDamComponent = observer(
         this.damListViewModel.setActionState({
           style: style,
         });
-        this.damformModalViewModal.openContextMenu();
+        this.damFormModalViewModal.openContextMenu();
       }
     };
 
     handleRightClickItem = (e, data) => {
       e.preventDefault();
-      this.damformModalViewModal.closeContextMenu();
+      this.damFormModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
       const innerWidth = window.innerWidth;
 
@@ -168,7 +171,7 @@ const AesirXDamComponent = observer(
           top: 'unset',
         };
       }
-      this.damformModalViewModal.damEditdata = {
+      this.damFormModalViewModal.damEditdata = {
         ...data,
         style: { ...style },
       };
@@ -177,7 +180,7 @@ const AesirXDamComponent = observer(
       });
       this.handleItemSelection(data.index, false, false, false, true);
 
-      this.damformModalViewModal.openContextMenuItem();
+      this.damFormModalViewModal.openContextMenuItem();
     };
 
     handleFilter = (data) => {
@@ -185,20 +188,24 @@ const AesirXDamComponent = observer(
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-      this.damListViewModel.goToFolder(currentCollection, {
+      this.damListViewModel.onFilter(currentCollection, {
         'filter[type]': data.value,
       });
     };
 
-    handleSortby = (data) => {
+    handleSortBy = (data) => {
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-      this.damListViewModel.goToFolder(currentCollection, {
-        'list[ordering]': data.value.ordering,
-        'list[direction]': data.value.direction,
-      });
+      this.damListViewModel.onFilter(
+        currentCollection,
+        {
+          'list[ordering]': data.value.ordering,
+          'list[direction]': data.value.direction,
+        },
+        true
+      );
     };
 
     handleBack = () => {
@@ -222,14 +229,14 @@ const AesirXDamComponent = observer(
 
       const collectionId = damLinkFolder.split('/');
 
-      let handleColections = [];
+      let handleCollections = [];
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
-        handleColections = collections.filter(
+        handleCollections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
             +collectionId[collectionId.length - 1]
@@ -237,17 +244,17 @@ const AesirXDamComponent = observer(
       } else {
         if (isSearch) {
           handleAssets = assets;
-          handleColections = collections;
+          handleCollections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
-          handleColections = collections.filter(
+          handleCollections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
         }
       }
       let newSelectedCards;
 
-      const cards = [...handleColections, ...handleAssets];
+      const cards = [...handleCollections, ...handleAssets];
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
       if (!cmdKey && !shiftKey && !contextClick) {
@@ -431,14 +438,14 @@ const AesirXDamComponent = observer(
 
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
 
-      let handleColections = [];
+      let handleCollections = [];
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
-        handleColections = collections.filter(
+        handleCollections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
             +collectionId[collectionId.length - 1]
@@ -446,10 +453,10 @@ const AesirXDamComponent = observer(
       } else {
         if (isSearch) {
           handleAssets = assets;
-          handleColections = collections;
+          handleCollections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
-          handleColections = collections.filter(
+          handleCollections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
         }
@@ -461,10 +468,10 @@ const AesirXDamComponent = observer(
           onContextMenu={this.handleRightClick}
           onClick={this.handleClickOutSite}
         >
-          {handleColections || handleAssets ? (
+          {handleCollections || handleAssets ? (
             <>
               <Table
-                rowData={[...handleColections, ...handleAssets]}
+                rowData={[...handleCollections, ...handleAssets]}
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
                 isThumb={true}
@@ -484,11 +491,11 @@ const AesirXDamComponent = observer(
                 createFolder={this.handleCreateFolder}
                 createAssets={this.handleCreateAssets}
                 onFilter={this.handleFilter}
-                onSortby={this.handleSortby}
+                onSortby={this.handleSortBy}
                 onRightClickItem={this.handleRightClickItem}
                 onBackClick={this.handleBack}
                 onSelectionChange={this.handleItemSelection}
-                dataCollections={handleColections}
+                dataCollections={handleCollections}
                 dataAssets={handleAssets}
               />
             </>
