@@ -148,5 +148,6 @@
   "txt_by": "โดย",
   "txt_warning": "คำเตือน",
   "txt_successful": "ประสบความสำเร็จ",
-  "txt_error": "ข้อผิดพลาด"
+  "txt_error": "ข้อผิดพลาด",
+  "txt_can_not_move_to_itself": "Can not move to itself"
 }

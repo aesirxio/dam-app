@@ -144,5 +144,6 @@
   "txt_can_not_move": "Nemožeš se pomaknuti",
   "txt_move_with_file_or_folder": "Premjestili ste {{type}} {{name}} u mapu {{name_folder}}",
   "txt_drop_to_upload": "Ispustite za prijenos",
-  "txt_digital_assets_media": "Mediji digitalnih materijala"
+  "txt_digital_assets_media": "Mediji digitalnih materijala",
+  "txt_can_not_move_to_itself": "Can not move to itself"
 }
