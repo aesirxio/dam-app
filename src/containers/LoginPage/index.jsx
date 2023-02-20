@@ -15,13 +15,14 @@ import InputPassword from '../../components/inputPassword';
 import { SSOButton } from 'aesirx-sso';
 import { AesirxAuthenticationApiService, Storage } from 'aesirx-dma-lib';
 import Checkbox from 'components/Checkbox';
+import { env } from 'env';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: process.env.REACT_APP_DEMO_USER ?? '',
-      password: process.env.REACT_APP_DEMO_PASSWORD ?? '',
+      username: env.REACT_APP_DEMO_USER ?? '',
+      password: env.REACT_APP_DEMO_PASSWORD ?? '',
       remember: false,
       isProcessing: false,
     };
