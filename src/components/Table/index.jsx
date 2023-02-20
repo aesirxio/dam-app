@@ -54,7 +54,7 @@ const Table = ({
 
   const filterBar = useMemo(() => ({
     id: 'type',
-    className: 'border-end border-gray-select col-auto fs-14 px-2 text-blue-0',
+    className: 'border-end border-gray-select col-auto fs-14 text-blue-0',
     placeholder: t('txt_type'),
     options: [
       {
@@ -83,7 +83,7 @@ const Table = ({
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     placeholder: t('txt_sort_by'),
-    className: 'border-end border-gray-select col-auto fs-14 px-3 text-blue-0',
+    className: 'border-end border-gray-select col-auto fs-14 text-blue-0',
     options: [
       {
         label: t('txt_sort_by'),
@@ -136,34 +136,32 @@ const Table = ({
     <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
-          <div className="wrapper_search_global row">
-            <div className={filterBar.className}>
-              <Select
-                isShadow={false}
-                isClearable={false}
-                isSearchable={false}
-                options={filterBar.options}
-                onChange={onFilter}
-                value={filterBar.options.find(
-                  (e) => e.value === listViewModel.dataFilter['filter[type]']
-                )}
-              />
-            </div>
+          <div className="wrapper_search_global d-flex">
+            <Select
+              className={filterBar.className}
+              isShadow={false}
+              isClearable={false}
+              isSearchable={false}
+              options={filterBar.options}
+              onChange={onFilter}
+              value={filterBar.options.find(
+                (e) => e.value === listViewModel.dataFilter['filter[type]']
+              )}
+            />
             <ChooseAction />
-            <div className={sortBy.className}>
-              <Select
-                isShadow={false}
-                isClearable={false}
-                isSearchable={false}
-                options={sortBy.options}
-                onChange={onSortby}
-                value={sortBy.options.find(
-                  (e) =>
-                    e.value.ordering === listViewModel.dataFilter['list[ordering]'] &&
-                    e.value.direction === listViewModel.dataFilter['list[direction]']
-                )}
-              />
-            </div>
+            <Select
+              className={sortBy.className}
+              isShadow={false}
+              isClearable={false}
+              isSearchable={false}
+              options={sortBy.options}
+              onChange={onSortby}
+              value={sortBy.options.find(
+                (e) =>
+                  e.value.ordering === listViewModel.dataFilter['list[ordering]'] &&
+                  e.value.direction === listViewModel.dataFilter['list[direction]']
+              )}
+            />
           </div>
           {isThumb && (
             <div className="d-flex align-items-center">

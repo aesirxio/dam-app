@@ -6,3 +6,16 @@
     color: $green !important;
   }
 }
+
+.border_top {
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 80%;
+    transform: translateX(-50%);
+    height: 1px;
+    background-color: $gray-select;
+  }
+}

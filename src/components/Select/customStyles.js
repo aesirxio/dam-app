@@ -31,8 +31,6 @@ const customStyles = (isBorder, isShadow = true) => {
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
         borderRight: '1px solid var(--bs-gray-select)',
-        boxShadow: '0 3px 5px rgb(0 0 0 / 5%)',
-        borderTop: '1px solid var(--bs-gray-select)',
         backgroundColor: 'var(--dropdown-bg)',
         width: '100%',
       };
@@ -47,6 +45,7 @@ const customStyles = (isBorder, isShadow = true) => {
           backgroundColor: 'var(--dropdown-item-hover-bg)',
         },
         fontWeight: state.isSelected ? 600 : 400,
+        cursor: 'pointer',
       };
     },
     indicatorSeparator: () => ({ display: 'none' }),
