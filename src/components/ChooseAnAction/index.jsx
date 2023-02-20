@@ -103,7 +103,7 @@ const ChooseAction = observer(() => {
                   <li key={index}>
                     <Dropdown.Item
                       as={'p'}
-                      className={`cursor-pointer text-blue-0 d-block rounded-1 text-decoration-none mb-0 ${styles.dropdown_item}`}
+                      className={`cursor-pointer fs-14 text-blue-0 d-block rounded-1 text-decoration-none mb-0 ${styles.dropdown_item}`}
                       onClick={value?.onSelect}
                     >
                       {t(value.label)}

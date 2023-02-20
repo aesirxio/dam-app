@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ import { observer } from 'mobx-react';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import ComponentImage from 'components/ComponentImage';
-
+import { faFolder } from '@fortawesome/free-regular-svg-icons';
 const dataMenu = [
   // {
   //   text: 'txt_menu_member',
@@ -57,11 +57,15 @@ const dataMenu = [
 function CustomToggle({ children, eventKey, isActive }) {
   const [open, setOpen] = useState(false);
 
-  const custom = () => {
-    setOpen((prevState) => !prevState);
-  };
+  const custom = useCallback(() => {
+    if (eventKey !== 'root') {
+      setOpen((prevState) => !prevState);
+    }
+  }, [open, eventKey]);
+
   const decoratedOnClick = useAccordionButton(eventKey, custom);
   const decoratedOnClickCloseAll = useAccordionButton('root', custom);
+
   useEffect(() => {
     if (isActive) {
       decoratedOnClick();
@@ -76,16 +80,13 @@ function CustomToggle({ children, eventKey, isActive }) {
       {children}
       {eventKey === 'root' ? (
         <FontAwesomeIcon
-          className={` position-absolute top-50 translate-middle carvet-toggle text-white index`}
-          // onClick={(e) => {
-          //   e.preventDefault();
-          // }}
+          className={` position-absolute top-50 translate-middle caret-toggle text-white index`}
           icon={faAngleDown}
         />
       ) : (
         <FontAwesomeIcon
-          className={` position-absolute top-50 translate-middle carvet-toggle text-green  ${
-            open ? 'down' : ''
+          className={` position-absolute top-50 translate-middle caret-toggle text-green  ${
+            open ? '' : 'down'
           }`}
           onClick={decoratedOnClick}
           icon={faCaretRight}
@@ -155,7 +156,7 @@ const Menu = observer(
               }`}
               activeClassName={`active`}
             >
-              <ComponentImage alt="folder" src="/assets/images/folder-outline.svg" />
+              <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
               <span className="ms-3 py-1 d-inline-block col">{parent_id.name}</span>
             </NavLink>
           </CustomToggle>
@@ -181,7 +182,7 @@ const Menu = observer(
           }`}
           activeClassName={`active`}
         >
-          <ComponentImage alt="folder" src="/assets/images/folder-outline.svg" />
+          <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
           <span className="ms-3 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
         </NavLink>
       );
