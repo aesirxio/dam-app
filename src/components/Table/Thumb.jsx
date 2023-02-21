@@ -9,25 +9,53 @@ import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
-
+import styles from './index.module.scss';
 export const DND_ITEM_TYPE = 'thumb';
 let timer = 0;
 let delay = 200;
 let prevent = false;
 
-const FakeThumb = observer(({ id }) => {
+const FakeThumb = observer(({ id, index, isList }) => {
   const {
     damListViewModel: {
-      actionState: { selectedCards },
+      actionState: { selectedCards = [] },
     },
   } = useDamViewModel();
   const isSelect = selectedCards.map((selectedCard) => +selectedCard.id).includes(+id);
+  const checkBorderBottom = selectedCards
+    .map((selectedCard) => +selectedCard.index)
+    .includes(+index + 1);
+  const checkBorderTop = selectedCards
+    .map((selectedCard) => +selectedCard.index)
+    .includes(+index - 1);
   return (
     <span
       className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
-        isSelect ? 'border border-success bg-success-05' : ''
+        isSelect ? 'border border-success bg-gray-dark' : ''
+      } ${checkBorderBottom ? 'border-bottom-0' : ''} ${checkBorderTop ? 'border-top-0' : ''} ${
+        isList && isSelect ? 'bg-success-05' : ''
       }`}
     ></span>
+  );
+});
+
+export const IndeterminateCheckbox = observer(({ index, dataLength }) => {
+  const {
+    damListViewModel: {
+      actionState: { selectedCards = [] },
+    },
+  } = useDamViewModel();
+  const selectedIndex = selectedCards.map((selectedCard) => +selectedCard.index).includes(+index);
+
+  return (
+    <div className={styles.checkbox}>
+      <input
+        className="form-check-input p-0 w-100 h-100"
+        checked={selectedIndex | (dataLength === selectedCards.length) ? true : false}
+        onChange={() => {}}
+        type="checkbox"
+      />
+    </div>
   );
 });
 
@@ -54,10 +82,7 @@ const Thumb = observer(
     onRightClickItem,
     isList = false,
     type,
-    // rearrangeCards,
-    // setInsertIndex,
     onSelectionChange,
-    // clearItemSelection = () => {},
   }) => {
     const ref = React.useRef(null);
     const {
@@ -87,7 +112,7 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()) {
+        if (monitor.getItem()?.items.length && selectedCards.length) {
           const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
           if (checkItemSelect.includes(+row?.original.id)) {
             return false;
@@ -163,7 +188,17 @@ const Thumb = observer(
           isOver ? 'border border-success bg-success-05' : 'border-none'
         } ${className}`}
         onDoubleClick={() => {
+          clearTimeout(timer);
+          prevent = true;
           onDoubleClick(row.original);
+        }}
+        onClick={(e) => {
+          timer = setTimeout(function () {
+            if (!prevent) {
+              onSelect(e);
+            }
+            prevent = false;
+          }, delay);
         }}
         onContextMenu={(e) => {
           onRightClickItem(e, { ...row.original, index });
@@ -172,12 +207,21 @@ const Thumb = observer(
         type={type}
         ref={ref}
       >
-        {newRowCells.map((cell, index) => {
-          return (
-            <td key={index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
-              {cell.render('Cell')}
-            </td>
-          );
+        {newRowCells.map((cell, _index) => {
+          if (cell.column.id === 'selection') {
+            return (
+              <td key={_index} {...cell.getCellProps()} style={{ width: 64 }}>
+                <IndeterminateCheckbox index={index} />
+              </td>
+            );
+          } else {
+            return (
+              <td key={_index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
+                {cell.render('Cell')}
+                <FakeThumb id={+row.original.id} index={index} isList={true} />
+              </td>
+            );
+          }
         })}
       </tr>
     ) : (

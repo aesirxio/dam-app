@@ -42,11 +42,11 @@ const HomeList = observer(
     componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
       const collectionId = history.location.pathname.split('/');
-      const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
+      const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
       this.damListViewModel.setLoading();
-      this.damListViewModel.goToFolder(curretnCollectionId);
+      this.damListViewModel.goToFolder(currentCollectionId);
     }
 
     componentWillUnmount() {
@@ -56,10 +56,10 @@ const HomeList = observer(
     componentDidUpdate(prevProps) {
       if (this.props.location !== prevProps.location) {
         const collectionId = history.location.pathname.split('/');
-        const curretnCollectionId = !isNaN(collectionId[collectionId.length - 1])
+        const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
           ? collectionId[collectionId.length - 1]
           : 0;
-        this.damListViewModel.goToFolder(curretnCollectionId);
+        this.damListViewModel.goToFolder(currentCollectionId);
       }
     }
 
@@ -247,6 +247,7 @@ const HomeList = observer(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
+
         handleCollections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
@@ -258,6 +259,7 @@ const HomeList = observer(
           handleCollections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
+
           handleCollections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
@@ -265,7 +267,10 @@ const HomeList = observer(
       }
       let newSelectedCards;
 
-      const cards = [...handleCollections, ...handleAssets];
+      const cards = [...handleCollections, ...handleAssets].map((item, index) => ({
+        ...item,
+        index,
+      }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
       if (!cmdKey && !shiftKey && !ctrlKey && !contextClick) {
@@ -306,7 +311,6 @@ const HomeList = observer(
           newSelectedCards = [card];
         }
       }
-
       const finalList = cards
         ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
         : [];
@@ -326,7 +330,10 @@ const HomeList = observer(
       }
       const tableRowHeader = [
         {
-          Header: t('txt_name'),
+          id: 'selection',
+        },
+        {
+          Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
@@ -343,6 +350,7 @@ const HomeList = observer(
                   }`}
                 >
                   <ComponentImage
+                    visibleByDefault
                     alt={row.original.name}
                     src="/assets/images/folder.svg"
                     className={this.damListViewModel.isList ? '' : styles.folder}
@@ -350,15 +358,17 @@ const HomeList = observer(
                   <span
                     className={
                       this.damListViewModel.isList
-                        ? 'ms-3 text-color'
+                        ? 'ms-32px text-color'
                         : '' + 'text-center text-color'
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                     <br />
-                    {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                      'DD MMM, YYYY'
-                    )}
+                    {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED] &&
+                      !this.damListViewModel.isList &&
+                      moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                        'DD MMM, YYYY'
+                      )}
                   </span>
                 </div>
               ) : (
@@ -375,12 +385,14 @@ const HomeList = observer(
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
+                        visibleByDefault
                         wrapperClassName="w-100 h-100"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
                       <ComponentImage
+                        visibleByDefault
                         wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center"
                         src={utils.checkFileTypeFormData(row.original)}
                       />
@@ -403,7 +415,7 @@ const HomeList = observer(
         },
 
         {
-          Header: t('txt_size'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_size')}</span>,
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
@@ -417,11 +429,11 @@ const HomeList = observer(
           ),
         },
         {
-          Header: t('txt_owner'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_owner')}</span>,
           accessor: DAM_COLUMN_INDICATOR.OWNER,
         },
         {
-          Header: t('txt_last_modified'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>{moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format('DD MMM, YYYY')}</>
@@ -489,9 +501,8 @@ const HomeList = observer(
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortBy}
                 onRightClickItem={this.handleRightClickItem}
-                noSelection={true}
                 onSelectionChange={this.handleItemSelection}
-                // selectedCards={this.damListViewModel.actionState.selectedCards}
+                onRowSelectStateChange={this.onRowSelectStateChange}
               />
             </>
           ) : (
