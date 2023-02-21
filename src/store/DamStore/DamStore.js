@@ -122,6 +122,7 @@ export default class DamStore {
       if (responseDataFromLibrary) {
         runInAction(() => {
           callbackOnSuccess({
+            data: data,
             item: responseDataFromLibrary,
             type: 'create',
           });

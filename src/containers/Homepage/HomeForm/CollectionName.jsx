@@ -12,19 +12,30 @@ const CollectionName = observer(({ item }) => {
   const [value, setValue] = useState(item[DAM_COLUMN_INDICATOR.NAME]);
   const [isFocus, setIsFocus] = useState(false);
   const { t } = useTranslation('common');
+
   const handleUpdateFolder = useCallback(() => {
     if (value) {
-      if (value !== item[DAM_COLUMN_INDICATOR.NAME]) {
-        damListViewModel.updateCollections({
-          ...item,
-          [DAM_COLLECTION_FIELD_KEY.NAME]: value,
-        });
+      if (item?.create) {
+        damListViewModel.createCollections(
+          {
+            ...item,
+            [DAM_COLLECTION_FIELD_KEY.NAME]: value,
+          },
+          'server'
+        );
+      } else {
+        if (value !== item[DAM_COLUMN_INDICATOR.NAME]) {
+          damListViewModel.updateCollections({
+            ...item,
+            [DAM_COLLECTION_FIELD_KEY.NAME]: value,
+          });
+        } else {
+          setValue(item[DAM_COLUMN_INDICATOR.NAME]);
+        }
       }
     } else {
-      setValue(item[DAM_COLUMN_INDICATOR.NAME]);
       notify(t('txt_name_can_not_blank'), 'warn');
     }
-
     damFormViewModel.setOffEditCollection();
   }, [value]);
 
