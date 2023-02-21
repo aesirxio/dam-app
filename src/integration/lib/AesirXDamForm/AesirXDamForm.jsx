@@ -73,7 +73,7 @@ class AesirDamForm extends Component {
               this.forceUpdate();
             },
             blurred: () => {
-              this.validator.showMessageFor('Name');
+              this.validator.showMessageFor(t('txt_title'));
             },
           },
           {
@@ -90,9 +90,6 @@ class AesirDamForm extends Component {
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
             },
-            blurred: () => {
-              this.validator.showMessageFor(t('txt_title'));
-            },
           },
           {
             label: t('txt_file_type'),
@@ -104,7 +101,6 @@ class AesirDamForm extends Component {
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'bg-transparent border-0 p-0',
-            validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
             },
@@ -113,13 +109,10 @@ class AesirDamForm extends Component {
             label: t('txt_file_size'),
             key: DAM_ASSETS_FIELD_KEY.FILE_SIZE,
             type: FORM_FIELD_TYPE.INPUT,
-            value: moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
-              'DD MMM, YYYY'
-            ),
+            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] + ' kb',
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0',
-            validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
             },
@@ -128,13 +121,12 @@ class AesirDamForm extends Component {
             label: t('txt_last_modified'),
             key: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
             type: FORM_FIELD_TYPE.INPUT,
-            value: moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
-              'DD MMM, YYYY'
-            ),
+            value:
+              this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] &&
+              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format('DD MMM, YYYY'),
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0',
-            validation: 'required',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
             },

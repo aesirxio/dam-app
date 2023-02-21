@@ -41,10 +41,13 @@ class UpdateGeneralViewModel {
   };
 
   saveGeneralInformationOnPage = () => {
-    this.profileStore.updateGeneral(
-      this.updateGeneralViewModel.formPropsData,
-      this.callbackOnSuccessHandler,
-      this.callbackOnErrorHandler
+    notify(
+      this.profileStore.updateGeneral(
+        this.updateGeneralViewModel.formPropsData,
+        this.callbackOnSuccessHandler,
+        this.callbackOnErrorHandler
+      ),
+      'promise'
     );
   };
 
@@ -85,7 +88,7 @@ class UpdateGeneralViewModel {
           this.updateGeneralViewModel.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]
         );
       }
-      notify('Update successfully', 'success');
+      // notify('Update successfully', 'success');
       setTimeout(() => {
         window.location.reload();
       }, 1500);
