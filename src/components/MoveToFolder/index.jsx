@@ -88,15 +88,15 @@ const MoveToFolder = observer(({ current = 0 }) => {
 
   return (
     <div className="bg-white border zindex-5 shadow-sm rounded-3">
-      <div className="d-flex ps-2 align-items-center border-bottom h-48px">
+      <div className={`w-100 border-0 border-bottom btn w-100 d-flex h-48px align-items-center `}>
         <FontAwesomeIcon
           onClick={() => goToFolder()}
-          className={`text-gray-dark cursor-pointer ${
+          className={`text-gray-dark cursor-pointer px-2 ${
             !currentCollection ? 'pe-none opacity-0' : null
           }`}
           icon={faArrowLeft}
         />
-        <p className="ps-3 m-0 text-gray-dark fw-semibold">{t('txt_move_to_folder')} </p>
+        <span className="ps-3 m-0 text-gray-dark fw-semibold">{t('txt_move_to_folder')} </span>
       </div>
       <div className={`w-100 ${styles.list}`}>
         {collections.map((collection, index) => {
@@ -119,7 +119,7 @@ const MoveToFolder = observer(({ current = 0 }) => {
                 >
                   <span className="d-block ">
                     <button
-                      className={`text-body m-0 btn border-0 rounded-0  d-flex align-items-center py-2 cursor-pointer h-48px w-100 ${
+                      className={`text-body m-0 btn border-0 rounded-0 d-flex align-items-center cursor-pointer h-48px w-100 ${
                         styles.item
                       } ${
                         selectCollection?.id === collection?.id
