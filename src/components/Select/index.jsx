@@ -10,6 +10,8 @@ import AsyncSelect from 'react-select/async';
 import customStyles from './customStyles';
 import { withThemeContext } from 'themes/ThemeContextProvider';
 import { withTranslation } from 'react-i18next';
+
+import styles from './index.module.scss';
 class SelectComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -19,19 +21,24 @@ class SelectComponent extends React.Component {
   render() {
     const { t } = this.props;
     let { isBorder, async, placeholder, isShadow } = this.props;
-    let styles = customStyles(isBorder, isShadow);
+    let customStyle = customStyles(isBorder, isShadow);
     if (async) {
       return (
         <AsyncSelect
           {...this.props}
           placeholder={placeholder ?? t('txt_select...')}
-          styles={styles}
+          styles={customStyle}
         />
       );
     }
 
     return (
-      <Select {...this.props} placeholder={placeholder ?? t('txt_select...')} styles={styles} />
+      <Select
+        {...this.props}
+        className={`${this.props.className}  ${styles.custom}`}
+        placeholder={placeholder ?? t('txt_select...')}
+        styles={customStyle}
+      />
     );
   }
 }

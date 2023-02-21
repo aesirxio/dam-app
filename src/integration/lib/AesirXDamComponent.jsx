@@ -251,7 +251,10 @@ const AesirXDamComponent = observer(
       }
       let newSelectedCards;
 
-      const cards = [...handleCollections, ...handleAssets];
+      const cards = [...handleCollections, ...handleAssets].map((item, index) => ({
+        ...item,
+        index,
+      }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
       if (!cmdKey && !shiftKey && !contextClick) {
@@ -329,15 +332,17 @@ const AesirXDamComponent = observer(
       }
       const tableRowHeader = [
         {
-          Header: t('txt_name'),
+          id: 'selection',
+        },
+        {
+          Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
-              className={`d-flex w-100 ${
-                this.damListViewModel.isList ? '' : 'justify-content-center'
-              }`}
+              className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
             >
-              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] &&
+              !row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ? (
                 // folder
                 <div
                   className={`w-100 ${
@@ -353,8 +358,8 @@ const AesirXDamComponent = observer(
                     title={row.original[DAM_COLUMN_INDICATOR.NAME]}
                     className={`${
                       this.damListViewModel.isList
-                        ? 'ms-3 text-color'
-                        : 'text-center text-color lcl lcl-2 d-block w-space'
+                        ? 'ms-32px text-color'
+                        : 'text-center text-color lcl lcl-2 w-100 d-block w-space'
                     } w-100`}
                   >
                     <CollectionName item={row.original} />
@@ -407,7 +412,7 @@ const AesirXDamComponent = observer(
         },
 
         {
-          Header: t('txt_size'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_size')}</span>,
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
@@ -421,12 +426,15 @@ const AesirXDamComponent = observer(
           ),
         },
         {
-          Header: t('txt_owner'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_owner')}</span>,
           accessor: DAM_COLUMN_INDICATOR.OWNER,
         },
         {
-          Header: t('txt_last_modified'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
+          Cell: ({ row }) => (
+            <>{moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format('DD MMM, YYYY')}</>
+          ),
         },
       ];
 

@@ -91,13 +91,15 @@ class DamListViewModel {
     if (isFetchAssets && this.collections.length) {
       this.status = PAGE_STATUS.LOADING;
     }
+    this.resetActionState();
+
     this.damStore.goToFolder(
       collectionId,
       this.dataFilter,
       this.collections.length ? false : true,
       isFetchAssets ? false : true,
       this.callbackOnSuccessHandler,
-      this.callbackOnErrorHander
+      this.callbackOnErrorHandler
     );
   };
 
@@ -112,7 +114,7 @@ class DamListViewModel {
       isSort,
       true,
       this.callbackOnFilterSuccessHandler,
-      this.callbackOnErrorHander
+      this.callbackOnErrorHandler
     );
   };
 
@@ -121,7 +123,7 @@ class DamListViewModel {
       this.damStore.createCollections(
         data,
         this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -132,7 +134,7 @@ class DamListViewModel {
       this.damStore.updateCollections(
         data,
         this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -145,7 +147,7 @@ class DamListViewModel {
       collectionId,
       this.dataFilter,
       this.callbackOnAssetsSuccessHandler,
-      this.callbackOnErrorHander
+      this.callbackOnErrorHandler
     );
   };
 
@@ -157,7 +159,7 @@ class DamListViewModel {
       collectionId,
       this.dataFilter,
       this.callBackOnAssetsFilterSuccessHandler,
-      this.callbackOnErrorHander
+      this.callbackOnErrorHandler
     );
   };
 
@@ -166,7 +168,7 @@ class DamListViewModel {
       this.damStore.createAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -197,7 +199,7 @@ class DamListViewModel {
       this.damStore.deleteCollections(
         data,
         this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -208,7 +210,7 @@ class DamListViewModel {
       this.damStore.deleteAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -219,7 +221,7 @@ class DamListViewModel {
       this.damStore.updateAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -245,7 +247,7 @@ class DamListViewModel {
         this.damStore.moveToFolder(
           data,
           this.callBackOnMoveSuccessHandler,
-          this.callbackOnErrorHander
+          this.callbackOnErrorHandler
         ),
         'promise'
       );
@@ -297,7 +299,7 @@ class DamListViewModel {
       this.status = PAGE_STATUS.ERROR;
     }
   };
-  callbackOnErrorHander = (error) => {
+  callbackOnErrorHandler = (error) => {
     if (error.message === 'isCancel') {
       this.status = PAGE_STATUS.READY;
     } else notify(error.message, 'error');

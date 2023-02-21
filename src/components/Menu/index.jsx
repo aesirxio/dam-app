@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
@@ -16,11 +16,11 @@ import { useAccordionButton } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
 import { useState } from 'react';
-import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 import { observer } from 'mobx-react';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-
+import ComponentImage from 'components/ComponentImage';
+import { faFolder } from '@fortawesome/free-regular-svg-icons';
 const dataMenu = [
   // {
   //   text: 'txt_menu_member',
@@ -54,27 +54,39 @@ const dataMenu = [
   // },
 ];
 
-function CustomToggle({ children, eventKey }) {
+function CustomToggle({ children, eventKey, isActive }) {
   const [open, setOpen] = useState(false);
-  const custom = () => {
-    setOpen((prevState) => !prevState);
-  };
+
+  const custom = useCallback(() => {
+    if (eventKey !== 'root') {
+      setOpen((prevState) => !prevState);
+    }
+  }, [open, eventKey]);
+
   const decoratedOnClick = useAccordionButton(eventKey, custom);
+  const decoratedOnClickCloseAll = useAccordionButton('root', custom);
+
+  useEffect(() => {
+    if (isActive) {
+      decoratedOnClick();
+    } else {
+      decoratedOnClickCloseAll();
+    }
+    return () => {};
+  }, [isActive]);
+
   return (
     <div className="item_menu position-relative ">
       {children}
       {eventKey === 'root' ? (
         <FontAwesomeIcon
-          className={` position-absolute top-50 translate-middle carvet-toggle text-white index`}
-          // onClick={(e) => {
-          //   e.preventDefault();
-          // }}
+          className={` position-absolute top-50 translate-middle caret-toggle text-white index`}
           icon={faAngleDown}
         />
       ) : (
         <FontAwesomeIcon
-          className={` position-absolute top-50 translate-middle carvet-toggle text-green  ${
-            open ? 'down' : ''
+          className={` position-absolute top-50 translate-middle caret-toggle text-green  ${
+            open ? '' : 'down'
           }`}
           onClick={decoratedOnClick}
           icon={faCaretRight}
@@ -121,14 +133,19 @@ const Menu = observer(
         return null;
       }
       const filterCollectionsWithParentId = this.damListViewModel.collections.filter(
-        (collection) => parent_id?.id === collection.parent_id
+        (collection) => +parent_id?.id === +collection.parent_id
       );
 
       const isActive = history.location.pathname.split('/').includes(parent_id.id.toString());
 
       return filterCollectionsWithParentId.length && parent_id?.id ? (
         <Accordion>
-          <CustomToggle className="item_menu" as={'div'} eventKey={parent_id?.id}>
+          <CustomToggle
+            className="item_menu"
+            isActive={isActive}
+            as={'div'}
+            eventKey={parent_id?.id}
+          >
             <NavLink
               exact={true}
               to={'/' + link + '/' + parent_id.id}
@@ -166,7 +183,6 @@ const Menu = observer(
           activeClassName={`active`}
         >
           <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
-
           <span className="ms-3 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
         </NavLink>
       ) : null;
@@ -185,7 +201,7 @@ const Menu = observer(
                   to={'/root'}
                   className={`d-flex align-items-center px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
                 >
-                  <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
+                  <ComponentImage alt="folder" src="/assets/images/assets.svg" />
 
                   <span className="ms-3 py-1 d-inline-block col fw-semibold">
                     {t('txt_my_assets')}
