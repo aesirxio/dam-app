@@ -17,6 +17,7 @@ import { UPDATE_GENERAL_FIELD_KEY } from '../../../constants/ProfileModule';
 import '../index.scss';
 import SubmitButton from '../Layout/SubmitButton';
 import { witheProfileViewModel } from '../ProfileViewModel/ProfileViewModelContextProvider';
+import AvatarDAM from '../Layout/AvatarDAM';
 ` `;
 
 const UpdateGeneral = observer(
@@ -89,6 +90,15 @@ const UpdateGeneral = observer(
       this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] = defaultImage;
     };
 
+    avatarOnSelectHandler = (data) => {
+      if (data.split(/[#?]/)[0].split('.').pop().trim() !== 'mp4') {
+        this.setState({
+          getUrlImage: data,
+        });
+        this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] = data;
+      }
+    };
+
     generateFormSetting = () => {
       return [
         {
@@ -149,47 +159,23 @@ const UpdateGeneral = observer(
           ) : (
             <div className="bg-white p-3 rounded-3">
               <div className="row">
-                <FormComponent
-                  formClassName={'col-9 row'}
-                  generateFormSetting={() => this.generateFormSetting()}
-                  formPropsData={this.formPropsData}
-                  viewModel={this.updateGeneralViewModel}
-                  key={Math.random(40, 200)}
-                  validator={this.validator}
-                />
+                <div className="col-9">
+                  <FormComponent
+                    formClassName={'row h-100'}
+                    generateFormSetting={() => this.generateFormSetting()}
+                    formPropsData={this.formPropsData}
+                    viewModel={this.updateGeneralViewModel}
+                    key={Math.random(40, 200)}
+                    validator={this.validator}
+                  />
+                </div>
 
-                {/* <AvatarDAM>
-                  <div
-                    className={`position-relative  cursor-pointer wr_upload_images ${
-                      getUrlImage.length > 0 ? 'active_img' : ''
-                    }`}
-                  >
-                    {!getUrlImage ? (
-                      <div className="wr_img_thumbnail_dam position-relative m-2 ">
-                        <ComponentImage
-                          className={`rounded-circle them imgTab h-196`}
-                          src={this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]}
-                          alt={this.formPropsData[UPDATE_GENERAL_FIELD_KEY.USERNAME]}
-                        />
-                        <div className="position-absolute top-50 start-0 align-content-center fw-bold text-white imgcloud ">
-                          <FontAwesomeIcon icon={faCloudUploadAlt} className="d-block m-auto  " />
-                          <span className=" mx-3 my-5">Click to change image</span>
-                        </div>
-                      </div>
-                    ) : null}
-                    <div className="main_upload_images">
-                      <Button data={getUrlImage} changed={(data) => this.handleDamAssets(data)} />
-                    </div>
-                    {getUrlImage ? (
-                      <div
-                        onClick={() => this.clearImage(memberInfo.avatar_dam)}
-                        className={'clear_image_button'}
-                      >
-                        <FontAwesomeIcon icon={faTimesCircle} className="text-white" />
-                      </div>
-                    ) : null}
-                  </div>
-                </AvatarDAM> */}
+                <div className="col-3">
+                  <AvatarDAM
+                    formPropsData={this.formPropsData}
+                    avatarOnSelectHandler={this.avatarOnSelectHandler}
+                  />
+                </div>
                 <SubmitButton validateInfoBeforeSending={this.validateInfoBeforeSending} />
               </div>
             </div>

@@ -34,11 +34,9 @@ Get a full build and install it in your favorite web server.
 
 
 ## Dockerize
-#### Development
-`docker compose -f "docker-compose.dev.yml" up -d --build`
 
 #### Production
-`docker compose -f "docker-compose.pro.yml" up -d --build`
+`docker compose -f "docker-compose.yml" up -d --build`
 
 
 ## Integrate use

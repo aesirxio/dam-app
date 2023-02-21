@@ -64,6 +64,7 @@ $utilities: map-merge(
             'transparent': transparent,
             'sidebar': #0c1215,
             'success-05': rgba($success, 0.05),
+            'gray-dark-70': rgba($gray-800, 0.7),
           )
         ),
     ),
@@ -166,6 +167,7 @@ $utilities: map-merge(
         50: 50%,
         75: 75%,
         100: 100%,
+        196: 196px,
         fit: fit-content,
         max: max-content,
         auto: auto,
@@ -213,6 +215,7 @@ $utilities: map-merge(
         100: 100%,
         auto: auto,
         48px: 48px,
+        196: 196px,
       ),
     ),
     'min-width': (

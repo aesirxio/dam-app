@@ -36,7 +36,7 @@ const HomeList = observer(
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
-      this.damformModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
+      this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -71,9 +71,9 @@ const HomeList = observer(
       if (checkContextMenu || checkContextMenuItem || checkContextItemMoveToFolder) {
         return;
       } else {
-        this.damformModalViewModal.closeContextMenu();
-        this.damformModalViewModal.closeContextMenuItem();
-        this.damformModalViewModal.closeMoveToFolder();
+        this.damFormModalViewModal.closeContextMenu();
+        this.damFormModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeMoveToFolder();
       }
     };
 
@@ -88,7 +88,7 @@ const HomeList = observer(
     };
 
     handleCreateFolder = () => {
-      this.damformModalViewModal.openCreateCollectionModal();
+      this.damFormModalViewModal.openCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
@@ -115,10 +115,10 @@ const HomeList = observer(
       if (!collection?.[DAM_ASSETS_FIELD_KEY.TYPE]) {
         history.push(history.location.pathname + '/' + collection.id);
       } else {
-        this.damformModalViewModal.damEditdata = {
+        this.damFormModalViewModal.damEditdata = {
           ...collection,
         };
-        this.damformModalViewModal.openModal();
+        this.damFormModalViewModal.openModal();
       }
     };
 
@@ -126,7 +126,7 @@ const HomeList = observer(
       e.preventDefault();
       const inside = e.target.closest('.item_thumb');
       if (!inside) {
-        this.damformModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeContextMenuItem();
         this.damListViewModel.setActionState({
           selectedCards: [],
         });
@@ -155,7 +155,7 @@ const HomeList = observer(
         this.damListViewModel.setActionState({
           style: style,
         });
-        this.damformModalViewModal.openContextMenu();
+        this.damFormModalViewModal.openContextMenu();
       }
     };
 
@@ -172,7 +172,7 @@ const HomeList = observer(
 
     handleRightClickItem = (e, data) => {
       e.preventDefault();
-      this.damformModalViewModal.closeContextMenu();
+      this.damFormModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
       const innerWidth = window.innerWidth;
       let style = {
@@ -195,7 +195,7 @@ const HomeList = observer(
         };
       }
 
-      this.damformModalViewModal.damEditdata = {
+      this.damFormModalViewModal.damEditdata = {
         ...data,
         style: { ...style },
       };
@@ -203,7 +203,7 @@ const HomeList = observer(
         style: style,
       });
       this.handleItemSelection(data.index, false, false, false, true);
-      this.damformModalViewModal.openContextMenuItem();
+      this.damFormModalViewModal.openContextMenuItem();
     };
 
     handleFilter = (data) => {
@@ -216,7 +216,7 @@ const HomeList = observer(
       });
     };
 
-    handleSortby = (data) => {
+    handleSortBy = (data) => {
       const collectionId = history.location.pathname.split('/');
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
@@ -240,14 +240,14 @@ const HomeList = observer(
 
       const collectionId = history.location.pathname.split('/');
 
-      let handleColections = [];
+      let handleCollections = [];
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
-        handleColections = collections.filter(
+        handleCollections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
             +collectionId[collectionId.length - 1]
@@ -255,17 +255,17 @@ const HomeList = observer(
       } else {
         if (isSearch) {
           handleAssets = assets;
-          handleColections = collections;
+          handleCollections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
-          handleColections = collections.filter(
+          handleCollections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
         }
       }
       let newSelectedCards;
 
-      const cards = [...handleColections, ...handleAssets];
+      const cards = [...handleCollections, ...handleAssets];
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
       if (!cmdKey && !shiftKey && !ctrlKey && !contextClick) {
@@ -431,14 +431,14 @@ const HomeList = observer(
 
       const collectionId = history.location.pathname.split('/');
 
-      let handleColections = [];
+      let handleCollections = [];
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
-        handleColections = collections.filter(
+        handleCollections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
             +collectionId[collectionId.length - 1]
@@ -446,10 +446,10 @@ const HomeList = observer(
       } else {
         if (isSearch) {
           handleAssets = assets;
-          handleColections = collections;
+          handleCollections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
-          handleColections = collections.filter(
+          handleCollections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
         }
@@ -462,11 +462,11 @@ const HomeList = observer(
           onContextMenu={this.handleRightClick}
           onClick={this.handleClickOutSite}
         >
-          {handleColections || handleAssets ? (
+          {handleCollections || handleAssets ? (
             <>
               <Table
-                rowData={[...handleColections, ...handleAssets]}
-                dataCollections={handleColections}
+                rowData={[...handleCollections, ...handleAssets]}
+                dataCollections={handleCollections}
                 dataAssets={handleAssets}
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
@@ -487,7 +487,7 @@ const HomeList = observer(
                 createFolder={this.handleCreateFolder}
                 createAssets={this.handleCreateAssets}
                 onFilter={this.handleFilter}
-                onSortby={this.handleSortby}
+                onSortby={this.handleSortBy}
                 onRightClickItem={this.handleRightClickItem}
                 noSelection={true}
                 onSelectionChange={this.handleItemSelection}
