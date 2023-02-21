@@ -11,7 +11,7 @@ import HomeList from './HomeList/HomeList';
 
 const HomePage = (props) => {
   return (
-    <div className="py-4 px-3 h-100 d-flex flex-column">
+    <div className="py-4 px-32px h-100 d-flex flex-column">
       <div className="d-flex align-items-center justify-content-between mb-4">
         <HomeActionBar {...props} />
       </div>
