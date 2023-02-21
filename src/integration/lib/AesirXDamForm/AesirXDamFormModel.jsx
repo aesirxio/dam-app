@@ -19,7 +19,8 @@ import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
-import MoveToFolder from 'components/MoveToFolder';
+
+const MoveToFolder = React.lazy(() => import('components/MoveToFolder'));
 const Button = React.lazy(() => import('components/Button'));
 const ComponentImage = React.lazy(() => import('components/ComponentImage'));
 const AesirXDamForm = React.lazy(() => import('./AesirXDamForm'));
@@ -40,8 +41,8 @@ const AesirXDamFormModal = observer(
       this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
       const { viewModel } = props;
-      this.damFormModalViewModel = viewModel ? viewModel.damFormViewModel : null;
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
+      this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
     }
 
     updateDetail = () => {
@@ -120,11 +121,12 @@ const AesirXDamFormModal = observer(
         show,
         showDeleteModal,
         showContextMenu,
+        showContextMenuItem,
         openModal,
         downloadFile,
-        showContextMenuItem,
         setOnEditCollection,
         showMoveToFolder,
+        openMoveToFolder,
       } = this.damFormModalViewModel;
       const {
         deleteItem,
@@ -138,12 +140,17 @@ const AesirXDamFormModal = observer(
         : 0;
       return (
         <>
-          {show ? (
-            <Suspense fallback={<div>Loading...</div>}>
+          {show && (
+            <Suspense fallback={''}>
               <ModalComponent
                 show={show}
                 onHide={this.damFormModalViewModel.closeModal}
-                onShow={this.damFormModalViewModel.closeContextMenu}
+                onShow={() => {
+                  this.damFormModalViewModel.closeContextMenuItem();
+                  this.damFormModalViewModel.closeContextMenu();
+                }}
+                closeButton
+                contentClassName={'bg-white shadow'}
                 body={
                   <AesirXDamForm
                     delete={deleteItem}
@@ -151,12 +158,12 @@ const AesirXDamFormModal = observer(
                     viewModel={this.damFormModalViewModel}
                   />
                 }
-                dialogClassName={'mh-80vh mw-80 home-modal'}
+                dialogClassName={'mw-100 px-3 home-modal'}
               />
             </Suspense>
-          ) : null}
+          )}
 
-          {showContextMenu ? (
+          {showContextMenu && (
             <div
               id="contextMenu"
               className={`col_thumb cursor-pointer align-self-center mb-4 bg-white zindex-5 position-fixed`}
@@ -185,9 +192,9 @@ const AesirXDamFormModal = observer(
                 </div>
               </div>
             </div>
-          ) : null}
+          )}
 
-          {showContextMenuItem ? (
+          {showContextMenuItem && (
             <div
               id="contextMenuItem"
               className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
@@ -197,7 +204,7 @@ const AesirXDamFormModal = observer(
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                 onClick={openModal}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <PreviewIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">{t('txt_preview')}</span>
@@ -207,7 +214,7 @@ const AesirXDamFormModal = observer(
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                   onClick={this.handleRename}
                 >
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense fallback={''}>
                     <EditingIcon />
                   </Suspense>
                   <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
@@ -215,8 +222,9 @@ const AesirXDamFormModal = observer(
               )}
               <div
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                onClick={openMoveToFolder}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <MoveFolderIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">
@@ -240,7 +248,7 @@ const AesirXDamFormModal = observer(
                 className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
               >
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={''}>
                   <DeleteIcon />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block text-danger">
@@ -248,7 +256,7 @@ const AesirXDamFormModal = observer(
                 </span>
               </div>
             </div>
-          ) : null}
+          )}
 
           {showDeleteModal ? (
             <Suspense fallback={<div>Loading...</div>}>

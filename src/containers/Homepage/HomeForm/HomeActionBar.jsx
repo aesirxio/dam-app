@@ -26,11 +26,9 @@ const HomeActionBar = observer(
     constructor(props) {
       super(props);
       const { viewModel } = props;
-      this.state = {
-        breadcrumb: [],
-      };
+
       this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
-      this.damformModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
+      this.damFormModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     handleCreateFolder = () => {
@@ -56,7 +54,6 @@ const HomeActionBar = observer(
           [DAM_ASSETS_API_FIELD_KEY.NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.FILE_NAME]: data?.name ?? '',
           [DAM_ASSETS_API_FIELD_KEY.COLLECTION_ID]: currentCollection,
-
           [DAM_ASSETS_API_FIELD_KEY.FILE]: data,
         });
       }

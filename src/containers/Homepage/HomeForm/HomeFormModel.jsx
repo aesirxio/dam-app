@@ -5,8 +5,6 @@
 
 import React, { Component, Suspense } from 'react';
 
-import Button from 'components/Button';
-import ComponentImage from 'components/ComponentImage';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import HomeForm from './HomeForm';
@@ -20,10 +18,14 @@ import {
 import history from 'routes/history';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
-import Dropzone from 'components/Dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
 import MoveToFolder from 'components/MoveToFolder';
+
+const Button = React.lazy(() => import('components/Button'));
+const ComponentImage = React.lazy(() => import('components/ComponentImage'));
+const Dropzone = React.lazy(() => import('components/Dropzone'));
+const CollectionForm = React.lazy(() => import('./CollectionForm'));
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));

@@ -31,9 +31,6 @@ class HomeForm extends Component {
           ? t('txt_new_folder')
           : this.viewModel?.damEditdata?.[DAM_COLLECTION_FIELD_KEY.NAME] ?? '',
     };
-    this.state = {
-      loadding: false,
-    };
   }
 
   handleOnSubmit = async () => {
