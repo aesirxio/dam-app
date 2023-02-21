@@ -254,6 +254,7 @@ $spacers: (
   10: 10px,
   14: 14px,
   18px: 18px,
+  32px: 32px,
 );
 
 $form-switch-width: 2.5em !default;
@@ -274,9 +275,9 @@ $form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://w
 // for react-select
 :root {
   --dropdown-item-hover-color: #1ab394;
-  --dropdown-item-hover-bg: #e8e9ec;
+  // --dropdown-item-hover-bg: #e8e9ec;
   --view-active-bg: #e8e9ec;
-  --text-title-color: #081240;
+  --text-title-color: $color-blue;
   --dropdown-bg: #fff;
-  --dropdown-item-color: #081240;
+  --dropdown-item-color: $color-blue;
 }

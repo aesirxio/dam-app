@@ -3,8 +3,8 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { useEffect, useMemo } from 'react';
-import { useRowSelect, useTable } from 'react-table';
+import React, { useMemo } from 'react';
+import { useTable } from 'react-table';
 
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
@@ -15,39 +15,13 @@ import ChooseAction from '../ChooseAnAction';
 import ListCheck from '../../SVG/ListCheck';
 import ThumbNails from '../../SVG/ThumbNails';
 import Dropzone from 'components/Dropzone';
+import { IndeterminateCheckbox } from './Thumb';
 
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
 const Select = React.lazy(() => import('../Select'));
 const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
 const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
-
-// let dataFilter = {
-//   searchText: '',
-//   columns: [],
-//   titleFilter: {},
-//   datetime: null,
-//   page: '',
-// };
-
-// eslint-disable-next-line react/display-name
-const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
-  const defaultRef = React.useRef();
-  const resolvedRef = ref || defaultRef;
-
-  React.useEffect(() => {
-    resolvedRef.current.indeterminate = indeterminate;
-  }, [resolvedRef, indeterminate]);
-
-  return (
-    <input
-      className="form-check-input p-0 w-100 h-100"
-      type="checkbox"
-      ref={resolvedRef}
-      {...rest}
-    />
-  );
-});
 
 const Table = ({
   rowData = [],
@@ -57,7 +31,6 @@ const Table = ({
   dataList,
   dataThumb,
   thumbColumnsNumber,
-  noSelection = false,
   isList = true,
   listViewModel,
   _handleList,
@@ -81,7 +54,7 @@ const Table = ({
 
   const filterBar = useMemo(() => ({
     id: 'type',
-    className: 'border-end border-gray-select col-auto',
+    className: 'border-end border-gray-select col-auto fs-14 text-blue-0',
     placeholder: t('txt_type'),
     options: [
       {
@@ -110,7 +83,7 @@ const Table = ({
   const sortBy = useMemo(() => ({
     id: 'sort_by',
     placeholder: t('txt_sort_by'),
-    className: 'border-end border-gray-select col-auto',
+    className: 'border-end border-gray-select col-auto fs-14 text-blue-0',
     options: [
       {
         label: t('txt_sort_by'),
@@ -150,82 +123,45 @@ const Table = ({
     ],
   }));
 
-  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows } =
-    useTable(
-      {
-        columns,
-        data,
-        // onSelect,
-        initialState: {
-          // hiddenColumns: dataFilter.columns,
-          // pageSize: rowData.length ?? -1,
-        },
-      },
-      // usePagination,
-      useRowSelect,
-      (hooks) => {
-        !noSelection &&
-          hooks.visibleColumns.push((columns) => [
-            {
-              id: 'selection',
-              Header: ({ getToggleAllRowsSelectedProps }) => (
-                <div className={styles.checkbox}>
-                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                </div>
-              ),
-              // The cell can use the individual row's getToggleRowSelectedProps method
-              // to the render a checkbox
-              Cell: ({ row }) => (
-                <div className={styles.checkbox}>
-                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-                </div>
-              ),
-            },
-            ...columns,
-          ]);
-      }
-    );
+  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable({
+    columns,
+    data,
+  });
 
   const moveRow = (dragIndex, hoverIndex) => {
     listViewModel.moveToFolder(dragIndex, hoverIndex);
   };
 
-  useEffect(() => {
-    console.log(selectedFlatRows);
-
-    return () => {};
-  }, [selectedFlatRows]);
-
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
-          <div className="wrapper_search_global row">
-            <div className={filterBar.className}>
-              <Select
-                isClearable={false}
-                isSearchable={false}
-                options={filterBar.options}
-                onChange={onFilter}
-                value={filterBar.options.find(
-                  (e) => e.value === listViewModel.dataFilter['filter[type]']
-                )}
-              />
-            </div>
+          <div className="wrapper_search_global d-flex">
+            <Select
+              className={filterBar.className}
+              isShadow={false}
+              isClearable={false}
+              isSearchable={false}
+              options={filterBar.options}
+              onChange={onFilter}
+              value={filterBar.options.find(
+                (e) => e.value === listViewModel.dataFilter['filter[type]']
+              )}
+            />
             <ChooseAction />
-            <div className={sortBy.className}>
-              <Select
-                isClearable={false}
-                isSearchable={false}
-                options={sortBy.options}
-                onChange={onSortby}
-                value={sortBy.options.find(
-                  (e) =>
-                    e.value.ordering === listViewModel.dataFilter['list[ordering]'] &&
-                    e.value.direction === listViewModel.dataFilter['list[direction]']
-                )}
-              />
-            </div>
+            <Select
+              className={sortBy.className}
+              isShadow={false}
+              isClearable={false}
+              isSearchable={false}
+              options={sortBy.options}
+              onChange={onSortby}
+              value={sortBy.options.find(
+                (e) =>
+                  e.value.ordering === listViewModel.dataFilter['list[ordering]'] &&
+                  e.value.direction === listViewModel.dataFilter['list[direction]']
+              )}
+            />
           </div>
           {isThumb && (
             <div className="d-flex align-items-center">
@@ -272,18 +208,31 @@ const Table = ({
                     <tr
                       key={Math.random(40, 200)}
                       {...headerGroup.getHeaderGroupProps()}
-                      className="bg-white border-bottom border-gray-500"
+                      className=" position-relative bg-white border-bottom border-gray-500 zindex-2"
                     >
                       {newHeaderGroup.map((column, index) => {
-                        return (
-                          <th
-                            key={index}
-                            {...column.getHeaderProps()}
-                            className="fw-normal px-2 py-3 flex-1 bg-white"
-                          >
-                            {column.render('Header')}
-                          </th>
-                        );
+                        if (column?.id === 'selection') {
+                          return (
+                            <th
+                              key={index}
+                              {...column.getHeaderProps()}
+                              className="fw-normal px-2 py-3 flex-1 bg-white"
+                              style={{ width: 64 }}
+                            >
+                              <IndeterminateCheckbox dataLength={rowData.length} />
+                            </th>
+                          );
+                        } else {
+                          return (
+                            <th
+                              key={index}
+                              {...column.getHeaderProps()}
+                              className="fw-normal px-2 py-3 flex-1 bg-white"
+                            >
+                              {column.render('Header')}
+                            </th>
+                          );
+                        }
                       })}
                     </tr>
                   );
@@ -344,7 +293,7 @@ const Table = ({
                           </div>
                           {listViewModel?.damLinkFolder.split('/').length > 1 && (
                             <div
-                              className={`col_thumb ${styles.col_thumb} col-${
+                              className={`col_thumb ${styles.col_thumb_folder} col-${
                                 !thumbColumnsNumber ? '3' : thumbColumnsNumber
                               } mb-4 zindex-2`}
                             >
@@ -368,7 +317,7 @@ const Table = ({
                             </div>
                             {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
                               <div
-                                className={`col_thumb ${styles.col_thumb} col-${
+                                className={`col_thumb ${styles.col_thumb_folder} col-${
                                   !thumbColumnsNumber ? '3' : thumbColumnsNumber
                                 } mb-4 zindex-2`}
                               >
@@ -386,9 +335,11 @@ const Table = ({
                         )}
                       <Thumb
                         {...row.getRowProps()}
-                        className={`col_thumb ${styles.col_thumb} col-${
-                          !thumbColumnsNumber ? '3' : thumbColumnsNumber
-                        } mb-4 zindex-2`}
+                        className={`col_thumb  ${
+                          !isList && !row.original[DAM_ASSETS_FIELD_KEY.TYPE]
+                            ? styles.col_thumb_folder
+                            : styles.col_thumb
+                        }  col-${!thumbColumnsNumber ? '3' : thumbColumnsNumber} mb-4 zindex-2`}
                         newRowCells={newRowCells}
                         index={index}
                         row={row}
