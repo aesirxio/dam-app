@@ -17,8 +17,7 @@ class DamFormViewModel {
   showContextMenuItem = false;
   showContextMenu = false;
   showDeleteModal = false;
-  showCreateCollectionModal = false;
-  showUpdateModal = false;
+  isEditCollection = false;
   damEditdata = null;
   editMode = null;
   damListViewModel = null;
@@ -81,20 +80,12 @@ class DamFormViewModel {
     this.showDeleteModal = false;
   };
 
-  openCreateCollectionModal = () => {
-    this.showCreateCollectionModal = true;
+  setOnEditCollection = () => {
+    this.isEditCollection = true;
   };
 
-  closeCreateCollectionModal = () => {
-    this.showCreateCollectionModal = false;
-  };
-
-  openUpdateCollectionModal = () => {
-    this.showUpdateModal = true;
-  };
-
-  closeUpdateCollectionModal = () => {
-    this.showUpdateModal = false;
+  setOffEditCollection = () => {
+    this.isEditCollection = false;
   };
 
   downloadFile = async () => {

@@ -152,5 +152,6 @@
   "txt_warning": "Cảnh báo",
   "txt_successful": "Thành công",
   "txt_error": "Lỗi",
-  "txt_can_not_move_to_itself": "Không thể duy chuyển tới chính nó"
+  "txt_can_not_move_to_itself": "Không thể duy chuyển tới chính nó",
+  "txt_name_can_not_blank": "Tên thư mục không thể để trống!"
 }
