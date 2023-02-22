@@ -31,7 +31,7 @@ const FakeThumb = observer(({ id, index, isList }) => {
   return (
     <span
       className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
-        isSelect ? 'border border-success bg-gray-dark' : ''
+        isSelect ? 'border border-success' : ''
       } ${checkBorderBottom ? 'border-bottom-0' : ''} ${checkBorderTop ? 'border-top-0' : ''} ${
         isList && isSelect ? 'bg-success-05' : ''
       }`}
@@ -112,7 +112,7 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()?.items.length && selectedCards.length) {
+        if (monitor.getItem()?.items?.length && selectedCards.length) {
           const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
           if (checkItemSelect.includes(+row?.original.id)) {
             return false;
@@ -185,7 +185,7 @@ const Thumb = observer(
         key={row.getRowProps().key}
         {...row.getRowProps()}
         className={`position-relative item_thumb cursor-move ${
-          isOver ? 'border border-success bg-gray-dark' : 'border-none'
+          isOver ? 'border border-success bg-success-05' : 'border-none'
         } ${className}`}
         onDoubleClick={() => {
           clearTimeout(timer);
@@ -228,7 +228,7 @@ const Thumb = observer(
       <div style={{ opacity }} className={className}>
         <div
           className={`position-relative item_thumb d-flex cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column ${
-            isOver ? 'border border-success bg-gray-dark' : 'bg-white'
+            isOver ? 'border border-success bg-success-05' : 'bg-white'
           }`}
           onContextMenu={(e) => {
             onRightClickItem(e, { ...row.original, index });

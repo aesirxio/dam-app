@@ -74,7 +74,7 @@ class UpdateGeneralViewModel {
       this.updateGeneralViewModel.formPropsData[UPDATE_GENERAL_FIELD_KEY.ADDRESS_2] =
         result.address_2;
       this.updateGeneralViewModel.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] =
-        result.avatar_dam ? result.avatar_dam : '/assets/images/avatar.png';
+        result.avatar_dam ? result.avatar_dam : '';
       this.updateGeneralViewModel.formPropsData[UPDATE_GENERAL_FIELD_KEY.ZIPCODE] = result.zipcode;
       this.updateGeneralViewModel.formPropsData[UPDATE_GENERAL_FIELD_KEY.CITY] = result.city;
       this.updateGeneralViewModel.formPropsData[UPDATE_GENERAL_FIELD_KEY.STATE] = result.state;
