@@ -1,5 +1,18 @@
+@import '../../scss/utils/bootstrap.scss';
+
 .list {
   max-height: 200px;
   overflow-y: auto;
   transition: 0.5s all ease-in-out;
+}
+
+.item {
+  &:hover {
+    background-color: rgba($color: $success, $alpha: 0.2);
+  }
+  &.active {
+    &:hover {
+      background-color: $success;
+    }
+  }
 }

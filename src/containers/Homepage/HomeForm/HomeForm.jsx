@@ -120,9 +120,9 @@ class HomeForm extends Component {
             label: t('txt_last_modified'),
             key: DAM_ASSETS_FIELD_KEY.LAST_MODIFIED,
             type: FORM_FIELD_TYPE.INPUT,
-            value: moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
-              'DD MMM, YYYY'
-            ),
+            value:
+              this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] &&
+              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format('DD MMM, YYYY'),
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0',

@@ -6,7 +6,11 @@
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
-import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import {
+  DAM_ASSETS_FIELD_KEY,
+  DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
+  DAM_COLLECTION_FIELD_KEY,
+} from 'aesirx-dma-lib';
 
 class DamListViewModel {
   damStore = null;
@@ -91,13 +95,15 @@ class DamListViewModel {
     if (isFetchAssets && this.collections.length) {
       this.status = PAGE_STATUS.LOADING;
     }
+    this.resetActionState();
+
     this.damStore.goToFolder(
       collectionId,
       this.dataFilter,
       this.collections.length ? false : true,
       isFetchAssets ? false : true,
       this.callbackOnSuccessHandler,
-      this.callbackOnErrorHander
+      this.callbackOnErrorHandler
     );
   };
 
@@ -112,19 +118,38 @@ class DamListViewModel {
       isSort,
       true,
       this.callbackOnFilterSuccessHandler,
-      this.callbackOnErrorHander
+      this.callbackOnErrorHandler
     );
   };
 
-  createCollections = (data) => {
-    notify(
-      this.damStore.createCollections(
-        data,
-        this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
-      ),
-      'promise'
-    );
+  createCollections = (data, type = 'client') => {
+    if (type === 'client') {
+      // fake data in client view
+      this.damFormModalViewModel.setOnEditCollection();
+      const randomId = Date.now();
+      this.collections = this.collections.concat({
+        ...data,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.ID]: randomId,
+        create: true,
+      });
+
+      setTimeout(() => {
+        if (document.querySelector(`#id_${randomId}`)) {
+          document.querySelector(`#id_${randomId}`).focus();
+        }
+      }, 0);
+    }
+    if (type === 'server') {
+      // make real call api to create collection
+      notify(
+        this.damStore.createCollections(
+          data,
+          this.callBackOnCollectionCreateSuccessHandler,
+          this.callbackOnErrorHandler
+        ),
+        'promise'
+      );
+    }
   };
 
   updateCollections = (data) => {
@@ -132,7 +157,7 @@ class DamListViewModel {
       this.damStore.updateCollections(
         data,
         this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -144,8 +169,8 @@ class DamListViewModel {
     this.damStore.getAssets(
       collectionId,
       this.dataFilter,
-      this.callbackOnAssetsSuccessHandler,
-      this.callbackOnErrorHander
+      this.callBackOnAssetsCreateSuccessHandler,
+      this.callbackOnErrorHandler
     );
   };
 
@@ -156,8 +181,8 @@ class DamListViewModel {
     this.damStore.getAssets(
       collectionId,
       this.dataFilter,
-      this.callBackOnAssetsFilterSuccessHandler,
-      this.callbackOnErrorHander
+      this.callBackOnAssetsCreateSuccessHandler,
+      this.callbackOnErrorHandler
     );
   };
 
@@ -166,7 +191,7 @@ class DamListViewModel {
       this.damStore.createAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -197,7 +222,7 @@ class DamListViewModel {
       this.damStore.deleteCollections(
         data,
         this.callBackOnCollectionCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -208,7 +233,7 @@ class DamListViewModel {
       this.damStore.deleteAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
@@ -219,15 +244,14 @@ class DamListViewModel {
       this.damStore.updateAssets(
         data,
         this.callBackOnAssetsCreateSuccessHandler,
-        this.callbackOnErrorHander
+        this.callbackOnErrorHandler
       ),
       'promise'
     );
   };
 
   moveToFolder = (dragIndex, hoverIndex) => {
-    const selectedItem = dragIndex;
-
+    const selectedItem = dragIndex ? dragIndex : this.actionState.selectedCards;
     if (selectedItem.length) {
       const assets = selectedItem
         .filter((asset) => asset[DAM_ASSETS_FIELD_KEY.TYPE])
@@ -245,7 +269,7 @@ class DamListViewModel {
         this.damStore.moveToFolder(
           data,
           this.callBackOnMoveSuccessHandler,
-          this.callbackOnErrorHander
+          this.callbackOnErrorHandler
         ),
         'promise'
       );
@@ -297,7 +321,7 @@ class DamListViewModel {
       this.status = PAGE_STATUS.ERROR;
     }
   };
-  callbackOnErrorHander = (error) => {
+  callbackOnErrorHandler = (error) => {
     if (error.message === 'isCancel') {
       this.status = PAGE_STATUS.READY;
     } else notify(error.message, 'error');
@@ -358,8 +382,13 @@ class DamListViewModel {
             });
             break;
           case 'create':
-            this.damFormModalViewModel.closeCreateCollectionModal();
-            this.collections = [...this.collections, data?.item];
+            if (data.data) {
+              const findIndex = this.collections.findIndex(
+                (collection) => collection?.id === data.data?.id
+              );
+              this.collections[findIndex] = data?.item;
+            }
+
             break;
           default:
             break;

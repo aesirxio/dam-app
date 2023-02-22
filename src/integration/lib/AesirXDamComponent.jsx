@@ -22,6 +22,7 @@ import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
+import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 
 const Folder = React.lazy(() => import('SVG/Folder'));
 const AesirXDamComponent = observer(
@@ -33,8 +34,8 @@ const AesirXDamComponent = observer(
       super(props);
       const { viewModel } = props;
       this.viewModel = viewModel ? viewModel : null;
-      this.damListViewModel = this.viewModel ? this.viewModel.damListViewModel : null;
-      this.damformModalViewModal = this.viewModel ? this.viewModel.damFormViewModel : null;
+      this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
+      this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -51,11 +52,14 @@ const AesirXDamComponent = observer(
     handleClickOutside = (e) => {
       const checkContextMenu = e.target.closest('#contextMenu');
       const checkContextMenuItem = e.target.closest('#contextMenuItem');
-      if (checkContextMenu || checkContextMenuItem) {
+      const checkContextItemMoveToFolder = e.target.closest('#contextMenuItemMoveToFolder');
+
+      if (checkContextMenu || checkContextMenuItem || checkContextItemMoveToFolder) {
         return;
       } else {
-        this.damformModalViewModal.closeContextMenu();
-        this.damformModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeContextMenu();
+        this.damFormModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeMoveToFolder();
       }
     };
 
@@ -67,10 +71,6 @@ const AesirXDamComponent = observer(
         .reduce((arr, el) => {
           return arr.concat(el);
         }, []);
-    };
-
-    handleCreateFolder = () => {
-      this.damformModalViewModal.openCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
@@ -98,10 +98,10 @@ const AesirXDamComponent = observer(
           this.damListViewModel.damLinkFolder + '/' + collection.id
         );
       } else {
-        this.damformModalViewModal.damEditdata = {
+        this.damFormModalViewModal.damEditdata = {
           ...collection,
         };
-        this.damformModalViewModal.openModal();
+        this.damFormModalViewModal.openModal();
       }
     };
 
@@ -110,7 +110,7 @@ const AesirXDamComponent = observer(
 
       const inside = e.target.closest('.item_thumb');
       if (!inside) {
-        this.damformModalViewModal.closeContextMenuItem();
+        this.damFormModalViewModal.closeContextMenuItem();
         this.damListViewModel.setActionState({
           selectedCards: [],
         });
@@ -139,13 +139,13 @@ const AesirXDamComponent = observer(
         this.damListViewModel.setActionState({
           style: style,
         });
-        this.damformModalViewModal.openContextMenu();
+        this.damFormModalViewModal.openContextMenu();
       }
     };
 
     handleRightClickItem = (e, data) => {
       e.preventDefault();
-      this.damformModalViewModal.closeContextMenu();
+      this.damFormModalViewModal.closeContextMenu();
       const innerHeight = window.innerHeight;
       const innerWidth = window.innerWidth;
 
@@ -168,7 +168,7 @@ const AesirXDamComponent = observer(
           top: 'unset',
         };
       }
-      this.damformModalViewModal.damEditdata = {
+      this.damFormModalViewModal.damEditdata = {
         ...data,
         style: { ...style },
       };
@@ -177,7 +177,7 @@ const AesirXDamComponent = observer(
       });
       this.handleItemSelection(data.index, false, false, false, true);
 
-      this.damformModalViewModal.openContextMenuItem();
+      this.damFormModalViewModal.openContextMenuItem();
     };
 
     handleFilter = (data) => {
@@ -185,20 +185,24 @@ const AesirXDamComponent = observer(
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-      this.damListViewModel.goToFolder(currentCollection, {
+      this.damListViewModel.onFilter(currentCollection, {
         'filter[type]': data.value,
       });
     };
 
-    handleSortby = (data) => {
+    handleSortBy = (data) => {
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-      this.damListViewModel.goToFolder(currentCollection, {
-        'list[ordering]': data.value.ordering,
-        'list[direction]': data.value.direction,
-      });
+      this.damListViewModel.onFilter(
+        currentCollection,
+        {
+          'list[ordering]': data.value.ordering,
+          'list[direction]': data.value.direction,
+        },
+        true
+      );
     };
 
     handleBack = () => {
@@ -222,14 +226,14 @@ const AesirXDamComponent = observer(
 
       const collectionId = damLinkFolder.split('/');
 
-      let handleColections = [];
+      let handleCollections = [];
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
-        handleColections = collections.filter(
+        handleCollections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
             +collectionId[collectionId.length - 1]
@@ -237,17 +241,20 @@ const AesirXDamComponent = observer(
       } else {
         if (isSearch) {
           handleAssets = assets;
-          handleColections = collections;
+          handleCollections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
-          handleColections = collections.filter(
+          handleCollections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
         }
       }
       let newSelectedCards;
 
-      const cards = [...handleColections, ...handleAssets];
+      const cards = [...handleCollections, ...handleAssets].map((item, index) => ({
+        ...item,
+        index,
+      }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
       if (!cmdKey && !shiftKey && !contextClick) {
@@ -325,15 +332,17 @@ const AesirXDamComponent = observer(
       }
       const tableRowHeader = [
         {
-          Header: t('txt_name'),
+          id: 'selection',
+        },
+        {
+          Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
-              className={`d-flex w-100 ${
-                this.damListViewModel.isList ? '' : 'justify-content-center'
-              }`}
+              className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
             >
-              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+              {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] &&
+              !row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ? (
                 // folder
                 <div
                   className={`w-100 ${
@@ -342,26 +351,23 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <div className={this.damListViewModel.isList ? '' : styles.folder}>
+                  <div className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}>
                     <Folder />
                   </div>
                   <span
                     title={row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    className={
+                    className={`${
                       this.damListViewModel.isList
-                        ? 'ms-3 text-color'
+                        ? 'ms-32px text-color'
                         : 'text-center text-color lcl lcl-2 w-100 d-block w-space'
-                    }
+                    } w-100`}
                   >
-                    {row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    {!this.damListViewModel.isList && (
-                      <>
-                        <br />
-                        {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                          'DD MMM, YYYY'
-                        )}
-                      </>
-                    )}
+                    <CollectionName item={row.original} />
+                    <span className="text-gray">
+                      {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                        'DD MMM, YYYY'
+                      )}
+                    </span>
                   </span>
                 </div>
               ) : (
@@ -378,12 +384,12 @@ const AesirXDamComponent = observer(
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
-                        wrapperClassName="w-100 h-100"
+                        wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
-                      <div className="w-100 h-100 d-flex align-items-center justify-content-center">
+                      <div className="w-100 h-100 d-flex align-items-center justify-content-center pe-none">
                         {utils.checkFileTypeFormData(row.original)}
                       </div>
                     )}
@@ -406,7 +412,7 @@ const AesirXDamComponent = observer(
         },
 
         {
-          Header: t('txt_size'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_size')}</span>,
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
@@ -420,25 +426,28 @@ const AesirXDamComponent = observer(
           ),
         },
         {
-          Header: t('txt_owner'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_owner')}</span>,
           accessor: DAM_COLUMN_INDICATOR.OWNER,
         },
         {
-          Header: t('txt_last_modified'),
+          Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
+          Cell: ({ row }) => (
+            <>{moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format('DD MMM, YYYY')}</>
+          ),
         },
       ];
 
       const collectionId = this.damListViewModel.damLinkFolder.split('/');
 
-      let handleColections = [];
+      let handleCollections = [];
       let handleAssets = [];
       if (!isNaN(+collectionId[collectionId.length - 1])) {
         handleAssets = assets.filter(
           (asset) =>
             +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
         );
-        handleColections = collections.filter(
+        handleCollections = collections.filter(
           (collection) =>
             +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
             +collectionId[collectionId.length - 1]
@@ -446,10 +455,10 @@ const AesirXDamComponent = observer(
       } else {
         if (isSearch) {
           handleAssets = assets;
-          handleColections = collections;
+          handleCollections = collections;
         } else {
           handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
-          handleColections = collections.filter(
+          handleCollections = collections.filter(
             (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
           );
         }
@@ -461,10 +470,10 @@ const AesirXDamComponent = observer(
           onContextMenu={this.handleRightClick}
           onClick={this.handleClickOutSite}
         >
-          {handleColections || handleAssets ? (
+          {handleCollections || handleAssets ? (
             <>
               <Table
-                rowData={[...handleColections, ...handleAssets]}
+                rowData={[...handleCollections, ...handleAssets]}
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
                 isThumb={true}
@@ -481,14 +490,13 @@ const AesirXDamComponent = observer(
                 view={this.view}
                 thumbColumnsNumber={2}
                 onDoubleClick={this.handleDoubleClick}
-                createFolder={this.handleCreateFolder}
                 createAssets={this.handleCreateAssets}
                 onFilter={this.handleFilter}
-                onSortby={this.handleSortby}
+                onSortby={this.handleSortBy}
                 onRightClickItem={this.handleRightClickItem}
                 onBackClick={this.handleBack}
                 onSelectionChange={this.handleItemSelection}
-                dataCollections={handleColections}
+                dataCollections={handleCollections}
                 dataAssets={handleAssets}
               />
             </>

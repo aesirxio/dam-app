@@ -119,6 +119,7 @@ $theme-colors: (
   'noti-bg-error': $noti-bg-error,
   'noti-bg-warn': $noti-bg-warn,
   'noti-bg-success': $noti-bg-success,
+  'gray-dark': $gray-800,
 ) !default;
 
 // Body
@@ -194,10 +195,10 @@ $border-radius-sm: 0.2rem !default;
 $border-radius-lg: 0.3rem !default;
 $border-radius-pill: 50rem !default;
 
-$box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
-$box-shadow-sm: 0 0.185rem 0.3125rem rgba($black, 0.05) !default;
-$box-shadow-lg: 0 1rem 3rem rgba($black, 0.175) !default;
-$box-shadow-inset: inset 0 1px 2px rgba($black, 0.075) !default;
+$box-shadow: 0 3.5rem 1rem rgba($gray-900, 0.15) !default;
+$box-shadow-sm: 0 3px 5px rgba($gray-900, 0.05) !default;
+$box-shadow-lg: 0 0 5px rgba($gray-900, 0.175) !default;
+$box-shadow-inset: inset 0 1px 2px rgba($gray-900, 0.075) !default;
 
 $nav-tabs-border-width: 1px !default;
 $nav-tabs-border-radius: 0 !default;
@@ -253,6 +254,7 @@ $spacers: (
   10: 10px,
   14: 14px,
   18px: 18px,
+  32px: 32px,
 );
 
 $form-switch-width: 2.5em !default;
@@ -273,9 +275,9 @@ $form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://w
 // for react-select
 :root {
   --dropdown-item-hover-color: #1ab394;
-  --dropdown-item-hover-bg: #e8e9ec;
+  // --dropdown-item-hover-bg: #e8e9ec;
   --view-active-bg: #e8e9ec;
-  --text-title-color: #081240;
+  --text-title-color: $color-blue;
   --dropdown-bg: #fff;
-  --dropdown-item-color: #081240;
+  --dropdown-item-color: $color-blue;
 }

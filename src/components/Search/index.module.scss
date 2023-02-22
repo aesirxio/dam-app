@@ -1,0 +1,9 @@
+.width {
+  max-width: 656px;
+}
+input {
+  &::placeholder {
+    color: #c0c0c0;
+    font-weight: 400;
+  }
+}

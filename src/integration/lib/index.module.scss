@@ -52,3 +52,24 @@
     }
   }
 }
+
+.input {
+  border: 1px solid transparent;
+  &::-moz-selection {
+    /* Code for Firefox */
+    color: $white;
+    background: $green;
+    transition: 0.3s all ease-in-out;
+  }
+  &::selection {
+    color: $white;
+    background: $green;
+    transition: 0.3s all ease-in-out;
+  }
+  &:focus {
+    transition: 0.3s all ease-in-out;
+    border-radius: 3px;
+    border: 1px solid #2828314d;
+    box-shadow: unset;
+  }
+}

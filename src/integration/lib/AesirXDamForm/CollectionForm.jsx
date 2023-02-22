@@ -18,12 +18,11 @@ const Spinner = React.lazy(() => import('components/Spinner'));
 const Button = React.lazy(() => import('components/Button'));
 
 class AesirXCollectionForm extends Component {
-  formPropsData = {
-    [DAM_COLLECTION_FIELD_KEY.NAME]: 'New Folder',
-  };
+  formPropsData = null;
 
   constructor(props) {
     super(props);
+    const { t } = props;
 
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
@@ -31,7 +30,7 @@ class AesirXCollectionForm extends Component {
     this.formPropsData = {
       [DAM_COLLECTION_FIELD_KEY.NAME]:
         props.type === 'create' && this.viewModel
-          ? 'New Folder'
+          ? t('txt_new_folder')
           : this.viewModel?.damEditdata?.[DAM_COLLECTION_FIELD_KEY.NAME] ?? '',
     };
   }
@@ -107,7 +106,7 @@ class AesirXCollectionForm extends Component {
                 <Button
                   text={t('txt_Cancel')}
                   onClick={this.props.close}
-                  className="btn btn-outline-dark w-100"
+                  className="btn btn-outline-gray-300 bg-white text-blue-0 w-100"
                 />
               </div>
               <div className="col-3">

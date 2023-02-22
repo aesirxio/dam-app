@@ -19,6 +19,7 @@
   "txt_profile_picture": "Зображення профілю",
   "txt_back_to_dashboard": "Назад до інформаційної панелі",
   "txt_menu_profile": "Профіль",
+  "txt_max_file_size": "Максимальний розмір файлу: 2 МБ (дозволене розширення файлу: jpg, jpeg, gif, png)",
   "txt_Username": "Ім'я користувача",
   "txt_Email": "Електронна пошта",
   "txt_Status": "Стан",
@@ -27,6 +28,7 @@
   "txt_Address_1": "Адреса 1",
   "txt_Address_2": "Адреса 2",
   "txt_State": "Стан",
+  "txt_click_to_change_image": "Натисніть, щоб змінити зображення",
   "txt_Country": "Країна",
   "txt_Zipcode": "Поштовий індекс",
   "txt_Fullname": "Повне ім'я",
@@ -145,5 +147,7 @@
   "txt_move_with_file_or_folder": "Перемістити {{type}} {{name}} до папки {{name_folder}}",
   "txt_drop_to_upload": "Перетягніть, щоб завантажити",
   "txt_digital_assets_media": "Цифрові активи",
-  "txt_remember_me": "Запам'ятати мене"
+  "txt_remember_me": "Запам'ятати мене",
+  "txt_can_not_move_to_itself": "Can not move to itself",
+  "txt_name_can_not_blank": "Folder name can not be blank!"
 }

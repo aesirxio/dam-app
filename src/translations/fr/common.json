@@ -144,5 +144,7 @@
   "txt_can_not_move": "Impossible à déplacer",
   "txt_move_with_file_or_folder": "a déplacé {{type}} {{name}} vers le dossier {{name_folder}}",
   "txt_drop_to_upload": "Déposez pour télécharger",
-  "txt_digital_assets_media": "Digital Asset Media"
+  "txt_digital_assets_media": "Digital Asset Media",
+  "txt_can_not_move_to_itself": "Can not move to itself",
+  "txt_name_can_not_blank": "Folder name can not be blank!"
 }

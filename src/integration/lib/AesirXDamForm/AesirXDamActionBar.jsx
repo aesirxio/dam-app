@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_API_FIELD_KEY, DAM_COLLECTION_API_RESPONSE_FIELD_KEY } from 'aesirx-dma-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
@@ -26,14 +26,22 @@ const AesirXDamActionBar = observer(
       super(props);
       const { viewModel } = props;
 
-      this.damListViewModel = viewModel ? viewModel.damListViewModel : null;
-      this.damformModalViewModal = viewModel ? viewModel.damFormViewModel : null;
+      this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
+      this.damFormModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {}
 
     handleCreateFolder = () => {
-      this.damformModalViewModal.openCreateCollectionModal();
+      const { t } = this.props;
+      const collectionId = this.damListViewModel.damLinkFolder.split('/');
+      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
+      this.damListViewModel.createCollections({
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: t('txt_new_folder'),
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
+      });
     };
 
     handleCreateAssets = (data) => {
@@ -81,12 +89,12 @@ const AesirXDamActionBar = observer(
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end col-auto">
             <ButtonNormal
               onClick={this.handleCreateFolder}
               iconStart={faFolder}
               text="txt_create_folder"
-              className="btn-outline-gray-300 text-blue-0 me-3"
+              className="btn-outline-gray-300 bg-white text-blue-0 me-3"
             />
             <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal

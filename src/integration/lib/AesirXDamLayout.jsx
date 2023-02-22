@@ -9,7 +9,7 @@ import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
 import DamViewModel from 'store/DamStore/DamViewModel';
 import DamStore from 'store/DamStore/DamStore';
 
-import AsirsxDamComponent from './AsirsxDamComponent';
+import AesirXDamComponent from './AesirXDamComponent';
 import AesirXDamActionBar from './AesirXDamForm/AesirXDamActionBar';
 import { useTranslation } from 'react-i18next';
 
@@ -33,7 +33,7 @@ const AesirXDamLayout = ({ lang = 'en', theme = 'light', ...props }) => {
                 <div className="d-flex align-items-center justify-content-between mb-4">
                   <AesirXDamActionBar {...props} />
                 </div>
-                <AsirsxDamComponent {...props} />
+                <AesirXDamComponent {...props} />
               </div>
             </div>
           </div>
