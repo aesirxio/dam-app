@@ -1,6 +1,7 @@
 import CollectionPage from '../Page/CollectionPage'
 
 const { I } = inject()
+
 class CollectionStep {
 	constructor() {
 		this.page = new CollectionPage()
