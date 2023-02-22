@@ -7,7 +7,7 @@ import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { observer } from 'mobx-react';
-
+import styles from './index.module.scss';
 const Search = observer(() => {
   const damListViewModel = useDamViewModel();
   const { t } = useTranslation('common');
@@ -51,7 +51,7 @@ const Search = observer(() => {
   const filterBy = () => true;
 
   return (
-    <div className={`input-group d-flex mb-0 pe-2 wr_input_search bg-theme `}>
+    <div className={`input-group d-flex mb-0 pe-2 wr_input_search bg-theme ${styles.width}`}>
       <button
         type="button"
         id="button-search"
@@ -70,7 +70,7 @@ const Search = observer(() => {
         options={options}
         className="col bg-theme"
         inputProps={{
-          className: `border-0 w-100 shadow-none bg-theme fw-semibold `,
+          className: `border-0 w-100 shadow-none bg-theme fw-semibold ${styles.input}`,
         }}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
