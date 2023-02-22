@@ -112,7 +112,7 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()?.items.length && selectedCards.length) {
+        if (monitor.getItem()?.items?.length && selectedCards.length) {
           const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
           if (checkItemSelect.includes(+row?.original.id)) {
             return false;
