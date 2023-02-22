@@ -18,4 +18,5 @@ Running `npx codeceptjs run --verbose Collection/collection_test.js` will start 
 ```bash
 npx codeceptjs run --debug --verbose Authentication/login_test.js
 npx codeceptjs run --debug --verbose Assets/asset_test.js
+npx codeceptjs run --debug --verbose Collection/collection_test.js
 ```
