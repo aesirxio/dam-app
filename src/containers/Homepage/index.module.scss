@@ -62,3 +62,22 @@
     height: 100%;
   }
 }
+
+.contextMenuItem {
+  min-width: 248px;
+  div:not(:last-child) {
+    &:hover {
+      span {
+        font-weight: 600;
+        color: $green !important;
+      }
+    }
+  }
+  div:last-child {
+    &:hover {
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+}
