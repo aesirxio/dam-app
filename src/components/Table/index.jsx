@@ -36,7 +36,6 @@ const Table = ({
   _handleList,
   classNameTable,
   onDoubleClick,
-  // createFolder,
   createAssets,
   onFilter,
   onSortby,
