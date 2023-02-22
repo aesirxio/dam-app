@@ -3,13 +3,12 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styles from './index.module.scss';
-import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { useTranslation } from 'react-i18next';
+import CloudUpload from 'SVG/CloudUpload';
 
 // import ComponentImage from '../ComponentImage';
 
@@ -36,17 +35,16 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
 
   return (
     <div
-      className={
-        !isBtn
-          ? `position-absolute h-100 w-100 top-0 start-0 ${onDrag ? 'zindex-3' : 'zindex-1'}`
-          : ''
-      }
+      className={`
+        ${
+          !isBtn
+            ? `position-absolute h-100 w-100 top-0 start-0 ${onDrag ? 'zindex-3' : 'zindex-1'}`
+            : ''
+        }
+      `}
     >
-      <div
-        className={`${className ?? 'w-100 h-100'} ${
-          onDrag ? styles.ondragenter : 'position-relative '
-        } `}
-      >
+      <div className={`${className ?? 'w-100 h-100'} ${onDrag ? '' : 'position-relative'}`}>
+        <span className={`${onDrag ? styles.onDragEnter : ''} pe-none`}></span>
         <div {...getRootProps()} className={'cursor-auto w-100 h-100 outline-none'}>
           <input
             {...getInputProps()}
@@ -56,15 +54,13 @@ const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, no
           {children}
         </div>
         {onDrag ? (
-          <div className={` text-center zindex-3 ${styles.droptoupload}`}>
-            <FontAwesomeIcon
-              style={{ width: 50, height: 50 }}
-              color="#fff"
-              icon={faCloudUploadAlt}
-              bounce={true}
-              className={styles.bounce}
-            />
-            <p className={``}>{t('txt_drop_to_upload')}</p>
+          <div
+            className={`d-flex flex-column align-items-center pe-none text-center ${styles.dropToUpload}`}
+          >
+            <CloudUpload className={`fa-bounce ${styles.bounce}`} />
+            <button className={`m-0 btn zindex-3 shadow-none px-4 btn-success text-white`}>
+              {t('txt_drop_to_upload')}
+            </button>
           </div>
         ) : null}
       </div>
