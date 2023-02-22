@@ -151,5 +151,6 @@
   "txt_warning": "Advarsel",
   "txt_successful": "Vellykket",
   "txt_error": "Fejl",
+  "txt_can_not_move_to_itself": "Can not move to itself",
   "txt_click_to_change_image": "Klik for at ændre billede"
 }

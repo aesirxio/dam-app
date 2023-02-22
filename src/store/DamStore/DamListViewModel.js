@@ -228,8 +228,7 @@ class DamListViewModel {
   };
 
   moveToFolder = (dragIndex, hoverIndex) => {
-    const selectedItem = dragIndex;
-
+    const selectedItem = dragIndex ? dragIndex : this.actionState.selectedCards;
     if (selectedItem.length) {
       const assets = selectedItem
         .filter((asset) => asset[DAM_ASSETS_FIELD_KEY.TYPE])
