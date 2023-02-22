@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import Dropzone from 'components/Dropzone';
 
 import { withTranslation } from 'react-i18next';
-import Button from 'components/Button';
 
 class ComponentNoData extends Component {
   constructor(props) {
@@ -29,11 +28,10 @@ class ComponentNoData extends Component {
                 {t('txt_drop_files_anywhere_to_upload')}
               </p>
               <p className="fs-5 text-gray">{t('txt_or')}</p>
-              <Dropzone noDrag={false} createAssets={createAssets}>
-                <Button
-                  className="text-blue-6 fw-semibold bg-white btn-white border mx-auto w-248"
-                  text="txt_select_file"
-                />
+              <Dropzone noDrag={true} isBtn={true} createAssets={createAssets}>
+                <p className="text-blue-6 btn fw-semibold bg-white btn-white border mx-auto w-248">
+                  {t('txt_select_file')}
+                </p>
               </Dropzone>
             </div>
           </div>

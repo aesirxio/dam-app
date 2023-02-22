@@ -31,7 +31,7 @@ const FakeThumb = observer(({ id, index, isList }) => {
   return (
     <span
       className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
-        isSelect ? 'border border-success bg-gray-dark' : ''
+        isSelect ? 'border border-success' : ''
       } ${checkBorderBottom ? 'border-bottom-0' : ''} ${checkBorderTop ? 'border-top-0' : ''} ${
         isList && isSelect ? 'bg-success-05' : ''
       }`}
@@ -112,7 +112,7 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()?.items.length && selectedCards.length) {
+        if (monitor.getItem()?.items?.length && selectedCards.length) {
           const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
           if (checkItemSelect.includes(+row?.original.id)) {
             return false;

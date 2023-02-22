@@ -1,7 +1,10 @@
+@import '../../scss/utils/bootstrap.scss';
+
 .dot {
   position: relative;
   width: 24px;
   height: 24px;
+  transition: all 0.2s ease-in-out;
   &::after {
     content: '';
     width: 100%;
@@ -10,20 +13,23 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 3px 6px rgba($color: #000000, $alpha: 0.5);
+    box-shadow: 0 3px 6px rgba($color: $gray-800, $alpha: 0.5);
     border-radius: 50%;
     opacity: 0;
     transition: 0.5s all ease-in-out;
+    pointer-events: none;
   }
 
   .list {
+    top: 2rem;
     max-height: 200px;
     overflow-y: auto;
-    opacity: 0;
-    pointer-events: none;
-    user-select: none;
-    transition: 0.5s all ease-in-out;
+    // opacity: 0;
+    // pointer-events: none;
+    // user-select: none;
+    // transition: 0.5s all ease-in-out;
   }
+  &.active,
   &:hover {
     &::after {
       opacity: 1;
@@ -36,4 +42,9 @@
       user-select: auto;
     }
   }
+}
+
+.h_40 {
+  height: 40px;
+  min-width: 200px;
 }
