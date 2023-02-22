@@ -111,21 +111,19 @@ const Menu = observer(
           <Accordion.Collapse eventKey={'root'} className="pb-3">
             <ul id="wr_list_menu" className="list-unstyled mb-0">
               {this.damListViewModel?.collections.map((value, key) => {
-                return (
-                  value.parent_id === 0 && (
-                    <li
-                      key={key}
-                      className={`item_menu px-3 ${value.className ? ' ' + value.className : ''}${
-                        history.location.pathname.split('/').includes(value.id.toString())
-                          ? ' bg-sidebar'
-                          : ''
-                      }
+                return value.parent_id === 0 && value.id ? (
+                  <li
+                    key={key}
+                    className={`item_menu px-3 ${value.className ? ' ' + value.className : ''}${
+                      history.location.pathname.split('/').includes(value.id.toString())
+                        ? ' bg-sidebar'
+                        : ''
+                    }
                       `}
-                    >
-                      {this.recurseMenu(value, 'root')}
-                    </li>
-                  )
-                );
+                  >
+                    {this.recurseMenu(value, 'root')}
+                  </li>
+                ) : null;
               })}
             </ul>
           </Accordion.Collapse>
@@ -140,7 +138,7 @@ const Menu = observer(
 
       const isActive = history.location.pathname.split('/').includes(parent_id.id.toString());
 
-      return filterCollectionsWithParentId.length ? (
+      return filterCollectionsWithParentId.length && parent_id?.id ? (
         <Accordion>
           <CustomToggle
             className="item_menu"
@@ -165,15 +163,17 @@ const Menu = observer(
             <ul id="wr_list_menu" className="list-unstyled mb-0 px-2">
               {filterCollectionsWithParentId.map((value, key) => {
                 return (
-                  <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
-                    {this.recurseMenu(value, link + '/' + parent_id.id)}
-                  </li>
+                  value.id && (
+                    <li key={key} className={`item_menu ${value.className ? value.className : ''}`}>
+                      {this.recurseMenu(value, link + '/' + parent_id.id)}
+                    </li>
+                  )
                 );
               })}
             </ul>
           </Accordion.Collapse>
         </Accordion>
-      ) : (
+      ) : parent_id.id ? (
         <NavLink
           exact={true}
           to={'/' + link + '/' + parent_id.id}
@@ -185,7 +185,7 @@ const Menu = observer(
           <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
           <span className="ms-3 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
         </NavLink>
-      );
+      ) : null;
     };
 
     render() {

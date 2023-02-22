@@ -25,7 +25,6 @@ import MoveToFolder from 'components/MoveToFolder';
 const Button = React.lazy(() => import('components/Button'));
 const ComponentImage = React.lazy(() => import('components/ComponentImage'));
 const Dropzone = React.lazy(() => import('components/Dropzone'));
-const CollectionForm = React.lazy(() => import('./CollectionForm'));
 const ModalComponent = React.lazy(() => import('components/Modal'));
 const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
@@ -82,28 +81,22 @@ const HomeFormModal = observer(
       }
     };
 
-    handleRename = (name) => {
-      this.damFormModalViewModel.closeUpdateCollectionModal();
-      if (this.damFormModalViewModel.damEditdata?.type) {
-        this.damListViewModel.updateAssets({
-          ...this.damFormModalViewModel.damEditdata,
-          [DAM_ASSETS_FIELD_KEY.NAME]: name,
-        });
-      } else {
-        this.damListViewModel.updateCollections({
-          ...this.damFormModalViewModel.damEditdata,
-          [DAM_COLLECTION_FIELD_KEY.NAME]: name,
-        });
-      }
+    handleRename = () => {
+      this.damFormModalViewModel.setOnEditCollection();
+      this.damFormModalViewModel.closeContextMenuItem();
+      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).focus();
     };
 
-    handleCreateFolder = (name) => {
+    handleCreateFolder = () => {
+      const { t } = this.props;
+
       const collectionId = history.location.pathname.split('/');
       const currentCollection = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
+      this.damFormModalViewModel.closeContextMenu();
       this.damListViewModel.createCollections({
-        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: name,
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: t('txt_new_folder'),
         [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
       });
     };
@@ -132,11 +125,9 @@ const HomeFormModal = observer(
         showContextMenu,
         showContextMenuItem,
         openModal,
-        openUpdateCollectionModal,
         downloadFile,
-        showCreateCollectionModal,
-        showUpdateModal,
-        openCreateCollectionModal,
+        // isEditCollection,
+        // showUpdateModal,
         showMoveToFolder,
         openMoveToFolder,
       } = this.damFormModalViewModel;
@@ -196,7 +187,7 @@ const HomeFormModal = observer(
                 </Dropzone>
                 <div
                   className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none ${styles.txt_hover}`}
-                  onClick={openCreateCollectionModal}
+                  onClick={this.handleCreateFolder}
                 >
                   <FontAwesomeIcon icon={faFolder} className=" d-inline-block align-text-bottom" />
 
@@ -223,8 +214,8 @@ const HomeFormModal = observer(
               </div>
               {selectedCards.length < 2 && (
                 <div
-                  className={`d-flex align-items-center rounded-1 px-4 pb-3 mb-1  text-decoration-none w-100`}
-                  onClick={openUpdateCollectionModal}
+                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  onClick={this.handleRename}
                 >
                   <Suspense fallback={''}>
                     <EditingIcon />
@@ -265,54 +256,6 @@ const HomeFormModal = observer(
                 <span className="ms-3 py-1 d-inline-block text-danger">{t('txt_delete')}</span>
               </div>
             </div>
-          )}
-
-          {showCreateCollectionModal && (
-            <Suspense fallback={''}>
-              <ModalComponent
-                closeButton
-                show={showCreateCollectionModal}
-                onHide={this.damFormModalViewModel.closeCreateCollectionModal}
-                onShow={() => {
-                  this.damFormModalViewModel.closeContextMenuItem();
-                  this.damFormModalViewModel.closeContextMenu();
-                }}
-                header={t('txt_new_folder')}
-                contentClassName={'bg-white shadow'}
-                body={
-                  <CollectionForm
-                    onSubmit={this.handleCreateFolder}
-                    close={this.damFormModalViewModel.closeCreateCollectionModal}
-                    viewModel={this.damFormModalViewModel}
-                    type="create"
-                  />
-                }
-              />
-            </Suspense>
-          )}
-
-          {showUpdateModal && (
-            <Suspense fallback={''}>
-              <ModalComponent
-                closeButton
-                show={showUpdateModal}
-                onHide={this.damFormModalViewModel.closeUpdateCollectionModal}
-                onShow={() => {
-                  this.damFormModalViewModel.closeContextMenuItem();
-                  this.damFormModalViewModel.closeContextMenu();
-                }}
-                header={t('txt_rename')}
-                contentClassName={'bg-white shadow'}
-                body={
-                  <CollectionForm
-                    onSubmit={this.handleRename}
-                    close={this.damFormModalViewModel.closeUpdateCollectionModal}
-                    viewModel={this.damFormModalViewModel}
-                    type="update"
-                  />
-                }
-              />
-            </Suspense>
           )}
 
           {showDeleteModal && (
