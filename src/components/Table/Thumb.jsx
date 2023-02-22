@@ -112,14 +112,23 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()?.items?.length && selectedCards.length) {
-          const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
-          if (checkItemSelect.includes(+row?.original.id)) {
-            return false;
-          } else {
+        if (monitor.getItem()?.items) {
+          if (monitor.getItem()?.dataTransfer) {
             return {
               isOver: monitor.isOver(),
             };
+          } else {
+            const checkItemSelect = monitor.getItem()?.items?.map((item) => +item.id) ?? [];
+            if (
+              checkItemSelect.includes(+row?.original.id) ||
+              row.original?.[DAM_ASSETS_FIELD_KEY.TYPE]
+            ) {
+              return false;
+            } else {
+              return {
+                isOver: monitor.isOver(),
+              };
+            }
           }
         } else {
           return false;
