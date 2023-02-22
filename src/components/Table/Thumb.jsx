@@ -185,7 +185,7 @@ const Thumb = observer(
         key={row.getRowProps().key}
         {...row.getRowProps()}
         className={`position-relative item_thumb cursor-move ${
-          isOver ? 'border border-success bg-gray-dark' : 'border-none'
+          isOver ? 'border border-success bg-success-05' : 'border-none'
         } ${className}`}
         onDoubleClick={() => {
           clearTimeout(timer);
@@ -228,7 +228,7 @@ const Thumb = observer(
       <div style={{ opacity }} className={className}>
         <div
           className={`position-relative item_thumb d-flex cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column ${
-            isOver ? 'border border-success bg-gray-dark' : 'bg-white'
+            isOver ? 'border border-success bg-success-05' : 'bg-white'
           }`}
           onContextMenu={(e) => {
             onRightClickItem(e, { ...row.original, index });

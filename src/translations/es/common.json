@@ -147,5 +147,6 @@
   "txt_can_not_move": "no puede moverse",
   "txt_move_with_file_or_folder": "A sido movido {{type}} {{name}} a la carpeta {{name_folder}}",
   "txt_drop_to_upload": "Soltar para subir",
-  "txt_digital_assets_media": "Medios de recursos digitales"
+  "txt_digital_assets_media": "Medios de recursos digitales",
+  "txt_can_not_move_to_itself": "Can not move to itself"
 }
