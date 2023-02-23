@@ -234,7 +234,6 @@ const HomeList = observer(
 
     handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
       const { assets, collections, isSearch } = this.damListViewModel;
-      console.log(index);
       const collectionId = history.location.pathname.split('/');
 
       let handleCollections = [];
