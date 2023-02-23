@@ -98,3 +98,19 @@
     height: 4px !important;
   }
 }
+
+.dark #contextMenuItem {
+  > div:not(:last-child) {
+    svg {
+      path {
+        fill: $white;
+      }
+    }
+    .stroke-dark {
+      path {
+        stroke: #fff;
+        fill: transparent;
+      }
+    }
+  }
+}
