@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "codeceptjs": "codeceptjs run --steps"
+    "codeceptjs": "codeceptjs run --steps",
+    "test-dam-app": "npx codeceptjs run --debug --verbose Collection/collection_test.js"
   },
   "keywords": [],
   "author": "",
