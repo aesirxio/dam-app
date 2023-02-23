@@ -30,7 +30,7 @@ const FakeThumb = observer(({ id, index, isList }) => {
     .includes(+index - 1);
   return (
     <span
-      className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
+      className={`position-absolute rounded-2 top-0 start-0 w-100 h-100 pe-none user-select-none ${
         isSelect ? 'border border-success' : ''
       } ${checkBorderBottom ? 'border-bottom-0' : ''} ${checkBorderTop ? 'border-top-0' : ''} ${
         isList && isSelect ? 'bg-success-05' : ''
@@ -227,9 +227,9 @@ const Thumb = observer(
     ) : (
       <div style={{ opacity }} className={className}>
         <div
-          className={`position-relative item_thumb d-flex cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column ${
-            isOver ? 'border border-success bg-success-05' : 'bg-white'
-          }`}
+          className={`${
+            isOver ? 'border-success bg-success-05' : 'bg-white border-thumb'
+          } position-relative item_thumb d-flex border-1  cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column `}
           onContextMenu={(e) => {
             onRightClickItem(e, { ...row.original, index });
           }}

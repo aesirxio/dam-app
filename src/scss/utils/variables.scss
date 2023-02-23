@@ -31,7 +31,6 @@ $grays: (
   '800': $gray-800,
   '900': $gray-900,
   '901': $gray-901,
-  'select': $gray-select,
 ) !default;
 // fusv-enable
 
@@ -120,6 +119,9 @@ $theme-colors: (
   'noti-bg-warn': $noti-bg-warn,
   'noti-bg-success': $noti-bg-success,
   'gray-dark': $gray-800,
+  'select-border': $gray-select,
+  'select-control-background': #fff,
+  'select-color': #081240,
 ) !default;
 
 // Body
@@ -274,10 +276,10 @@ $form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://w
 
 // for react-select
 :root {
-  --dropdown-item-hover-color: #1ab394;
+  --dropdown-item-hover-color: $green;
   // --dropdown-item-hover-bg: #e8e9ec;
-  --view-active-bg: #e8e9ec;
+  --view-active-bg: $gray-select;
   --text-title-color: $color-blue;
-  --dropdown-bg: #fff;
+  --dropdown-bg: $white;
   --dropdown-item-color: $color-blue;
 }
