@@ -204,7 +204,7 @@ const HomeFormModal = observer(
               style={{ ...this.damListViewModel.actionState?.style }}
             >
               <div
-                className={`d-flex align-items-center rounded-1 px-4 py-3 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 py-3 text-decoration-none w-100`}
                 onClick={openModal}
               >
                 <Suspense fallback={''}>
@@ -214,7 +214,7 @@ const HomeFormModal = observer(
               </div>
               {selectedCards.length < 2 && (
                 <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                   onClick={this.handleRename}
                 >
                   <Suspense fallback={''}>
@@ -224,7 +224,7 @@ const HomeFormModal = observer(
                 </div>
               )}
               <div
-                className={`d-flex align-items-center rounded-1 px-4 pb-3 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                 onClick={openMoveToFolder}
               >
                 <Suspense fallback={''}>
@@ -235,7 +235,7 @@ const HomeFormModal = observer(
                 </span>
               </div>
               <div
-                className={`d-flex align-items-center rounded-1 px-4 pb-3 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                 onClick={downloadFile}
               >
                 <Suspense fallback={''}>
@@ -247,7 +247,7 @@ const HomeFormModal = observer(
               </div>
 
               <div
-                className={`d-flex align-items-center rounded-1 px-4 pb-3 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
               >
                 <Suspense fallback={''}>
