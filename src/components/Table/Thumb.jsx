@@ -28,14 +28,26 @@ const FakeThumb = observer(({ id, index, isList }) => {
   const checkBorderTop = selectedCards
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
+
+  const item = selectedCards.find((selectedCard) => +selectedCard.id === +id);
+
   return (
-    <span
-      className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
-        isSelect ? 'border border-success' : ''
-      } ${checkBorderBottom ? 'border-bottom-0' : ''} ${checkBorderTop ? 'border-top-0' : ''} ${
-        isList && isSelect ? 'bg-success-05' : ''
-      }`}
-    ></span>
+    <>
+      <span
+        className={`position-absolute top-0 start-0 w-100 h-100  user-select-none ${
+          isSelect ? 'border border-success' : ''
+        } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
+          checkBorderTop && isList ? 'border-top-0' : ''
+        } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}
+      ></span>
+      {item && !isList ? (
+        <span
+          className={`d-flex align-items-center justify-content-center fw-bold text-white bg-success rounded-circle pe-none user-select-none ${styles.count}`}
+        >
+          {item.indexSelected + 1}
+        </span>
+      ) : null}
+    </>
   );
 });
 
