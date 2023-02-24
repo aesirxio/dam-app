@@ -15,7 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "aesirx-dma-lib": "^1.7.11",
-    "aesirx-sso": "^1.0.3",
+    "aesirx-sso": "^1.0.4",
     "babel-plugin-file-loader": "^2.0.0",
     "bootstrap": "^5.2.2",
     "date-fns": "^2.16.1",
