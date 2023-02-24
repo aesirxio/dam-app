@@ -57,7 +57,7 @@ class Header extends React.Component {
             />
           </a>
         </div>
-        <div className="content_header h-80 border-start-1 flex-1 d-flex align-items-center position-relative bg-header">
+        <div className="content_header h-80 border-bottom-1 border-header flex-1 d-flex align-items-center position-relative bg-header">
           <div className="d-flex flex-1 align-items-center px-32px">
             <Search />
             <div className={`ms-auto d-flex align-items-center ${styles.custom_select}`}>
