@@ -251,9 +251,9 @@ const AesirXDamComponent = observer(
       }
       let newSelectedCards;
 
-      const cards = [...handleCollections, ...handleAssets].map((item, index) => ({
+      const cards = [...handleCollections, ...handleAssets].map((item, i) => ({
         ...item,
-        index,
+        index: i,
       }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;

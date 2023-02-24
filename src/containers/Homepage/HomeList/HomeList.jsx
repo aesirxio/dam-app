@@ -234,7 +234,6 @@ const HomeList = observer(
 
     handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
       const { assets, collections, isSearch } = this.damListViewModel;
-
       const collectionId = history.location.pathname.split('/');
 
       let handleCollections = [];
@@ -262,11 +261,11 @@ const HomeList = observer(
           );
         }
       }
-      let newSelectedCards;
+      let newSelectedCards = [];
 
-      const cards = [...handleCollections, ...handleAssets].map((item, index) => ({
+      const cards = [...handleCollections, ...handleAssets].map((item, i) => ({
         ...item,
-        index,
+        index: i,
       }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
@@ -309,7 +308,7 @@ const HomeList = observer(
         }
       }
       const finalList = cards
-        ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
+        ? newSelectedCards.map((item, i) => ({ ...item, indexSelected: i }))
         : [];
 
       this.damListViewModel.setActionState({
