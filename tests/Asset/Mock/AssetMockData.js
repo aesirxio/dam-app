@@ -1,8 +1,8 @@
 class AssetMockData {
 	static getInformationForUploadAsset() {
 		const asset = {
-			name: 'test_image',
-			file: 'Assets/Mock/Media/test_image.png',
+			name: 'test_image.png',
+			file: 'Asset/Mock/Media/test_image.png',
 		}
 		return asset
 	}

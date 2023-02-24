@@ -10,6 +10,7 @@ class LoginPage {
 		forGotPasswordText: "//a[contains(text(),'Forgot Password?')]",
 		adminText: 'Your digital Assets',
 		signOutSpan: "//span[contains(text(),'Sign Out')]",
+		spinner: "//div[@class='spinner-border']"
 	}
 }
 export default LoginPage

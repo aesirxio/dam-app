@@ -20,6 +20,7 @@ class LoginSteps {
 		I.waitForElement(this.page.locators.signInButton, 30)
 		I.click(this.page.locators.signInButton)
 		I.waitForText(this.page.locators.adminText, 30)
+		I.waitForInvisible(this.page.locators.spinner, 30)
 	}
 }
 export default LoginSteps

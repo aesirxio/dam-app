@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "codeceptjs": "codeceptjs run --steps",
-    "test-dam-app": "npx codeceptjs run --debug --verbose Collection/collection_test.js"
+    "test-dam-app-login": "npx codeceptjs run --debug --verbose Authentication/login_test.js",
+    "test-dam-app-collection": "npx codeceptjs run --debug --verbose Collection/collection_test.js",
+    "test-dam-app-asset": "npx codeceptjs run --debug --verbose Asset/asset_test.js",
+    "test-dam-app-profile": "npx codeceptjs run --debug --verbose Profile/profile_test.js",
+    "test-dam-app-setting": "npx codeceptjs run --debug --verbose Setting/setting_test.js"
   },
   "keywords": [],
   "author": "",

@@ -7,7 +7,7 @@ class CollectionPage {
 		createFolderButton: '.btn-outline-gray-300',
 		uploadFileSpan: "//span[contains(text(),'Upload File')]",
 		createFolderSpan: "//span[contains(text(),'Create Folder')]",
-		myAssetsSpan: "//span[contains(text(),'My Assets')]",
+		myAssetSpan: "//span[contains(text(),'My Assets')]",
 		settingSpan: "//span[contains(text(),'Setting')]",
 		backSpan: "//span[contains(text(),'Back')]",
 		previewSpan: "//span[contains(text(),'Preview')]",
@@ -31,7 +31,7 @@ class CollectionPage {
 		closeMessageSuccess: ".Toastify__close-button",
 		newFolderTitleXpath: '//div[@role="row"]//span[contains(text(),\'New Folder\')]',
 		xpathCollectionFirst: "(//div[@type='folder'])[1]",
-		xpathAssetsFirst: "(//div[@type='assets'])[1]",
+		xpathAssetFirst: "(//div[@type='assets'])[1]",
 		inputFile: "(//input[@type = 'file'])[1]",
 	}
 }

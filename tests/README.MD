@@ -12,12 +12,13 @@ npm install
 
 ## Development
 
-Running `npx codeceptjs run --verbose Collection/collection_test.js` will start the demo flow.
+Running `npm run test-dam-app-collection` will start the demo flow.
 
 
 ```bash
-npx codeceptjs run --debug --verbose Authentication/login_test.js
-npx codeceptjs run --debug --verbose Assets/asset_test.js
-npx codeceptjs run --debug --verbose Collection/collection_test.js
-npx codeceptjs run --debug --verbose Profile/profile_test.js
+npm run test-dam-app-login
+npm run test-dam-app-collection
+npm run test-dam-app-asset
+npm run test-dam-app-profile
+npm run test-dam-app-setting
 ```
