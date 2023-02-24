@@ -1,8 +1,15 @@
 import React from 'react';
 
-const Warn = () => {
+const Warn = (props) => {
   return (
-    <svg width="25" height="40" viewBox="0 0 25 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      {...props}
+      width="25"
+      height="40"
+      viewBox="0 0 25 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M5.50307 23.679H2.50528C1.82873 23.679 1.27832 23.1143 1.27832 22.4202V11.4204C1.27832 10.7263 1.82873 10.1616 2.50528 10.1616H5.50143C6.17798 10.1616 6.72839 10.7263 6.72839 11.4204V22.4202C6.72839 23.1143 6.17798 23.679 5.50143 23.679H5.50307ZM2.95741 21.958H5.05258V11.8826H2.95741V21.958Z"
         fill="#946300"

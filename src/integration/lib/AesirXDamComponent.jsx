@@ -22,6 +22,7 @@ import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
+import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 
 const Folder = React.lazy(() => import('SVG/Folder'));
 const AesirXDamComponent = observer(
@@ -70,10 +71,6 @@ const AesirXDamComponent = observer(
         .reduce((arr, el) => {
           return arr.concat(el);
         }, []);
-    };
-
-    handleCreateFolder = () => {
-      this.damFormModalViewModal.openCreateCollectionModal();
     };
 
     handleCreateAssets = (data) => {
@@ -254,9 +251,9 @@ const AesirXDamComponent = observer(
       }
       let newSelectedCards;
 
-      const cards = [...handleCollections, ...handleAssets].map((item, index) => ({
+      const cards = [...handleCollections, ...handleAssets].map((item, i) => ({
         ...item,
-        index,
+        index: i,
       }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
@@ -354,26 +351,23 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <div className={this.damListViewModel.isList ? '' : styles.folder}>
+                  <div className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}>
                     <Folder />
                   </div>
                   <span
                     title={row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    className={
+                    className={`${
                       this.damListViewModel.isList
                         ? 'ms-32px text-color'
                         : 'text-center text-color lcl lcl-2 w-100 d-block w-space'
-                    }
+                    } w-100`}
                   >
-                    {row.original[DAM_COLUMN_INDICATOR.NAME]}
-                    {!this.damListViewModel.isList && (
-                      <>
-                        <br />
-                        {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                          'DD MMM, YYYY'
-                        )}
-                      </>
-                    )}
+                    <CollectionName item={row.original} />
+                    <span className="text-gray">
+                      {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
+                        'DD MMM, YYYY'
+                      )}
+                    </span>
                   </span>
                 </div>
               ) : (
@@ -390,17 +384,14 @@ const AesirXDamComponent = observer(
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
-                        visibleByDefault
-                        wrapperClassName="w-100 h-100"
+                        wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
-                      <ComponentImage
-                        visibleByDefault
-                        wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center"
-                        src={utils.checkFileTypeFormData(row.original)}
-                      />
+                      <div className="w-100 h-100 d-flex align-items-center justify-content-center pe-none">
+                        {utils.checkFileTypeFormData(row.original)}
+                      </div>
                     )}
                   </span>
 
@@ -499,7 +490,6 @@ const AesirXDamComponent = observer(
                 view={this.view}
                 thumbColumnsNumber={2}
                 onDoubleClick={this.handleDoubleClick}
-                createFolder={this.handleCreateFolder}
                 createAssets={this.handleCreateAssets}
                 onFilter={this.handleFilter}
                 onSortby={this.handleSortBy}

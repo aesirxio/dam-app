@@ -13,7 +13,7 @@ class DamUtils {
   };
 
   transformDataToApiMoveToFolder = (data) => {
-    console.log(data);
+    return data;
   };
 }
 

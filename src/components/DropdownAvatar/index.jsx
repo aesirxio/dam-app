@@ -55,7 +55,7 @@ class DropdownAvatar extends React.Component {
         e.preventDefault();
         onClick(e);
       }}
-      className="d-flex align-items-center text-decoration-none cursor-pointer"
+      className="d-flex align-items-center text-decoration-none cursor-pointer "
     >
       {Helper.isValidUrl(Storage.getItem(AUTHORIZATION_KEY.AVATAR)) ? (
         <ComponentImage
@@ -91,7 +91,7 @@ class DropdownAvatar extends React.Component {
             as={this.CustomToggleAvatar}
             id="dropdown-custom-components position-relative"
           ></Dropdown.Toggle>
-          <Dropdown.Menu className="shadow border-0">
+          <Dropdown.Menu className="shadow border-0 bg-header">
             <div className="p-3">
               <ul className={`list-unstyled ps-0 mb-0 ${styles.list_menu_avatar}`}>
                 {data.map((value, index) => {
@@ -99,7 +99,7 @@ class DropdownAvatar extends React.Component {
                     <li key={index}>
                       <Dropdown.Item
                         href={value.link}
-                        className="text-blue-0 d-block rounded-1 text-decoration-none p-2"
+                        className="text-blue-0 btn btn-transparent d-block rounded-1 text-decoration-none p-2"
                       >
                         {t(value.text)}
                       </Dropdown.Item>

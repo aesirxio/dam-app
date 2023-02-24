@@ -28,14 +28,26 @@ const FakeThumb = observer(({ id, index, isList }) => {
   const checkBorderTop = selectedCards
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
+
+  const item = selectedCards.find((selectedCard) => +selectedCard.id === +id);
+
   return (
-    <span
-      className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
-        isSelect ? 'border border-success' : ''
-      } ${checkBorderBottom ? 'border-bottom-0' : ''} ${checkBorderTop ? 'border-top-0' : ''} ${
-        isList && isSelect ? 'bg-success-05' : ''
-      }`}
-    ></span>
+    <>
+      <span
+        className={`position-absolute rounded-2 top-0 start-0 w-100 h-100  user-select-none ${
+          isSelect ? 'border border-success' : ''
+        } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
+          checkBorderTop && isList ? 'border-top-0' : ''
+        } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}
+      ></span>
+      {item && !isList ? (
+        <span
+          className={`d-flex align-items-center justify-content-center fw-bold text-white bg-success rounded-circle pe-none user-select-none ${styles.count}`}
+        >
+          {item.indexSelected + 1}
+        </span>
+      ) : null}
+    </>
   );
 });
 
@@ -63,7 +75,7 @@ const ThumbContainer = React.memo(({ newRowCells }) => {
   return newRowCells.map((cell) => (
     <div
       {...cell.getCellProps()}
-      className={`ct_cell d-block w-100 user-select-none pe-none`}
+      className={`ct_cell d-block w-100 user-select-none`}
       key={Math.random(40, 200)}
     >
       {cell.render('Cell')}
@@ -89,6 +101,7 @@ const Thumb = observer(
       damListViewModel: {
         actionState: { selectedCards },
       },
+      damFormViewModel: { isEditCollection },
     } = useDamViewModel();
 
     const [{ isOver }, drop] = useDrop({
@@ -112,14 +125,23 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()?.items?.length && selectedCards.length) {
-          const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
-          if (checkItemSelect.includes(+row?.original.id)) {
-            return false;
-          } else {
+        if (monitor.getItem()?.items) {
+          if (monitor.getItem()?.dataTransfer) {
             return {
               isOver: monitor.isOver(),
             };
+          } else {
+            const checkItemSelect = monitor.getItem()?.items?.map((item) => +item.id) ?? [];
+            if (
+              checkItemSelect.includes(+row?.original.id) ||
+              row.original?.[DAM_ASSETS_FIELD_KEY.TYPE]
+            ) {
+              return false;
+            } else {
+              return {
+                isOver: monitor.isOver(),
+              };
+            }
           }
         } else {
           return false;
@@ -148,9 +170,8 @@ const Thumb = observer(
           .items.map((item) => +item.id)
           .includes(+row.original.id);
       },
-      end: () => {
-        // rearrangeCards(item);
-        // clearItemSelection();
+      canDrag: () => {
+        return isEditCollection ? false : true;
       },
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
@@ -227,9 +248,9 @@ const Thumb = observer(
     ) : (
       <div style={{ opacity }} className={className}>
         <div
-          className={`position-relative item_thumb d-flex cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column ${
-            isOver ? 'border border-success bg-success-05' : 'bg-white'
-          }`}
+          className={`${
+            isOver ? 'border-success bg-success-05' : 'bg-white border-thumb'
+          } position-relative item_thumb d-flex border-1  cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column `}
           onContextMenu={(e) => {
             onRightClickItem(e, { ...row.original, index });
           }}
@@ -237,7 +258,9 @@ const Thumb = observer(
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
-            onDoubleClick(row.original);
+            if (!isEditCollection) {
+              onDoubleClick(row.original);
+            }
           }}
           onClick={(e) => {
             timer = setTimeout(function () {

@@ -3,6 +3,7 @@ import React from 'react';
 const CloudUpload = (props) => {
   return (
     <svg
+      {...props}
       width="50"
       height="50"
       viewBox="0 0 50 50"

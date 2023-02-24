@@ -1,8 +1,9 @@
 import React from 'react';
 
-const ThemeMode = ({ fill = 'none', onClick }) => {
+const ThemeMode = ({ fill = 'none', onClick, ...props }) => {
   return (
     <svg
+      {...props}
       onClick={onClick}
       width="25"
       height="24"

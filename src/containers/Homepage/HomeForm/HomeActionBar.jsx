@@ -8,7 +8,7 @@ import history from 'routes/history';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { DAM_ASSETS_API_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_API_FIELD_KEY, DAM_COLLECTION_API_RESPONSE_FIELD_KEY } from 'aesirx-dma-lib';
 import Dropzone from 'components/Dropzone';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
@@ -31,12 +31,16 @@ const HomeActionBar = observer(
       this.damFormModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
-    componentDidMount() {}
-
-    componentDidUpdate() {}
-
     handleCreateFolder = () => {
-      this.damFormModalViewModal.openCreateCollectionModal();
+      const { t } = this.props;
+      const collectionId = history.location.pathname.split('/');
+      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
+      this.damListViewModel.createCollections({
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.NAME]: t('txt_new_folder'),
+        [DAM_COLLECTION_API_RESPONSE_FIELD_KEY.PARENT_ID]: currentCollection,
+      });
     };
 
     handleCreateAssets = (data) => {
@@ -75,7 +79,7 @@ const HomeActionBar = observer(
               return this.damListViewModel.collections.find((collection) => +collection.id === +id);
             }
           })
-          .filter((item) => (item ? true : false)) ?? [];
+          .filter((item) => (item?.id ? true : false)) ?? [];
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
@@ -84,7 +88,7 @@ const HomeActionBar = observer(
               onClick={this.handleCreateFolder}
               iconStart={faFolder}
               text="txt_create_folder"
-              className="btn-outline-gray-300 bg-white text-blue-0 me-3"
+              className="btn-outline-gray-300 bg-select-control-background text-blue-0 me-3"
             />
             <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
