@@ -1,10 +1,10 @@
-name: Format
+name: Test
 
 on:
   pull_request:
 
 jobs:
-  code:
+  test:
     runs-on: ubuntu-latest
 
     steps:
