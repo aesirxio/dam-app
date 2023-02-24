@@ -28,14 +28,26 @@ const FakeThumb = observer(({ id, index, isList }) => {
   const checkBorderTop = selectedCards
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
+
+  const item = selectedCards.find((selectedCard) => +selectedCard.id === +id);
+
   return (
-    <span
-      className={`position-absolute top-0 start-0 w-100 h-100 pe-none user-select-none ${
-        isSelect ? 'border border-success' : ''
-      } ${checkBorderBottom ? 'border-bottom-0' : ''} ${checkBorderTop ? 'border-top-0' : ''} ${
-        isList && isSelect ? 'bg-success-05' : ''
-      }`}
-    ></span>
+    <>
+      <span
+        className={`position-absolute top-0 start-0 w-100 h-100  user-select-none ${
+          isSelect ? 'border border-success' : ''
+        } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
+          checkBorderTop && isList ? 'border-top-0' : ''
+        } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}
+      ></span>
+      {item && !isList ? (
+        <span
+          className={`d-flex align-items-center justify-content-center fw-bold text-white bg-success rounded-circle pe-none user-select-none ${styles.count}`}
+        >
+          {item.indexSelected + 1}
+        </span>
+      ) : null}
+    </>
   );
 });
 
@@ -113,14 +125,23 @@ const Thumb = observer(
         moveRow(dragIndex, hoverIndex);
       },
       collect: (monitor) => {
-        if (monitor.getItem()?.items?.length && selectedCards.length) {
-          const checkItemSelect = monitor.getItem()?.items.map((item) => +item.id);
-          if (checkItemSelect.includes(+row?.original.id)) {
-            return false;
-          } else {
+        if (monitor.getItem()?.items) {
+          if (monitor.getItem()?.dataTransfer) {
             return {
               isOver: monitor.isOver(),
             };
+          } else {
+            const checkItemSelect = monitor.getItem()?.items?.map((item) => +item.id) ?? [];
+            if (
+              checkItemSelect.includes(+row?.original.id) ||
+              row.original?.[DAM_ASSETS_FIELD_KEY.TYPE]
+            ) {
+              return false;
+            } else {
+              return {
+                isOver: monitor.isOver(),
+              };
+            }
           }
         } else {
           return false;
