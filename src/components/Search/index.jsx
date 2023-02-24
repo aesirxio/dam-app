@@ -51,7 +51,9 @@ const Search = observer(() => {
   const filterBy = () => true;
 
   return (
-    <div className={`input-group d-flex mb-0 pe-2 wr_input_search bg-theme ${styles.width}`}>
+    <div
+      className={`input-group rounded-3 d-flex mb-0 pe-2 wr_input_search bg-theme ${styles.width}`}
+    >
       <button
         type="button"
         id="button-search"

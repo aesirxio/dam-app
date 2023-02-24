@@ -205,7 +205,7 @@ const AesirXDamFormModal = observer(
                 onClick={openModal}
               >
                 <Suspense fallback={''}>
-                  <PreviewIcon />
+                  <PreviewIcon className="stroke-dark" />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">{t('txt_preview')}</span>
               </div>
@@ -225,7 +225,7 @@ const AesirXDamFormModal = observer(
                 onClick={openMoveToFolder}
               >
                 <Suspense fallback={''}>
-                  <MoveFolderIcon />
+                  <MoveFolderIcon className="stroke-dark" />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">
                   {t('txt_move_to_folder')}
@@ -237,7 +237,7 @@ const AesirXDamFormModal = observer(
                   onClick={downloadFile}
                 >
                   <Suspense fallback={<div>Loading...</div>}>
-                    <DownLoadIcon />
+                    <DownLoadIcon className="stroke-dark" />
                   </Suspense>
                   <span className="ms-3 text-color py-1 d-inline-block">
                     {t('txt_download_folder')}

@@ -3,6 +3,7 @@ import React from 'react';
 const Dot = (props) => {
   return (
     <svg
+      {...props}
       width="24px"
       height="24px"
       viewBox="0 0 24 24"

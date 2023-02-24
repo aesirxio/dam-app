@@ -3,19 +3,18 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-const customStyles = (isBorder, isShadow = true) => {
+const customStyles = (isBorder, isShadow = true, isBackGround = false) => {
   return {
     control: (provided) => {
       return {
         ...provided,
         minHeight: 50,
         boxShadow: isShadow ? '0 3px 5px rgb(0 0 0 / 5%)' : 'none',
-        borderColor: isBorder ? 'var(--bs-gray-select)' : 'transparent',
+        borderColor: isBorder ? 'var(--bs-select-border)' : 'transparent',
         '&:hover': {
           borderColor: isBorder ? 'var(--bs-success)' : 'transparent',
         },
-
-        backgroundColor: 'var(--bs-white)',
+        backgroundColor: isBackGround ? 'var(--bs-select-control-background)' : 'transparent',
         cursor: 'pointer',
         borderRadius: 5,
         width: 'auto',
@@ -30,19 +29,19 @@ const customStyles = (isBorder, isShadow = true) => {
         border: 0,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
-        borderRight: '1px solid var(--bs-gray-select)',
-        backgroundColor: 'var(--dropdown-bg)',
+        borderRight: '1px solid var(--bs-select-border)',
+        backgroundColor: 'var(--bs-select-control-background)',
         width: '100%',
       };
     },
     option: (provided, state) => {
       return {
         ...provided,
-        color: state.isSelected ? 'var(--dropdown-item-hover-color)' : 'var(--dropdown-item-color)',
-        backgroundColor: state.isSelected ? 'var(--dropdown-item-hover-bg)' : 'var(--dropdown-bg)',
+        color: state.isSelected ? 'var(--bs-success)' : 'var(--bs-select-color)',
+        backgroundColor: 'transparent',
+
         '&:hover': {
-          color: 'var(--dropdown-item-hover-color)',
-          backgroundColor: 'var(--dropdown-item-hover-bg)',
+          color: 'var(--bs-success)',
         },
         fontWeight: state.isSelected ? 600 : 400,
         cursor: 'pointer',
@@ -59,13 +58,13 @@ const customStyles = (isBorder, isShadow = true) => {
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: 'var(--text-title-color)',
+      color: 'var(--bs-select-color)',
       fontWeight: 600,
     }),
     placeholder: (defaultStyles) => {
       return {
         ...defaultStyles,
-        color: 'var(--text-title-color)',
+        color: 'var(--bs-select-color)',
         fontWeight: 600,
       };
     },
@@ -77,7 +76,7 @@ const customStyles = (isBorder, isShadow = true) => {
     },
     multiValueLabel: (styles) => ({
       ...styles,
-      color: 'var(--text-title-color)',
+      color: 'var(--bs-select-color)',
     }),
   };
 };

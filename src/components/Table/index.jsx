@@ -134,7 +134,7 @@ const Table = ({
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
-        <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between">
+        <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between border-1 border-gray-select">
           <div className="wrapper_search_global d-flex">
             <Select
               className={filterBar.className}
@@ -143,6 +143,7 @@ const Table = ({
               isSearchable={false}
               options={filterBar.options}
               onChange={onFilter}
+              isBackGround={true}
               value={filterBar.options.find(
                 (e) => e.value === listViewModel.dataFilter['filter[type]']
               )}
@@ -154,6 +155,7 @@ const Table = ({
               isClearable={false}
               isSearchable={false}
               options={sortBy.options}
+              isBackGround={true}
               onChange={onSortby}
               value={sortBy.options.find(
                 (e) =>
@@ -167,21 +169,25 @@ const Table = ({
               <button
                 type="button"
                 className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
-                  isList ? 'bg-blue-3 text-white' : 'text-blue-6'
+                  isList
+                    ? 'bg-blue-3 text-white  border-0 border-start border-end border-gray-select'
+                    : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('list')}
               >
-                <ListCheck className={isList ? styles.active : styles.inactive} />
+                <ListCheck />
                 <span className="ms-2">{t('txt_list')}</span>
               </button>
               <button
                 type="button"
-                className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
-                  !isList ? 'bg-blue-3 text-white' : 'text-blue-6'
+                className={`btn rounded-end d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
+                  !isList
+                    ? 'bg-blue-3 text-white border-0 border-start border-gray-select'
+                    : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('thumb')}
               >
-                <ThumbNails className={!isList ? styles.active : styles.inactive} />
+                <ThumbNails />
                 <span className="ms-2">{t('txt_thumb')}</span>
               </button>
             </div>

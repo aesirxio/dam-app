@@ -208,7 +208,7 @@ const HomeFormModal = observer(
                 onClick={openModal}
               >
                 <Suspense fallback={''}>
-                  <PreviewIcon />
+                  <PreviewIcon className="stroke-dark " />
                 </Suspense>
                 <span className="ms-3 text-gray-dark py-1 d-inline-block">{t('txt_preview')}</span>
               </div>
@@ -228,7 +228,7 @@ const HomeFormModal = observer(
                 onClick={openMoveToFolder}
               >
                 <Suspense fallback={''}>
-                  <MoveFolderIcon />
+                  <MoveFolderIcon className="stroke-dark " />
                 </Suspense>
                 <span className="ms-3 text-gray-dark py-1 d-inline-block">
                   {t('txt_move_to_folder')}
@@ -239,7 +239,7 @@ const HomeFormModal = observer(
                 onClick={downloadFile}
               >
                 <Suspense fallback={''}>
-                  <DownLoadIcon />
+                  <DownLoadIcon className="stroke-dark" />
                 </Suspense>
                 <span className="ms-3 text-gray-dark py-1 d-inline-block">
                   {t('txt_download_folder')}
@@ -247,7 +247,7 @@ const HomeFormModal = observer(
               </div>
 
               <div
-                className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 pb-3 text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
               >
                 <Suspense fallback={''}>
