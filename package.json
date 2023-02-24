@@ -19,7 +19,7 @@
     "babel-plugin-file-loader": "^2.0.0",
     "bootstrap": "^5.2.2",
     "date-fns": "^2.16.1",
-    "date-fns-tz": "^1.1.6",
+    "date-fns-tz": "^2.0.0",
     "file-saver": "^2.0.5",
     "html-react-parser": "^1.2.7",
     "i18next": "^19.8.4",
