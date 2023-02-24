@@ -1,6 +1,6 @@
 {
   "name": "aesirx-dam-app",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "license": "GPL-3.0-only",
   "author": "AesirX",
   "main": "dist/index.js",
