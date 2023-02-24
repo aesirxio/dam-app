@@ -257,7 +257,7 @@ const AesirXDamComponent = observer(
       }));
       const card = index < 0 ? '' : cards[index];
       const newLastSelectedIndex = index;
-      if (!cmdKey && !shiftKey && !contextClick) {
+      if (!cmdKey && !shiftKey && !ctrlKey && !contextClick) {
         newSelectedCards = [card];
       } else if (shiftKey) {
         if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
