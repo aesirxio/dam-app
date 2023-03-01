@@ -242,8 +242,6 @@ export default class DamStore {
     try {
       const damService = new AesirxDamApiService();
       const responseDataFromLibrary = await damService.createAssets(data);
-      console.log('asdasd');
-      console.log(responseDataFromLibrary);
       if (responseDataFromLibrary.length) {
         runInAction(() => {
           callbackOnSuccess({

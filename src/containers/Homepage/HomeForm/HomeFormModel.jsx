@@ -200,64 +200,60 @@ const HomeFormModal = observer(
           {showContextMenuItem && (
             <div
               id="contextMenuItem"
-              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed cursor-pointer`}
+              className={`d-flex align-items-center justify-content-center bg-white shadow-lg rounded-2 flex-column zindex-5 position-fixed cursor-pointer ${styles.contextMenuItem}`}
               style={{ ...this.damListViewModel.actionState?.style }}
             >
               <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 py-3 text-decoration-none w-100`}
                 onClick={openModal}
               >
                 <Suspense fallback={''}>
-                  <PreviewIcon />
+                  <PreviewIcon className="stroke-dark " />
                 </Suspense>
-                <span className="ms-3 text-color py-1 d-inline-block">{t('txt_preview')}</span>
+                <span className="ms-3 text-gray-dark py-1 d-inline-block">{t('txt_preview')}</span>
               </div>
               {selectedCards.length < 2 && (
                 <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                   onClick={this.handleRename}
                 >
                   <Suspense fallback={''}>
                     <EditingIcon />
                   </Suspense>
-                  <span className="ms-3 text-color py-1 d-inline-block">{t('txt_rename')}</span>
+                  <span className="ms-3 text-gray-dark py-1 d-inline-block">{t('txt_rename')}</span>
                 </div>
               )}
               <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                 onClick={openMoveToFolder}
               >
                 <Suspense fallback={''}>
-                  <MoveFolderIcon />
+                  <MoveFolderIcon className="stroke-dark " />
                 </Suspense>
-                <span className="ms-3 text-color py-1 d-inline-block">
+                <span className="ms-3 text-gray-dark py-1 d-inline-block">
                   {t('txt_move_to_folder')}
                 </span>
               </div>
-              {/* {selectedCards.length < 2 && ( */}
               <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                 onClick={downloadFile}
               >
                 <Suspense fallback={''}>
-                  <DownLoadIcon />
+                  <DownLoadIcon className="stroke-dark" />
                 </Suspense>
-                <span className="ms-3 text-color py-1 d-inline-block">
+                <span className="ms-3 text-gray-dark py-1 d-inline-block">
                   {t('txt_download_folder')}
                 </span>
               </div>
-              {/* )} */}
 
               <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center rounded-1 px-4 pb-3 text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
               >
                 <Suspense fallback={''}>
                   <DeleteIcon />
                 </Suspense>
-                <span className="ms-3 text-color py-1 d-inline-block text-danger">
-                  {t('txt_delete')}
-                </span>
+                <span className="ms-3 py-1 d-inline-block text-danger">{t('txt_delete')}</span>
               </div>
             </div>
           )}

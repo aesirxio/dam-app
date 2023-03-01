@@ -65,3 +65,15 @@
     height: 100%;
   }
 }
+.count {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 16px;
+  right: 16px;
+}
+.item_hover {
+  &:hover {
+    border: 1px solid $green;
+  }
+}

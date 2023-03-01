@@ -39,7 +39,6 @@ const MoveToFolder = observer(({ current = 0 }) => {
     () => selectedCards.filter((selectedItem) => !selectedItem?.[DAM_ASSETS_FIELD_KEY.TYPE]) ?? [],
     [selectedCards]
   );
-  console.log(isNoCollection);
   useEffect(() => {
     if (current) {
       const currentItem = collections.find((collection) => +collection.id === +current);

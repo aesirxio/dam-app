@@ -47,7 +47,6 @@ class HomeForm extends Component {
     if (this.validator.allValid()) {
       this.props.handleUpdate(this.formPropsData);
     } else {
-      console.log(123);
       this.validator.showMessages();
       // rerender to show messages for the first time
       this.forceUpdate();
@@ -67,7 +66,7 @@ class HomeForm extends Component {
             validation: 'required',
             required: true,
             className: 'col-12',
-            inputClassName: 'border bg-transparent fs-sm',
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME] = event.target.value;
               this.forceUpdate();
@@ -85,7 +84,7 @@ class HomeForm extends Component {
             className: `col-12  ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
-            inputClassName: 'border bg-transparent fs-sm',
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
             },
@@ -99,7 +98,7 @@ class HomeForm extends Component {
             className: `col-6 ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
-            inputClassName: 'bg-transparent border-0 p-0',
+            inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
             },
@@ -111,7 +110,7 @@ class HomeForm extends Component {
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] + ' kb',
             disabled: true,
             className: 'col-6',
-            inputClassName: 'bg-transparent border-0 p-0',
+            inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
             },
@@ -125,7 +124,7 @@ class HomeForm extends Component {
               moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format('DD MMM, YYYY'),
             disabled: true,
             className: 'col-6',
-            inputClassName: 'bg-transparent border-0 p-0',
+            inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
             changed: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
             },

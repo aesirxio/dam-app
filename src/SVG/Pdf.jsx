@@ -1,8 +1,15 @@
 import React from 'react';
 
-const Pdf = ({ fill = 'none' }) => {
+const Pdf = ({ fill = 'none', ...props }) => {
   return (
-    <svg width="22" height="24" viewBox="0 0 22 24" fill={fill} xmlns="http://www.w3.org/2000/svg">
+    <svg
+      {...props}
+      width="22"
+      height="24"
+      viewBox="0 0 22 24"
+      fill={fill}
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M2.18337 0H14.668L21.2857 6.72877V22.5003C21.2857 22.898 21.1309 23.2795 20.8554 23.5607C20.5798 23.842 20.2062 24 19.8165 24H2.18337C1.79373 24 1.42005 23.842 1.14453 23.5607C0.869016 23.2795 0.714233 22.898 0.714233 22.5003V1.49972C0.714233 1.10197 0.869016 0.720511 1.14453 0.439259C1.42005 0.158006 1.79373 0 2.18337 0V0Z"
         fill="#E2574C"

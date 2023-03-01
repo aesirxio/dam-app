@@ -201,17 +201,17 @@ const AesirXDamFormModal = observer(
               style={{ ...this.damListViewModel.actionState?.style }}
             >
               <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center px-4 py-3  text-decoration-none w-100`}
                 onClick={openModal}
               >
                 <Suspense fallback={''}>
-                  <PreviewIcon />
+                  <PreviewIcon className="stroke-dark" />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">{t('txt_preview')}</span>
               </div>
               {selectedCards.length < 2 && (
                 <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  className={`d-flex align-items-center px-4 py-3  text-decoration-none w-100`}
                   onClick={this.handleRename}
                 >
                   <Suspense fallback={''}>
@@ -221,11 +221,11 @@ const AesirXDamFormModal = observer(
                 </div>
               )}
               <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center px-4 py-3  text-decoration-none w-100`}
                 onClick={openMoveToFolder}
               >
                 <Suspense fallback={''}>
-                  <MoveFolderIcon />
+                  <MoveFolderIcon className="stroke-dark" />
                 </Suspense>
                 <span className="ms-3 text-color py-1 d-inline-block">
                   {t('txt_move_to_folder')}
@@ -233,11 +233,11 @@ const AesirXDamFormModal = observer(
               </div>
               {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] && (
                 <div
-                  className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                  className={`d-flex align-items-center px-4 py-3  text-decoration-none w-100`}
                   onClick={downloadFile}
                 >
                   <Suspense fallback={<div>Loading...</div>}>
-                    <DownLoadIcon />
+                    <DownLoadIcon className="stroke-dark" />
                   </Suspense>
                   <span className="ms-3 text-color py-1 d-inline-block">
                     {t('txt_download_folder')}
@@ -245,7 +245,7 @@ const AesirXDamFormModal = observer(
                 </div>
               )}
               <div
-                className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none w-100`}
+                className={`d-flex align-items-center px-4 py-3  text-decoration-none w-100`}
                 onClick={this.damFormModalViewModel.openDeleteModal}
               >
                 <Suspense fallback={''}>

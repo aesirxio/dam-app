@@ -2,50 +2,67 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-
 @import '../../scss/utils/bootstrap.scss';
 
-@include media-breakpoint-down(xxl) {
-  .sdbar_right {
-    width: 340px;
-  }
-
-  .pe-400 {
-    padding-right: 340px !important;
-  }
-}
-
-.home-modal {
-  .modal-content {
-    height: 80vh;
-    overflow: hidden;
-    padding-bottom: 1rem;
-  }
-  .modal-body {
-    height: calc(100% - 48px);
-    overflow: auto;
-  }
-}
-
-@include media-breakpoint-down(xl) {
-  .pe-400 {
-    padding-right: 15px !important;
-  }
-
-  .show_menu_right {
+.dam-integrate-layout {
+  @include media-breakpoint-down(xxl) {
     .sdbar_right {
-      right: 0 !important;
+      width: 340px;
+    }
+
+    .pe-400 {
+      padding-right: 340px !important;
     }
   }
 
-  .item_hambuger_icon {
-    display: flex !important;
-    width: 24px;
-    height: 24px;
-    right: 10px;
+  .home-modal {
+    .modal-content {
+      height: 80vh;
+      overflow: hidden;
+      padding-bottom: 1rem;
+    }
+    .modal-body {
+      height: calc(100% - 48px);
+      overflow: auto;
+    }
   }
 
-  .item_collap_fixed {
-    display: none !important;
+  @include media-breakpoint-down(xl) {
+    .pe-400 {
+      padding-right: 15px !important;
+    }
+
+    .show_menu_right {
+      .sdbar_right {
+        right: 0 !important;
+      }
+    }
+
+    .item_hambuger_icon {
+      display: flex !important;
+      width: 24px;
+      height: 24px;
+      right: 10px;
+    }
+
+    .item_collap_fixed {
+      display: none !important;
+    }
+  }
+}
+
+.dark #contextMenuItem {
+  > div:not(:last-child) {
+    svg {
+      path {
+        fill: $white;
+      }
+    }
+    .stroke-dark {
+      path {
+        stroke: #fff;
+        fill: transparent;
+      }
+    }
   }
 }
