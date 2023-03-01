@@ -14,6 +14,7 @@ class CollectionPage {
 		moveToFolderSpan: "//span[contains(text(),'Move to folder')]",
 		downloadFolderSpan: "//span[contains(text(),'Download Folder')]",
 		deleteSpan: "//span[contains(text(),'Delete')]",
+		deleteModal: "//div[@class='modal-content bg-white shadow']",
 		deleteMessage: 'Are you sure you want to delete this folder (including children and assets) ?',
 		deleteAssetMessage: 'Are you sure you want to delete this asset ?',
 		yesDeleteSpan: "//span[contains(text(),'Yes, Delete')]",
