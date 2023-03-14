@@ -21,6 +21,8 @@ import Search from 'components/Search';
 import SwitchThemes from 'components/SwitchThemes/index';
 import Select from 'components/Select/index';
 import styles from './index.module.scss';
+import i18n from 'translations/i18n';
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +34,7 @@ class Header extends React.Component {
   };
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     const listLanguages = Object.keys(i18n.options.resources).map(function (key) {
       return { value: key, label: i18n.options.resources[key].title };

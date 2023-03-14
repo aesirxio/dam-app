@@ -138,7 +138,7 @@ const Table = ({
           <div className="wrapper_search_global d-flex">
             <Select
               className={filterBar.className}
-              isShadow={false}
+              isShadow={true}
               isClearable={false}
               isSearchable={false}
               options={filterBar.options}
@@ -151,7 +151,7 @@ const Table = ({
             <ChooseAction />
             <Select
               className={sortBy.className}
-              isShadow={false}
+              isShadow={true}
               isClearable={false}
               isSearchable={false}
               options={sortBy.options}

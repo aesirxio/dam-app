@@ -58,7 +58,7 @@ i18n
     },
     lng: localStorage.getItem('i18nextLng') || 'en',
     fallbackLng: 'en',
-    debug: false,
+    debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
 
     // have a common namespace used around the full app
     ns: ['translations'],

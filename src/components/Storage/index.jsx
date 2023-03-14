@@ -17,7 +17,7 @@ const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
 };
 
-const Storage = ({ lang = 'en', theme = 'light' }) => {
+const Storage = ({ lang = 'en', theme = 'light', integration }) => {
   const [subscription, setSubscription] = useState(null);
   const { i18n, t } = useTranslation('common');
 
@@ -26,7 +26,12 @@ const Storage = ({ lang = 'en', theme = 'light' }) => {
       const store = new DamStore();
       const subscriptionFromLibrary = await store.getSubscription();
       if (subscriptionFromLibrary) {
-        setSubscription(subscriptionFromLibrary);
+        const damSubscirption = subscriptionFromLibrary.find((item) => {
+          if (item[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.type === 'product-aesirx-dam') {
+            return item;
+          }
+        });
+        setSubscription(damSubscirption);
       }
     } catch (error) {
       console.log(error);
@@ -38,9 +43,11 @@ const Storage = ({ lang = 'en', theme = 'light' }) => {
     if (!subscription) {
       getSubscription();
     }
-    i18n.changeLanguage(lang ?? 'en');
+    if (integration) {
+      i18n.changeLanguage(lang ?? 'en');
+    }
     return () => {};
-  }, [lang, i18n.language, subscription]);
+  }, [lang, i18n.language, subscription, integration]);
 
   return (
     <div className={`w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
@@ -54,20 +61,20 @@ const Storage = ({ lang = 'en', theme = 'light' }) => {
           role="progressbar"
           style={{
             width: `${calculatorPercentage(
-              subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+              subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
                 DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
               ],
-              subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+              subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
                 DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
               ]
             )}%`,
           }}
           aria-label="Basic example"
           aria-valuenow={calculatorPercentage(
-            subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+            subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
               DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
             ],
-            subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+            subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
               DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
             ]
           )}
@@ -77,17 +84,25 @@ const Storage = ({ lang = 'en', theme = 'light' }) => {
       </div>
       <p className="mb-0 d-flex flex-wrap ">
         <span className="text-white fs-14">
-          {subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+          {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
             DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
-          ] ?? 0}
+          ]
+            ? subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
+                DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
+              ]
+            : 0}
           {'MB '}
           {t('txt_of')}{' '}
-          {subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+          {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
             DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
-          ] ?? 0}
+          ]
+            ? subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+                DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
+              ]
+            : 0}
           {'MB '}
           {t('txt_used')}
-          {/* {subscription?.[0]?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+          {/* {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
               DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
             ] ?? 'Unlimited'} */}
         </span>
