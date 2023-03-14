@@ -26,7 +26,7 @@ i18n
         title: 'English',
         common: common_en,
       },
-      de: {
+      da: {
         title: 'Dansk',
         common: common_dk,
       },
