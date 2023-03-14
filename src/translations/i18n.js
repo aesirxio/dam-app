@@ -26,7 +26,7 @@ i18n
         title: 'English',
         common: common_en,
       },
-      dk: {
+      de: {
         title: 'Dansk',
         common: common_dk,
       },
@@ -42,7 +42,7 @@ i18n
         title: 'Croatian',
         common: common_hr,
       },
-      ua: {
+      uk: {
         title: 'Yкраїнська',
         common: common_ua,
       },
@@ -50,7 +50,6 @@ i18n
         title: 'Français',
         common: common_fr,
       },
-
       es: {
         title: 'Español',
         common: common_es,
