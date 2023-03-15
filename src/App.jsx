@@ -8,6 +8,7 @@ import React from 'react';
 import './fonts/fontface.scss';
 
 import './scss/app.scss';
+import './themes/index.scss';
 import RouterLayout from './layouts/RouterLayout';
 import ErrorBoundary from './layouts/ErrorBoundary';
 import i18n from 'translations/i18n';

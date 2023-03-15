@@ -274,12 +274,10 @@ $form-check-radio-checked-color: $success;
 $form-check-input-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$form-check-input-checked-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>") !default;
 $form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$form-check-radio-checked-color}'/></svg>") !default;
 
-// for react-select
-:root {
-  --dropdown-item-hover-color: $green;
-  // --dropdown-item-hover-bg: #e8e9ec;
-  --view-active-bg: $gray-select;
-  --text-title-color: $color-blue;
-  --dropdown-bg: $white;
-  --dropdown-item-color: $color-blue;
+.light {
+  --view-active-bg-dam: #e8e9ec;
+  --text-title-color-dam: #081240;
+  --dropdown-bg-dam: #fff;
+  --dropdown-item-color-dam: #081240;
+  --select-border-dam: #e8e9ec;
 }
