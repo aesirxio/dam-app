@@ -43,6 +43,9 @@ $utilities: map-merge(
     'background-color': (
       property: background-color,
       class: bg,
+      local-vars: (
+        'bg-opacity': 1,
+      ),
       values:
         map-merge(
           $theme-colors,

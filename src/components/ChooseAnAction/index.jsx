@@ -97,7 +97,7 @@ const ChooseAction = observer(() => {
           id="dropdown-custom-components position-relative pe-none"
         ></Dropdown.Toggle>
         <Dropdown.Menu
-          className={`shadow-sm bg-select-control-background border-0 rounded-0 rounded-bottom w-100 ${styles.border_top}`}
+          className={`shadow-sm bg-select-control-background border border-gray-select rounded-0 rounded-bottom w-100 ${styles.border_top}`}
         >
           <ul className="list-unstyled ps-0 mb-0 list_menu_avatar">
             {Action.options.map((value, index) => {

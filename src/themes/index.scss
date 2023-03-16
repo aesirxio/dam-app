@@ -260,6 +260,12 @@
 
   @import '../../node_modules/bootstrap/scss/utilities/api';
 
+  --view-active-bg-dam: #0f1314 !important;
+  --text-title-color-dam: #fff !important;
+  --dropdown-bg-dam: #0f1314 !important;
+  --dropdown-item-color-dam: #fff !important;
+  --select-border-dam: #3e545e !important;
+
   ::-webkit-scrollbar {
     width: 5px;
     height: 5px;

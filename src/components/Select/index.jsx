@@ -17,10 +17,8 @@ class SelectComponent extends React.Component {
     super(props);
   }
 
-  componentDidMount() {}
   render() {
-    const { t } = this.props;
-    let { isBorder, async, placeholder, isShadow, isBackGround } = this.props;
+    const { t, isBorder, async, placeholder, isShadow, isBackGround } = this.props;
     let customStyle = customStyles(isBorder, isShadow, isBackGround);
     if (async) {
       return (
