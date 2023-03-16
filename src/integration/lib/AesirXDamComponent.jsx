@@ -364,9 +364,12 @@ const AesirXDamComponent = observer(
                   >
                     <CollectionName item={row.original} />
                     <span className="text-gray">
-                      {moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                        'DD MMM, YYYY'
-                      )}
+                      {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
+                        ? !this.damListViewModel.isList &&
+                          moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
+                            'DD MMM, YYYY'
+                          )
+                        : null}
                     </span>
                   </span>
                 </div>
@@ -433,7 +436,13 @@ const AesirXDamComponent = observer(
           Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
-            <>{moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format('DD MMM, YYYY')}</>
+            <>
+              {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
+                ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
+                    'DD MMM, YYYY'
+                  )
+                : null}
+            </>
           ),
         },
       ];
