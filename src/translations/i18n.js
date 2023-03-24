@@ -23,34 +23,42 @@ i18n
     // we init with resources
     resources: {
       en: {
+        icon: '/assets/flag-icons/gb.svg',
         title: 'English',
         common: common_en,
       },
       da: {
+        icon: '/assets/flag-icons/dk.svg',
         title: 'Dansk',
         common: common_dk,
       },
       vi: {
+        icon: '/assets/flag-icons/vn.svg',
         title: 'Tiếng Việt',
         common: common_vn,
       },
       th: {
+        icon: '/assets/flag-icons/th.svg',
         title: 'ภาษาไทย',
         common: common_th,
       },
       hr: {
-        title: 'Croatian',
+        icon: '/assets/flag-icons/hr.svg',
+        title: 'Hrvatski',
         common: common_hr,
       },
       uk: {
+        icon: '/assets/flag-icons/ua.svg',
         title: 'Yкраїнська',
         common: common_ua,
       },
       fr: {
+        icon: '/assets/flag-icons/fr.svg',
         title: 'Français',
         common: common_fr,
       },
       es: {
+        icon: '/assets/flag-icons/es.svg',
         title: 'Español',
         common: common_es,
       },
