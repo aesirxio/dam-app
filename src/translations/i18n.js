@@ -16,58 +16,63 @@ import common_ua from './ua/common.json';
 import common_fr from './fr/common.json';
 import common_es from './es/common.json';
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    // we init with resources
-    resources: {
-      en: {
-        title: 'English',
-        common: common_en,
-      },
-      da: {
-        title: 'Dansk',
-        common: common_dk,
-      },
-      vi: {
-        title: 'Tiếng Việt',
-        common: common_vn,
-      },
-      th: {
-        title: 'ภาษาไทย',
-        common: common_th,
-      },
-      hr: {
-        title: 'Hrvatski',
-        common: common_hr,
-      },
-      uk: {
-        title: 'Yкраїнська',
-        common: common_ua,
-      },
-      fr: {
-        title: 'Français',
-        common: common_fr,
-      },
-      es: {
-        title: 'Español',
-        common: common_es,
-      },
-    },
-    lng: localStorage.getItem('i18nextLng') || 'en',
-    fallbackLng: 'en',
-    debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
+console.log('aa', i18n.isInitialized);
 
-    // have a common namespace used around the full app
-    ns: ['translations'],
-    defaultNS: 'translations',
+if (i18n.isInitialized) {
+  i18n.addResourceBundle('en', 'dam', common_en);
+} else {
+  i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      // we init with resources
+      resources: {
+        en: {
+          title: 'English',
+          dam: common_en,
+        },
+        da: {
+          title: 'Dansk',
+          dam: common_dk,
+        },
+        vi: {
+          title: 'Tiếng Việt',
+          dam: common_vn,
+        },
+        th: {
+          title: 'ภาษาไทย',
+          dam: common_th,
+        },
+        hr: {
+          title: 'Hrvatski',
+          dam: common_hr,
+        },
+        uk: {
+          title: 'Yкраїнська',
+          dam: common_ua,
+        },
+        fr: {
+          title: 'Français',
+          dam: common_fr,
+        },
+        es: {
+          title: 'Español',
+          dam: common_es,
+        },
+      },
+      lng: localStorage.getItem('i18nextLng') || 'en',
+      fallbackLng: 'en',
+      debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
 
-    keySeparator: false, // we use content as keys
+      // have a common namespace used around the full app
+      ns: ['translations'],
+      defaultNS: 'translations',
 
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+      keySeparator: false, // we use content as keys
 
+      interpolation: {
+        escapeValue: false,
+      },
+    });
+}
 export default i18n;

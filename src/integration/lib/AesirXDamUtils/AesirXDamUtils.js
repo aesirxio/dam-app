@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 
 const Xlsx = React.lazy(() => import('SVG/Xlsx'));
 const Word = React.lazy(() => import('SVG/Word'));

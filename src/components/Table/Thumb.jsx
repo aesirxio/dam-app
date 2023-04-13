@@ -6,7 +6,7 @@
 import React, { useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useDrag, useDrop } from 'react-dnd';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
 import styles from './index.module.scss';

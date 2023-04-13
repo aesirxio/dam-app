@@ -10,7 +10,7 @@ import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
@@ -523,4 +523,4 @@ const HomeList = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withDamViewModel(HomeList)));
+export default withTranslation('dam')(withRouter(withDamViewModel(HomeList)));

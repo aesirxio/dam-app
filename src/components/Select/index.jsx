@@ -45,4 +45,4 @@ SelectComponent.defaultProps = {
   async: false,
   isMulti: false,
 };
-export default withTranslation('common')(withThemeContext(SelectComponent));
+export default withTranslation('dam')(withThemeContext(SelectComponent));

@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { DAM_ASSETS_API_FIELD_KEY, DAM_COLLECTION_API_RESPONSE_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_API_FIELD_KEY, DAM_COLLECTION_API_RESPONSE_FIELD_KEY } from 'aesirx-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
@@ -111,4 +111,4 @@ const AesirXDamActionBar = observer(
     }
   }
 );
-export default withTranslation('common')(withDamViewModel(AesirXDamActionBar));
+export default withTranslation('dam')(withDamViewModel(AesirXDamActionBar));

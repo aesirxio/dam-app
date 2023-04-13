@@ -10,7 +10,7 @@ import './index.scss';
 
 import ComponentImage from 'components/ComponentImage';
 
-import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
 
 const calculatorPercentage = (a, b) => {
@@ -19,7 +19,7 @@ const calculatorPercentage = (a, b) => {
 
 const Storage = ({ lang = 'en', theme = 'light', integration }) => {
   const [subscription, setSubscription] = useState(null);
-  const { i18n, t } = useTranslation('common');
+  const { i18n, t } = useTranslation('dam');
 
   const getSubscription = async () => {
     try {

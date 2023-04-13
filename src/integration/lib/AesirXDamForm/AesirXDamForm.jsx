@@ -9,12 +9,11 @@ import SimpleReactValidator from 'simple-react-validator';
 
 import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
 
-import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
 import PAGE_STATUS from 'constants/PageStatus';
 import { renderingGroupFieldHandler } from 'utils/form';
 import utils from '../AesirXDamUtils/AesirXDamUtils';
-import styles from '../index.module.scss';
 import moment from 'moment';
 
 const Folder = React.lazy(() => import('SVG/Folder'));
@@ -156,9 +155,7 @@ class AesirDamForm extends Component {
                 onClick={this.props.delete}
                 className="btn-outline-gray-300 h-48px bg-white text-danger "
               />
-              <div
-                className={`d-flex align-items-center justify-content-center ${styles.popupImageHeight}`}
-              >
+              <div className={`d-flex align-items-center justify-content-center popupImageHeight`}>
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                   <Folder />
                 ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
@@ -208,4 +205,4 @@ class AesirDamForm extends Component {
   }
 }
 
-export default withTranslation('common')(AesirDamForm);
+export default withTranslation('dam')(AesirDamForm);

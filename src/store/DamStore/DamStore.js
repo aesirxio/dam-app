@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { AesirxDamApiService, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { AesirxDamApiService, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { runInAction } from 'mobx';
 import DamUtils from './DamUtils';
 import { saveAs } from 'file-saver';

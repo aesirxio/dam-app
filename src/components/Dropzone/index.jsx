@@ -14,7 +14,7 @@ import CloudUpload from 'SVG/CloudUpload';
 
 const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, noDrag = true }) => {
   const [onDrag, setOnDrag] = useState(false);
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
   const { getRootProps, getInputProps } = useDropzone({
     // accept: '*',
     noClick: noClick,

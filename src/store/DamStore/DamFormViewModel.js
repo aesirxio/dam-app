@@ -7,7 +7,7 @@ import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 import { notify } from 'components/Toast';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';

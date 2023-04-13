@@ -9,6 +9,7 @@ const customStyles = (isBorder, isShadow = true, isBackGround = false) => {
       return {
         ...provided,
         minHeight: 50,
+        minWidth: 100,
         boxShadow: isShadow ? '0 3px 5px rgb(0 0 0 / 5%)' : 'none',
         borderColor: isBorder ? 'var(--select-border-dam)' : 'transparent',
         '&:hover': {

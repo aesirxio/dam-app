@@ -11,7 +11,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import styles from './index.module.scss';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 
 let moveToFolder_timer = 0;
 let moveToFolder_delay = 200;
@@ -28,7 +28,7 @@ const MoveToFolder = observer(({ current = 0 }) => {
     },
     damFormViewModel: { closeMoveToFolder },
   } = useDamViewModel();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
 
   const mapDataSelectCards = useMemo(
     () => selectedCards.map((selectedItem) => +selectedItem?.id) ?? [],
