@@ -94,7 +94,6 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-react-css-modules": "^5.2.6",
     "craco": "^0.0.3",
-    "esbuild-css-modules-plugin": "^2.7.1",
     "esbuild-sass-plugin": "^2.8.0",
     "esbuild-scss-modules-plugin": "^1.1.1",
     "eslint": "^8.17",
