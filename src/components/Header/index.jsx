@@ -102,4 +102,4 @@ class Header extends React.Component {
   }
 }
 
-export default withTranslation('common')(Header);
+export default withTranslation('dam')(Header);

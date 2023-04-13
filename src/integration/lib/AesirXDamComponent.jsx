@@ -9,7 +9,7 @@ import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import ComponentImage from 'components/ComponentImage';
@@ -18,7 +18,6 @@ import Spinner from 'components/Spinner';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import PAGE_STATUS from 'constants/PageStatus';
-import styles from './index.module.scss';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
@@ -351,7 +350,7 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <div className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}>
+                  <div className={`${this.damListViewModel.isList ? '' : 'folder'} pe-none`}>
                     <Folder />
                   </div>
                   <span
@@ -382,9 +381,7 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <span
-                    className={this.damListViewModel.isList ? styles.image_isList : styles.image}
-                  >
+                  <span className={this.damListViewModel.isList ? 'image_isList' : 'image'}>
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <ComponentImage
                         wrapperClassName="w-100 h-100 pe-none"
@@ -522,4 +519,4 @@ const AesirXDamComponent = observer(
   }
 );
 
-export default withTranslation('common')(withDamViewModel(AesirXDamComponent));
+export default withTranslation('dam')(withDamViewModel(AesirXDamComponent));

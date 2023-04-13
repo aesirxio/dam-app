@@ -6,7 +6,7 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -45,7 +45,7 @@ const Table = ({
   onSelectionChange,
   // dataAssets,
 }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
 
   const columns = useMemo(() => tableRowHeader, [tableRowHeader]);
 
@@ -395,4 +395,4 @@ function filterGreaterThan(rows, id, filterValue) {
 
 filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
 
-export default withTranslation('common')(Table);
+export default withTranslation('dam')(Table);

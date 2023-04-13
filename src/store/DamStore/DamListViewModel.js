@@ -10,7 +10,7 @@ import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 
 class DamListViewModel {
   damStore = null;

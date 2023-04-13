@@ -8,7 +8,7 @@ import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import styles from './index.module.scss';
 // eslint-disable-next-line react/display-name
 const CustomToggle = React.forwardRef(({ onClick }, ref) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
 
   return (
     <div
@@ -30,7 +30,7 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
 });
 
 const ChooseAction = observer(() => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
   const { openDeleteModal, openMoveToFolder, downloadFile } =
     useDamViewModel().getDamFormViewModel();
   const { setActionState } = useDamViewModel().getDamListViewModel();

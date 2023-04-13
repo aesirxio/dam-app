@@ -17,7 +17,7 @@ const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
 
 const AesirXDamLayout = ({ lang = 'en', theme = 'light', ...props }) => {
-  const { i18n } = useTranslation('common');
+  const { i18n } = useTranslation('dam');
   useEffect(() => {
     i18n.changeLanguage(lang ?? 'en');
     return () => {};

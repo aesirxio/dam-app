@@ -14,7 +14,7 @@ import ProfileStore from './ProfileStore/ProfileStore';
 import ProfileViewModel from './ProfileViewModel/ProfileViewModel';
 import { ProfileViewModelContextProvider } from './ProfileViewModel/ProfileViewModelContextProvider';
 
-import { AUTHORIZATION_KEY, Storage } from 'aesirx-dma-lib';
+import { AUTHORIZATION_KEY, Storage } from 'aesirx-lib';
 
 const profileStore = new ProfileStore();
 const profileViewModel = new ProfileViewModel(profileStore);
@@ -101,4 +101,4 @@ const ProfilePage = observer(
   }
 );
 
-export default withTranslation('common')(ProfilePage);
+export default withTranslation('dam')(ProfilePage);

@@ -14,7 +14,7 @@ import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 import history from 'routes/history';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
@@ -315,4 +315,4 @@ const HomeFormModal = observer(
   }
 );
 
-export default withTranslation('common')(withDamViewModel(HomeFormModal));
+export default withTranslation('dam')(withDamViewModel(HomeFormModal));

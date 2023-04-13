@@ -9,7 +9,7 @@ import SimpleReactValidator from 'simple-react-validator';
 
 import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
 
-import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import Button from 'components/Button';
 import ComponentImage from 'components/ComponentImage';
 import { withTranslation } from 'react-i18next';
@@ -214,4 +214,4 @@ class HomeForm extends Component {
   }
 }
 
-export default withTranslation('common')(HomeForm);
+export default withTranslation('dam')(HomeForm);

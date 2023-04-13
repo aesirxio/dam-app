@@ -14,11 +14,10 @@ import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from '../index.module.scss';
 
 const MoveToFolder = React.lazy(() => import('components/MoveToFolder'));
 const Button = React.lazy(() => import('components/Button'));
@@ -172,7 +171,7 @@ const AesirXDamFormModal = observer(
               <div className="item_thumb d-flex bg-white shadow-sm rounded-2  flex-column">
                 <Dropzone createAssets={this.handleCreateAssets}>
                   <div
-                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer ${styles.txt_hover}`}
+                    className={`d-flex align-items-center rounded-1 px-3 py-2 mb-1  text-decoration-none cursor-pointer txt_hover`}
                   >
                     <FontAwesomeIcon
                       icon={faCloudUploadAlt}
@@ -315,4 +314,4 @@ const AesirXDamFormModal = observer(
   }
 );
 
-export default withTranslation('common')(withDamViewModel(AesirXDamFormModal));
+export default withTranslation('dam')(withDamViewModel(AesirXDamFormModal));

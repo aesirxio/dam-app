@@ -47,4 +47,4 @@ class SbarLeft extends React.Component {
   }
 }
 
-export default withTranslation('common')(SbarLeft);
+export default withTranslation('dam')(SbarLeft);
