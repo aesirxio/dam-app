@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
 import DamViewModel from 'store/DamStore/DamViewModel';
@@ -11,18 +11,11 @@ import DamStore from 'store/DamStore/DamStore';
 
 import AesirXDamComponent from './AesirXDamComponent';
 import AesirXDamActionBar from './AesirXDamForm/AesirXDamActionBar';
-import { useTranslation } from 'react-i18next';
 
 const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
 
-const AesirXDamLayout = ({ lang = 'en', theme = 'light', ...props }) => {
-  const { i18n } = useTranslation('dam');
-  useEffect(() => {
-    i18n.changeLanguage(lang ?? 'en');
-    return () => {};
-  }, [lang, i18n.language]);
-
+const AesirXDamLayout = ({ theme = 'light', ...props }) => {
   return (
     <div className="container-fluid h-100 dam-integrate-layout">
       <div className={`row h-100 ${theme ?? 'light'}`}>

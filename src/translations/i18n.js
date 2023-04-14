@@ -16,50 +16,52 @@ import common_ua from './ua/common.json';
 import common_fr from './fr/common.json';
 import common_es from './es/common.json';
 
-console.log('aa', i18n.isInitialized);
+const listLanguages = {
+  en: {
+    title: 'English',
+    dam: common_en,
+  },
+  da: {
+    title: 'Dansk',
+    dam: common_dk,
+  },
+  vi: {
+    title: 'Tiếng Việt',
+    dam: common_vn,
+  },
+  th: {
+    title: 'ภาษาไทย',
+    dam: common_th,
+  },
+  hr: {
+    title: 'Hrvatski',
+    dam: common_hr,
+  },
+  uk: {
+    title: 'Yкраїнська',
+    dam: common_ua,
+  },
+  fr: {
+    title: 'Français',
+    dam: common_fr,
+  },
+  es: {
+    title: 'Español',
+    dam: common_es,
+  },
+};
 
 if (i18n.isInitialized) {
-  i18n.addResourceBundle('en', 'dam', common_en);
+  Object.entries(listLanguages).forEach(([key, val]) => {
+    i18n.addResourceBundle(key, 'dam', val.dam);
+  });
 } else {
   i18n
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
       // we init with resources
-      resources: {
-        en: {
-          title: 'English',
-          dam: common_en,
-        },
-        da: {
-          title: 'Dansk',
-          dam: common_dk,
-        },
-        vi: {
-          title: 'Tiếng Việt',
-          dam: common_vn,
-        },
-        th: {
-          title: 'ภาษาไทย',
-          dam: common_th,
-        },
-        hr: {
-          title: 'Hrvatski',
-          dam: common_hr,
-        },
-        uk: {
-          title: 'Yкраїнська',
-          dam: common_ua,
-        },
-        fr: {
-          title: 'Français',
-          dam: common_fr,
-        },
-        es: {
-          title: 'Español',
-          dam: common_es,
-        },
-      },
+      resources: listLanguages,
       lng: localStorage.getItem('i18nextLng') || 'en',
       fallbackLng: 'en',
       debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',

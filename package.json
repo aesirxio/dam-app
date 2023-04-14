@@ -12,7 +12,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "aesirx-lib": "https://gitpkg.now.sh/aesirxio/aesirx-lib?develop&scripts.postinstall=yarn%20install%20--ignore-scripts%20%26%26%20yarn%20build",
+    "aesirx-lib": "^1.9.1",
     "aesirx-sso": "^1.0.6",
     "babel-plugin-file-loader": "^2.0.0",
     "bootstrap": "^5.2.2",
@@ -44,7 +44,6 @@
     "react-toastify": "^9.0.8",
     "react-transition-group": "^4.4.2",
     "simple-react-validator": "^1.6.0",
-    "swiper": "^6.3.5",
     "web-vitals": "^2.1.4"
   },
   "peerDependencies": {
@@ -60,6 +59,7 @@
     "lint:check": "eslint \"src/**/\"",
     "lint:nowarns": "eslint --quiet \"src/**/\"",
     "build:lib": "NODE_ENV=production tsup",
+    "dev:lib": "NODE_ENV=development tsup --watch --onSuccess 'yalc push --changed --no-scripts'",
     "prepublishOnly": "yarn build:lib",
     "format:check": "prettier --check 'src/**/*.{js,jsx,ts,tsx}'",
     "format:write": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
@@ -106,7 +106,6 @@
     "url": "^0.11.0"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ]
 }
