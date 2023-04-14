@@ -51,31 +51,30 @@ const listLanguages = {
   },
 };
 
-i18n.use(LanguageDetector).use(initReactI18next);
-
 if (i18n.isInitialized) {
   Object.entries(listLanguages).forEach(([key, val]) => {
     i18n.addResourceBundle(key, 'dam', val.dam);
   });
 } else {
-  i18n.init({
-    // we init with resources
-    resources: {
-      listLanguages,
-    },
-    lng: localStorage.getItem('i18nextLng') || 'en',
-    fallbackLng: 'en',
-    debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
+  i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      // we init with resources
+      resources: listLanguages,
+      lng: localStorage.getItem('i18nextLng') || 'en',
+      fallbackLng: 'en',
+      debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
 
-    // have a common namespace used around the full app
-    ns: ['translations'],
-    defaultNS: 'translations',
+      // have a common namespace used around the full app
+      ns: ['translations'],
+      defaultNS: 'translations',
 
-    keySeparator: false, // we use content as keys
+      keySeparator: false, // we use content as keys
 
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+      interpolation: {
+        escapeValue: false,
+      },
+    });
 }
 export default i18n;

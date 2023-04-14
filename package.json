@@ -44,7 +44,6 @@
     "react-toastify": "^9.0.8",
     "react-transition-group": "^4.4.2",
     "simple-react-validator": "^1.6.0",
-    "swiper": "^6.3.5",
     "web-vitals": "^2.1.4"
   },
   "peerDependencies": {
