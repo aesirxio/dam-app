@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
 
-import { FORM_FIELD_TYPE } from '../../../constants/FormFieldType';
+import { FORM_FIELD_TYPE } from 'aesirx-lib/dist/Constant/FormFieldType';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import Button from 'components/Button';

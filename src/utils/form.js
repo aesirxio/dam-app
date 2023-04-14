@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { FORM_FIELD_TYPE } from '../constants/FormFieldType';
+import { FORM_FIELD_TYPE } from 'aesirx-lib/dist/Constant/FormFieldType';
 import { Form } from 'react-bootstrap';
 
 const Label = React.lazy(() => import('../components/Form/Label'));
 const FormAgeField = React.lazy(() => import('../components/Form/FormAgeField'));
-const FormLocationField = React.lazy(() => import('../components/Form/FormLocationField'));
+
 const FormDateRangePicker = React.lazy(() => import('../components/Form/FormDateRangePicker'));
 const CustomizedDatePicker = React.lazy(() => import('../components/DatePicker'));
 const FormImage = React.lazy(() => import('../components/Form/FormImage'));
@@ -174,14 +174,6 @@ const renderingGroupFieldHandler = (group, validator) => {
                     validator.message(field.label, field.valueFrom, field.validation, {
                       className: 'text-danger',
                     })}
-                </Form.Group>
-              );
-
-            case FORM_FIELD_TYPE.LOCATION:
-              return (
-                <Form.Group key={Math.random(40, 200)} className={`mb-3 ${className}`}>
-                  <Label text={field.label} required={field.required ?? false} />
-                  <FormLocationField field={field} validator={validator} />
                 </Form.Group>
               );
 

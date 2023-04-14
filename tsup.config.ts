@@ -1,4 +1,4 @@
-import { Options, defineConfig } from 'tsup';
+import { Options } from 'tsup';
 import { sassPlugin } from 'esbuild-sass-plugin';
 import { ScssModulesPlugin } from 'esbuild-scss-modules-plugin';
 

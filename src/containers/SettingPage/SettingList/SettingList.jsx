@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 
 import Button from 'components/Button';
-import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
+import { FORM_FIELD_TYPE } from 'aesirx-lib/dist/Constant/FormFieldType';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import SimpleReactValidator from 'simple-react-validator';
@@ -75,10 +75,10 @@ class SettingList extends Component {
                   label: 'AesirX',
                   value: 'aesirx',
                 },
-                {
-                  label: 'AWS',
-                  value: 'aws',
-                },
+                // {
+                //   label: 'AWS',
+                //   value: 'aws',
+                // },
               ],
               required: true,
               validation: 'required',
@@ -164,10 +164,10 @@ class SettingList extends Component {
                 label: 'AesirX',
                 value: 'aesirx',
               },
-              {
-                label: 'AWS',
-                value: 'aws',
-              },
+              // {
+              //   label: 'AWS',
+              //   value: 'aws',
+              // },
             ],
             required: true,
             validation: 'required',

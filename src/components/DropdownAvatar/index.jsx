@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 import { logout } from '../../auth';
-import Helper from '../../utils/helper';
+import { Helper } from 'aesirx-lib';
 import ComponentImage from '../ComponentImage';
 import styles from './index.module.scss';
 const data = [

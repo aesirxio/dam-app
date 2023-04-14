@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-// import postMessage from '../../utils/slack';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -14,14 +13,13 @@ class ErrorBoundary extends React.Component {
   static getDerivedStateFromError() {
     return { hasError: true };
   }
-  // componentDidCatch(error, errorInfo) {
-  //   postMessage(error, errorInfo);
-  // }
+
   render() {
     if (this.state.hasError) {
       return <h1>Something went wrong.</h1>;
     }
 
+    // eslint-disable-next-line react/prop-types
     return this.props.children;
   }
 }
