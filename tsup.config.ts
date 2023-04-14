@@ -1,4 +1,4 @@
-import type { Options } from 'tsup';
+import { Options, defineConfig } from 'tsup';
 import { sassPlugin } from 'esbuild-sass-plugin';
 import { ScssModulesPlugin } from 'esbuild-scss-modules-plugin';
 
@@ -8,7 +8,6 @@ export const tsup: Options = {
   clean: true,
   format: ['esm'],
   minify: env === 'production',
-  watch: env === 'development',
   outDir: 'dist',
   entry: ['src/integration/index.js'],
   outExtension() {
