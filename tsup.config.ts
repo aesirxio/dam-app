@@ -7,7 +7,7 @@ const env = process.env.NODE_ENV;
 export const tsup: Options = {
   clean: true,
   format: ['esm'],
-  //minify: env === 'production',
+  minify: env === 'production',
   watch: env === 'development',
   outDir: 'dist',
   entry: ['src/integration/index.js'],
