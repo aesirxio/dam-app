@@ -111,4 +111,4 @@ const AesirXDamActionBar = observer(
     }
   }
 );
-export default withTranslation('dam')(withDamViewModel(AesirXDamActionBar));
+export default withTranslation()(withDamViewModel(AesirXDamActionBar));

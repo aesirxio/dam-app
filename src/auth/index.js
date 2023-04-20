@@ -3,8 +3,8 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import history from '../routes/history';
-import { notify } from '../components/Toast';
+import { history, notify } from 'aesirx-uikit';
+
 import {
   AesirxAuthenticationApiService,
   AUTHORIZATION_KEY,

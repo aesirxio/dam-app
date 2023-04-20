@@ -19,7 +19,7 @@ const calculatorPercentage = (a, b) => {
 
 const Storage = ({ lang = 'en', theme = 'light', integration }) => {
   const [subscription, setSubscription] = useState(null);
-  const { i18n, t } = useTranslation('dam');
+  const { i18n, t } = useTranslation();
 
   const getSubscription = async () => {
     try {

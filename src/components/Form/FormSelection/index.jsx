@@ -5,7 +5,8 @@
 
 import React, { Component } from 'react';
 
-import SelectComponent from '../../../components/Select';
+import { AesirXSelect } from 'aesirx-uikit';
+
 import './index.scss';
 
 class FormSelection extends Component {
@@ -17,7 +18,7 @@ class FormSelection extends Component {
 
   render() {
     return (
-      <SelectComponent
+      <AesirXSelect
         value={this.field.getValueSelected}
         options={this.field.getDataSelectOptions}
         className="mb-3 text-danger"

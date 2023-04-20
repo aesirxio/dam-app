@@ -1,6 +1,6 @@
 import React from 'react';
 import AesirXDam from 'integration/lib';
-import ModalComponent from 'components/Modal';
+import { ModalComponent } from 'aesirx-uikit';
 import './index.scss';
 function ModalDAMComponent({ show, onHide, onSelect }) {
   return (

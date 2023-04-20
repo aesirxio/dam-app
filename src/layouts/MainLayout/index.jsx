@@ -8,7 +8,7 @@ import React, { Suspense } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { mainRoutes } from '../../routes/routes';
 
-import Spinner from '../../components/Spinner';
+import { Spinner } from 'aesirx-uikit';
 import Header from '../../components/Header';
 import SbarLeft from '../../components/SbarLeft';
 import { isLogin } from '../../auth';

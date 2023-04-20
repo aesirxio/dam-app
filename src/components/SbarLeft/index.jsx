@@ -37,14 +37,10 @@ class SbarLeft extends React.Component {
 
         <div className="position-absolute d-flex flex-wrap align-items-center bottom-0 mb-1 border-top border-gray-700 w-100 py-1 button-language ">
           <Storage />
-          {/* <a href="/" className="d-flex align-items-center py-2 px-3">
-              <ComponentImage src="/assets/images/help-icon.svg" />
-              <span className="text-white ps-3">{t('txt_help_center')}</span>
-            </a> */}
         </div>
       </aside>
     );
   }
 }
 
-export default withTranslation('dam')(SbarLeft);
+export default withTranslation()(SbarLeft);

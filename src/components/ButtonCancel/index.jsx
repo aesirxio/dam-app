@@ -28,4 +28,4 @@ class ButtonCancel extends React.Component {
   }
 }
 
-export default withTranslation('dam')(ButtonCancel);
+export default withTranslation()(ButtonCancel);

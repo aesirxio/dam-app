@@ -7,15 +7,14 @@ import React, { Component } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
 
-import { FORM_FIELD_TYPE } from 'aesirx-lib/dist/Constant/FormFieldType';
+import { FORM_FIELD_TYPE, renderingGroupFieldHandler } from 'aesirx-uikit';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import Button from 'components/Button';
 import ComponentImage from 'components/ComponentImage';
 import { withTranslation } from 'react-i18next';
-import Spinner from '../../../components/Spinner';
+import { Spinner } from 'aesirx-uikit';
 import PAGE_STATUS from '../../../constants/PageStatus';
-import { renderingGroupFieldHandler } from '../../../utils/form';
 import utils from '../HomeUtils/HomeUtils';
 import styles from '../index.module.scss';
 import moment from 'moment';
@@ -214,4 +213,4 @@ class HomeForm extends Component {
   }
 }
 
-export default withTranslation('dam')(HomeForm);
+export default withTranslation()(HomeForm);

@@ -101,4 +101,4 @@ const ProfilePage = observer(
   }
 );
 
-export default withTranslation('dam')(ProfilePage);
+export default withTranslation()(ProfilePage);

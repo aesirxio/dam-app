@@ -7,7 +7,7 @@ import React, { useState, lazy } from 'react';
 
 import { Form } from 'react-bootstrap';
 
-import { FORMAT_DATE } from 'aesirx-lib/dist/Constant/FormFieldType';
+import { FORMAT_DATE } from 'aesirx-lib';
 import Label from '../Label';
 
 import 'react-datepicker/dist/react-datepicker.css';

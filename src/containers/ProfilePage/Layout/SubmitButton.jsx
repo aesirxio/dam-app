@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 const SubmitButton = ({ validateInfoBeforeSending }) => {
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -50,4 +50,4 @@ const SubmitButton = ({ validateInfoBeforeSending }) => {
   );
 };
 
-export default withTranslation('dam')(SubmitButton);
+export default withTranslation()(SubmitButton);

@@ -12,7 +12,7 @@ import { UPDATE_GENERAL_FIELD_KEY } from 'constants/ProfileModule';
 import ModalDAMComponent from 'components/ModalDamComponent';
 
 const AvatarDAM = ({ formPropsData, avatarOnSelectHandler }) => {
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
 
   const [show, setShow] = useState(false);
 

@@ -4,7 +4,7 @@
  */
 
 import React, { Suspense } from 'react';
-import Spinner from '../../components/Spinner';
+import { Spinner } from 'aesirx-uikit';
 
 import SettingStore from './SettingStore/SettingStore';
 
@@ -35,4 +35,4 @@ const HomePage = (props) => {
   );
 };
 
-export default withTranslation('dam')(HomePage);
+export default withTranslation()(HomePage);

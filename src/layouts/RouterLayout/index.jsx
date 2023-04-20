@@ -14,7 +14,7 @@ import SettingLayout from '../SettingLayout';
 
 import history from '../../routes/history';
 
-import { Toast } from '../../components/Toast';
+import { Toast } from '../../aesirx-uikit';
 import NotFound from '../../containers/NotFound';
 import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
 import DamViewModel from 'store/DamStore/DamViewModel';

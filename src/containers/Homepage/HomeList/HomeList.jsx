@@ -14,10 +14,10 @@ import {
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import history from 'routes/history';
+import { history } from 'aesirx-uikit';
 import ComponentImage from 'components/ComponentImage';
 import ComponentNoData from 'components/ComponentNoData';
-import Spinner from 'components/Spinner';
+import { Spinner } from 'aesirx-uikit';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import PAGE_STATUS from 'constants/PageStatus';
@@ -523,4 +523,4 @@ const HomeList = observer(
   }
 );
 
-export default withTranslation('dam')(withRouter(withDamViewModel(HomeList)));
+export default withTranslation()(withRouter(withDamViewModel(HomeList)));

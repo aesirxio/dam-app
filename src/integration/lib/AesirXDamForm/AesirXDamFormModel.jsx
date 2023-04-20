@@ -314,4 +314,4 @@ const AesirXDamFormModal = observer(
   }
 );
 
-export default withTranslation('dam')(withDamViewModel(AesirXDamFormModal));
+export default withTranslation()(withDamViewModel(AesirXDamFormModal));

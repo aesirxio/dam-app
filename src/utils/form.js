@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { FORM_FIELD_TYPE } from 'aesirx-lib/dist/Constant/FormFieldType';
+import { FORM_FIELD_TYPE } from 'aesirx-uikit';
 import { Form } from 'react-bootstrap';
 
 const Label = React.lazy(() => import('../components/Form/Label'));

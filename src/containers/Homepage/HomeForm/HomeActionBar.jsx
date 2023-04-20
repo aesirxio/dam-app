@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import history from 'routes/history';
+import { history } from 'aesirx-uikit';
 
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
@@ -105,4 +105,4 @@ const HomeActionBar = observer(
     }
   }
 );
-export default withTranslation('dam')(withRouter(withDamViewModel(HomeActionBar)));
+export default withTranslation()(withRouter(withDamViewModel(HomeActionBar)));

@@ -19,4 +19,4 @@ class Label extends React.Component {
   }
 }
 
-export default withTranslation('dam')(Label);
+export default withTranslation()(Label);

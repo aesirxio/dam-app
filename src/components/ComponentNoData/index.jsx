@@ -41,4 +41,4 @@ class ComponentNoData extends Component {
   }
 }
 
-export default withTranslation('dam')(ComponentNoData);
+export default withTranslation()(ComponentNoData);

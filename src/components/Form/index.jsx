@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 
 import { Form } from 'react-bootstrap';
 
-import { renderingGroupFieldHandler } from '../../utils/form';
+import { renderingGroupFieldHandler } from 'aesirx-uikit';
 
 class FormComponent extends Component {
   formPropsData = null;

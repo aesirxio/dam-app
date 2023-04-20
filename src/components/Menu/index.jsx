@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import history from 'routes/history';
+import { history } from 'aesirx-uikit';
 import './index.scss';
 import { useAccordionButton } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -243,4 +243,4 @@ const Menu = observer(
   }
 );
 
-export default withTranslation('dam')(withRouter(withDamViewModel(Menu)));
+export default withTranslation()(withRouter(withDamViewModel(Menu)));

@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { notify } from 'components/Toast';
+import { notify } from 'aesirx-uikit';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
 import {

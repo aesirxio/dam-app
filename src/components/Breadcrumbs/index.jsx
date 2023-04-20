@@ -7,7 +7,7 @@ import Dot from 'SVG/Dot';
 import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 
 const BreadCrumbs = ({ data = [], handleLink }) => {
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   if (!data) {
     return;

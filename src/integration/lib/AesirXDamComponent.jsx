@@ -14,7 +14,7 @@ import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import ComponentImage from 'components/ComponentImage';
 import ComponentNoData from 'components/ComponentNoData';
-import Spinner from 'components/Spinner';
+import { Spinner } from 'aesirx-uikit';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import PAGE_STATUS from 'constants/PageStatus';
@@ -519,4 +519,4 @@ const AesirXDamComponent = observer(
   }
 );
 
-export default withTranslation('dam')(withDamViewModel(AesirXDamComponent));
+export default withTranslation()(withDamViewModel(AesirXDamComponent));

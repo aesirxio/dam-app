@@ -183,4 +183,4 @@ class ComponentDatepicker extends React.Component {
   }
 }
 
-export default withTranslation('dam')(ComponentDatepicker);
+export default withTranslation()(ComponentDatepicker);

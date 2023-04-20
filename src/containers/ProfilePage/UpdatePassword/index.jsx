@@ -10,7 +10,7 @@ import { faCog } from '@fortawesome/free-solid-svg-icons/faCog';
 import { UPDATE_PASSWORD_FIELD_KEY } from '../../../constants/ProfileModule';
 import SimpleReactValidator from 'simple-react-validator';
 import { witheProfileViewModel } from '../ProfileViewModel/ProfileViewModelContextProvider';
-import { notify } from '../../../components/Toast';
+import { notify } from 'aesirx-uikit';
 import { Storage } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
 
@@ -203,4 +203,4 @@ const UpdatePassword = observer(
   }
 );
 
-export default withTranslation('dam')(witheProfileViewModel(UpdatePassword));
+export default withTranslation()(witheProfileViewModel(UpdatePassword));

@@ -64,4 +64,4 @@ class Button extends React.Component {
   }
 }
 
-export default withTranslation('dam')(Button);
+export default withTranslation()(Button);

@@ -7,7 +7,7 @@ import React, { Suspense } from 'react';
 
 import { Route, Redirect } from 'react-router-dom';
 import { authRoutes } from '../../routes/routes';
-import Spinner from '../../components/Spinner';
+import { Spinner } from 'aesirx-uikit';
 
 import { isLogin } from '../../auth';
 
