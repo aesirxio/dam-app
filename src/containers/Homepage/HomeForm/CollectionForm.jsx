@@ -14,7 +14,7 @@ import Button from 'components/Button';
 import { withTranslation } from 'react-i18next';
 import { Spinner } from 'aesirx-uikit';
 import PAGE_STATUS from '../../../constants/PageStatus';
-import { renderingGroupFieldHandler } from 'aesirx-uikit';
+import { renderingGroupFieldHandler } from 'utils/form';
 
 class HomeForm extends Component {
   formPropsData = null;

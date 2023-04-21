@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { observer } from 'mobx-react';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import ComponentImage from 'components/ComponentImage';
+import { Image } from 'aesirx-uikit';
 import { faFolder } from '@fortawesome/free-regular-svg-icons';
 const dataMenu = [
   // {
@@ -201,7 +201,7 @@ const Menu = observer(
                   to={'/root'}
                   className={`d-flex align-items-center px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
                 >
-                  <ComponentImage alt="folder" src="/assets/images/assets.svg" />
+                  <Image alt="folder" src="/assets/images/assets.svg" />
 
                   <span className="ms-3 py-1 d-inline-block col fw-semibold">
                     {t('txt_my_assets')}

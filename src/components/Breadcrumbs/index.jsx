@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import styles from './index.module.scss';
 import { useTranslation } from 'react-i18next';
-import Dot from 'SVG/Dot';
+import Dot from 'svg/Dot';
 import { faFolder } from '@fortawesome/free-solid-svg-icons/faFolder';
 
 const BreadCrumbs = ({ data = [], handleLink }) => {

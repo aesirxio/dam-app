@@ -8,10 +8,10 @@ import { withTranslation } from 'react-i18next';
 
 import './index.scss';
 import Menu from '../Menu';
-
 import Menu2 from 'components/Menu2';
-
 import Storage from 'components/Storage';
+import { withRouter } from 'react-router-dom';
+import { settingRoutes } from 'routes/routes';
 
 class SbarLeft extends React.Component {
   constructor(props) {
@@ -21,13 +21,15 @@ class SbarLeft extends React.Component {
 
   componentDidMount() {}
   render() {
-    const { settingPage } = this.props;
+    const { match } = this.props;
+
+    const has = settingRoutes.find((router) => router.path === match.path);
 
     return (
       <aside
         className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden d-flex flex-column z-index-100 `}
       >
-        {!settingPage ? (
+        {!has ? (
           <>
             <Menu />
           </>
@@ -43,4 +45,4 @@ class SbarLeft extends React.Component {
   }
 }
 
-export default withTranslation()(SbarLeft);
+export default withTranslation()(withRouter(SbarLeft));

@@ -2,7 +2,7 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-@import '../../scss/utils/bootstrap.scss';
+@import 'aesirx-uikit/dist/utils/bootstrap.scss';
 
 .dam-integrate-layout {
   @include media-breakpoint-down(xxl) {
@@ -55,7 +55,7 @@
   > div:not(:last-child) {
     svg {
       path {
-        fill: $white;
+        fill: #fff;
       }
     }
     .stroke-dark {

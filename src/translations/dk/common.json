@@ -5,7 +5,7 @@
   "txt_when_to_publish_this?": "Hvornår skal det aktiveres ?",
   "txt_save_as_draft": "Gem som udkast",
   "txt_choose_file": "Vælg fil",
-  "txt_select...": "Vælg...",
+
   "txt_project": "Projekt",
   "txt_post_now": "Slå op nu",
   "txt_schedule": "Planlæg",
@@ -81,9 +81,6 @@
   "txt_digital_assets_media": "Digital Asset Media",
   "txt_remember_me": "Husk mig",
   "txt_by": "ved",
-  "txt_warning": "Advarsel",
-  "txt_successful": "Vellykket",
-  "txt_error": "Fejl",
   "txt_can_not_move_to_itself": "Can not move to itself",
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_click_to_change_image": "Klik for at ændre billede"

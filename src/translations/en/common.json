@@ -5,7 +5,7 @@
   "txt_when_to_publish_this?": "When to publish this ?",
   "txt_save_as_draft": "Save As Draft",
   "txt_choose_file": "Choose File",
-  "txt_select...": "Select...",
+
   "txt_project": "Project",
   "txt_post_now": "Post Now",
   "txt_schedule": "Schedule",
@@ -81,9 +81,6 @@
   "txt_remember_me": "Remember me",
   "txt_by": "by",
   "txt_max_file_size": "Max filesize is: 2 MB (Allowed file extension: jpg, jpeg, gif, png)",
-  "txt_warning": "Warning",
-  "txt_successful": "Successful",
-  "txt_error": "Error",
   "txt_item_already_in_this_folder": "Item already in the Folder",
   "txt_can_not_move_to_itself": "Can not move to itself",
   "txt_name_can_not_blank": "Folder name can not be blank!",

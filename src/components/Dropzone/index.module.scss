@@ -1,13 +1,11 @@
-@import '../../scss/utils/variables.scss';
-
 .onDragEnter {
   max-height: 100%;
   position: absolute;
   top: 100px;
   left: 0;
   z-index: 999;
-  border: 1px $success dashed;
-  background: rgba($color: $black, $alpha: 0.5);
+  border: 1px var(--bs-success) dashed;
+  background: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
 }
@@ -19,13 +17,13 @@
   transform: translate(-50%, -50%);
   z-index: 1000;
   p {
-    background: $white;
-    color: $black;
+    background: var(--bs-white);
+    color: var(--bs-black);
     min-width: 200px;
     text-align: center;
     min-height: 50px;
     padding: 10px;
-    box-shadow: 0 3px 6px rgba($color: $black, $alpha: 0.3);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
     margin-bottom: 0;
     border-radius: 5px;
   }

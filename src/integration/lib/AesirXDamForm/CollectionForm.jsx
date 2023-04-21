@@ -12,7 +12,7 @@ import { FORM_FIELD_TYPE } from 'aesirx-uikit';
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
 import PAGE_STATUS from 'constants/PageStatus';
-import { renderingGroupFieldHandler } from 'aesirx-uikit';
+import { renderingGroupFieldHandler } from 'utils/form';
 import { Spinner } from 'aesirx-uikit';
 
 const Button = React.lazy(() => import('components/Button'));

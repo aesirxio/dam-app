@@ -3,7 +3,6 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-@import '../../scss/utils/bootstrap.scss';
 .dam-integrate-layout {
   .caret-toggle {
     left: 0;
@@ -24,11 +23,11 @@
       font-size: 1.1rem;
 
       &.active {
-        color: $green !important;
+        color: var(--bs-green) !important;
         font-weight: 600;
       }
       &:hover {
-        color: $green !important;
+        color: var(--bs-green) !important;
       }
 
       i,
@@ -39,7 +38,7 @@
       .icon {
         width: 24px;
         height: 24px;
-        background-color: $body-bg;
+        background-color: var(--bs-white);
       }
     }
   }
@@ -52,7 +51,7 @@
 
           i,
           span {
-            color: $color-blue !important;
+            color: var(--bs-blue) !important;
           }
         }
       }

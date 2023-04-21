@@ -5,7 +5,6 @@
   "txt_when_to_publish_this?": "Khi nào xuất bản?",
   "txt_save_as_draft": "Lưu dưới dạng bản nháp",
   "txt_choose_file": "Chọn tập tin",
-  "txt_select...": "Lựa chọn...",
   "txt_project": "Dự án",
   "txt_post_now": "Đăng ngay",
   "txt_schedule": "Lên lịch",
@@ -80,9 +79,6 @@
   "txt_digital_assets_media": "Phương tiện tài sản kỹ thuật số",
   "txt_remember_me": "Lưu mật khẩu",
   "txt_by": "bởi",
-  "txt_warning": "Cảnh báo",
-  "txt_successful": "Thành công",
-  "txt_error": "Lỗi",
   "txt_can_not_move_to_itself": "Không thể duy chuyển tới chính nó",
   "txt_name_can_not_blank": "Tên thư mục không thể để trống!"
 }

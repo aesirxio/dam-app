@@ -6,11 +6,11 @@
 import React, { Component } from 'react';
 
 import Button from 'components/Button';
-import { FORM_FIELD_TYPE } from 'aesirx-uikit';
+import { FORM_FIELD_TYPE, renderingGroupFieldHandler } from 'aesirx-uikit';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import SimpleReactValidator from 'simple-react-validator';
-import { renderingGroupFieldHandler } from 'utils/form';
+
 import { notify } from 'aesirx-uikit';
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
@@ -277,4 +277,4 @@ class SettingList extends Component {
   }
 }
 
-export default withTranslation('dam')(withRouter(SettingList));
+export default withTranslation()(withRouter(SettingList));

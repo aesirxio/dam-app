@@ -5,7 +5,7 @@
   "txt_when_to_publish_this?": "เมื่อไรจะเผยแพร่สิ่งนี้ ?",
   "txt_save_as_draft": "บันทึกเป็นร่าง",
   "txt_choose_file": "เลือกไฟล์",
-  "txt_select...": "เลือก...",
+
   "txt_project": "โครงการ",
   "txt_post_now": "โพสทันที",
   "txt_schedule": "ตั้งเวลาล่วงหน้า",
@@ -79,9 +79,6 @@
   "txt_drop_to_upload": "วางเพื่ออัปโหลด",
   "txt_digital_assets_media": "สื่อสินทรัพย์ดิจิทัล",
   "txt_by": "โดย",
-  "txt_warning": "คำเตือน",
-  "txt_successful": "ประสบความสำเร็จ",
-  "txt_error": "ข้อผิดพลาด",
   "txt_can_not_move_to_itself": "Can not move to itself",
   "txt_name_can_not_blank": "Folder name can not be blank!"
 }

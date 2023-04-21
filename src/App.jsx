@@ -10,7 +10,7 @@ import 'scss/app.scss';
 
 import { AppProvider } from 'aesirx-uikit';
 import appLanguages from 'translations';
-import { authRoutes, mainRoutes } from 'routes/routes';
+import { authRoutes, mainRoutes, settingRoutes } from 'routes/routes';
 import { isLogin } from 'auth';
 
 import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
@@ -21,6 +21,14 @@ import Search from 'components/Search';
 const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
 
+const profileMenu = [
+  {
+    key: 1,
+    text: 'txt_profile',
+    link: '/profile',
+  },
+];
+
 const App = () => {
   return (
     <DamStoreProvider viewModel={damsViewModel}>
@@ -28,6 +36,8 @@ const App = () => {
         appLanguages={appLanguages}
         authRoutes={authRoutes}
         mainRoutes={mainRoutes}
+        settingRoutes={settingRoutes}
+        profileMenu={profileMenu}
         isLogin={isLogin}
         componentHeader={<Search />}
         rootId="#root"

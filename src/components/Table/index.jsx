@@ -12,8 +12,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styles from './index.module.scss';
 import ChooseAction from '../ChooseAnAction';
-import ListCheck from '../../SVG/ListCheck';
-import ThumbNails from '../../SVG/ThumbNails';
+import ListCheck from '../../svg/ListCheck';
+import ThumbNails from '../../svg/ThumbNails';
 import Dropzone from 'components/Dropzone';
 import { IndeterminateCheckbox } from './Thumb';
 import { AesirXSelect } from 'aesirx-uikit';
@@ -21,7 +21,7 @@ import { AesirXSelect } from 'aesirx-uikit';
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
 
-const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
+const ArrowBack = React.lazy(() => import('svg/ArrowBack'));
 const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
 
 const Table = ({

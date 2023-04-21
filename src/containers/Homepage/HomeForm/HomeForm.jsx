@@ -7,18 +7,16 @@ import React, { Component } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
 
-import { FORM_FIELD_TYPE, renderingGroupFieldHandler } from 'aesirx-uikit';
-
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import Button from 'components/Button';
-import ComponentImage from 'components/ComponentImage';
+import { FORM_FIELD_TYPE, Image, renderingGroupFieldHandler } from 'aesirx-uikit';
 import { withTranslation } from 'react-i18next';
 import { Spinner } from 'aesirx-uikit';
 import PAGE_STATUS from '../../../constants/PageStatus';
 import utils from '../HomeUtils/HomeUtils';
 import styles from '../index.module.scss';
 import moment from 'moment';
-import Trash from 'SVG/TrashIcon';
+import Trash from 'svg/TrashIcon';
 class HomeForm extends Component {
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
@@ -157,19 +155,19 @@ class HomeForm extends Component {
                 className={`d-flex align-items-center justify-content-center ${styles.popupImageHeight}`}
               >
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
-                  <ComponentImage
+                  <Image
                     wrapperClassName="h-50 w-50"
                     className="h-100 w-100 object-fit-contain"
                     src={'/assets/images/folder-big.png'}
                   />
                 ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                  <ComponentImage
+                  <Image
                     wrapperClassName="h-100 w-100"
                     className="h-100 w-100 object-fit-contain"
                     src={this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                   />
                 ) : (
-                  <ComponentImage
+                  <Image
                     wrapperClassName="h-50 w-50"
                     className="h-100 w-100 object-fit-contain"
                     src={utils.checkFileTypeFormData(this.props.viewModel.damEditdata)}

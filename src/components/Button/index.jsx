@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ComponentImage from '../ComponentImage';
+import { Image } from 'aesirx-uikit';
 import styles from './index.module.scss';
 import { withTranslation } from 'react-i18next';
 
@@ -49,7 +49,7 @@ class Button extends React.Component {
             <FontAwesomeIcon icon={icon} />
           </i>
         )}
-        {image && <ComponentImage alt={text} src={image} className="pe-1" />}
+        {image && <Image alt={text} src={image} className="pe-1" />}
         {svg ? svg : null}
         <span className="ms-1 text-nowrap d-flex align-items-center">
           {t(text)}

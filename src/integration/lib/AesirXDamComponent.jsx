@@ -12,7 +12,7 @@ import {
 } from 'aesirx-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
-import ComponentImage from 'components/ComponentImage';
+import { Image } from 'aesirx-uikit';
 import ComponentNoData from 'components/ComponentNoData';
 import { Spinner } from 'aesirx-uikit';
 import Table from 'components/Table';
@@ -23,7 +23,7 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 
-const Folder = React.lazy(() => import('SVG/Folder'));
+const Folder = React.lazy(() => import('svg/Folder'));
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
     damListViewModel = null;
@@ -383,7 +383,7 @@ const AesirXDamComponent = observer(
                 >
                   <span className={this.damListViewModel.isList ? 'image_isList' : 'image'}>
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                      <ComponentImage
+                      <Image
                         wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
