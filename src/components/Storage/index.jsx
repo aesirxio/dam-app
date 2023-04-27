@@ -12,7 +12,7 @@ import { Image } from 'aesirx-uikit';
 
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
-import storage from 'svg/storage.svg';
+import storage from './storage.svg';
 
 const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
