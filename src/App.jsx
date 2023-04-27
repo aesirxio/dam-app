@@ -8,7 +8,7 @@ import React from 'react';
 import 'aesirx-uikit/dist/index.css';
 import 'scss/app.scss';
 
-import { AppProvider } from 'aesirx-uikit';
+import { AppProvider, Menu as AesirXMenu } from 'aesirx-uikit';
 import appLanguages from 'translations';
 import { authRoutes, mainRoutes, settingRoutes } from 'routes/routes';
 import { isLogin } from 'auth';
@@ -16,18 +16,13 @@ import { isLogin } from 'auth';
 import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
 import DamViewModel from 'store/DamStore/DamViewModel';
 import DamStore from 'store/DamStore/DamStore';
-import SbarLeft from 'components/SbarLeft';
 import Search from 'components/Search';
+import Storage from 'components/Storage';
+import Menu from 'components/Menu';
+import { settingMenu, profileMenu } from 'routes/menu';
+
 const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
-
-const profileMenu = [
-  {
-    key: 1,
-    text: 'txt_profile',
-    link: '/profile',
-  },
-];
 
 const App = () => {
   return (
@@ -40,8 +35,9 @@ const App = () => {
         profileMenu={profileMenu}
         isLogin={isLogin}
         componentHeader={<Search />}
-        rootId="#root"
-        leftMenu={<SbarLeft />}
+        componentBottomMenu={<Storage />}
+        leftMenu={<Menu />}
+        settingMenu={<AesirXMenu dataMenu={settingMenu} />}
       />
     </DamStoreProvider>
   );

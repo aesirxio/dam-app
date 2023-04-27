@@ -7,7 +7,7 @@ import React, { observer } from 'mobx-react';
 import { Component } from 'react';
 
 import { Storage } from 'aesirx-lib';
-import 'react-datepicker/dist/react-datepicker.css';
+
 import { withTranslation } from 'react-i18next';
 import SimpleReactValidator from 'simple-react-validator';
 import FormComponent from '../../../components/Form';

@@ -1,6 +1,7 @@
 import { Options } from 'tsup';
 import { sassPlugin } from 'esbuild-sass-plugin';
 import { ScssModulesPlugin } from 'esbuild-scss-modules-plugin';
+import inlineImage from 'esbuild-plugin-inline-image';
 
 const env = process.env.NODE_ENV;
 
@@ -15,7 +16,7 @@ export const tsup: Options = {
       js: `.js`,
     };
   },
-  esbuildPlugins: [ScssModulesPlugin(), sassPlugin()],
+  esbuildPlugins: [inlineImage({ limit: -1 }), ScssModulesPlugin(), sassPlugin({ type: 'style' })],
   loader: {
     '.js': 'jsx',
   },

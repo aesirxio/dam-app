@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import { UPDATE_GENERAL_FIELD_KEY } from 'constants/ProfileModule';
 import ModalDAMComponent from 'components/ModalDamComponent';
-import { Image } from 'aesirx-uikit';
+import { Image as ComponentImage } from 'aesirx-uikit';
 
 const AvatarDAM = ({ formPropsData, avatarOnSelectHandler }) => {
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ const AvatarDAM = ({ formPropsData, avatarOnSelectHandler }) => {
           onClick={() => setShow(true)}
         >
           {formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] != '' ? (
-            <Image
+            <ComponentImage
               className={`rounded-circle h-196 w-196 object-fit-cover opacity-50 mb-1`}
               src={formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]}
               alt={formPropsData[UPDATE_GENERAL_FIELD_KEY.USERNAME]}

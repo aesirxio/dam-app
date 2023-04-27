@@ -8,7 +8,7 @@ import { login } from '../../auth';
 import { LoginPage as AesirXLoginPage } from 'aesirx-uikit';
 
 const LoginPage = () => {
-  return <AesirXLoginPage login={login} text="DMA" />;
+  return <AesirXLoginPage login={login} text="DAM" />;
 };
 
 export default LoginPage;

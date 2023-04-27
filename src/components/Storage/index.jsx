@@ -12,6 +12,7 @@ import { Image } from 'aesirx-uikit';
 
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
+import storage from 'svg/storage.svg';
 
 const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
@@ -52,7 +53,7 @@ const Storage = ({ lang = 'en', theme = 'light', integration }) => {
   return (
     <div className={`w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
       <p className="mb-0">
-        <Image src="/assets/images/storage.svg" />
+        <Image src={storage} />
         <span className="text-white ps-3">{t('txt_storage')}</span>
       </p>
       <div className="progress my-3">

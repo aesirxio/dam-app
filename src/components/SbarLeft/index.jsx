@@ -9,9 +9,9 @@ import { withTranslation } from 'react-i18next';
 import './index.scss';
 import Menu from '../Menu';
 import Menu2 from 'components/Menu2';
-import Storage from 'components/Storage';
 import { withRouter } from 'react-router-dom';
 import { settingRoutes } from 'routes/routes';
+import { SbarLeft as AesirXSbarLeft } from 'aesirx-uikit';
 
 class SbarLeft extends React.Component {
   constructor(props) {
@@ -26,9 +26,7 @@ class SbarLeft extends React.Component {
     const has = settingRoutes.find((router) => router.path === match.path);
 
     return (
-      <aside
-        className={`sidebar w-248  mt-0 position-relative bg-dark mh-100 overflow-hidden d-flex flex-column z-index-100 `}
-      >
+      <AesirXSbarLeft>
         {!has ? (
           <>
             <Menu />
@@ -36,11 +34,7 @@ class SbarLeft extends React.Component {
         ) : (
           <Menu2 />
         )}
-
-        <div className="position-absolute d-flex flex-wrap align-items-center bottom-0 mb-1 border-top border-gray-700 w-100 py-1 button-language ">
-          <Storage />
-        </div>
-      </aside>
+      </AesirXSbarLeft>
     );
   }
 }
