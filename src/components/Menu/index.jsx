@@ -211,7 +211,7 @@ const Menu = observer(
               <div className="main-menu">{this.recurseMenu(0)}</div>
             </Accordion>
           </nav>
-          <nav className="border-top py-3 border-gray-700">
+          {/* <nav className="border-top py-3 border-gray-700">
             <p className="text-gray-700 text-uppercase fs-14 px-3 mb-0">{t('txt_set_up')}</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0">
               {dataMenu.map((value, key) => {
@@ -236,7 +236,7 @@ const Menu = observer(
                 );
               })}
             </ul>
-          </nav>
+          </nav> */}
         </>
       );
     }

@@ -4,17 +4,15 @@
  */
 
 import React, { lazy } from 'react';
+import { LoginPage, ProfilePage } from 'aesirx-uikit';
 
-const LoginPage = lazy(() => import('../containers/LoginPage'));
 const DashboardPage = lazy(() => import('../containers/Homepage'));
-const SettingPage = lazy(() => import('containers/SettingPage'));
-const ProfilePage = lazy(() => import('../containers/ProfilePage'));
 
 const authRoutes = [
   {
     path: '/login',
     exact: true,
-    main: () => <LoginPage />,
+    main: () => <LoginPage text="DAM" />,
   },
 ];
 
@@ -24,18 +22,13 @@ const mainRoutes = [
     exact: true,
     main: () => <DashboardPage />,
   },
-  {
-    path: ['/setting', '/setting/configuration'],
-    exact: true,
-    main: () => <SettingPage />,
-  },
 ];
 
 const settingRoutes = [
   {
     path: '/profile',
     exact: false,
-    main: ({ match, location }) => <ProfilePage match={match} location={location} />,
+    main: () => <ProfilePage />,
   },
 ];
 

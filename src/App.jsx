@@ -8,10 +8,9 @@ import React from 'react';
 import 'aesirx-uikit/dist/index.css';
 import 'scss/app.scss';
 
-import { AppProvider, Menu as AesirXMenu } from 'aesirx-uikit';
+import { AppProvider, Menu as AesirXMenu, isLogin } from 'aesirx-uikit';
 import appLanguages from 'translations';
 import { authRoutes, mainRoutes, settingRoutes } from 'routes/routes';
-import { isLogin } from 'auth';
 
 import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
 import DamViewModel from 'store/DamStore/DamViewModel';
