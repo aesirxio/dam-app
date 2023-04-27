@@ -35,55 +35,26 @@ export default class ProfileStore {
     }
   }
 
-  async updateGeneral(updateGeneralData, callbackOnSuccess, callbackOnError) {
+  async updateGeneral(updateGeneralData) {
     try {
       const convertedUpdateGeneralData =
         ProfileModel.convertSubmittedGeneralDataToAPIService(updateGeneralData);
-
-      let resultOnSave;
       const updateGeneralApiService = new AesirxMemberApiService();
 
-      resultOnSave = await updateGeneralApiService.updateMember(convertedUpdateGeneralData);
-
-      if (resultOnSave.result.success) {
-        runInAction(() => {
-          callbackOnSuccess(resultOnSave);
-        });
-      } else {
-        runInAction(() => {
-          callbackOnError(resultOnSave);
-        });
-      }
+      return await updateGeneralApiService.updateMember(convertedUpdateGeneralData);
     } catch (error) {
-      runInAction(() => {
-        callbackOnError(error);
-      });
+      return false;
     }
   }
 
-  async getMember(id, callbackOnSuccess, callbackOnError) {
-    if (!id) return false;
+  async getMember(id) {
+    if (!id) return null;
 
     try {
-      const results = true;
-
-      if (results) {
-        const getMemberInfoAPIService = new AesirxMemberApiService();
-        const respondedData = await getMemberInfoAPIService.getMemberInfo(id);
-        if (respondedData) {
-          runInAction(() => {
-            callbackOnSuccess(respondedData);
-          });
-        } else {
-          callbackOnError({
-            message: 'Something went wrong from Server response',
-          });
-        }
-      }
+      const getMemberInfoAPIService = new AesirxMemberApiService();
+      return await getMemberInfoAPIService.getMemberInfo(id);
     } catch (error) {
-      runInAction(() => {
-        callbackOnError(error);
-      });
+      return null;
     }
   }
 

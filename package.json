@@ -30,7 +30,6 @@
     "simple-react-validator": "^1.6.2",
     "web-vitals": "^2.1.4"
   },
-
   "scripts": {
     "start": "yarn run build && serve -s build",
     "build": "react-scripts build && react-inject-env set",

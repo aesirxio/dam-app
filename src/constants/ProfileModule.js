@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-const UPDATE_GENERAL_FIELD_KEY = {
+const GENERAL_FIELD_KEY = {
   ID: 'id',
   USERNAME: 'username',
   FULLNAME: 'fullname',
@@ -27,4 +27,4 @@ const UPDATE_PASSWORD_FIELD_KEY = {
   CURR_PASSWORD: 'curr_password',
 };
 
-export { UPDATE_GENERAL_FIELD_KEY, UPDATE_PASSWORD_FIELD_KEY };
+export { GENERAL_FIELD_KEY, UPDATE_PASSWORD_FIELD_KEY };

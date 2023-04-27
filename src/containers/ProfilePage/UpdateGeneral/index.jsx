@@ -13,7 +13,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import FormComponent from '../../../components/Form';
 import { Spinner } from 'aesirx-uikit';
 import { FORM_FIELD_TYPE } from 'aesirx-uikit';
-import { UPDATE_GENERAL_FIELD_KEY } from '../../../constants/ProfileModule';
+import { GENERAL_FIELD_KEY } from '../../../constants/ProfileModule';
 import '../index.scss';
 import SubmitButton from '../Layout/SubmitButton';
 import { witheProfileViewModel } from '../ProfileViewModel/ProfileViewModelContextProvider';
@@ -24,20 +24,20 @@ const UpdateGeneral = observer(
   class UpdateGeneral extends Component {
     updateGeneralViewModel = null;
     formPropsData = {
-      [UPDATE_GENERAL_FIELD_KEY.ID]: Storage.getItem('member_id'),
-      [UPDATE_GENERAL_FIELD_KEY.USERNAME]: '',
-      [UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]: '',
-      [UPDATE_GENERAL_FIELD_KEY.FULLNAME]: '',
-      [UPDATE_GENERAL_FIELD_KEY.EMAIL]: '',
-      [UPDATE_GENERAL_FIELD_KEY.BIRTHDAY]: '',
-      [UPDATE_GENERAL_FIELD_KEY.PHONE]: '',
-      [UPDATE_GENERAL_FIELD_KEY.ADDRESS]: '',
-      [UPDATE_GENERAL_FIELD_KEY.ADDRESS_2]: '',
-      [UPDATE_GENERAL_FIELD_KEY.ZIPCODE]: '',
-      [UPDATE_GENERAL_FIELD_KEY.CITY]: '',
-      [UPDATE_GENERAL_FIELD_KEY.STATE]: '',
-      [UPDATE_GENERAL_FIELD_KEY.COUNTRY]: '',
-      [UPDATE_GENERAL_FIELD_KEY.TIMEZONE]: '',
+      [GENERAL_FIELD_KEY.ID]: Storage.getItem('member_id'),
+      [GENERAL_FIELD_KEY.USERNAME]: '',
+      [GENERAL_FIELD_KEY.AVATAR_DAM]: '',
+      [GENERAL_FIELD_KEY.FULLNAME]: '',
+      [GENERAL_FIELD_KEY.EMAIL]: '',
+      [GENERAL_FIELD_KEY.BIRTHDAY]: '',
+      [GENERAL_FIELD_KEY.PHONE]: '',
+      [GENERAL_FIELD_KEY.ADDRESS]: '',
+      [GENERAL_FIELD_KEY.ADDRESS_2]: '',
+      [GENERAL_FIELD_KEY.ZIPCODE]: '',
+      [GENERAL_FIELD_KEY.CITY]: '',
+      [GENERAL_FIELD_KEY.STATE]: '',
+      [GENERAL_FIELD_KEY.COUNTRY]: '',
+      [GENERAL_FIELD_KEY.TIMEZONE]: '',
     };
 
     constructor(props) {
@@ -61,7 +61,7 @@ const UpdateGeneral = observer(
         this.setState({
           getUrlImage: data,
         });
-        this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] = data[0].url;
+        this.formPropsData[GENERAL_FIELD_KEY.AVATAR_DAM] = data[0].url;
       }
     };
 
@@ -87,7 +87,7 @@ const UpdateGeneral = observer(
       this.setState({
         getUrlImage: '',
       });
-      this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] = defaultImage;
+      this.formPropsData[GENERAL_FIELD_KEY.AVATAR_DAM] = defaultImage;
     };
 
     avatarOnSelectHandler = (data) => {
@@ -95,7 +95,7 @@ const UpdateGeneral = observer(
         this.setState({
           getUrlImage: data,
         });
-        this.formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] = data;
+        this.formPropsData[GENERAL_FIELD_KEY.AVATAR_DAM] = data;
       }
     };
 
@@ -105,18 +105,18 @@ const UpdateGeneral = observer(
           fields: [
             {
               label: 'txt_Username',
-              key: UPDATE_GENERAL_FIELD_KEY.USERNAME,
+              key: GENERAL_FIELD_KEY.USERNAME,
               type: FORM_FIELD_TYPE.INPUT,
-              value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.USERNAME],
+              value: this.formPropsData[GENERAL_FIELD_KEY.USERNAME],
               className: 'col-6',
               inputClassName: 'border',
               readOnly: true,
             },
             {
               label: 'txt_Email',
-              key: UPDATE_GENERAL_FIELD_KEY.EMAIL,
+              key: GENERAL_FIELD_KEY.EMAIL,
               type: FORM_FIELD_TYPE.INPUT,
-              value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.EMAIL],
+              value: this.formPropsData[GENERAL_FIELD_KEY.EMAIL],
               className: 'col-6',
               inputClassName: 'border',
               readOnly: true,
@@ -124,26 +124,26 @@ const UpdateGeneral = observer(
 
             {
               label: 'txt_Fullname',
-              key: UPDATE_GENERAL_FIELD_KEY.FULLNAME,
+              key: GENERAL_FIELD_KEY.FULLNAME,
               type: FORM_FIELD_TYPE.INPUT,
-              value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME],
+              value: this.formPropsData[GENERAL_FIELD_KEY.FULLNAME],
               className: 'col-6',
               required: true,
               validation: 'required',
               inputClassName: 'border',
               changed: (event) => {
-                this.formPropsData[UPDATE_GENERAL_FIELD_KEY.FULLNAME] = event.target.value;
+                this.formPropsData[GENERAL_FIELD_KEY.FULLNAME] = event.target.value;
               },
             },
             {
               label: 'txt_Phone',
-              key: UPDATE_GENERAL_FIELD_KEY.PHONE,
+              key: GENERAL_FIELD_KEY.PHONE,
               type: FORM_FIELD_TYPE.INPUT,
-              value: this.formPropsData[UPDATE_GENERAL_FIELD_KEY.PHONE],
+              value: this.formPropsData[GENERAL_FIELD_KEY.PHONE],
               className: 'col-6',
               inputClassName: 'border',
               changed: (event) => {
-                this.formPropsData[UPDATE_GENERAL_FIELD_KEY.PHONE] = event.target.value;
+                this.formPropsData[GENERAL_FIELD_KEY.PHONE] = event.target.value;
               },
             },
           ],

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
-import { UPDATE_GENERAL_FIELD_KEY } from 'constants/ProfileModule';
+import { GENERAL_FIELD_KEY } from 'constants/ProfileModule';
 import ModalDAMComponent from 'components/ModalDamComponent';
 import { Image as ComponentImage } from 'aesirx-uikit';
 
@@ -35,16 +35,16 @@ const AvatarDAM = ({ formPropsData, avatarOnSelectHandler }) => {
           className="position-relative d-inline-block cursor-pointer rounded-circle h-196 w-196 bg-gray-dark-70 mb-4"
           onClick={() => setShow(true)}
         >
-          {formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM] != '' ? (
+          {formPropsData[GENERAL_FIELD_KEY.AVATAR_DAM] != '' ? (
             <ComponentImage
               className={`rounded-circle h-196 w-196 object-fit-cover opacity-50 mb-1`}
-              src={formPropsData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]}
-              alt={formPropsData[UPDATE_GENERAL_FIELD_KEY.USERNAME]}
+              src={formPropsData[GENERAL_FIELD_KEY.AVATAR_DAM]}
+              alt={formPropsData[GENERAL_FIELD_KEY.USERNAME]}
             />
           ) : (
             <div className="position-relative d-inline-flex align-items-center justify-content-center text-uppercase cursor-pointer rounded-circle bg-gray-dark-70 opacity-50 h-196 w-196 ">
               <span className="text-white" style={{ fontSize: '9rem' }}>
-                {formPropsData[UPDATE_GENERAL_FIELD_KEY.USERNAME].slice(0, 1)}
+                {formPropsData[GENERAL_FIELD_KEY.USERNAME].slice(0, 1)}
               </span>
             </div>
           )}

@@ -3,10 +3,8 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import {
-  UPDATE_PASSWORD_FIELD_KEY,
-  UPDATE_GENERAL_FIELD_KEY,
-} from '../../../constants/ProfileModule';
+import { UPDATE_PASSWORD_FIELD_KEY } from '../../../constants/ProfileModule';
+import { MEMBER_FIELD_KEY } from 'aesirx-lib';
 
 class ProfileModel {
   static convertSubmittedPasswordDataToAPIService(updatePasswordData) {
@@ -26,20 +24,18 @@ class ProfileModel {
   static convertSubmittedGeneralDataToAPIService(updateGeneralData) {
     return updateGeneralData
       ? {
-          [UPDATE_GENERAL_FIELD_KEY.ID]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.ID],
-          [UPDATE_GENERAL_FIELD_KEY.FULLNAME]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.FULLNAME],
-          [UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM]:
-            updateGeneralData[UPDATE_GENERAL_FIELD_KEY.AVATAR_DAM],
-          [UPDATE_GENERAL_FIELD_KEY.BIRTHDAY]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.BIRTHDAY],
-          [UPDATE_GENERAL_FIELD_KEY.PHONE]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.PHONE],
-          [UPDATE_GENERAL_FIELD_KEY.ADDRESS]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.ADDRESS],
-          [UPDATE_GENERAL_FIELD_KEY.ADDRESS_2]:
-            updateGeneralData[UPDATE_GENERAL_FIELD_KEY.ADDRESS_2],
-          [UPDATE_GENERAL_FIELD_KEY.ZIPCODE]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.ZIPCODE],
-          [UPDATE_GENERAL_FIELD_KEY.CITY]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.CITY],
-          [UPDATE_GENERAL_FIELD_KEY.STATE]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.STATE],
-          [UPDATE_GENERAL_FIELD_KEY.COUNTRY]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.COUNTRY],
-          [UPDATE_GENERAL_FIELD_KEY.TIMEZONE]: updateGeneralData[UPDATE_GENERAL_FIELD_KEY.TIMEZONE],
+          [MEMBER_FIELD_KEY.ID]: updateGeneralData[MEMBER_FIELD_KEY.ID],
+          [MEMBER_FIELD_KEY.FULL_NAME]: updateGeneralData[MEMBER_FIELD_KEY.FULL_NAME],
+          [MEMBER_FIELD_KEY.AVATAR_DAM]: updateGeneralData[MEMBER_FIELD_KEY.AVATAR_DAM],
+          [MEMBER_FIELD_KEY.BIRTHDAY]: updateGeneralData[MEMBER_FIELD_KEY.BIRTHDAY],
+          [MEMBER_FIELD_KEY.PHONE]: updateGeneralData[MEMBER_FIELD_KEY.PHONE],
+          [MEMBER_FIELD_KEY.ADDRESS]: updateGeneralData[MEMBER_FIELD_KEY.ADDRESS],
+          [MEMBER_FIELD_KEY.ADDRESS_2]: updateGeneralData[MEMBER_FIELD_KEY.ADDRESS_2],
+          [MEMBER_FIELD_KEY.ZIP_CODE]: updateGeneralData[MEMBER_FIELD_KEY.ZIP_CODE],
+          [MEMBER_FIELD_KEY.CITY]: updateGeneralData[MEMBER_FIELD_KEY.CITY],
+          [MEMBER_FIELD_KEY.STATE]: updateGeneralData[MEMBER_FIELD_KEY.STATE],
+          [MEMBER_FIELD_KEY.COUNTRY]: updateGeneralData[MEMBER_FIELD_KEY.COUNTRY],
+          [MEMBER_FIELD_KEY.TIMEZONE]: updateGeneralData[MEMBER_FIELD_KEY.TIMEZONE],
         }
       : null;
   }
