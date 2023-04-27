@@ -16,59 +16,65 @@ import common_ua from './ua/common.json';
 import common_fr from './fr/common.json';
 import common_es from './es/common.json';
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    // we init with resources
-    resources: {
-      en: {
-        title: 'English',
-        common: common_en,
-      },
-      dk: {
-        title: 'Dansk',
-        common: common_dk,
-      },
-      vi: {
-        title: 'Tiếng Việt',
-        common: common_vn,
-      },
-      th: {
-        title: 'ภาษาไทย',
-        common: common_th,
-      },
-      hr: {
-        title: 'Croatian',
-        common: common_hr,
-      },
-      ua: {
-        title: 'Yкраїнська',
-        common: common_ua,
-      },
-      fr: {
-        title: 'Français',
-        common: common_fr,
-      },
+const listLanguages = {
+  en: {
+    title: 'English',
+    dam: common_en,
+  },
+  da: {
+    title: 'Dansk',
+    dam: common_dk,
+  },
+  vi: {
+    title: 'Tiếng Việt',
+    dam: common_vn,
+  },
+  th: {
+    title: 'ภาษาไทย',
+    dam: common_th,
+  },
+  hr: {
+    title: 'Hrvatski',
+    dam: common_hr,
+  },
+  uk: {
+    title: 'Yкраїнська',
+    dam: common_ua,
+  },
+  fr: {
+    title: 'Français',
+    dam: common_fr,
+  },
+  es: {
+    title: 'Español',
+    dam: common_es,
+  },
+};
 
-      es: {
-        title: 'Español',
-        common: common_es,
-      },
-    },
-    lng: localStorage.getItem('i18nextLng') || 'en',
-    fallbackLng: 'en',
-    debug: false,
-
-    // have a common namespace used around the full app
-    ns: ['translations'],
-    defaultNS: 'translations',
-
-    keySeparator: false, // we use content as keys
-
-    interpolation: {
-      escapeValue: false,
-    },
+if (i18n.isInitialized) {
+  Object.entries(listLanguages).forEach(([key, val]) => {
+    i18n.addResourceBundle(key, 'dam', val.dam);
   });
+} else {
+  i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      // we init with resources
+      resources: listLanguages,
+      lng: localStorage.getItem('i18nextLng') || 'en',
+      fallbackLng: 'en',
+      debug: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
 
+      // have a common namespace used around the full app
+      ns: ['translations'],
+      defaultNS: 'translations',
+
+      keySeparator: false, // we use content as keys
+
+      interpolation: {
+        escapeValue: false,
+      },
+    });
+}
 export default i18n;

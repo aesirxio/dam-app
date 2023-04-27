@@ -10,7 +10,7 @@ import {
   DAM_ASSETS_API_FIELD_KEY,
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
@@ -362,11 +362,12 @@ const HomeList = observer(
                   >
                     <CollectionName item={row.original} />
                     <span className="text-gray">
-                      {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED] &&
-                        !this.damListViewModel.isList &&
-                        moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format(
-                          'DD MMM, YYYY'
-                        )}
+                      {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
+                        ? !this.damListViewModel.isList &&
+                          moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
+                            'DD MMM, YYYY'
+                          )
+                        : null}
                     </span>
                   </span>
                 </div>
@@ -435,7 +436,13 @@ const HomeList = observer(
           Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
-            <>{moment(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]).format('DD MMM, YYYY')}</>
+            <>
+              {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
+                ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
+                    'DD MMM, YYYY'
+                  )
+                : null}
+            </>
           ),
         },
       ];
@@ -516,4 +523,4 @@ const HomeList = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withDamViewModel(HomeList)));
+export default withTranslation('dam')(withRouter(withDamViewModel(HomeList)));

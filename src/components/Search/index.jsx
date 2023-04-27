@@ -10,7 +10,7 @@ import { observer } from 'mobx-react';
 import styles from './index.module.scss';
 const Search = observer(() => {
   const damListViewModel = useDamViewModel();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
 
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);

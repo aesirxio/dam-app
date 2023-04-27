@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ComponentImage from 'components/ComponentImage';
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import styles from './index.module.scss';
 const ThumbsDragPreview = ({ thumbs }) => {
   return (

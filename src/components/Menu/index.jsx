@@ -243,4 +243,4 @@ const Menu = observer(
   }
 );
 
-export default withTranslation('common')(withRouter(withDamViewModel(Menu)));
+export default withTranslation('dam')(withRouter(withDamViewModel(Menu)));

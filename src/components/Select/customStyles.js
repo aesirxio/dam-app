@@ -9,12 +9,13 @@ const customStyles = (isBorder, isShadow = true, isBackGround = false) => {
       return {
         ...provided,
         minHeight: 50,
+        minWidth: 100,
         boxShadow: isShadow ? '0 3px 5px rgb(0 0 0 / 5%)' : 'none',
-        borderColor: isBorder ? 'var(--bs-select-border)' : 'transparent',
+        borderColor: isBorder ? 'var(--select-border-dam)' : 'transparent',
         '&:hover': {
           borderColor: isBorder ? 'var(--bs-success)' : 'transparent',
         },
-        backgroundColor: isBackGround ? 'var(--bs-select-control-background)' : 'transparent',
+        backgroundColor: isBackGround ? 'var(--dropdown-bg-dam)' : 'transparent',
         cursor: 'pointer',
         borderRadius: 5,
         width: 'auto',
@@ -26,18 +27,17 @@ const customStyles = (isBorder, isShadow = true, isBackGround = false) => {
         ...styles,
         top: 'calc(100% - 2px)',
         margin: 0,
-        border: 0,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
-        borderRight: '1px solid var(--bs-select-border)',
-        backgroundColor: 'var(--bs-select-control-background)',
+        border: '1px solid var(--select-border-dam)',
+        backgroundColor: 'var(--dropdown-bg-dam)',
         width: '100%',
       };
     },
     option: (provided, state) => {
       return {
         ...provided,
-        color: state.isSelected ? 'var(--bs-success)' : 'var(--bs-select-color)',
+        color: state.isSelected ? 'var(--bs-success)' : 'var(--dropdown-item-color-dam)',
         backgroundColor: 'transparent',
 
         '&:hover': {
@@ -58,25 +58,25 @@ const customStyles = (isBorder, isShadow = true, isBackGround = false) => {
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: 'var(--bs-select-color)',
+      color: 'var(--dropdown-item-color-dam)',
       fontWeight: 600,
     }),
     placeholder: (defaultStyles) => {
       return {
         ...defaultStyles,
-        color: 'var(--bs-select-color)',
+        color: 'var(--dropdown-item-color-dam)',
         fontWeight: 600,
       };
     },
     multiValue: (styles) => {
       return {
         ...styles,
-        backgroundColor: 'var(--view-active-bg)',
+        backgroundColor: 'var(--view-active-bg-dam)',
       };
     },
     multiValueLabel: (styles) => ({
       ...styles,
-      color: 'var(--bs-select-color)',
+      color: 'var(--dropdown-item-color-dam)',
     }),
   };
 };

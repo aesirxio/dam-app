@@ -6,7 +6,7 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-import { DAM_ASSETS_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -45,7 +45,7 @@ const Table = ({
   onSelectionChange,
   // dataAssets,
 }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
 
   const columns = useMemo(() => tableRowHeader, [tableRowHeader]);
 
@@ -138,7 +138,7 @@ const Table = ({
           <div className="wrapper_search_global d-flex">
             <Select
               className={filterBar.className}
-              isShadow={false}
+              isShadow={true}
               isClearable={false}
               isSearchable={false}
               options={filterBar.options}
@@ -151,7 +151,7 @@ const Table = ({
             <ChooseAction />
             <Select
               className={sortBy.className}
-              isShadow={false}
+              isShadow={true}
               isClearable={false}
               isSearchable={false}
               options={sortBy.options}
@@ -395,4 +395,4 @@ function filterGreaterThan(rows, id, filterValue) {
 
 filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
 
-export default withTranslation('common')(Table);
+export default withTranslation('dam')(Table);

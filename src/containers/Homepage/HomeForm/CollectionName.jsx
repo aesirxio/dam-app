@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { observer } from 'mobx-react';
-import { DAM_COLLECTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import { Form } from 'react-bootstrap';
@@ -11,7 +11,7 @@ const CollectionName = observer(({ item }) => {
   const { damListViewModel, damFormViewModel } = useDamViewModel();
   const [value, setValue] = useState(item[DAM_COLUMN_INDICATOR.NAME]);
   const [isFocus, setIsFocus] = useState(false);
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('dam');
 
   const handleUpdateFolder = useCallback(() => {
     if (value) {
@@ -43,11 +43,11 @@ const CollectionName = observer(({ item }) => {
     <Form.Control
       as={'input'}
       type={'text'}
-      className={`mw-80 text-blue-0 ${
+      className={`mw-80 text-blue-0 border-0 ${
         !damListViewModel.isList ? 'text-center mx-auto ' : ''
-      } bg-transparent px-0 py-1 w-fit ${isFocus ? 'pe-auto border-thumb-name' : 'pe-none'} ${
-        styles.input
-      }`}
+      } bg-transparent px-0 py-1 w-fit ${
+        isFocus ? 'pe-auto border-1 border-thumb-name' : 'pe-none'
+      } ${styles.input}`}
       id={`id_${item[DAM_COLUMN_INDICATOR.ID]}`}
       // defaultValue={value}
       value={value}

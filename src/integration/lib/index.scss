@@ -97,19 +97,19 @@
   .progress {
     height: 4px !important;
   }
-}
 
-.dark #contextMenuItem {
-  > div:not(:last-child) {
-    svg {
-      path {
-        fill: #fff;
+  .dark #contextMenuItem {
+    > div:not(:last-child) {
+      svg {
+        path {
+          fill: #fff;
+        }
       }
-    }
-    .stroke-dark {
-      path {
-        stroke: #fff;
-        fill: transparent;
+      .stroke-dark {
+        path {
+          stroke: #fff;
+          fill: transparent;
+        }
       }
     }
   }

@@ -12,7 +12,7 @@ import { withRouter } from 'react-router-dom';
 import SimpleReactValidator from 'simple-react-validator';
 import { renderingGroupFieldHandler } from 'utils/form';
 import { notify } from 'components/Toast';
-import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-dma-lib';
+import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
 
 class SettingList extends Component {
@@ -277,4 +277,4 @@ class SettingList extends Component {
   }
 }
 
-export default withTranslation('common')(withRouter(SettingList));
+export default withTranslation('dam')(withRouter(SettingList));

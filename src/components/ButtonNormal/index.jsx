@@ -36,4 +36,4 @@ class ButtonNormal extends React.Component {
   }
 }
 
-export default withTranslation('common')(ButtonNormal);
+export default withTranslation('dam')(ButtonNormal);

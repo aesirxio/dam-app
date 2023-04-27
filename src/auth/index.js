@@ -11,13 +11,12 @@ import {
   Storage,
   AXIOS_CONFIGS,
   GENERAL_CONFIG,
-} from 'aesirx-dma-lib';
+} from 'aesirx-lib';
 
 if (
   AXIOS_CONFIGS.CLIENT_ID === '' ||
   AXIOS_CONFIGS.CLIENT_SECRET === '' ||
   AXIOS_CONFIGS.BASE_ENDPOINT_URL === '' ||
-  AXIOS_CONFIGS.LICENSE === '' ||
   GENERAL_CONFIG.WEBSOCKET_ENDPOINT === ''
 ) {
   notify(
