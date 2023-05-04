@@ -110,6 +110,8 @@ const Storage = ({ lang = 'en', theme = 'light', integration }) => {
         <a
           href="https://dam.aesirx.io/#packages"
           className="text-cyan text-decoration-underline fs-14 d-inline-block ps-1"
+          target="_blank"
+          rel="noreferrer"
         >
           {t('txt_upgrade')}
         </a>

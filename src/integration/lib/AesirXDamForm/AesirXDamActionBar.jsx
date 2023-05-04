@@ -12,9 +12,9 @@ import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import BreadCrumbs from 'components/Breadcrumbs';
+import { ButtonNormal } from 'aesirx-uikit';
 
 const AesirXDamFormModel = React.lazy(() => import('./AesirXDamFormModel'));
-const ButtonNormal = React.lazy(() => import('components/ButtonNormal'));
 const Dropzone = React.lazy(() => import('components/Dropzone'));
 const AesirXDamActionBar = observer(
   class AesirXDamActionBar extends Component {

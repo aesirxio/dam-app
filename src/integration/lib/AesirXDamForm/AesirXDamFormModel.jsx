@@ -18,13 +18,11 @@ import {
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Image, ModalComponent } from 'aesirx-uikit';
+import { Image, ModalComponent, Button } from 'aesirx-uikit';
 
 const MoveToFolder = React.lazy(() => import('components/MoveToFolder'));
-const Button = React.lazy(() => import('components/Button'));
 const AesirXDamForm = React.lazy(() => import('./AesirXDamForm'));
 const Dropzone = React.lazy(() => import('components/Dropzone'));
-
 const EditingIcon = React.lazy(() => import('svg/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));

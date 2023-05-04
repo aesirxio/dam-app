@@ -15,14 +15,13 @@ import {
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
 } from 'aesirx-lib';
-import { history, Image, ModalComponent } from 'aesirx-uikit';
+import { history, Image, ModalComponent, Button } from 'aesirx-uikit';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
 import MoveToFolder from 'components/MoveToFolder';
 
-const Button = React.lazy(() => import('components/Button'));
 const Dropzone = React.lazy(() => import('components/Dropzone'));
 const EditingIcon = React.lazy(() => import('svg/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));

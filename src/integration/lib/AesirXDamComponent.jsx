@@ -12,12 +12,10 @@ import {
 } from 'aesirx-lib';
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
-import { Image } from 'aesirx-uikit';
 import ComponentNoData from 'components/ComponentNoData';
-import { Spinner } from 'aesirx-uikit';
+import { Spinner, PAGE_STATUS, Image } from 'aesirx-uikit';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
-import PAGE_STATUS from 'constants/PageStatus';
 import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';

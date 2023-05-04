@@ -7,19 +7,23 @@ import React, { Component } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
 
-import { FORM_FIELD_TYPE, renderingGroupFieldHandler, Spinner, Image } from 'aesirx-uikit';
+import {
+  FORM_FIELD_TYPE,
+  renderingGroupFieldHandler,
+  Spinner,
+  Image,
+  PAGE_STATUS,
+} from 'aesirx-uikit';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
-import PAGE_STATUS from 'constants/PageStatus';
 
 import utils from '../AesirXDamUtils/AesirXDamUtils';
 import moment from 'moment';
+import { Button } from 'aesirx-uikit';
 
 const Folder = React.lazy(() => import('svg/Folder'));
 const Trash = React.lazy(() => import('svg/TrashIcon'));
-
-const Button = React.lazy(() => import('components/Button'));
 
 class AesirDamForm extends Component {
   formPropsData = {

@@ -12,8 +12,7 @@ import { FORM_FIELD_TYPE } from 'aesirx-uikit';
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import Button from 'components/Button';
 import { withTranslation } from 'react-i18next';
-import { Spinner } from 'aesirx-uikit';
-import PAGE_STATUS from '../../../constants/PageStatus';
+import { Spinner, PAGE_STATUS } from 'aesirx-uikit';
 import { renderingGroupFieldHandler } from 'utils/form';
 
 class HomeForm extends Component {

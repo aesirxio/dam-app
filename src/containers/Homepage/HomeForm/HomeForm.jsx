@@ -8,15 +8,21 @@ import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
-import Button from 'components/Button';
-import { FORM_FIELD_TYPE, Image, renderingGroupFieldHandler } from 'aesirx-uikit';
+import {
+  Spinner,
+  Button,
+  FORM_FIELD_TYPE,
+  Image,
+  renderingGroupFieldHandler,
+  PAGE_STATUS,
+} from 'aesirx-uikit';
 import { withTranslation } from 'react-i18next';
-import { Spinner } from 'aesirx-uikit';
-import PAGE_STATUS from '../../../constants/PageStatus';
+
 import utils from '../HomeUtils/HomeUtils';
 import styles from '../index.module.scss';
 import moment from 'moment';
 import Trash from 'svg/TrashIcon';
+
 class HomeForm extends Component {
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
