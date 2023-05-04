@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import history from 'routes/history';
+import { history } from 'aesirx-uikit';
 import './index.scss';
 import { useAccordionButton } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { observer } from 'mobx-react';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import ComponentImage from 'components/ComponentImage';
+import { Image } from 'aesirx-uikit';
 import { faFolder } from '@fortawesome/free-regular-svg-icons';
 const dataMenu = [
   // {
@@ -201,7 +201,7 @@ const Menu = observer(
                   to={'/root'}
                   className={`d-flex align-items-center px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
                 >
-                  <ComponentImage alt="folder" src="/assets/images/assets.svg" />
+                  <Image alt="folder" src="/assets/images/assets.svg" />
 
                   <span className="ms-3 py-1 d-inline-block col fw-semibold">
                     {t('txt_my_assets')}
@@ -211,7 +211,7 @@ const Menu = observer(
               <div className="main-menu">{this.recurseMenu(0)}</div>
             </Accordion>
           </nav>
-          <nav className="border-top py-3 border-gray-700">
+          {/* <nav className="border-top py-3 border-gray-700">
             <p className="text-gray-700 text-uppercase fs-14 px-3 mb-0">{t('txt_set_up')}</p>
             <ul id="wr_list_menu" className="list-unstyled mb-0">
               {dataMenu.map((value, key) => {
@@ -236,11 +236,11 @@ const Menu = observer(
                 );
               })}
             </ul>
-          </nav>
+          </nav> */}
         </>
       );
     }
   }
 );
 
-export default withTranslation('dam')(withRouter(withDamViewModel(Menu)));
+export default withTranslation()(withRouter(withDamViewModel(Menu)));

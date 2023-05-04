@@ -1,10 +1,8 @@
 import React from 'react';
 import AesirXDamLayout from './AesirXDamLayout';
-import { Toast } from 'components/Toast';
-import ErrorBoundary from 'layouts/ErrorBoundary';
-import i18n from 'translations/i18n';
-import { I18nextProvider } from 'react-i18next';
-import './index.scss';
+import { Toast, AesirXI18nextProvider, ErrorBoundary } from 'aesirx-uikit';
+
+import appLanguages from 'translations';
 class AesirXDam extends React.Component {
   constructor(props) {
     super(props);
@@ -13,10 +11,10 @@ class AesirXDam extends React.Component {
   render() {
     return (
       <ErrorBoundary>
-        <I18nextProvider i18n={i18n}>
+        <AesirXI18nextProvider appLanguages={appLanguages}>
           <Toast />
           <AesirXDamLayout {...this.props} />
-        </I18nextProvider>
+        </AesirXI18nextProvider>
       </ErrorBoundary>
     );
   }

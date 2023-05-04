@@ -28,7 +28,7 @@ const MoveToFolder = observer(({ current = 0 }) => {
     },
     damFormViewModel: { closeMoveToFolder },
   } = useDamViewModel();
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
 
   const mapDataSelectCards = useMemo(
     () => selectedCards.map((selectedItem) => +selectedItem?.id) ?? [],

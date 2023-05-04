@@ -7,20 +7,24 @@ import React, { Component } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
 
-import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
+import {
+  FORM_FIELD_TYPE,
+  renderingGroupFieldHandler,
+  Spinner,
+  Image,
+  PAGE_STATUS,
+} from 'aesirx-uikit';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
-import PAGE_STATUS from 'constants/PageStatus';
-import { renderingGroupFieldHandler } from 'utils/form';
+
 import utils from '../AesirXDamUtils/AesirXDamUtils';
 import moment from 'moment';
+import { Button } from 'aesirx-uikit';
 
-const Folder = React.lazy(() => import('SVG/Folder'));
-const Trash = React.lazy(() => import('SVG/TrashIcon'));
-const Spinner = React.lazy(() => import('components/Spinner'));
-const Button = React.lazy(() => import('components/Button'));
-const ComponentImage = React.lazy(() => import('components/ComponentImage'));
+const Folder = React.lazy(() => import('svg/Folder'));
+const Trash = React.lazy(() => import('svg/TrashIcon'));
+
 class AesirDamForm extends Component {
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
@@ -159,7 +163,7 @@ class AesirDamForm extends Component {
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                   <Folder />
                 ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                  <ComponentImage
+                  <Image
                     wrapperClassName="h-100 w-100"
                     className="h-100 w-100 object-fit-contain"
                     src={this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
@@ -205,4 +209,4 @@ class AesirDamForm extends Component {
   }
 }
 
-export default withTranslation('dam')(AesirDamForm);
+export default withTranslation()(AesirDamForm);

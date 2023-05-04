@@ -8,13 +8,11 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styles from './index.module.scss';
 import { useTranslation } from 'react-i18next';
-import CloudUpload from 'SVG/CloudUpload';
-
-// import ComponentImage from '../ComponentImage';
+import CloudUpload from 'svg/CloudUpload';
 
 const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, noDrag = true }) => {
   const [onDrag, setOnDrag] = useState(false);
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
   const { getRootProps, getInputProps } = useDropzone({
     // accept: '*',
     noClick: noClick,

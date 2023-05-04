@@ -12,15 +12,16 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styles from './index.module.scss';
 import ChooseAction from '../ChooseAnAction';
-import ListCheck from '../../SVG/ListCheck';
-import ThumbNails from '../../SVG/ThumbNails';
+import ListCheck from '../../svg/ListCheck';
+import ThumbNails from '../../svg/ThumbNails';
 import Dropzone from 'components/Dropzone';
 import { IndeterminateCheckbox } from './Thumb';
+import { AesirXSelect } from 'aesirx-uikit';
 
 const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
 const Thumb = React.lazy(() => import('./Thumb'));
-const Select = React.lazy(() => import('../Select'));
-const ArrowBack = React.lazy(() => import('SVG/ArrowBack'));
+
+const ArrowBack = React.lazy(() => import('svg/ArrowBack'));
 const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
 
 const Table = ({
@@ -45,7 +46,7 @@ const Table = ({
   onSelectionChange,
   // dataAssets,
 }) => {
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
 
   const columns = useMemo(() => tableRowHeader, [tableRowHeader]);
 
@@ -136,7 +137,7 @@ const Table = ({
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between border-1 border-gray-select">
           <div className="wrapper_search_global d-flex">
-            <Select
+            <AesirXSelect
               className={filterBar.className}
               isShadow={true}
               isClearable={false}
@@ -149,7 +150,7 @@ const Table = ({
               )}
             />
             <ChooseAction />
-            <Select
+            <AesirXSelect
               className={sortBy.className}
               isShadow={true}
               isClearable={false}
@@ -395,4 +396,4 @@ function filterGreaterThan(rows, id, filterValue) {
 
 filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
 
-export default withTranslation('dam')(Table);
+export default withTranslation()(Table);

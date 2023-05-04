@@ -8,10 +8,11 @@ import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-import ComponentImage from 'components/ComponentImage';
+import { Image } from 'aesirx-uikit';
 
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
+import storage from './storage.svg';
 
 const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
@@ -19,7 +20,7 @@ const calculatorPercentage = (a, b) => {
 
 const Storage = ({ lang = 'en', theme = 'light', integration }) => {
   const [subscription, setSubscription] = useState(null);
-  const { i18n, t } = useTranslation('dam');
+  const { i18n, t } = useTranslation();
 
   const getSubscription = async () => {
     try {
@@ -50,9 +51,9 @@ const Storage = ({ lang = 'en', theme = 'light', integration }) => {
   }, [lang, i18n.language, subscription, integration]);
 
   return (
-    <div className={`w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
+    <div className={`damstorage w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
       <p className="mb-0">
-        <ComponentImage src="/assets/images/storage.svg" />
+        <Image src={storage} />
         <span className="text-white ps-3">{t('txt_storage')}</span>
       </p>
       <div className="progress my-3">
@@ -109,6 +110,8 @@ const Storage = ({ lang = 'en', theme = 'light', integration }) => {
         <a
           href="https://dam.aesirx.io/#packages"
           className="text-cyan text-decoration-underline fs-14 d-inline-block ps-1"
+          target="_blank"
+          rel="noreferrer"
         >
           {t('txt_upgrade')}
         </a>
