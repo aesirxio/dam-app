@@ -1,9 +1,7 @@
-@import '../../scss/utils/bootstrap.scss';
-
 .dropdown_item {
   &:hover {
     background-color: transparent;
-    color: $green !important;
+    color: var(--bs-green) !important;
   }
 }
 
@@ -16,6 +14,6 @@
     width: 80%;
     transform: translateX(-50%);
     height: 1px;
-    background-color: $gray-select;
+    background-color: var(--bs-gray-900);
   }
 }

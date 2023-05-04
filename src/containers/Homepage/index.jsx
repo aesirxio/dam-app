@@ -4,7 +4,7 @@
  */
 
 import React, { Suspense } from 'react';
-import Spinner from '../../components/Spinner';
+import { Spinner } from 'aesirx-uikit';
 
 import HomeActionBar from './HomeForm/HomeActionBar';
 import HomeList from './HomeList/HomeList';

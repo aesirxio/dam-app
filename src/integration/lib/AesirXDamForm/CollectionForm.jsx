@@ -6,15 +6,11 @@
 import React, { Component } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
-
-import { FORM_FIELD_TYPE } from 'constants/FormFieldType';
-
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
-import PAGE_STATUS from 'constants/PageStatus';
 import { renderingGroupFieldHandler } from 'utils/form';
+import { Spinner, PAGE_STATUS, FORM_FIELD_TYPE } from 'aesirx-uikit';
 
-const Spinner = React.lazy(() => import('components/Spinner'));
 const Button = React.lazy(() => import('components/Button'));
 
 class AesirXCollectionForm extends Component {
@@ -124,4 +120,4 @@ class AesirXCollectionForm extends Component {
   }
 }
 
-export default withTranslation('dam')(AesirXCollectionForm);
+export default withTranslation()(AesirXCollectionForm);

@@ -8,8 +8,9 @@ import {
   DAM_ASSETS_FIELD_KEY,
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
 } from 'aesirx-lib';
-import { notify } from 'components/Toast';
+import { notify } from 'aesirx-uikit';
 import PAGE_STATUS from 'constants/PageStatus';
+
 import { makeAutoObservable } from 'mobx';
 
 class DamFormViewModel {

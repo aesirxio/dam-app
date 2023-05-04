@@ -15,22 +15,19 @@ import {
   DAM_COLLECTION_API_RESPONSE_FIELD_KEY,
   DAM_COLLECTION_FIELD_KEY,
 } from 'aesirx-lib';
-import history from 'routes/history';
+import { history, Image, ModalComponent, Button } from 'aesirx-uikit';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
 import MoveToFolder from 'components/MoveToFolder';
 
-const Button = React.lazy(() => import('components/Button'));
-const ComponentImage = React.lazy(() => import('components/ComponentImage'));
 const Dropzone = React.lazy(() => import('components/Dropzone'));
-const ModalComponent = React.lazy(() => import('components/Modal'));
-const EditingIcon = React.lazy(() => import('SVG/EddingIcon'));
-const MoveFolderIcon = React.lazy(() => import('SVG/MoveFolderIcon'));
-const PreviewIcon = React.lazy(() => import('SVG/EyeIcon'));
-const DownLoadIcon = React.lazy(() => import('SVG/DownloadIcon'));
-const DeleteIcon = React.lazy(() => import('SVG/TrashIcon'));
+const EditingIcon = React.lazy(() => import('svg/EddingIcon'));
+const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
+const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
+const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));
+const DeleteIcon = React.lazy(() => import('svg/TrashIcon'));
 
 const HomeFormModal = observer(
   class HomeFormModal extends Component {
@@ -271,7 +268,7 @@ const HomeFormModal = observer(
                 contentClassName={'bg-white shadow'}
                 body={
                   <div className="d-flex flex-column justify-content-center align-items-center pb-5">
-                    <ComponentImage className="mb-3" src="/assets/images/ep_circle-close.png" />
+                    <Image className="mb-3" src="/assets/images/ep_circle-close.png" />
                     <h4 className="mb-4">{t('txt_are_you_sure')}</h4>
                     <p className="text-center">
                       {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE]
@@ -315,4 +312,4 @@ const HomeFormModal = observer(
   }
 );
 
-export default withTranslation('dam')(withDamViewModel(HomeFormModal));
+export default withTranslation()(withDamViewModel(HomeFormModal));

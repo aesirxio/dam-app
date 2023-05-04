@@ -1,9 +1,11 @@
+/* eslint-disable no-unsafe-optional-chaining */
+/* eslint-disable no-case-declarations */
 /*
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { notify } from 'components/Toast';
+import { notify } from 'aesirx-uikit';
 import PAGE_STATUS from 'constants/PageStatus';
 import { makeAutoObservable } from 'mobx';
 import {

@@ -5,13 +5,13 @@ import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import { Form } from 'react-bootstrap';
 import styles from '../index.module.scss';
-import { notify } from 'components/Toast';
+import { notify } from 'aesirx-uikit';
 import { useTranslation } from 'react-i18next';
 const CollectionName = observer(({ item }) => {
   const { damListViewModel, damFormViewModel } = useDamViewModel();
   const [value, setValue] = useState(item[DAM_COLUMN_INDICATOR.NAME]);
   const [isFocus, setIsFocus] = useState(false);
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
 
   const handleUpdateFolder = useCallback(() => {
     if (value) {

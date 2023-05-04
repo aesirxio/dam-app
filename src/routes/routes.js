@@ -3,41 +3,24 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import { isLogin } from 'auth';
-
 import React, { lazy } from 'react';
-import { Redirect } from 'react-router-dom';
-
-const LoginPage = lazy(() => import('../containers/LoginPage'));
+import { LoginPage, ProfilePage } from 'aesirx-uikit';
 
 const DashboardPage = lazy(() => import('../containers/Homepage'));
-const SettingPage = lazy(() => import('containers/SettingPage'));
-
-const ProfilePage = lazy(() => import('../containers/ProfilePage'));
 
 const authRoutes = [
   {
-    path: '/',
-    exact: true,
-    main: () => (isLogin() ? <Redirect to="/root" /> : <Redirect to="/login" />),
-  },
-  {
     path: '/login',
     exact: true,
-    main: () => <LoginPage />,
+    main: () => <LoginPage text="DAM" />,
   },
 ];
 
 const mainRoutes = [
   {
-    path: ['/root', '/root/*'],
-    // exact: true,
-    main: () => <DashboardPage />,
-  },
-  {
-    path: ['/setting', '/setting/configuration'],
+    path: ['/', '/root', '/root/*'],
     exact: true,
-    main: () => <SettingPage />,
+    main: () => <DashboardPage />,
   },
 ];
 
@@ -45,7 +28,7 @@ const settingRoutes = [
   {
     path: '/profile',
     exact: false,
-    main: ({ match, location }) => <ProfilePage match={match} location={location} />,
+    main: () => <ProfilePage />,
   },
 ];
 

@@ -3,8 +3,6 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-@import '../../scss/utils/bootstrap.scss';
-
 .btn {
   width: 35px;
   height: 35px;
@@ -49,11 +47,11 @@
 }
 
 .active {
-  fill: $white;
+  fill: var(--bs-white);
 }
 
 .inactive {
-  fill: $color-blue-6;
+  fill: var(--bs-blue-9);
 }
 
 .checkbox {
@@ -74,6 +72,6 @@
 }
 .item_hover {
   &:hover {
-    border: 1px solid $green;
+    border: 1px solid var(--bs-green);
   }
 }

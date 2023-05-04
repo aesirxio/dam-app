@@ -14,13 +14,10 @@ import {
 import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import history from 'routes/history';
-import ComponentImage from 'components/ComponentImage';
 import ComponentNoData from 'components/ComponentNoData';
-import Spinner from 'components/Spinner';
+import { Spinner, PAGE_STATUS, history, Image } from 'aesirx-uikit';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
-import PAGE_STATUS from 'constants/PageStatus';
 import styles from '../index.module.scss';
 import utils from '../HomeUtils/HomeUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
@@ -347,7 +344,7 @@ const HomeList = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <ComponentImage
+                  <Image
                     visibleByDefault
                     alt={row.original.name}
                     src="/assets/images/folder.svg"
@@ -384,14 +381,14 @@ const HomeList = observer(
                     className={this.damListViewModel.isList ? styles.image_isList : styles.image}
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                      <ComponentImage
+                      <Image
                         visibleByDefault
                         wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
                       />
                     ) : (
-                      <ComponentImage
+                      <Image
                         visibleByDefault
                         wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center pe-none"
                         src={utils.checkFileTypeFormData(row.original)}
@@ -523,4 +520,4 @@ const HomeList = observer(
   }
 );
 
-export default withTranslation('dam')(withRouter(withDamViewModel(HomeList)));
+export default withTranslation()(withRouter(withDamViewModel(HomeList)));

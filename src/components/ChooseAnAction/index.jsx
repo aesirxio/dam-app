@@ -8,7 +8,7 @@ import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import styles from './index.module.scss';
 // eslint-disable-next-line react/display-name
 const CustomToggle = React.forwardRef(({ onClick }, ref) => {
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
 
   return (
     <div
@@ -20,7 +20,7 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
       className="d-flex align-items-center text-decoration-none cursor-pointer choose-an-action justify-content-between w-100 h-100 px-3 mt-n1"
     >
       <div className="pe-3 pe-none">
-        <p className="mb-0 text-blue-0 fw-semibold fs-14">{t('choose_an_action')}</p>
+        <p className="mb-0 text-blue-0 fw-semibold fs-14">{t('txt_choose_an_action')}</p>
       </div>
       <i className="icons text-green pe-none">
         <FontAwesomeIcon icon={faChevronDown} />
@@ -30,7 +30,7 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
 });
 
 const ChooseAction = observer(() => {
-  const { t } = useTranslation('dam');
+  const { t } = useTranslation();
   const { openDeleteModal, openMoveToFolder, downloadFile } =
     useDamViewModel().getDamFormViewModel();
   const { setActionState } = useDamViewModel().getDamListViewModel();
@@ -40,7 +40,7 @@ const ChooseAction = observer(() => {
     // className: styles.w_272,
     className:
       'border-end border-gray-select bg-select-control-background choose-an-action col-auto fs-14 minw-272px',
-    placeholder: t('choose_an_action'),
+    placeholder: t('txt_choose_an_action'),
     options: [
       {
         label: t('txt_preview'),

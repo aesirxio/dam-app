@@ -23,7 +23,7 @@
         "react"
     ],
     "rules": {
-        "no-unused-vars": "error",
+        "no-unused-vars": "warn",
         "react/display-name": "warn",
         "react/prop-types": "warn",
         "react/jsx-key": "warn",

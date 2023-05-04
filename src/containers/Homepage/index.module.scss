@@ -3,7 +3,6 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-@import '../../scss/utils/bootstrap.scss';
 .item_collap_fixed {
   left: 250px;
 }
@@ -42,12 +41,12 @@
 .txt_hover {
   &:hover {
     span {
-      color: $success;
+      color: var(--bs-success);
     }
     svg {
-      fill: $success;
+      fill: var(--bs-success);
       path {
-        fill: $success;
+        fill: var(--bs-success);
       }
     }
   }
@@ -57,13 +56,13 @@
   border: 2px solid transparent;
   &::-moz-selection {
     /* Code for Firefox */
-    color: $white;
-    background: $green;
+    color: var(--bs-white);
+    background: var(--bs-green);
     transition: 0.3s all ease-in-out;
   }
   &::selection {
-    color: $white;
-    background: $green;
+    color: var(--bs-white);
+    background: var(--bs-green);
     transition: 0.3s all ease-in-out;
   }
   &:focus {
@@ -89,7 +88,7 @@
     &:hover {
       span {
         font-weight: 600;
-        color: $green !important;
+        color: var(--bs-green) !important;
       }
     }
   }
