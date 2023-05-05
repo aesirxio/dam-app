@@ -4,8 +4,6 @@ services:
   app:
     image: aesirxio/dam-app:latest
     environment:
-      REACT_APP_CLIENT_ID: ${REACT_APP_CLIENT_ID}
-      REACT_APP_CLIENT_SECRET: ${REACT_APP_CLIENT_SECRET}
       REACT_APP_ENDPOINT_URL: ${REACT_APP_ENDPOINT_URL}
       REACT_APP_ENCRYPT: ${REACT_APP_ENCRYPT}
       REACT_APP_LICENSE: ${REACT_APP_LICENSE}
