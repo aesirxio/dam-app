@@ -11,8 +11,8 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "aesirx-lib": "^1.9.4",
-    "aesirx-uikit": "^1.0.4",
+    "aesirx-lib": "^1.9.5",
+    "aesirx-uikit": "^1.0.5",
     "file-saver": "^2.0.5",
     "mobx": "^6.9.0",
     "mobx-react": "^7.6.0",
@@ -43,12 +43,6 @@
     "prepublishOnly": "yarn build:lib",
     "format:check": "prettier --check 'src/**/*.{js,jsx,ts,tsx}'",
     "format:write": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -89,5 +83,10 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "resolutions": {
+    "react": "^18",
+    "react-dom": "^18",
+    "react-dnd": "^16.0.1"
+  }
 }
