@@ -1,0 +1,25 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-dam-app-login": "npx codeceptjs run --debug --verbose Authentication/login_test.js",
+    "test-dam-app-collection": "npx codeceptjs run --debug --verbose Collection/collection_test.js",
+    "test-dam-app-asset": "npx codeceptjs run --debug --verbose Asset/asset_test.js",
+    "test-dam-app-profile": "npx codeceptjs run --debug --verbose Profile/profile_test.js",
+    "test-dam-app-setting": "npx codeceptjs run --debug --verbose Setting/setting_test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codeceptjs": "^3.4.1",
+    "import-export": "^1.0.1",
+    "puppeteer": "^19.7.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.4"
+  }
+}
