@@ -1,8 +1,8 @@
 name: demo
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

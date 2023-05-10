@@ -12,16 +12,15 @@ Find out more in [https://dam.aesirx.io](https://dam.aesirx.io)
 
 1. Register your account at https://dam.aesirx.io/. You will then get an email for user creation account.
 2. Activate your account by clicking verify in the email.
-3. Login to https://dam.aesirx.io/ site to get the REACT_APP_CLIENT_SECRET and REACT_APP_LICENSE in your profile.
+3. Login to https://dam.aesirx.io/ site to get the REACT_APP_SSO_CLIENT_ID and REACT_APP_SSO_CLIENT_SECRET in your profile.
   ![guilde](./public/assets/images/install_guide_1.jpeg)
-  If you don't have any license, select one from our homepage.
-  ![guilde](./public/assets/images/price.png)
+
 4. Enter domain and test domain of license. For example:
   ![guilde](./public/assets/images/install_guide_6.png)
 5. At dam-app folder, rename the .env.dist file to .env
     Or use this command:
     ### `mv .env.dist .env`
-6. Replace the REACT_APP_CLIENT_SECRET  and REACT_APP_LICENSE in the .env file with the one provided in your profile account.
+6. Replace the REACT_APP_SSO_CLIENT_ID and REACT_APP_SSO_CLIENT_SECRET in the .env file with the one provided in your profile account.
 ### `yarn install`
 ### `yarn dev`
 
@@ -47,20 +46,12 @@ The easiest way to use aesirx-dam-app is to install it from npm and build it int
 npm install aesirx-dam-app
 ```
 
-Add your `REACT_APP_DAM_LICENSE` to your integrate app you get if from #configure step
-
-
-
 Then use it in your app:
 
 ```js
 import React, { useState } from 'react';
 
-import { AesirXDam } from 'aesirx-dam-app';
-import { AesirXDamStorage } from 'aesirx-dam-app';
-
-import 'aesirx-dam-app/dist/index.css';
-import 'aesirx-dam-app/dist/app.css';
+import { AesirXDam, AesirXDamStorage } from 'aesirx-dam-app';
 
 function AesirXDam() {
   const onSelect = (data) => {
@@ -70,7 +61,7 @@ function AesirXDam() {
   return (
     <div className="py-4 px-3 h-100 flex-direction-column">
       <div className="h-100 flex-1">
-        <AesirXDam onSelect={onSelect} lang={'your_lang_code'} theme={'your_theme'} />
+        <AesirXDam onSelect={onSelect} />
       </div>
       <div>
        <AesirXDamStorage />
@@ -88,5 +79,3 @@ export default AesirXDam;
 Common props you may want to specify include:
 
 - `onSelect` - subscribe to select event
-- `lang` - lang code
-- `theme` - light or dark property
