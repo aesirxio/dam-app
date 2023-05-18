@@ -3021,6 +3021,19 @@ aesirx-lib@^1.9.6:
     query-string "7"
     react-secure-storage "^1.2.2"
 
+aesirx-lib@^1.9.7:
+  version "1.9.7"
+  resolved "https://registry.yarnpkg.com/aesirx-lib/-/aesirx-lib-1.9.7.tgz#3a41257b6f4cfda4cb7a5a75efaed23a82c27a8c"
+  integrity sha512-guXs/uAN5wW+xKr9UjyMv5/u9fYXEp8xQVGFA10XIBy/19/j+JJnUOas1A82zHWOawN7LfbZIRHq8gL11n1B+g==
+  dependencies:
+    axios "^1.3.5"
+    axios-auth-refresh "^3.3.6"
+    date-fns "^2.30.0"
+    date-fns-tz "^2.0.0"
+    moment "^2.29.4"
+    query-string "7"
+    react-secure-storage "^1.2.2"
+
 aesirx-sso@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/aesirx-sso/-/aesirx-sso-1.0.10.tgz#288d41be5a936169e26587545e7e9bdab42df5ff"
@@ -3071,10 +3084,10 @@ aesirx-uikit@^1.0.5:
     react-toastify "^9.1.2"
     simple-react-validator "^1.6.2"
 
-aesirx-uikit@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/aesirx-uikit/-/aesirx-uikit-1.0.6.tgz#f10d9a59d9197f14909171da15d7a12a9642de93"
-  integrity sha512-AyFtOO20KvFeYc/NBSeNqXzyjnlMx5N55Jw3UWIyIBtBXVu6njUTBlx5948dRh28FF7xay2pftYkWaFLL15Q3g==
+aesirx-uikit@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/aesirx-uikit/-/aesirx-uikit-1.0.7.tgz#7a62087799d26b2663daafa639586042bdc2b07e"
+  integrity sha512-QFh+6gC+ZFNXzSPVfc5rDDKN8nhkFt3UoFUx2xdxMH0hGvr36EhZ5F5R7/e8Xw0elQxePw8jm9FHYHwP3tlX3Q==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.4.0"
     "@fortawesome/free-regular-svg-icons" "^6.4.0"
