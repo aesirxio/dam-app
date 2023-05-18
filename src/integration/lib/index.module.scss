@@ -1,0 +1,76 @@
+/*
+ * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
+ * @license     GNU General Public License version 3, see LICENSE.
+ */
+
+.dam-integrate-layout {
+  .item_collap_fixed {
+    left: 250px;
+  }
+
+  .wrapper_new_schedule {
+    top: 10px;
+    right: 1.5rem;
+  }
+
+  .full_calender {
+    .pe-400 {
+      padding-right: 1rem !important;
+    }
+
+    .sdbar_right {
+      display: none;
+    }
+  }
+  .folder {
+    margin-bottom: 32px;
+  }
+
+  .image {
+    height: 212px;
+    overflow: hidden;
+    width: 100%;
+  }
+  .image_isList {
+    width: 56px;
+    height: 56px;
+  }
+  .popupImageHeight {
+    height: calc(100% - 50px);
+  }
+
+  .txt_hover {
+    &:hover {
+      span {
+        color: var(--bs-success);
+      }
+      svg {
+        fill: var(--bs-success);
+        path {
+          fill: var(--bs-success);
+        }
+      }
+    }
+  }
+
+  .input {
+    border: 1px solid transparent;
+    &::-moz-selection {
+      /* Code for Firefox */
+      color: var(--bs-white);
+      background: var(--bs-green);
+      transition: 0.3s all ease-in-out;
+    }
+    &::selection {
+      color: var(--bs-white);
+      background: var(--bs-green);
+      transition: 0.3s all ease-in-out;
+    }
+    &:focus {
+      transition: 0.3s all ease-in-out;
+      border-radius: 3px;
+      // border: 1px solid #2828314d;
+      box-shadow: unset;
+    }
+  }
+}

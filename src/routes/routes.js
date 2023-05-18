@@ -5,6 +5,7 @@
 
 import React, { lazy } from 'react';
 import { LoginPage, ProfilePage } from 'aesirx-uikit';
+import { Redirect } from 'react-router-dom';
 
 const DashboardPage = lazy(() => import('../containers/Homepage'));
 
@@ -18,7 +19,12 @@ const authRoutes = [
 
 const mainRoutes = [
   {
-    path: ['/', '/root', '/root/*'],
+    path: ['/'],
+    exact: true,
+    main: () => <Redirect to="/root" />,
+  },
+  {
+    path: ['/root', '/root/*'],
     exact: true,
     main: () => <DashboardPage />,
   },

@@ -20,6 +20,7 @@ import utils from './AesirXDamUtils/AesirXDamUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
+import styles from './index.module.scss';
 
 const Folder = React.lazy(() => import('svg/Folder'));
 const AesirXDamComponent = observer(
@@ -348,7 +349,7 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <div className={`${this.damListViewModel.isList ? '' : 'folder'} pe-none`}>
+                  <div className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}>
                     <Folder />
                   </div>
                   <span
@@ -379,7 +380,9 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <span className={this.damListViewModel.isList ? 'image_isList' : 'image'}>
+                  <span
+                    className={this.damListViewModel.isList ? styles.image_isList : styles.image}
+                  >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <Image
                         wrapperClassName="w-100 h-100 pe-none"

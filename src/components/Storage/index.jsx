@@ -56,7 +56,7 @@ const Storage = ({ lang = 'en', theme = 'light', integration }) => {
         <Image src={storage} />
         <span className="text-white ps-3">{t('txt_storage')}</span>
       </p>
-      <div className="progress my-3">
+      <div className="progress my-3" style={{ height: '5px' }}>
         <div
           className="progress-bar bg-cyan"
           role="progressbar"
