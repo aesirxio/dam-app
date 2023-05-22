@@ -21,13 +21,15 @@ const AesirXDamActionBar = observer(
     damFormModalViewModel = null;
     damListViewModel = null;
     openModal = false;
+    accept = '*';
 
     constructor(props) {
       super(props);
-      const { viewModel } = props;
+      const { viewModel, accept } = props;
 
       this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
+      this.accept = accept ?? '*';
     }
 
     componentDidMount() {}
@@ -89,6 +91,7 @@ const AesirXDamActionBar = observer(
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
+
           <div className="d-flex justify-content-end col-auto">
             <ButtonNormal
               onClick={this.handleCreateFolder}
@@ -96,7 +99,7 @@ const AesirXDamActionBar = observer(
               text="txt_create_folder"
               className="btn-outline-gray-300 bg-select-control-background text-blue-0 me-3"
             />
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} accept={this.accept}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}

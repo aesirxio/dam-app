@@ -44,6 +44,7 @@ const Table = ({
   onBackClick,
   dataCollections,
   onSelectionChange,
+  toolbar = true,
   // dataAssets,
 }) => {
   const { t } = useTranslation();
@@ -137,19 +138,23 @@ const Table = ({
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between border-1 border-gray-select">
           <div className="wrapper_search_global d-flex">
-            <AesirXSelect
-              className={filterBar.className}
-              isShadow={true}
-              isClearable={false}
-              isSearchable={false}
-              options={filterBar.options}
-              onChange={onFilter}
-              isBackGround={true}
-              value={filterBar.options.find(
-                (e) => e.value === listViewModel.dataFilter['filter[type]']
-              )}
-            />
-            <ChooseAction />
+            {toolbar && (
+              <>
+                <AesirXSelect
+                  className={filterBar.className}
+                  isShadow={true}
+                  isClearable={false}
+                  isSearchable={false}
+                  options={filterBar.options}
+                  onChange={onFilter}
+                  isBackGround={true}
+                  value={filterBar.options.find(
+                    (e) => e.value === listViewModel.dataFilter['filter[type]']
+                  )}
+                />
+                <ChooseAction />
+              </>
+            )}
             <AesirXSelect
               className={sortBy.className}
               isShadow={true}
@@ -195,6 +200,7 @@ const Table = ({
           )}
         </div>
       </div>
+
       <ThumbDragLayer />
       {isList ? (
         <div className="py-3 rounded-3 col">

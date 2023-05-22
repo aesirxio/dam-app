@@ -10,11 +10,19 @@ import styles from './index.module.scss';
 import { useTranslation } from 'react-i18next';
 import CloudUpload from 'svg/CloudUpload';
 
-const Dropzone = ({ children, noClick, createAssets, className, isBtn = true, noDrag = true }) => {
+const Dropzone = ({
+  children,
+  noClick,
+  createAssets,
+  className,
+  isBtn = true,
+  noDrag = true,
+  accept = '*',
+}) => {
   const [onDrag, setOnDrag] = useState(false);
   const { t } = useTranslation();
   const { getRootProps, getInputProps } = useDropzone({
-    // accept: '*',
+    accept: accept,
     noClick: noClick,
     noDrag: noDrag,
     // maxFiles: 1,
