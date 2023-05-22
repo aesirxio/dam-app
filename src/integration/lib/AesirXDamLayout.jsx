@@ -11,11 +11,15 @@ import DamStore from 'store/DamStore/DamStore';
 
 import AesirXDamComponent from './AesirXDamComponent';
 import AesirXDamActionBar from './AesirXDamForm/AesirXDamActionBar';
+import { useThemeContext } from 'aesirx-uikit';
 
 const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
 
-const AesirXDamLayout = ({ theme = 'light', ...props }) => {
+const AesirXDamLayout = (props) => {
+
+  const { theme } = useThemeContext();
+
   return (
     <div className="container-fluid h-100 dam-integrate-layout">
       <div className={`row h-100 ${theme ?? 'light'}`}>

@@ -23,23 +23,30 @@ import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 import styles from './index.module.scss';
 
 const Folder = React.lazy(() => import('svg/Folder'));
+
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
     damListViewModel = null;
     damformModalViewModal = null;
+    type = '';
+    toolbar = true;
 
     constructor(props) {
       super(props);
-      const { viewModel } = props;
+      const { viewModel, type, toolbar } = props;
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
+      this.type = type ?? '';
+      this.toolbar = toolbar ?? true;
     }
 
     componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
       this.damListViewModel.setLoading();
-      this.damListViewModel.setDamLinkFolder('root');
+      this.damListViewModel.setDamLinkFolder('root', {
+        'filter[type]': this.type,
+      });
     }
 
     componentWillUnmount() {
@@ -505,6 +512,7 @@ const AesirXDamComponent = observer(
                 onSelectionChange={this.handleItemSelection}
                 dataCollections={handleCollections}
                 dataAssets={handleAssets}
+                toolbar={this.toolbar}
               />
             </>
           ) : (
