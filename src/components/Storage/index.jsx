@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-import { Image, useThemeContext } from 'aesirx-uikit';
+import { Image } from 'aesirx-uikit';
 
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
@@ -21,7 +21,6 @@ const calculatorPercentage = (a, b) => {
 const Storage = () => {
   const [subscription, setSubscription] = useState(null);
   const { t } = useTranslation();
-  const { theme } = useThemeContext();
 
   const getSubscription = async () => {
     try {
@@ -50,7 +49,7 @@ const Storage = () => {
   }, [subscription]);
 
   return (
-    <div className={`damstorage w-100 mb-3 px-3 py-3 ${theme}`}>
+    <div className={`damstorage w-100 mb-3 px-3 py-3`}>
       <p className="mb-0">
         <Image src={storage} />
         <span className="text-white ps-3">{t('txt_storage')}</span>
