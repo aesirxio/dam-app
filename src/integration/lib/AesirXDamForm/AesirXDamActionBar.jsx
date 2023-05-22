@@ -14,8 +14,8 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import BreadCrumbs from 'components/Breadcrumbs';
 import { ButtonNormal } from 'aesirx-uikit';
 
-const AesirXDamFormModel = React.lazy(() => import('./AesirXDamFormModel'));
-const Dropzone = React.lazy(() => import('components/Dropzone'));
+import Dropzone from 'components/Dropzone';
+import AesirXDamFormModel from './AesirXDamFormModel';
 const AesirXDamActionBar = observer(
   class AesirXDamActionBar extends Component {
     damFormModalViewModel = null;

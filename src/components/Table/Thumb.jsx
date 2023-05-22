@@ -9,7 +9,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
-import styles from './index.module.scss';
+import styles from './table.module.scss';
 export const DND_ITEM_TYPE = 'thumb';
 let timer = 0;
 let delay = 200;

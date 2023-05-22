@@ -10,7 +10,7 @@ import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import styles from './index.module.scss';
+import styles from './table.module.scss';
 import ChooseAction from '../ChooseAnAction';
 import ListCheck from '../../svg/ListCheck';
 import ThumbNails from '../../svg/ThumbNails';
@@ -18,12 +18,12 @@ import Dropzone from 'components/Dropzone';
 import { IndeterminateCheckbox } from './Thumb';
 import { AesirXSelect } from 'aesirx-uikit';
 
-const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
-const Thumb = React.lazy(() => import('./Thumb'));
+import ComponentNoData from '../ComponentNoData';
+import Thumb from './Thumb';
+import ArrowBack from 'svg/ArrowBack';
+import ThumbDragLayer from './ThumbDragLayer';
 
-const ArrowBack = React.lazy(() => import('svg/ArrowBack'));
-const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
-
+console.log('Table', styles);
 const Table = ({
   rowData = [],
   tableRowHeader = [],

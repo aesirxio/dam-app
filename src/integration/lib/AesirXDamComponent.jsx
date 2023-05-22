@@ -21,8 +21,7 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 import styles from './index.module.scss';
-
-const Folder = React.lazy(() => import('svg/Folder'));
+import Folder from 'svg/Folder';
 
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
@@ -335,6 +334,7 @@ const AesirXDamComponent = observer(
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
+
       const tableRowHeader = [
         {
           id: 'selection',
