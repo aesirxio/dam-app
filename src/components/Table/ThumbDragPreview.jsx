@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Image } from 'aesirx-uikit';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
-import styles from './index.module.scss';
+import styles from './table.module.scss';
 const ThumbsDragPreview = ({ thumbs }) => {
   return (
     <div>

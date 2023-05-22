@@ -16,7 +16,11 @@ export const tsup: Options = {
       js: `.js`,
     };
   },
-  esbuildPlugins: [inlineImage({ limit: -1 }), ScssModulesPlugin(), sassPlugin({ type: 'style' })],
+  esbuildPlugins: [
+    inlineImage({ limit: -1 }),
+    ScssModulesPlugin({ localsConvention: 'dashes' }),
+    sassPlugin({ type: 'style' }),
+  ],
   loader: {
     '.js': 'jsx',
   },
