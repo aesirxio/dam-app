@@ -50,7 +50,7 @@ const Storage = () => {
   }, [subscription]);
 
   return (
-    <div className={`damstorage w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
+    <div className={`damstorage w-100 mb-3 px-3 py-3 ${theme}`}>
       <p className="mb-0">
         <Image src={storage} />
         <span className="text-white ps-3">{t('txt_storage')}</span>
