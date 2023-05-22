@@ -17,7 +17,6 @@ const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
 
 const AesirXDamLayout = (props) => {
-
   const { theme } = useThemeContext();
 
   return (
