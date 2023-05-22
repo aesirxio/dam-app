@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-import { Image } from 'aesirx-uikit';
+import { Image, useThemeContext } from 'aesirx-uikit';
 
 import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
@@ -18,9 +18,10 @@ const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
 };
 
-const Storage = ({ lang = 'en', theme = 'light', integration }) => {
+const Storage = () => {
   const [subscription, setSubscription] = useState(null);
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
+  const { theme } = useThemeContext();
 
   const getSubscription = async () => {
     try {
@@ -44,11 +45,9 @@ const Storage = ({ lang = 'en', theme = 'light', integration }) => {
     if (!subscription) {
       getSubscription();
     }
-    if (integration) {
-      i18n.changeLanguage(lang ?? 'en');
-    }
+
     return () => {};
-  }, [lang, i18n.language, subscription, integration]);
+  }, [subscription]);
 
   return (
     <div className={`damstorage w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
