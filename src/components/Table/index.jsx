@@ -23,7 +23,6 @@ import Thumb from './Thumb';
 import ArrowBack from 'svg/ArrowBack';
 import ThumbDragLayer from './ThumbDragLayer';
 
-console.log('Table', styles);
 const Table = ({
   rowData = [],
   tableRowHeader = [],
