@@ -111,8 +111,8 @@ const AesirXDamComponent = observer(
 
     handleRightClick = (e) => {
       e.preventDefault();
-
       const inside = e.target.closest('.item_thumb');
+
       if (!inside) {
         this.damFormModalViewModal.closeContextMenuItem();
         this.damListViewModel.setActionState({
@@ -139,7 +139,6 @@ const AesirXDamComponent = observer(
             top: 'unset',
           };
         }
-
         this.damListViewModel.setActionState({
           style: style,
         });
@@ -179,7 +178,6 @@ const AesirXDamComponent = observer(
       this.damListViewModel.setActionState({
         style: style,
       });
-      this.handleItemSelection(data.index, false, false, false, true);
 
       this.damFormModalViewModal.openContextMenuItem();
     };
