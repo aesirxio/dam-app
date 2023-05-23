@@ -22,8 +22,8 @@ import utils from '../AesirXDamUtils/AesirXDamUtils';
 import moment from 'moment';
 import { Button } from 'aesirx-uikit';
 
-const Folder = React.lazy(() => import('svg/Folder'));
-const Trash = React.lazy(() => import('svg/TrashIcon'));
+import Folder from 'svg/Folder';
+import Trash from 'svg/TrashIcon';
 
 class AesirDamForm extends Component {
   formPropsData = {

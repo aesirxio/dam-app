@@ -20,14 +20,14 @@ import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploa
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Image, ModalComponent, Button } from 'aesirx-uikit';
 
-const MoveToFolder = React.lazy(() => import('components/MoveToFolder'));
-const AesirXDamForm = React.lazy(() => import('./AesirXDamForm'));
-const Dropzone = React.lazy(() => import('components/Dropzone'));
-const EditingIcon = React.lazy(() => import('svg/EddingIcon'));
-const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
-const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
-const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));
-const DeleteIcon = React.lazy(() => import('svg/TrashIcon'));
+import MoveToFolder from 'components/MoveToFolder';
+import AesirXDamForm from './AesirXDamForm';
+import Dropzone from 'components/Dropzone';
+import EditingIcon from 'svg/EddingIcon';
+import MoveFolderIcon from 'svg/MoveFolderIcon';
+import PreviewIcon from 'svg/EyeIcon';
+import DownLoadIcon from 'svg/DownloadIcon';
+import DeleteIcon from 'svg/TrashIcon';
 
 const AesirXDamFormModal = observer(
   class AesirXDamFormModal extends Component {
