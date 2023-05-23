@@ -26,7 +26,7 @@ import Dropzone from 'components/Dropzone';
 import EditingIcon from 'svg/EddingIcon';
 import MoveFolderIcon from 'svg/MoveFolderIcon';
 import PreviewIcon from 'svg/EyeIcon';
-import DownLoadIcon from 'svg/DownLoadIcon';
+import DownLoadIcon from 'svg/DownloadIcon';
 import DeleteIcon from 'svg/TrashIcon';
 
 const AesirXDamFormModal = observer(
