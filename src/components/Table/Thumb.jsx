@@ -9,7 +9,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
-import styles from './index.module.scss';
+import styles from './table.module.scss';
 export const DND_ITEM_TYPE = 'thumb';
 let timer = 0;
 let delay = 200;
@@ -40,7 +40,7 @@ const FakeThumb = observer(({ id, index, isList }) => {
           checkBorderTop && isList ? 'border-top-0' : ''
         } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}
       ></span>
-      {item && !isList ? (
+      {item?.indexSelected && !isList ? (
         <span
           className={`d-flex align-items-center justify-content-center fw-bold text-white bg-success rounded-circle pe-none user-select-none ${styles.count}`}
         >

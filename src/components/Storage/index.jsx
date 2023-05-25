@@ -18,9 +18,9 @@ const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
 };
 
-const Storage = ({ lang = 'en', theme = 'light', integration }) => {
+const Storage = () => {
   const [subscription, setSubscription] = useState(null);
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
 
   const getSubscription = async () => {
     try {
@@ -44,14 +44,12 @@ const Storage = ({ lang = 'en', theme = 'light', integration }) => {
     if (!subscription) {
       getSubscription();
     }
-    if (integration) {
-      i18n.changeLanguage(lang ?? 'en');
-    }
+
     return () => {};
-  }, [lang, i18n.language, subscription, integration]);
+  }, [subscription]);
 
   return (
-    <div className={`damstorage w-100 mb-3 px-3 py-3 ${theme ?? 'light'}`}>
+    <div className={`damstorage w-100 mb-3 px-3 py-3`}>
       <p className="mb-0">
         <Image src={storage} />
         <span className="text-white ps-3">{t('txt_storage')}</span>

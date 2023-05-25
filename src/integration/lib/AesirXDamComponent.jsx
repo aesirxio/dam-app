@@ -21,25 +21,31 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 import styles from './index.module.scss';
+import Folder from 'svg/Folder';
 
-const Folder = React.lazy(() => import('svg/Folder'));
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
     damListViewModel = null;
     damformModalViewModal = null;
+    type = '';
+    toolbar = true;
 
     constructor(props) {
       super(props);
-      const { viewModel } = props;
+      const { viewModel, type, toolbar } = props;
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
+      this.type = type ?? '';
+      this.toolbar = toolbar ?? true;
     }
 
     componentDidMount() {
       document.addEventListener('mousedown', this.handleClickOutside);
       this.damListViewModel.setLoading();
-      this.damListViewModel.setDamLinkFolder('root');
+      this.damListViewModel.setDamLinkFolder('root', {
+        'filter[type]': this.type,
+      });
     }
 
     componentWillUnmount() {
@@ -105,8 +111,8 @@ const AesirXDamComponent = observer(
 
     handleRightClick = (e) => {
       e.preventDefault();
-
       const inside = e.target.closest('.item_thumb');
+
       if (!inside) {
         this.damFormModalViewModal.closeContextMenuItem();
         this.damListViewModel.setActionState({
@@ -133,7 +139,6 @@ const AesirXDamComponent = observer(
             top: 'unset',
           };
         }
-
         this.damListViewModel.setActionState({
           style: style,
         });
@@ -173,7 +178,6 @@ const AesirXDamComponent = observer(
       this.damListViewModel.setActionState({
         style: style,
       });
-      this.handleItemSelection(data.index, false, false, false, true);
 
       this.damFormModalViewModal.openContextMenuItem();
     };
@@ -328,6 +332,7 @@ const AesirXDamComponent = observer(
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
+
       const tableRowHeader = [
         {
           id: 'selection',
@@ -505,6 +510,7 @@ const AesirXDamComponent = observer(
                 onSelectionChange={this.handleItemSelection}
                 dataCollections={handleCollections}
                 dataAssets={handleAssets}
+                toolbar={this.toolbar}
               />
             </>
           ) : (

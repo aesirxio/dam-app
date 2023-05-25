@@ -9,7 +9,7 @@ const AesirXDamStorage = (props) => {
     <ErrorBoundary>
       <AesirXI18nextProvider appLanguages={appLanguages}>
         <div className="dam-integrate-layout">
-          <Storage {...props} integration={true} />;
+          <Storage {...props} />
         </div>
       </AesirXI18nextProvider>
     </ErrorBoundary>

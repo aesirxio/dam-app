@@ -6,10 +6,10 @@
 import React from 'react';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 
-const Xlsx = React.lazy(() => import('svg/Xlsx'));
-const Word = React.lazy(() => import('svg/Word'));
-const Pdf = React.lazy(() => import('svg/Pdf'));
-const FileDefault = React.lazy(() => import('svg/File'));
+import Xlsx from 'svg/Xlsx';
+import Word from 'svg/Word';
+import Pdf from 'svg/Pdf';
+import FileDefault from 'svg/File';
 
 class AesirXDamUtils {
   transformPersonaResponseIntoModel = (response) => {

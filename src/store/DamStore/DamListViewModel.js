@@ -76,13 +76,13 @@ class DamListViewModel {
   };
 
   // For intergate
-  setDamLinkFolder = (link) => {
+  setDamLinkFolder = (link, dataFilter = {}) => {
     this.damLinkFolder = link;
     const collectionId = link.split('/');
     const currentCollection = !isNaN(collectionId[collectionId.length - 1])
       ? collectionId[collectionId.length - 1]
       : 0;
-    this.goToFolder(currentCollection);
+    this.goToFolder(currentCollection, dataFilter);
   };
   // end of intergate
 

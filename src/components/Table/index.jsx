@@ -10,7 +10,7 @@ import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import styles from './index.module.scss';
+import styles from './table.module.scss';
 import ChooseAction from '../ChooseAnAction';
 import ListCheck from '../../svg/ListCheck';
 import ThumbNails from '../../svg/ThumbNails';
@@ -18,11 +18,10 @@ import Dropzone from 'components/Dropzone';
 import { IndeterminateCheckbox } from './Thumb';
 import { AesirXSelect } from 'aesirx-uikit';
 
-const ComponentNoData = React.lazy(() => import('../ComponentNoData'));
-const Thumb = React.lazy(() => import('./Thumb'));
-
-const ArrowBack = React.lazy(() => import('svg/ArrowBack'));
-const ThumbDragLayer = React.lazy(() => import('./ThumbDragLayer'));
+import ComponentNoData from '../ComponentNoData';
+import Thumb from './Thumb';
+import ArrowBack from 'svg/ArrowBack';
+import ThumbDragLayer from './ThumbDragLayer';
 
 const Table = ({
   rowData = [],
@@ -44,6 +43,7 @@ const Table = ({
   onBackClick,
   dataCollections,
   onSelectionChange,
+  toolbar = true,
   // dataAssets,
 }) => {
   const { t } = useTranslation();
@@ -137,19 +137,23 @@ const Table = ({
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
         <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between border-1 border-gray-select">
           <div className="wrapper_search_global d-flex">
-            <AesirXSelect
-              className={filterBar.className}
-              isShadow={true}
-              isClearable={false}
-              isSearchable={false}
-              options={filterBar.options}
-              onChange={onFilter}
-              isBackGround={true}
-              value={filterBar.options.find(
-                (e) => e.value === listViewModel.dataFilter['filter[type]']
-              )}
-            />
-            <ChooseAction />
+            {toolbar && (
+              <>
+                <AesirXSelect
+                  className={filterBar.className}
+                  isShadow={true}
+                  isClearable={false}
+                  isSearchable={false}
+                  options={filterBar.options}
+                  onChange={onFilter}
+                  isBackGround={true}
+                  value={filterBar.options.find(
+                    (e) => e.value === listViewModel.dataFilter['filter[type]']
+                  )}
+                />
+                <ChooseAction />
+              </>
+            )}
             <AesirXSelect
               className={sortBy.className}
               isShadow={true}
@@ -195,6 +199,7 @@ const Table = ({
           )}
         </div>
       </div>
+
       <ThumbDragLayer />
       {isList ? (
         <div className="py-3 rounded-3 col">

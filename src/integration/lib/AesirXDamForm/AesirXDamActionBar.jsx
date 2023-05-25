@@ -14,20 +14,22 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import BreadCrumbs from 'components/Breadcrumbs';
 import { ButtonNormal } from 'aesirx-uikit';
 
-const AesirXDamFormModel = React.lazy(() => import('./AesirXDamFormModel'));
-const Dropzone = React.lazy(() => import('components/Dropzone'));
+import Dropzone from 'components/Dropzone';
+import AesirXDamFormModel from './AesirXDamFormModel';
 const AesirXDamActionBar = observer(
   class AesirXDamActionBar extends Component {
     damFormModalViewModel = null;
     damListViewModel = null;
     openModal = false;
+    accept = '*';
 
     constructor(props) {
       super(props);
-      const { viewModel } = props;
+      const { viewModel, accept } = props;
 
       this.damListViewModel = viewModel ? viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = viewModel ? viewModel.getDamFormViewModel() : null;
+      this.accept = accept ?? '*';
     }
 
     componentDidMount() {}
@@ -89,6 +91,7 @@ const AesirXDamActionBar = observer(
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
+
           <div className="d-flex justify-content-end col-auto">
             <ButtonNormal
               onClick={this.handleCreateFolder}
@@ -96,7 +99,7 @@ const AesirXDamActionBar = observer(
               text="txt_create_folder"
               className="btn-outline-gray-300 bg-select-control-background text-blue-0 me-3"
             />
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} accept={this.accept}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
