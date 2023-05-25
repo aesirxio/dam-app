@@ -3,6 +3,7 @@ version: "3"
 services:
   app:
     image: aesirxio/dam-app:latest
+    pull_policy: always
     environment:
       REACT_APP_ENDPOINT_URL: ${REACT_APP_ENDPOINT_URL}
       REACT_APP_SSO_CLIENT_ID: ${REACT_APP_SSO_CLIENT_ID}
