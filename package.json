@@ -87,6 +87,7 @@
   "resolutions": {
     "react": "^18",
     "react-dom": "^18",
-    "react-dnd": "^16"
+    "react-dnd": "^16",
+    "aesirx-uikit": "^1.0.8"
   }
 }
