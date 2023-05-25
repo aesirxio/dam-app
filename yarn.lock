@@ -3084,10 +3084,10 @@ aesirx-uikit@^1.0.5:
     react-toastify "^9.1.2"
     simple-react-validator "^1.6.2"
 
-aesirx-uikit@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/aesirx-uikit/-/aesirx-uikit-1.0.7.tgz#7a62087799d26b2663daafa639586042bdc2b07e"
-  integrity sha512-QFh+6gC+ZFNXzSPVfc5rDDKN8nhkFt3UoFUx2xdxMH0hGvr36EhZ5F5R7/e8Xw0elQxePw8jm9FHYHwP3tlX3Q==
+aesirx-uikit@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/aesirx-uikit/-/aesirx-uikit-1.0.8.tgz#c5eb9a3b94348c5bfb52089e4769c5111981be50"
+  integrity sha512-x1h5hgmNBH/Qu/9+yzVYpvwqWLDxx344yTjKcedriPhn8pwfPq+8KeQfR6P0FlZfj2nEmNm9x/VKujN3j56Q1A==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.4.0"
     "@fortawesome/free-regular-svg-icons" "^6.4.0"
