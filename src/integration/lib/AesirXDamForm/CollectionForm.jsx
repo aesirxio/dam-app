@@ -8,8 +8,14 @@ import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
-import { renderingGroupFieldHandler } from 'utils/form';
-import { Spinner, PAGE_STATUS, FORM_FIELD_TYPE, Button } from 'aesirx-uikit';
+
+import {
+  Spinner,
+  PAGE_STATUS,
+  FORM_FIELD_TYPE,
+  Button,
+  renderingGroupFieldHandler,
+} from 'aesirx-uikit';
 
 class AesirXCollectionForm extends Component {
   formPropsData = null;
