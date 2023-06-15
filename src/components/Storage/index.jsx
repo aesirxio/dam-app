@@ -27,7 +27,7 @@ const Storage = () => {
       const store = new DamStore();
       const subscriptionFromLibrary = await store.getSubscription();
       if (subscriptionFromLibrary) {
-        const damSubscirption = subscriptionFromLibrary.find((item) => {
+        const damSubscirption = subscriptionFromLibrary?.find((item) => {
           if (item[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.type === 'product-aesirx-dam') {
             return item;
           }
