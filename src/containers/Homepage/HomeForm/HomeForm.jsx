@@ -12,38 +12,38 @@ import {
   Spinner,
   Button,
   FORM_FIELD_TYPE,
-  Image,
   renderingGroupFieldHandler,
   PAGE_STATUS,
+  Image,
 } from 'aesirx-uikit';
 import { withTranslation } from 'react-i18next';
 
-import utils from '../HomeUtils/HomeUtils';
-import styles from '../index.module.scss';
 import moment from 'moment';
-import Trash from 'svg/TrashIcon';
+
+import ImageEditorComponent from 'components/ImageEditor';
+import utils from '../HomeUtils/HomeUtils';
 
 class HomeForm extends Component {
-  formPropsData = {
-    [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
-    [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
-      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.COLLECTION_ID],
-    [DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]:
-      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
-    [DAM_ASSETS_FIELD_KEY.FILE_SIZE]:
-      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_SIZE] ??
-      this.props.viewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.FILE_SIZE],
-    [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
-    [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]:
-      this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
-  };
-
   constructor(props) {
     super(props);
 
     this.validator = new SimpleReactValidator({ autoForceUpdate: this });
 
     this.viewModel = this.props.viewModel;
+
+    this.formPropsData = {
+      [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
+      [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.COLLECTION_ID],
+      [DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+      [DAM_ASSETS_FIELD_KEY.FILE_SIZE]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_SIZE] ??
+        this.props.viewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.FILE_SIZE],
+      [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
+      [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
+    };
   }
 
   handleOnSubmit = () => {
@@ -146,43 +146,31 @@ class HomeForm extends Component {
 
     const formSetting = this.generateFormSetting();
     const { t } = this.props;
+
+    console.log('formSetting', formSetting);
     return (
       <>
         <div className="row pb-3 h-100">
-          <div className="col-lg-8 col-12 h-auto">
-            <div className="h-100 p-3 bg-gray-400">
-              <Button
-                svg={<Trash />}
-                text={t('txt_delete')}
-                onClick={this.props.delete}
-                className="btn-outline-gray-300 h-48px bg-white text-danger "
-              />
-              <div
-                className={`d-flex align-items-center justify-content-center ${styles.popupImageHeight}`}
-              >
-                {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
-                  <Image
-                    wrapperClassName="h-50 w-50"
-                    className="h-100 w-100 object-fit-contain"
-                    src={'/assets/images/folder-big.png'}
-                  />
-                ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                  <Image
-                    wrapperClassName="h-100 w-100"
-                    className="h-100 w-100 object-fit-contain"
-                    src={this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
-                  />
-                ) : (
-                  <Image
-                    wrapperClassName="h-50 w-50"
-                    className="h-100 w-100 object-fit-contain"
-                    src={utils.checkFileTypeFormData(this.props.viewModel.damEditdata)}
-                  />
-                )}
-              </div>
+          <div className="col-lg-9 col-12 h-auto">
+            <div className={`d-flex align-items-center justify-content-center h-100 `}>
+              {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
+                <Image
+                  wrapperClassName="h-50 w-50"
+                  className="h-100 w-100 object-fit-contain"
+                  src={'/assets/images/folder-big.png'}
+                />
+              ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
+                <ImageEditorComponent damEditdata={this.props.viewModel.damEditdata} />
+              ) : (
+                <Image
+                  wrapperClassName="h-50 w-50"
+                  className="h-100 w-100 object-fit-contain"
+                  src={utils.checkFileTypeFormData(this.props.viewModel.damEditdata)}
+                />
+              )}
             </div>
           </div>
-          <div className="col-lg-4 col-12 h-auto d-flex flex-column">
+          <div className="col-lg-3 col-12 h-auto d-flex flex-column">
             <div className="row mb-auto">
               {Object.keys(formSetting)
                 .map((groupIndex) => {
