@@ -6,14 +6,15 @@ import inlineImage from 'esbuild-plugin-inline-image';
 const env = process.env.NODE_ENV;
 
 export const tsup: Options = {
-  clean: env !== 'development',
+  clean: true,
   format: ['esm'],
   minify: env === 'development' ? false : 'terser',
   watch: env === 'development',
   outDir: 'dist',
-  entry: ['src/integration/index.js', 'src/integration/**/*.{js,jsx}'], //entry: ['src/index.{ts,tsx}', 'src/**/*.{ts,tsx}', '!src/**/*.test.{ts,tsx}', '!src/**/*.d.ts'],
+  entry: ['src/integration/index.js'],
   target: 'es2020',
   platform: 'browser',
+  treeshake: true,
   esbuildPlugins: [
     inlineImage({ limit: -1 }),
     ScssModulesPlugin({ localsConvention: 'dashes' }),

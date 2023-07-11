@@ -43,6 +43,7 @@ const HomeList = observer(
       const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
+
       this.damListViewModel.setLoading();
       this.damListViewModel.goToFolder(currentCollectionId);
     }
