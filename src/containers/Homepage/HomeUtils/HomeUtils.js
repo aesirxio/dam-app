@@ -24,6 +24,26 @@ class HomeUtils {
         return '/assets/images/file_default.svg';
     }
   };
+
+  convertImageEditortoFile = async (damEditdata, formPropsData, editorRef) => {
+    if (damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image') {
+      console.log(damEditdata, { format: damEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_EXTENTION] });
+      const editorInstance = editorRef.current.getInstance();
+      const image = await fetch(
+        editorInstance.toDataURL({ format: damEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_EXTENTION] })
+      );
+
+      const fileImage = await image.blob();
+      formPropsData[DAM_ASSETS_FIELD_KEY.FILE] = new File(
+        [fileImage],
+        damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
+      );
+
+      console.log(formPropsData);
+    }
+
+    return formPropsData;
+  };
 }
 
 const utils = new HomeUtils();

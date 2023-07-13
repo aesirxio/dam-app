@@ -59,7 +59,7 @@ class AesirXCollectionForm extends Component {
             inputClassName: 'border',
             className: 'col-12',
             autoFocus: true,
-            changed: (event) => {
+            handleChange: (event) => {
               this.formPropsData[DAM_COLLECTION_FIELD_KEY.NAME] = event.target.value;
               this.forceUpdate();
             },
