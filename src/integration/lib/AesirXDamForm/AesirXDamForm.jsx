@@ -12,7 +12,7 @@ import { FORM_FIELD_TYPE, renderingGroupFieldHandler, Spinner, PAGE_STATUS } fro
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
 
-import utils from '../AesirXDamUtils/AesirXDamUtils';
+import utils from '../../../containers/Homepage/HomeUtils/HomeUtils.js';
 import moment from 'moment';
 import { Button } from 'aesirx-uikit';
 
@@ -45,18 +45,13 @@ class AesirDamForm extends Component {
     this.viewModel = this.props.viewModel;
   }
 
-  handleOnSubmit = async () => {
+  handleOnSubmit = () => {
     if (this.validator.allValid()) {
-      if (this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image') {
-        const editorInstance = this.editorRef.current.getInstance();
-        const image = await fetch(editorInstance.toDataURL());
-
-        const fileImage = await image.blob();
-        this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE] = new File(
-          [fileImage],
-          this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
-        );
-      }
+      this.formPropsData = utils.convertImageEditortoFile(
+        this.props.viewModel.damEditdata,
+        this.formPropsData,
+        this.editorRef
+      );
       this.props.handleUpdate(this.formPropsData);
     } else {
       this.validator.showMessages();
@@ -78,7 +73,7 @@ class AesirDamForm extends Component {
             validation: 'required',
             className: 'col-12',
             inputClassName: 'border bg-transparent fs-sm text-gray-dark',
-            changed: (event) => {
+            handleChange: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME] = event.target.value;
               this.forceUpdate();
             },
@@ -97,7 +92,7 @@ class AesirDamForm extends Component {
             }`,
             inputClassName: 'border bg-transparent fs-sm text-gray-dark',
             validation: 'required',
-            changed: (event) => {
+            handleChange: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
             },
           },
@@ -111,7 +106,7 @@ class AesirDamForm extends Component {
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            changed: (event) => {
+            handleChange: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
             },
           },
@@ -123,7 +118,7 @@ class AesirDamForm extends Component {
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            changed: (event) => {
+            handleChange: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
             },
           },
@@ -137,7 +132,7 @@ class AesirDamForm extends Component {
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            changed: (event) => {
+            handleChange: (event) => {
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
             },
           },

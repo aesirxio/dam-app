@@ -16,7 +16,7 @@ import ComponentNoData from 'components/ComponentNoData';
 import { Spinner, PAGE_STATUS, Image } from 'aesirx-uikit';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
-import utils from './AesirXDamUtils/AesirXDamUtils';
+import utils from '../../containers/Homepage/HomeUtils/HomeUtils.js';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
