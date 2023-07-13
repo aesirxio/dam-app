@@ -7,13 +7,7 @@ import React, { Component } from 'react';
 
 import SimpleReactValidator from 'simple-react-validator';
 
-import {
-  FORM_FIELD_TYPE,
-  renderingGroupFieldHandler,
-  Spinner,
-  Image,
-  PAGE_STATUS,
-} from 'aesirx-uikit';
+import { FORM_FIELD_TYPE, renderingGroupFieldHandler, Spinner, PAGE_STATUS } from 'aesirx-uikit';
 
 import { DAM_ASSETS_FIELD_KEY, DAM_COLLECTION_FIELD_KEY } from 'aesirx-lib';
 import { withTranslation } from 'react-i18next';
@@ -24,8 +18,11 @@ import { Button } from 'aesirx-uikit';
 
 import Folder from 'svg/Folder';
 import Trash from 'svg/TrashIcon';
+import ImageEditorComponent from 'components/ImageEditor';
 
 class AesirDamForm extends Component {
+  editorRef = React.createRef();
+
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
     [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
@@ -48,8 +45,18 @@ class AesirDamForm extends Component {
     this.viewModel = this.props.viewModel;
   }
 
-  handleOnSubmit = () => {
+  handleOnSubmit = async () => {
     if (this.validator.allValid()) {
+      if (this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image') {
+        const editorInstance = this.editorRef.current.getInstance();
+        const image = await fetch(editorInstance.toDataURL());
+
+        const fileImage = await image.blob();
+        this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE] = new File(
+          [fileImage],
+          this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
+        );
+      }
       this.props.handleUpdate(this.formPropsData);
     } else {
       this.validator.showMessages();
@@ -163,10 +170,9 @@ class AesirDamForm extends Component {
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                   <Folder />
                 ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                  <Image
-                    wrapperClassName="h-100 w-100"
-                    className="h-100 w-100 object-fit-contain"
-                    src={this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
+                  <ImageEditorComponent
+                    editorRef={this.editorRef}
+                    damEditdata={this.props.viewModel.damEditdata}
                   />
                 ) : (
                   utils.checkFileTypeFormData(this.props.viewModel.damEditdata)
