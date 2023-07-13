@@ -45,9 +45,9 @@ class AesirDamForm extends Component {
     this.viewModel = this.props.viewModel;
   }
 
-  handleOnSubmit = async () => {
+  handleOnSubmit = () => {
     if (this.validator.allValid()) {
-      this.formPropsData = await utils.convertImageEditortoFile(
+      this.formPropsData = utils.convertImageEditortoFile(
         this.props.viewModel.damEditdata,
         this.formPropsData,
         this.editorRef

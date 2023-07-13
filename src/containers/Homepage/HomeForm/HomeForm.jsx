@@ -48,9 +48,9 @@ class HomeForm extends Component {
     };
   }
 
-  handleOnSubmit = async () => {
+  handleOnSubmit = () => {
     if (this.validator.allValid()) {
-      this.formPropsData = await utils.convertImageEditortoFile(
+      this.formPropsData = utils.convertImageEditortoFile(
         this.props.viewModel.damEditdata,
         this.formPropsData,
         this.editorRef
