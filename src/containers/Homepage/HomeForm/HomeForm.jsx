@@ -24,6 +24,8 @@ import ImageEditorComponent from 'components/ImageEditor';
 import utils from '../HomeUtils/HomeUtils';
 
 class HomeForm extends Component {
+  editorRef = React.createRef();
+
   constructor(props) {
     super(props);
 
@@ -46,8 +48,19 @@ class HomeForm extends Component {
     };
   }
 
-  handleOnSubmit = () => {
+  handleOnSubmit = async () => {
     if (this.validator.allValid()) {
+      if (this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image') {
+        const editorInstance = this.editorRef.current.getInstance();
+        const image = await fetch(editorInstance.toDataURL());
+
+        const fileImage = await image.blob();
+        this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE] = new File(
+          [fileImage],
+          this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
+        );
+      }
+
       this.props.handleUpdate(this.formPropsData);
     } else {
       this.validator.showMessages();
@@ -160,7 +173,10 @@ class HomeForm extends Component {
                   src={'/assets/images/folder-big.png'}
                 />
               ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                <ImageEditorComponent damEditdata={this.props.viewModel.damEditdata} />
+                <ImageEditorComponent
+                  editorRef={this.editorRef}
+                  damEditdata={this.props.viewModel.damEditdata}
+                />
               ) : (
                 <Image
                   wrapperClassName="h-50 w-50"

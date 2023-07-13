@@ -21,6 +21,8 @@ import Trash from 'svg/TrashIcon';
 import ImageEditorComponent from 'components/ImageEditor';
 
 class AesirDamForm extends Component {
+  editorRef = React.createRef();
+
   formPropsData = {
     [DAM_ASSETS_FIELD_KEY.NAME]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME],
     [DAM_ASSETS_FIELD_KEY.COLLECTION_ID]:
@@ -43,8 +45,18 @@ class AesirDamForm extends Component {
     this.viewModel = this.props.viewModel;
   }
 
-  handleOnSubmit = () => {
+  handleOnSubmit = async () => {
     if (this.validator.allValid()) {
+      if (this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image') {
+        const editorInstance = this.editorRef.current.getInstance();
+        const image = await fetch(editorInstance.toDataURL());
+
+        const fileImage = await image.blob();
+        this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE] = new File(
+          [fileImage],
+          this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.NAME]
+        );
+      }
       this.props.handleUpdate(this.formPropsData);
     } else {
       this.validator.showMessages();
@@ -158,7 +170,10 @@ class AesirDamForm extends Component {
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                   <Folder />
                 ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
-                  <ImageEditorComponent damEditdata={this.props.viewModel.damEditdata} />
+                  <ImageEditorComponent
+                    editorRef={this.editorRef}
+                    damEditdata={this.props.viewModel.damEditdata}
+                  />
                 ) : (
                   utils.checkFileTypeFormData(this.props.viewModel.damEditdata)
                 )}
