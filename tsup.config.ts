@@ -8,7 +8,6 @@ const env = process.env.NODE_ENV;
 export const tsup: Options = {
   clean: env !== 'development',
   format: ['esm'],
-  minify: env === 'development' ? false : 'terser',
   watch: env === 'development',
   outDir: 'dist',
   entry: ['src/integration/index.js', 'src/integration/**/*.{js,jsx}'], //entry: ['src/index.{ts,tsx}', 'src/**/*.{ts,tsx}', '!src/**/*.test.{ts,tsx}', '!src/**/*.d.ts'],
@@ -19,13 +18,13 @@ export const tsup: Options = {
     ScssModulesPlugin({ localsConvention: 'dashes' }),
     sassPlugin({ type: 'style' }),
   ],
+  esbuildOptions(options, context) {
+    options.drop = ['console'];
+  },
   outExtension() {
     return {
       js: `.js`,
     };
-  },
-  terserOptions: {
-    compress: { drop_console: true },
   },
   loader: {
     '.js': 'jsx',
