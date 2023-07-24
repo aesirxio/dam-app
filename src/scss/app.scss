@@ -3,6 +3,10 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
+@import 'aesirx-uikit/dist/utils/bootstrap.scss';
+@import 'bootstrap/scss/root';
+@import 'bootstrap/scss/reboot';
+
 .progress {
   height: 4px;
 }
