@@ -161,7 +161,7 @@ class AesirDamForm extends Component {
                 onClick={this.props.delete}
                 className="btn-outline-gray-300 h-48px bg-white text-danger "
               />
-              <div className={`d-flex align-items-center justify-content-center popupImageHeight`}>
+              <div className={`d-flex align-items-center justify-content-center h-100 `}>
                 {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                   <Folder />
                 ) : this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (

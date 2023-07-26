@@ -22,10 +22,11 @@ jobs:
       - run: yarn install
       - run: yarn lint
       - run: CI=false yarn run build
-      - uses: JS-DevTools/npm-publish@v1
+      - uses: JS-DevTools/npm-publish@v2
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          check-version: true
+          strategy: upgrade
+          ignore-scripts: false
 
       - name: Docker meta
         id: meta
