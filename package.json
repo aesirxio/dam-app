@@ -1,6 +1,6 @@
 {
   "name": "aesirx-dam-app",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "license": "GPL-3.0-only",
   "author": "AesirX",
   "main": "dist/index.js",
@@ -90,7 +90,6 @@
   "resolutions": {
     "react": "^18",
     "react-dom": "^18",
-    "react-dnd": "^16",
-    "aesirx-sso": "1.0.11"
+    "react-dnd": "^16"
   }
 }
