@@ -155,7 +155,7 @@ const AesirXDamFormModal = observer(
                     viewModel={this.damFormModalViewModel}
                   />
                 }
-                dialogClassName={'mw-100 px-3 home-modal'}
+                dialogClassName={'modal-fullscreen'}
               />
             </Suspense>
           )}
