@@ -43,8 +43,7 @@ class HomeForm extends Component {
         this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_SIZE] ??
         this.props.viewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.FILE_SIZE],
       [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
-      [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]:
-        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED],
+      [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]: this.props.viewModel.damEditdata?.modified_date_org,
     };
   }
 
@@ -96,9 +95,6 @@ class HomeForm extends Component {
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'border bg-transparent fs-sm text-gray-dark',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
-            },
           },
           {
             label: t('txt_file_type'),
@@ -110,9 +106,6 @@ class HomeForm extends Component {
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
-            },
           },
           {
             label: t('txt_file_size'),
@@ -122,9 +115,6 @@ class HomeForm extends Component {
             disabled: true,
             className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
-            },
           },
           {
             label: t('txt_last_modified'),
@@ -132,13 +122,12 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value:
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] &&
-              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format('DD MMM, YYYY'),
+              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
+                'DD MMM, YYYY h:mm:ss'
+              ),
             disabled: true,
-            className: 'col-6',
+            className: 'col-12',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
-            },
           },
         ],
       },

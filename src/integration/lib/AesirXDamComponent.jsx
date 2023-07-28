@@ -392,7 +392,9 @@ const AesirXDamComponent = observer(
                       <Image
                         wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
-                        src={row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}
+                        src={`${row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}?${moment(
+                          row.original[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]
+                        ).unix()}`}
                       />
                     ) : (
                       <div className="w-100 h-100 d-flex align-items-center justify-content-center pe-none">
