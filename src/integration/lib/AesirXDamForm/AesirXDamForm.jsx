@@ -33,8 +33,7 @@ class AesirDamForm extends Component {
       this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.FILE_SIZE] ??
       this.props.viewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.FILE_SIZE],
     [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
-    [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]:
-      this.props.viewModel.damEditdata?.modified_date_org,
+    [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]: this.props.viewModel.damEditdata?.modified_date_org,
   };
 
   constructor(props) {
