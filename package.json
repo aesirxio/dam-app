@@ -74,7 +74,7 @@
     "esbuild-plugin-inline-image": "^0.0.9",
     "esbuild-sass-plugin": "^2.8.0",
     "esbuild-scss-modules-plugin": "^1.1.1",
-    "eslint": "^8.17",
+    "eslint": "^8.46",
     "git-revision-webpack-plugin": "^5.0.0",
     "prettier": "^3.0.0",
     "react-inject-env": "^2.1.0",
