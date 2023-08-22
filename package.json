@@ -10,7 +10,8 @@
     "@yarnpkg/parsers": "3.0.0-rc.48.1",
     "tough-cookie": "^4",
     "semver": "^7",
-    "jsdom": "^16"
+    "jsdom": "^16",
+    "json5": "^2"
   },
   "scripts": {
     "prepare": "nx run-many -t build -p aesirx-uikit aesirx-lib && nx run-many -t build:lib --exclude aesirx-uikit aesirx-lib",
