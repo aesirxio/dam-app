@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: 16
 
+      - run: git submodule update --init --recursive
       - run: yarn install
       - run: yarn lint
       - run: CI=false yarn run build
