@@ -353,8 +353,8 @@ const HomeList = observer(
                   <span
                     className={`${
                       this.damListViewModel.isList
-                        ? 'ms-32px text-color'
-                        : 'text-center text-color lcl lcl-2 d-block w-space'
+                        ? 'ms-32px text-body'
+                        : 'text-center text-body lcl lcl-2 d-block w-space'
                     } w-100`}
                   >
                     <CollectionName item={row.original} />
@@ -401,8 +401,8 @@ const HomeList = observer(
                   <span
                     className={
                       this.damListViewModel.isList
-                        ? 'ms-3 text-color'
-                        : 'w-100 lcl lcl-1 p-2 text-color'
+                        ? 'ms-3 text-body'
+                        : 'w-100 lcl lcl-1 p-2 text-body'
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
