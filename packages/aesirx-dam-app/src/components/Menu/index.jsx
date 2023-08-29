@@ -154,7 +154,9 @@ const Menu = observer(
               activeClassName={`active`}
             >
               <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
-              <span className={`ms-3 py-1 d-inline-block col ${isActive ? 'text-green' : ''}`}>{parent_id.name}</span>
+              <span className={`ms-3 py-1 d-inline-block col ${isActive ? 'text-green' : ''}`}>
+                {parent_id.name}
+              </span>
             </NavLink>
           </CustomToggle>
 
@@ -176,7 +178,9 @@ const Menu = observer(
         <NavLink
           exact={true}
           to={'/' + link + '/' + parent_id.id}
-          className={`d-flex align-items-center rounded-1 px-3 py-2  text-white text-decoration-none no-child ${isActive ? 'active text-green' : 'text-white'}`}
+          className={`d-flex align-items-center rounded-1 px-3 py-2  text-white text-decoration-none no-child ${
+            isActive ? 'active text-green' : 'text-white'
+          }`}
           activeClassName={`active`}
         >
           <FontAwesomeIcon className="text-white px-2" icon={faFolder} />

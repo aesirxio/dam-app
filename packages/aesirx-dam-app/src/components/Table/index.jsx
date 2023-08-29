@@ -174,9 +174,7 @@ const Table = ({
               <button
                 type="button"
                 className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
-                  isList
-                    ? 'bg-blue-3 text-white  border-0  border-gray-select'
-                    : 'text-blue-6'
+                  isList ? 'bg-blue-3 text-white  border-0  border-gray-select' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('list')}
               >
