@@ -179,19 +179,17 @@ const Table = ({
                 onClick={() => _handleList('list')}
               >
                 <ListCheck />
-                <span className="ms-2">{t('txt_list')}</span>
+                <span className="ms-2 fw-medium">{t('txt_list')}</span>
               </button>
               <button
                 type="button"
                 className={`btn rounded-end d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
-                  !isList
-                    ? 'bg-blue-3 text-white border-0 border-start border-gray-select'
-                    : 'text-blue-6'
+                  !isList ? 'bg-blue-3 text-white border-0 border-gray-select' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('thumb')}
               >
                 <ThumbNails />
-                <span className="ms-2">{t('txt_thumb')}</span>
+                <span className="ms-2 fw-medium">{t('txt_thumb')}</span>
               </button>
             </div>
           )}

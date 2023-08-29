@@ -88,7 +88,7 @@ const HomeActionBar = observer(
               onClick={this.handleCreateFolder}
               iconStart={faFolder}
               text="txt_create_folder"
-              className="btn-outline-gray-300 bg-select-control-background text-body border-1 me-3"
+              className="btn-outline-gray-300 bg-white text-body border-1 me-3"
             />
             <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal

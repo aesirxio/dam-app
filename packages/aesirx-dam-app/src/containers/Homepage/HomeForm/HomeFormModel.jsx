@@ -130,14 +130,13 @@ const HomeFormModal = observer(
       } = this.damFormModalViewModel;
       const {
         deleteItem,
-        actionState: { selectedCards },
+        actionState: { selectedCards = [] },
       } = this.damListViewModel;
       const { t } = this.props;
       const collectionId = history.location.pathname.split('/');
       const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-
       return (
         <>
           {show && (

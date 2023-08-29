@@ -2,8 +2,8 @@ import {
   faAngleRight,
   faArrowLeft,
   faFolder as faFolderSolid,
+  faCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import { faFolder } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { observer } from 'mobx-react';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -87,7 +87,7 @@ const MoveToFolder = observer(({ current = 0 }) => {
 
   return (
     <div className="bg-white border zindex-5 shadow-sm rounded-3">
-      <div className={`w-100 border-0 border-bottom btn w-100 d-flex h-48px align-items-center `}>
+      <div className={`w-648px  border-0 border-bottom btn d-flex  align-items-center `}>
         <FontAwesomeIcon
           onClick={() => goToFolder()}
           className={`text-gray-dark cursor-pointer px-2 ${
@@ -122,7 +122,7 @@ const MoveToFolder = observer(({ current = 0 }) => {
                         styles.item
                       } ${
                         selectCollection?.id === collection?.id
-                          ? `btn-success text-white fw-semibold ${styles.active}`
+                          ? `bg-color-blue-9 text-gray-dark fw-semibold ${styles.active}`
                           : 'btn-outline-light text-gray-dark'
                       } ${mapDataSelectCards.includes(+collection?.id) ? styles.disabled : ''}`}
                       disabled={mapDataSelectCards.includes(+collection?.id) ? true : false}
@@ -142,16 +142,16 @@ const MoveToFolder = observer(({ current = 0 }) => {
                     >
                       <>
                         {selectCollection?.id === collection?.id ? (
-                          <FontAwesomeIcon className="text-white px-2" icon={faFolderSolid} />
+                          <FontAwesomeIcon className="text-green px-2" icon={faCircleCheck} />
                         ) : (
-                          <FontAwesomeIcon className="text-gray-dark px-2" icon={faFolder} />
+                          <FontAwesomeIcon className="text-gray-dark px-2" icon={faFolderSolid} />
                         )}
 
                         <span className="ps-3">{collection.name}</span>
                         <FontAwesomeIcon
                           size={'lg'}
                           className={`px-2 ms-auto ${
-                            selectCollection?.id === collection?.id ? `text-white` : 'text-green'
+                            selectCollection?.id === collection?.id ? `text-green` : ''
                           }`}
                           icon={faAngleRight}
                         />

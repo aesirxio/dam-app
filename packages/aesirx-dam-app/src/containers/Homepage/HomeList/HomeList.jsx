@@ -402,7 +402,7 @@ const HomeList = observer(
                     className={
                       this.damListViewModel.isList
                         ? 'ms-3 text-body'
-                        : 'w-100 lcl lcl-1 p-2 text-body'
+                        : 'w-100 lcl lcl-1 p-2 px-3 text-body'
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}

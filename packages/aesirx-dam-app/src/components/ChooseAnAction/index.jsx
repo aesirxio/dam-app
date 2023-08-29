@@ -57,6 +57,7 @@ const ChooseAction = observer(() => {
             top: e.clientY,
             left: e.clientX,
           };
+          console.log(e.clientY);
           if (e.clientX + 200 > innerWidth) {
             style = {
               ...style,
