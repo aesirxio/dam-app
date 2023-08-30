@@ -79,5 +79,7 @@
   "txt_remember_me": "Lưu mật khẩu",
   "txt_by": "bởi",
   "txt_can_not_move_to_itself": "Không thể duy chuyển tới chính nó",
-  "txt_name_can_not_blank": "Tên thư mục không thể để trống!"
+  "txt_name_can_not_blank": "Tên thư mục không thể để trống!",
+  "txt_dimension": "Kích thước",
+  "txt_description" : "Mô tả"
 }

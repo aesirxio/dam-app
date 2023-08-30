@@ -85,6 +85,13 @@ class HomeForm extends Component {
               this.validator.showMessageFor(t('txt_title'));
             },
           },
+          // {
+          //   label: t('txt_description'),
+          //   type: FORM_FIELD_TYPE.TEXTAREA,
+          //   value: '',
+          //   className: 'col-12 ',
+          //   inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
+          // },
           {
             label: t('txt_url'),
             key: DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL,
@@ -102,7 +109,7 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE],
             disabled: true,
-            className: `col-6 ${
+            className: `col-6 file_type ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
@@ -113,7 +120,15 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] + ' kb',
             disabled: true,
-            className: 'col-6',
+            className: 'col-6 file_size',
+            inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
+          },
+          {
+            label: t('txt_dimension'),
+            disabled: true,
+            type: FORM_FIELD_TYPE.INPUT,
+            value: ' ',
+            className: 'col-6 dimension ',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
           },
           {
@@ -126,7 +141,7 @@ class HomeForm extends Component {
                 'DD MMM, YYYY h:mm:ss'
               ),
             disabled: true,
-            className: 'col-6',
+            className: 'col-6 last_modified ',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
           },
         ],
