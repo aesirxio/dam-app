@@ -63,7 +63,7 @@ const AesirXDamComponent = observer(
       } else {
         this.damFormModalViewModal.closeContextMenu();
         this.damFormModalViewModal.closeContextMenuItem();
-        this.damFormModalViewModal.closeMoveToFolder();
+        // this.damFormModalViewModal.closeMoveToFolder();
       }
     };
 

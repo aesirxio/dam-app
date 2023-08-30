@@ -33,7 +33,7 @@ const ChooseAction = observer(() => {
   const { t } = useTranslation();
   const { openDeleteModal, openMoveToFolder, downloadFile } =
     useDamViewModel().getDamFormViewModel();
-  const { setActionState } = useDamViewModel().getDamListViewModel();
+  // const { setActionState } = useDamViewModel().getDamListViewModel();
 
   const Action = useMemo(() => ({
     id: 'action',
@@ -49,34 +49,7 @@ const ChooseAction = observer(() => {
       {
         label: t('txt_move_to_folder'),
         value: t('txt_move_to_folder'),
-        onSelect: (e) => {
-          const innerHeight = window.innerHeight;
-          const innerWidth = window.innerWidth;
-          let style = {
-            transition: 'none',
-            top: e.clientY,
-            left: e.clientX,
-          };
-          console.log(e.clientY);
-          if (e.clientX + 200 > innerWidth) {
-            style = {
-              ...style,
-              right: innerWidth - e.clientX,
-              left: 'unset',
-            };
-          }
-          if (e.clientY + 260 > innerHeight) {
-            style = {
-              ...style,
-              bottom: innerHeight - e.clientY,
-              top: 'unset',
-            };
-          }
-          setActionState({
-            style: style,
-          });
-          openMoveToFolder();
-        },
+        onSelect: openMoveToFolder,
       },
       {
         label: t('txt_download'),

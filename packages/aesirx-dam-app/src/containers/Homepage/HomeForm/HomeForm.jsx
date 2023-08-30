@@ -126,7 +126,7 @@ class HomeForm extends Component {
                 'DD MMM, YYYY h:mm:ss'
               ),
             disabled: true,
-            className: 'col-12',
+            className: 'col-6',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
           },
         ],

@@ -221,7 +221,7 @@ const HomeFormModal = observer(
               )}
               <div
                 className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
-                onClick={openMoveToFolder}
+                onClick={this.damFormModalViewModel.openMoveToFolder}
               >
                 <Suspense fallback={''}>
                   <MoveFolderIcon className="stroke-dark " />
@@ -268,7 +268,7 @@ const HomeFormModal = observer(
                 body={
                   <div className="d-flex flex-column justify-content-center align-items-center pb-5">
                     <Image className="mb-3" src="/assets/images/ep_circle-close.png" />
-                    <h4 className="mb-4">{t('txt_are_you_sure')}</h4>
+                    <h4 className="mb-2">{t('txt_are_you_sure')}</h4>
                     <p className="text-center">
                       {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE]
                         ? t('txt_delete_assets_popup_desc')
@@ -279,7 +279,7 @@ const HomeFormModal = observer(
                         <Button
                           text={t('txt_Cancel')}
                           onClick={this.damFormModalViewModel.closeDeleteModal}
-                          className="btn btn-outline-gray-300 bg-white text-blue-0 border "
+                          className="btn btn-outline-gray-300 bg-white text-body border-1 "
                         />
                       </div>
                       <div className="col-auto">
@@ -297,13 +297,13 @@ const HomeFormModal = observer(
           )}
 
           {showMoveToFolder && (
-            <div
-              id="contextMenuItemMoveToFolder"
-              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed `}
-              style={{ ...this.damListViewModel.actionState?.style }}
-            >
-              <MoveToFolder current={currentCollectionId} />
-            </div>
+            <ModalComponent
+              show={showMoveToFolder}
+              onHide={this.damFormModalViewModel.closeMoveToFolder}
+              contentClassName={'bg-white shadow'}
+              header={false}
+              body={<MoveToFolder current={currentCollectionId} />}
+            />
           )}
         </>
       );

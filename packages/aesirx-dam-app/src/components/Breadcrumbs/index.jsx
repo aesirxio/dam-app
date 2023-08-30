@@ -36,7 +36,7 @@ const BreadCrumbs = ({ data = [], handleLink }) => {
   return (
     <div className={`text-gray-900 fs-2 mb-0 fw-medium d-flex flex-wrap align-items-center`}>
       <span className="text-body mb-0 cursor-pointer" onClick={() => handleLink('/root')}>
-        {t('txt_your_digital_assets')}
+        {t('txt_my_assets')}
       </span>
       {data.length <= 2 ? (
         data.map((_breadcrumb, index) => {

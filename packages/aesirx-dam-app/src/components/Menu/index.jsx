@@ -85,7 +85,7 @@ function CustomToggle({ children, eventKey, isActive }) {
         />
       ) : (
         <FontAwesomeIcon
-          className={` position-absolute top-50 translate-middle caret-toggle text-green cursor-pointer ${
+          className={` position-absolute top-50 translate-middle caret-toggle ms-2 text-green cursor-pointer ${
             open ? '' : 'down'
           }`}
           onClick={decoratedOnClick}
@@ -148,7 +148,7 @@ const Menu = observer(
             <NavLink
               exact={true}
               to={'/' + link + '/' + parent_id.id}
-              className={`d-flex align-items-center rounded-1 px-3 py-2  text-white text-decoration-none ${
+              className={`d-flex align-items-center rounded-1 px-3 py-2 text-white text-decoration-none ${
                 isActive && 'active'
               }`}
               activeClassName={`active`}
