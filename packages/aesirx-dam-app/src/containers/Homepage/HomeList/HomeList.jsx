@@ -326,7 +326,9 @@ const HomeList = observer(
           id: 'selection',
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_name')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
@@ -414,7 +416,9 @@ const HomeList = observer(
         },
 
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_size')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_size')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
@@ -428,11 +432,17 @@ const HomeList = observer(
           ),
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_owner')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_owner')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">
+              {t('txt_last_modified')}
+            </span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>

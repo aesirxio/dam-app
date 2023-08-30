@@ -152,7 +152,7 @@ class AesirDamForm extends Component {
     return (
       <>
         <div className="row pb-3 h-100">
-          <div className="col-lg-8 col-12 h-auto">
+          <div className="col-lg-8 col-12 h-680px">
             <div className="h-100 p-3 bg-gray-400">
               <Button
                 svg={<Trash />}

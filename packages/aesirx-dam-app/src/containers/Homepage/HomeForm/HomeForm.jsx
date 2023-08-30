@@ -163,7 +163,7 @@ class HomeForm extends Component {
     return (
       <>
         <div className="row pb-3 h-100">
-          <div className="col-lg-9 col-12 h-auto">
+          <div className="col-lg-9 col-12 h-680px">
             <div className={`d-flex align-items-center justify-content-center h-100 `}>
               {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                 <Image

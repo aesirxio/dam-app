@@ -152,13 +152,13 @@ const HomeFormModal = observer(
                 header={
                   <div className="py-3">
                     <div
-                      className='position-absolute top-0 end-0 mx-4 my-3'
+                      className="position-absolute top-0 end-0 mx-4 my-3"
                       onClick={this.damFormModalViewModel.closeModal}
                     >
-                       <FontAwesomeIcon
-                      icon={faCircleXmark}
-                      className=" d-inline-block align-text-bottom text-success fs-3"
-                    />
+                      <FontAwesomeIcon
+                        icon={faCircleXmark}
+                        className=" d-inline-block align-text-bottom text-success fs-3"
+                      />
                     </div>
                   </div>
                 }
@@ -170,7 +170,7 @@ const HomeFormModal = observer(
                     viewModel={this.damFormModalViewModel}
                   />
                 }
-                dialogClassName={' modal-80w  '}
+                dialogClassName={' modal-80w '}
               />
             </Suspense>
           )}

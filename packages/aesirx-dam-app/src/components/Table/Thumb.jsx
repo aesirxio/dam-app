@@ -36,8 +36,8 @@ const FakeThumb = observer(({ id, index, isList }) => {
   return (
     <>
       <span
-        className={`position-absolute rounded-2 top-0 start-0 w-100 h-100  user-select-none ${
-          isSelect ? 'border border-2 border-success' : ''
+        className={`position-absolute  top-0 start-0 w-100 h-100  user-select-none ${
+          isSelect ? 'border border-2 border-start-0 border-end-0 border-success' : ''
         } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
           checkBorderTop && isList ? 'border-top-0' : ''
         } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}

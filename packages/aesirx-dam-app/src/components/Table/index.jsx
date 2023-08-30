@@ -234,7 +234,7 @@ const Table = ({
                             <th
                               key={index}
                               {...column.getHeaderProps()}
-                              className="fw-normal px-2 py-3 flex-1 bg-white"
+                              className="fw-normal px-2 py-3 flex-1 bg-white text-capitalize"
                             >
                               {column.render('Header')}
                             </th>
