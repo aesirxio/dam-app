@@ -18,6 +18,7 @@ import {
 import { history, Image, ModalComponent, Button } from 'aesirx-uikit';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons/faCircleXmark';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
 import MoveToFolder from 'components/MoveToFolder';
@@ -148,7 +149,19 @@ const HomeFormModal = observer(
                   this.damFormModalViewModel.closeContextMenuItem();
                   this.damFormModalViewModel.closeContextMenu();
                 }}
-                closeButton
+                header={
+                  <div className="py-3">
+                    <div
+                      className='position-absolute top-0 end-0 mx-4 my-3'
+                      onClick={this.damFormModalViewModel.closeModal}
+                    >
+                       <FontAwesomeIcon
+                      icon={faCircleXmark}
+                      className=" d-inline-block align-text-bottom text-success fs-3"
+                    />
+                    </div>
+                  </div>
+                }
                 contentClassName={'bg-white shadow'}
                 body={
                   <HomeForm
@@ -157,7 +170,7 @@ const HomeFormModal = observer(
                     viewModel={this.damFormModalViewModel}
                   />
                 }
-                dialogClassName={'modal-fullscreen'}
+                dialogClassName={' modal-80w  '}
               />
             </Suspense>
           )}
