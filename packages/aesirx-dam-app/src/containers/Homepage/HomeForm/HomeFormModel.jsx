@@ -163,6 +163,7 @@ const HomeFormModal = observer(
                   </div>
                 }
                 contentClassName={'bg-white shadow'}
+                bodyClassName='border-top'
                 body={
                   <HomeForm
                     delete={deleteItem}
