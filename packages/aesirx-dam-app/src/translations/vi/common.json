@@ -81,5 +81,6 @@
   "txt_can_not_move_to_itself": "Không thể duy chuyển tới chính nó",
   "txt_name_can_not_blank": "Tên thư mục không thể để trống!",
   "txt_dimension": "Kích thước",
-  "txt_description" : "Mô tả"
+  "txt_description" : "Mô tả",
+  "maximum_upload_size": "Kích thước tải lên tối đa: 10,00 MB"
 }

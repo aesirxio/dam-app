@@ -37,7 +37,7 @@ const FakeThumb = observer(({ id, index, isList }) => {
     <>
       <span
         className={`position-absolute  top-0 start-0 w-100 h-100  user-select-none ${
-          isSelect ? 'border border-2  border-success' : ''
+          isSelect ? 'border border-2  border-select-item' : ''
         } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
           checkBorderTop && isList ? 'border-top-0' : ''
         } ${isList && isSelect ? ' border-start-0 border-end-0 ' : ''} ${styles.item_hover}`}
@@ -70,7 +70,7 @@ export const IndeterminateCheckbox = observer(({ index, dataLength }) => {
   return (
     <div className={styles.checkbox}>
       <input
-        className="form-check-input p-0 w-100 h-100"
+        className="form-check-input p-0 w-100 h-100 bg-transparent"
         checked={selectedIndex | (dataLength === selectedCards.length) ? true : false}
         onChange={() => {}}
         type="checkbox"

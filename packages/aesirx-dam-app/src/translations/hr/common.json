@@ -80,5 +80,6 @@
   "txt_can_not_move_to_itself": "Can not move to itself",
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_dimension": "Dimenzija",
-  "txt_description" : "Opis"
+  "txt_description" : "Opis",
+  "maximum_upload_size": "Maksimalna veličina za prijenos: 10,00 MB"
 }

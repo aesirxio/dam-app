@@ -80,5 +80,6 @@
   "txt_can_not_move_to_itself": "Can not move to itself",
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_dimension": "Dimension",
-  "txt_description" : "Description"
+  "txt_description" : "Description",
+  "maximum_upload_size": "Taille maximale de téléchargement : 10,00 Mo"
 }
