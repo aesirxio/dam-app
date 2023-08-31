@@ -335,10 +335,7 @@ const HomeList = observer(
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
-      const {
-        downloadFile,
-        openModal,
-      } = this.damFormModalViewModel;
+      const { downloadFile, openModal } = this.damFormModalViewModel;
       const tableRowHeader = [
         {
           id: 'selection',
@@ -478,8 +475,13 @@ const HomeList = observer(
           Cell: ({}) => (
             <>
               {this.damListViewModel.isList && (
-                <div className={`d-flex align-items-center justify-content-center zindex-5 cursor-pointer `}>
-                  <div className={`d-flex align-items-center rounded-1 text-decoration-none w-100`} onClick={openModal}>
+                <div
+                  className={`d-flex align-items-center justify-content-center zindex-5 cursor-pointer `}
+                >
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={openModal}
+                  >
                     <Suspense fallback={''}>
                       <PreviewIcon className="stroke-dark " />
                     </Suspense>
@@ -492,7 +494,10 @@ const HomeList = observer(
                       <MoveFolderIcon className="stroke-dark " />
                     </Suspense>
                   </div>
-                  <div className={`d-flex align-items-center rounded-1 text-decoration-none w-100`} onClick={downloadFile}>
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={downloadFile}
+                  >
                     <Suspense fallback={''}>
                       <DownLoadIcon className="stroke-dark" />
                     </Suspense>
@@ -510,7 +515,6 @@ const HomeList = observer(
             </>
           ),
         },
-        
       ];
 
       const collectionId = history.location.pathname.split('/');
