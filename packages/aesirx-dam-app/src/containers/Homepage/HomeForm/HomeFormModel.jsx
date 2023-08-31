@@ -222,7 +222,7 @@ const HomeFormModal = observer(
                 </Suspense>
                 <span className="ms-3 text-gray-dark py-1 d-inline-block">{t('txt_preview')}</span>
               </div>
-              {selectedCards.length < 2 && (
+              {selectedCards.length < 2 && !selectedCards[0].type && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                   onClick={this.handleRename}
