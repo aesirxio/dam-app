@@ -33,7 +33,6 @@ const ChooseAction = observer(() => {
   const { t } = useTranslation();
   const { openDeleteModal, openMoveToFolder, downloadFile } =
     useDamViewModel().getDamFormViewModel();
-  // const { setActionState } = useDamViewModel().getDamListViewModel();
 
   const Action = useMemo(() => ({
     id: 'action',

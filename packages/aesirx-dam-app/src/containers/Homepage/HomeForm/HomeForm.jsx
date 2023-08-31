@@ -85,19 +85,12 @@ class HomeForm extends Component {
               this.validator.showMessageFor(t('txt_title'));
             },
           },
-          // {
-          //   label: t('txt_description'),
-          //   type: FORM_FIELD_TYPE.TEXTAREA,
-          //   value: '',
-          //   className: 'col-12 ',
-          //   inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-          // },
           {
             label: t('txt_url'),
             key: DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL,
             disabled: true,
             type: FORM_FIELD_TYPE.INPUT,
-            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
+            value: this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ,
             className: `col-12  ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
