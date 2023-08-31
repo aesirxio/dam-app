@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import '../index.scss';
 
 import {
@@ -24,6 +24,13 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from '../HomeForm/CollectionName';
 
+const Dropzone = React.lazy(() => import('components/Dropzone'));
+const EditingIcon = React.lazy(() => import('svg/EddingIcon'));
+const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
+const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
+const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));
+const DeleteIcon = React.lazy(() => import('svg/TrashIcon'));
+
 const HomeList = observer(
   class HomeList extends Component {
     damListViewModel = null;
@@ -35,6 +42,7 @@ const HomeList = observer(
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
+      this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -73,6 +81,12 @@ const HomeList = observer(
         this.damFormModalViewModal.closeContextMenuItem();
         // this.damFormModalViewModal.closeMoveToFolder();
       }
+    };
+
+    handleRename = () => {
+      this.damFormModalViewModel.setOnEditCollection();
+      this.damFormModalViewModel.closeContextMenuItem();
+      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).focus();
     };
 
     handleSelect = (data) => {
@@ -321,6 +335,10 @@ const HomeList = observer(
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
+      const {
+        downloadFile,
+        openModal,
+      } = this.damFormModalViewModel;
       const tableRowHeader = [
         {
           id: 'selection',
@@ -454,6 +472,45 @@ const HomeList = observer(
             </>
           ),
         },
+        {
+          Header: <span className="fw-semibold text-gray-901 text-capitalize"></span>,
+          accessor: 'contextMenuItem',
+          Cell: ({}) => (
+            <>
+              {this.damListViewModel.isList && (
+                <div className={`d-flex align-items-center justify-content-center zindex-5 cursor-pointer `}>
+                  <div className={`d-flex align-items-center rounded-1 text-decoration-none w-100`} onClick={openModal}>
+                    <Suspense fallback={''}>
+                      <PreviewIcon className="stroke-dark " />
+                    </Suspense>
+                  </div>
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={this.damFormModalViewModel.openMoveToFolder}
+                  >
+                    <Suspense fallback={''}>
+                      <MoveFolderIcon className="stroke-dark " />
+                    </Suspense>
+                  </div>
+                  <div className={`d-flex align-items-center rounded-1 text-decoration-none w-100`} onClick={downloadFile}>
+                    <Suspense fallback={''}>
+                      <DownLoadIcon className="stroke-dark" />
+                    </Suspense>
+                  </div>
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={this.damFormModalViewModel.openDeleteModal}
+                  >
+                    <Suspense fallback={''}>
+                      <DeleteIcon />
+                    </Suspense>
+                  </div>
+                </div>
+              )}
+            </>
+          ),
+        },
+        
       ];
 
       const collectionId = history.location.pathname.split('/');

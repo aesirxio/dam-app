@@ -31,12 +31,11 @@ const FakeThumb = observer(({ id, index, isList }) => {
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
 
-  // const item = selectedCards.find((selectedCard) => +selectedCard.id === +id);
 
   return (
     <>
       <span
-        className={`position-absolute  top-0 start-0 w-100 h-100  user-select-none ${
+        className={`position-absolute  top-0 start-0 w-100 h-100 zindex-1  user-select-none ${
           isSelect ? 'border border-2  border-select-item' : ''
         } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
           checkBorderTop && isList ? 'border-top-0' : ''
