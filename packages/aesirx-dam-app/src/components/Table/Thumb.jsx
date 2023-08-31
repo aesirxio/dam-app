@@ -37,10 +37,10 @@ const FakeThumb = observer(({ id, index, isList }) => {
     <>
       <span
         className={`position-absolute  top-0 start-0 w-100 h-100  user-select-none ${
-          isSelect ? 'border border-2 border-start-0 border-end-0 border-success' : ''
+          isSelect ? 'border border-2  border-success' : ''
         } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
           checkBorderTop && isList ? 'border-top-0' : ''
-        } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}
+        } ${isList && isSelect ? ' border-start-0 border-end-0 ' : ''} ${styles.item_hover}`}
       ></span>
       {!isList && isSelect && (
         <FontAwesomeIcon
