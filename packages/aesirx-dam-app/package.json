@@ -76,7 +76,7 @@
     "esbuild-scss-modules-plugin": "^1.1.1",
     "eslint": "^8.17",
     "git-revision-webpack-plugin": "^5.0.0",
-    "prettier": "^2.8.4",
+    "prettier": "^3.0.3",
     "react-inject-env": "^2.1.0",
     "react-scripts": "^5.0.1",
     "sass": "^1.52",
