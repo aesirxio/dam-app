@@ -68,8 +68,8 @@ class AesirDamForm extends Component {
             key: DAM_ASSETS_FIELD_KEY.NAME,
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.NAME],
-            required: true,
             validation: 'required',
+            required: true,
             className: 'col-12',
             inputClassName: 'border bg-transparent fs-sm text-gray-dark',
             handleChange: (event) => {
@@ -81,19 +81,46 @@ class AesirDamForm extends Component {
             },
           },
           {
+            label: t('txt_keywords'),
+            key: DAM_ASSETS_FIELD_KEY.KEYWORDS,
+            disabled: true,
+            type: FORM_FIELD_TYPE.SELECTION,
+            value: "",
+            className: `col-12 field_keywords `,
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
+            isMulti: true,
+            options: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.KEYWORDS] ,
+          },
+          {
+            label: t('txt_tags'),
+            key: DAM_ASSETS_FIELD_KEY.TAGS,
+            disabled: true,
+            type: FORM_FIELD_TYPE.SELECTION,
+            value: "",
+            className: `col-12 field_tags `,
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
+            isMulti: true,
+            options: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TAGS] ,
+          },
+          {
+            label: t('txt_description'),
+            key: DAM_ASSETS_FIELD_KEY.DESCRIPTION,
+            disabled: true,
+            type: FORM_FIELD_TYPE.TEXTAREA,
+            value: "",
+            className: `col-12 `,
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
+          },
+          {
             label: t('txt_url'),
             key: DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL,
             disabled: true,
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL],
-            className: `col-12 ${
+            className: `col-12  ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'border bg-transparent fs-sm text-gray-dark',
-            validation: 'required',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] = event.target.value;
-            },
           },
           {
             label: t('txt_file_type'),
@@ -101,13 +128,10 @@ class AesirDamForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE],
             disabled: true,
-            className: `col-6 ${
+            className: `col-6 file_type ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE] = event.target.value;
-            },
           },
           {
             label: t('txt_file_size'),
@@ -115,11 +139,16 @@ class AesirDamForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] + ' kb',
             disabled: true,
-            className: 'col-6',
+            className: 'col-6 file_size',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] = event.target.value;
-            },
+          },
+          {
+            label: t('txt_dimension'),
+            disabled: true,
+            type: FORM_FIELD_TYPE.INPUT,
+            value: ' ',
+            className: 'col-6 dimension ',
+            inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
           },
           {
             label: t('txt_last_modified'),
@@ -127,13 +156,12 @@ class AesirDamForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value:
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] &&
-              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format('DD MMM, YYYY'),
+              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
+                'DD MMM, YYYY'
+              ),
             disabled: true,
-            className: 'col-6',
+            className: 'col-6 last_modified ',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
-            handleChange: (event) => {
-              this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] = event.target.value;
-            },
           },
         ],
       },

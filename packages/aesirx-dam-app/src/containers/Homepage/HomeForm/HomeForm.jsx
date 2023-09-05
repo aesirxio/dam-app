@@ -44,6 +44,12 @@ class HomeForm extends Component {
         this.props.viewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.FILE_SIZE],
       [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
       [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]: this.props.viewModel.damEditdata?.modified_date_org,
+      [DAM_ASSETS_FIELD_KEY.DESCRIPTION]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DESCRIPTION],
+        [DAM_ASSETS_FIELD_KEY.KEYWORDS]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.KEYWORDS],
+        [DAM_ASSETS_FIELD_KEY.TAGS]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TAGS],
     };
   }
 
@@ -84,6 +90,37 @@ class HomeForm extends Component {
             blurred: () => {
               this.validator.showMessageFor(t('txt_title'));
             },
+          },
+          {
+            label: t('txt_keywords'),
+            key: DAM_ASSETS_FIELD_KEY.KEYWORDS,
+            disabled: true,
+            type: FORM_FIELD_TYPE.SELECTION,
+            value: "",
+            className: `col-12 field_keywords `,
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
+            isMulti: true,
+            options: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.KEYWORDS] ,
+          },
+          {
+            label: t('txt_tags'),
+            key: DAM_ASSETS_FIELD_KEY.TAGS,
+            disabled: true,
+            type: FORM_FIELD_TYPE.SELECTION,
+            value: "",
+            className: `col-12 field_tags `,
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
+            isMulti: true,
+            options: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TAGS] ,
+          },
+          {
+            label: t('txt_description'),
+            key: DAM_ASSETS_FIELD_KEY.DESCRIPTION,
+            disabled: true,
+            type: FORM_FIELD_TYPE.TEXTAREA,
+            value: "",
+            className: `col-12 `,
+            inputClassName: 'border bg-transparent fs-sm text-gray-dark',
           },
           {
             label: t('txt_url'),
@@ -131,7 +168,7 @@ class HomeForm extends Component {
             value:
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] &&
               moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
-                'DD MMM, YYYY h:mm:ss'
+                'DD MMM, YYYY'
               ),
             disabled: true,
             className: 'col-6 last_modified ',
@@ -156,7 +193,7 @@ class HomeForm extends Component {
     return (
       <>
         <div className="row pb-3 h-100">
-          <div className="col-lg-9 col-12 h-680px">
+          <div className="col-lg-9 col-12 ">
             <div className={`d-flex align-items-center justify-content-center h-100 `}>
               {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                 <Image
@@ -190,7 +227,7 @@ class HomeForm extends Component {
                   return arr.concat(el);
                 }, [])}
             </div>
-            <div className="row justify-content-end">
+            <div className="row justify-content-end pt-5">
               <div className="col-xxl-4 col-xl-5 col-6">
                 <Button
                   text={t('txt_Cancel')}

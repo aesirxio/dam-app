@@ -476,14 +476,14 @@ const HomeList = observer(
             <>
               {this.damListViewModel.isList && (
                 <div
-                  className={`d-flex align-items-center justify-content-center zindex-5 cursor-pointer `}
+                  className={`d-flex align-items-center justify-content-center zindex-5 cursor-pointer position-relative zindex-5 `}
                 >
                   <div
                     className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
                     onClick={openModal}
                   >
                     <Suspense fallback={''}>
-                      <PreviewIcon className="stroke-dark " />
+                      <PreviewIcon className="stroke-dark" />
                     </Suspense>
                   </div>
                   <div
@@ -491,7 +491,7 @@ const HomeList = observer(
                     onClick={this.damFormModalViewModel.openMoveToFolder}
                   >
                     <Suspense fallback={''}>
-                      <MoveFolderIcon className="stroke-dark " />
+                      <MoveFolderIcon className="stroke-dark" />
                     </Suspense>
                   </div>
                   <div
