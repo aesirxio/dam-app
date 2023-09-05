@@ -31,7 +31,6 @@ const FakeThumb = observer(({ id, index, isList }) => {
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
 
-
   return (
     <>
       <span
