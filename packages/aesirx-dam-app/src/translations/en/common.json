@@ -83,5 +83,10 @@
   "txt_item_already_in_this_folder": "Item already in the Folder",
   "txt_can_not_move_to_itself": "Can not move to itself",
   "txt_name_can_not_blank": "Folder name can not be blank!",
-  "txt_click_to_change_image": "Click to change image"
+  "txt_click_to_change_image": "Click to change image",
+  "txt_dimension": "Dimension",
+  "txt_description" : "Description",
+  "maximum_upload_size": "Maximum upload size: 10.00 MB",
+  "txt_keywords": "Keywords",
+  "txt_tags" : "Tags"
 }

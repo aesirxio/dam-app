@@ -298,13 +298,13 @@ const AesirXDamFormModal = observer(
           ) : null}
 
           {showMoveToFolder && (
-            <div
-              id="contextMenuItemMoveToFolder"
-              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed `}
-              style={{ ...this.damListViewModel.actionState?.style }}
-            >
-              <MoveToFolder current={currentCollectionId} />
-            </div>
+            <ModalComponent
+              show={showMoveToFolder}
+              onHide={this.damFormModalViewModel.closeMoveToFolder}
+              contentClassName={'bg-white shadow'}
+              header={false}
+              body={<MoveToFolder current={currentCollectionId} />}
+            />
           )}
         </>
       );

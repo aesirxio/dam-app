@@ -22,7 +22,7 @@ class DamFormViewModel {
   damEditdata = null;
   editMode = null;
   damListViewModel = null;
-  showMoveToFolder = null;
+  showMoveToFolder = false;
   formStatus = PAGE_STATUS.READY;
   damStore = null;
 
@@ -32,7 +32,6 @@ class DamFormViewModel {
   }
 
   openMoveToFolder = () => {
-    this.closeContextMenuItem();
     if (this.damListViewModel.actionState.selectedCards.length) {
       this.showMoveToFolder = true;
     } else {

@@ -79,5 +79,10 @@
   "txt_digital_assets_media": "Цифрові активи",
   "txt_remember_me": "Запам'ятати мене",
   "txt_can_not_move_to_itself": "Can not move to itself",
-  "txt_name_can_not_blank": "Folder name can not be blank!"
+  "txt_name_can_not_blank": "Folder name can not be blank!",
+  "txt_dimension": "Розмір",
+  "txt_description" : "Опис",
+  "maximum_upload_size": "Максимальний розмір завантаження: 10,00 МБ",
+  "txt_keywords": "Ключові слова",
+  "txt_tags" : "Теги"
 }

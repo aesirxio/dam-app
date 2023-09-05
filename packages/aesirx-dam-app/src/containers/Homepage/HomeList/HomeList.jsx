@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import '../index.scss';
 
 import {
@@ -24,6 +24,11 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from '../HomeForm/CollectionName';
 
+const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
+const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
+const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));
+const DeleteIcon = React.lazy(() => import('svg/TrashIcon'));
+
 const HomeList = observer(
   class HomeList extends Component {
     damListViewModel = null;
@@ -35,6 +40,7 @@ const HomeList = observer(
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
+      this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -71,8 +77,14 @@ const HomeList = observer(
       } else {
         this.damFormModalViewModal.closeContextMenu();
         this.damFormModalViewModal.closeContextMenuItem();
-        this.damFormModalViewModal.closeMoveToFolder();
+        // this.damFormModalViewModal.closeMoveToFolder();
       }
+    };
+
+    handleRename = () => {
+      this.damFormModalViewModel.setOnEditCollection();
+      this.damFormModalViewModel.closeContextMenuItem();
+      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).focus();
     };
 
     handleSelect = (data) => {
@@ -321,12 +333,15 @@ const HomeList = observer(
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
+      const { downloadFile, openModal } = this.damFormModalViewModel;
       const tableRowHeader = [
         {
           id: 'selection',
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_name')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
@@ -353,8 +368,8 @@ const HomeList = observer(
                   <span
                     className={`${
                       this.damListViewModel.isList
-                        ? 'ms-32px text-color'
-                        : 'text-center text-color lcl lcl-2 d-block w-space'
+                        ? 'ms-32px text-body'
+                        : 'text-center text-body lcl lcl-2 d-block w-space'
                     } w-100`}
                   >
                     <CollectionName item={row.original} />
@@ -401,8 +416,8 @@ const HomeList = observer(
                   <span
                     className={
                       this.damListViewModel.isList
-                        ? 'ms-3 text-color'
-                        : 'w-100 lcl lcl-1 p-2 text-color'
+                        ? 'ms-3 text-body'
+                        : 'w-100 lcl lcl-1 p-2 px-3 text-body'
                     }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
@@ -414,7 +429,9 @@ const HomeList = observer(
         },
 
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_size')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_size')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
@@ -428,11 +445,17 @@ const HomeList = observer(
           ),
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_owner')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_owner')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">
+              {t('txt_last_modified')}
+            </span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
@@ -441,6 +464,52 @@ const HomeList = observer(
                     'DD MMM, YYYY'
                   )
                 : null}
+            </>
+          ),
+        },
+        {
+          Header: <span className="fw-semibold text-gray-901 text-capitalize"></span>,
+          accessor: 'contextMenuItem',
+          Cell: ({}) => (
+            <>
+              {this.damListViewModel.isList && (
+                <div
+                  className={`d-flex align-items-center justify-content-center zindex-5 cursor-pointer position-relative zindex-5 `}
+                >
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={openModal}
+                  >
+                    <Suspense fallback={''}>
+                      <PreviewIcon className="stroke-dark" />
+                    </Suspense>
+                  </div>
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={this.damFormModalViewModel.openMoveToFolder}
+                  >
+                    <Suspense fallback={''}>
+                      <MoveFolderIcon className="stroke-dark" />
+                    </Suspense>
+                  </div>
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={downloadFile}
+                  >
+                    <Suspense fallback={''}>
+                      <DownLoadIcon className="stroke-dark" />
+                    </Suspense>
+                  </div>
+                  <div
+                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    onClick={this.damFormModalViewModel.openDeleteModal}
+                  >
+                    <Suspense fallback={''}>
+                      <DeleteIcon />
+                    </Suspense>
+                  </div>
+                </div>
+              )}
             </>
           ),
         },

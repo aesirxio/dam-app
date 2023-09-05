@@ -51,16 +51,16 @@
   }
 }
 
-.dark #contextMenuItem {
+ #contextMenuItem {
   > div:not(:last-child) {
     svg {
       path {
-        fill: #fff;
+        fill: $gray-900;
       }
     }
     .stroke-dark {
       path {
-        stroke: #fff;
+        stroke: $gray-900;
         fill: transparent;
       }
     }

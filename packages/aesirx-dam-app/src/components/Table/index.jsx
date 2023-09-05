@@ -135,7 +135,7 @@ const Table = ({
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
-        <div className="bg-white shadow-sm rounded-3 d-flex align-items-center justify-content-between border-1 border-gray-select">
+        <div className="bg-blue-5 shadow-sm rounded-3 d-flex align-items-center justify-content-between">
           <div className="wrapper_search_global d-flex">
             {toolbar && (
               <>
@@ -174,26 +174,22 @@ const Table = ({
               <button
                 type="button"
                 className={`btn d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
-                  isList
-                    ? 'bg-blue-3 text-white  border-0 border-start border-end border-gray-select'
-                    : 'text-blue-6'
+                  isList ? 'bg-blue-3 text-white  border-0  border-gray-select' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('list')}
               >
                 <ListCheck />
-                <span className="ms-2">{t('txt_list')}</span>
+                <span className="ms-2 fw-medium">{t('txt_list')}</span>
               </button>
               <button
                 type="button"
                 className={`btn rounded-end d-flex align-items-center fw-bold rounded-0 px-4 shadow-none ${
-                  !isList
-                    ? 'bg-blue-3 text-white border-0 border-start border-gray-select'
-                    : 'text-blue-6'
+                  !isList ? 'bg-blue-3 text-white border-0 border-gray-select' : 'text-blue-6'
                 }`}
                 onClick={() => _handleList('thumb')}
               >
                 <ThumbNails />
-                <span className="ms-2">{t('txt_thumb')}</span>
+                <span className="ms-2 fw-medium">{t('txt_thumb')}</span>
               </button>
             </div>
           )}
@@ -204,7 +200,7 @@ const Table = ({
       {isList ? (
         <div className="py-3 rounded-3 col">
           {rows.length ? (
-            <table {...getTableProps()} className={`w-100 bg-white shadow mb-4 ${classNameTable}`}>
+            <table {...getTableProps()} className={`w-100 bg-white mb-4 ${classNameTable}`}>
               <thead>
                 {headerGroups.map((headerGroup) => {
                   let newHeaderGroup = '';
@@ -238,7 +234,7 @@ const Table = ({
                             <th
                               key={index}
                               {...column.getHeaderProps()}
-                              className="fw-normal px-2 py-3 flex-1 bg-white"
+                              className="fw-normal px-2 py-3 flex-1 bg-white text-capitalize"
                             >
                               {column.render('Header')}
                             </th>
@@ -265,7 +261,7 @@ const Table = ({
                       <Thumb
                         {...row.getRowProps()}
                         isList={true}
-                        className={`zindex-2 ${index % 2 === 0 ? 'bg-gray-400' : 'bg-white'}`}
+                        className={`zindex-2 ${index % 2 === 0 ? 'bg-body' : 'bg-white'}`}
                         key={Math.random(40, 200)}
                         newRowCells={newRowCells}
                         index={index}
@@ -300,7 +296,7 @@ const Table = ({
                       {index === 0 && !row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
                         <>
                           <div className="col-12">
-                            <p className="fw-bold text-blue-0">{t('txt_folders')}</p>
+                            <p className="fw-bold text-body">{t('txt_folders')}</p>
                           </div>
                           {listViewModel?.damLinkFolder.split('/').length > 1 && (
                             <div
@@ -324,7 +320,7 @@ const Table = ({
                         row.original[DAM_ASSETS_FIELD_KEY.TYPE] && (
                           <>
                             <div className="col-12">
-                              <p className="fw-bold text-blue-0">{t('txt_file')}</p>
+                              <p className="fw-bold text-body">{t('txt_file')}</p>
                             </div>
                             {index === 0 && listViewModel?.damLinkFolder.split('/').length > 1 && (
                               <div

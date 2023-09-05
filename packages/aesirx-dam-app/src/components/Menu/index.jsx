@@ -80,12 +80,12 @@ function CustomToggle({ children, eventKey, isActive }) {
       {children}
       {eventKey === 'root' ? (
         <FontAwesomeIcon
-          className={` position-absolute top-50 translate-middle caret-toggle text-white index`}
+          className={` position-absolute top-50 translate-middle caret-toggle text-white me-4 index`}
           icon={faAngleDown}
         />
       ) : (
         <FontAwesomeIcon
-          className={` position-absolute top-50 translate-middle caret-toggle text-green  ${
+          className={` position-absolute top-50 translate-middle caret-toggle ms-2 text-green cursor-pointer ${
             open ? '' : 'down'
           }`}
           onClick={decoratedOnClick}
@@ -137,7 +137,6 @@ const Menu = observer(
       );
 
       const isActive = history.location.pathname.split('/').includes(parent_id.id.toString());
-
       return filterCollectionsWithParentId.length && parent_id?.id ? (
         <Accordion>
           <CustomToggle
@@ -149,13 +148,15 @@ const Menu = observer(
             <NavLink
               exact={true}
               to={'/' + link + '/' + parent_id.id}
-              className={`d-flex align-items-center rounded-1 px-3 py-2 link_menu text-white text-decoration-none ${
+              className={`d-flex align-items-center rounded-1 px-3 py-2 text-white text-decoration-none ${
                 isActive && 'active'
               }`}
               activeClassName={`active`}
             >
               <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
-              <span className="ms-3 py-1 d-inline-block col">{parent_id.name}</span>
+              <span className={`ms-3 py-1 d-inline-block col ${isActive ? 'text-green' : ''}`}>
+                {parent_id.name}
+              </span>
             </NavLink>
           </CustomToggle>
 
@@ -177,8 +178,8 @@ const Menu = observer(
         <NavLink
           exact={true}
           to={'/' + link + '/' + parent_id.id}
-          className={`d-flex align-items-center rounded-1 px-3 py-2 link_menu text-white text-decoration-none no-child ${
-            isActive && 'active'
+          className={`d-flex align-items-center rounded-1 px-3 py-2  text-white text-decoration-none no-child ${
+            isActive ? 'active text-green' : 'text-white'
           }`}
           activeClassName={`active`}
         >
@@ -199,7 +200,7 @@ const Menu = observer(
                 <NavLink
                   exact={true}
                   to={'/root'}
-                  className={`d-flex align-items-center px-3 py-2 mb-1 bg-primary text-white text-decoration-none active`}
+                  className={`d-flex align-items-center px-3 py-2 mb-1 mx-3 rounded link_menu text-white text-decoration-none active`}
                 >
                   <Image alt="folder" src="/assets/images/assets.svg" />
 

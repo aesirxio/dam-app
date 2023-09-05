@@ -6,11 +6,11 @@
 
 .item {
   &:hover {
-    background-color: var(--bs-success);
+    background-color: var(--aesirxui-bg-color-blue-9);
   }
   &.active {
     &:hover {
-      background-color: var(--bs-success);
+      background-color: var(--aesirxui-bg-color-blue-9);
     }
   }
 }

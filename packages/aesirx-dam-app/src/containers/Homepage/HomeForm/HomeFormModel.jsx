@@ -18,6 +18,7 @@ import {
 import { history, Image, ModalComponent, Button } from 'aesirx-uikit';
 import { faFolder } from '@fortawesome/free-regular-svg-icons/faFolder';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons/faCircleXmark';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../index.module.scss';
 import MoveToFolder from 'components/MoveToFolder';
@@ -130,14 +131,13 @@ const HomeFormModal = observer(
       } = this.damFormModalViewModel;
       const {
         deleteItem,
-        actionState: { selectedCards },
+        actionState: { selectedCards = [] },
       } = this.damListViewModel;
       const { t } = this.props;
       const collectionId = history.location.pathname.split('/');
       const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-
       return (
         <>
           {show && (
@@ -149,8 +149,21 @@ const HomeFormModal = observer(
                   this.damFormModalViewModel.closeContextMenuItem();
                   this.damFormModalViewModel.closeContextMenu();
                 }}
-                closeButton
+                header={
+                  <div className="py-3">
+                    <div
+                      className="position-absolute top-0 end-0 mx-4 my-3"
+                      onClick={this.damFormModalViewModel.closeModal}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCircleXmark}
+                        className=" d-inline-block align-text-bottom text-success fs-3"
+                      />
+                    </div>
+                  </div>
+                }
                 contentClassName={'bg-white shadow'}
+                bodyClassName="border-top"
                 body={
                   <HomeForm
                     delete={deleteItem}
@@ -158,7 +171,7 @@ const HomeFormModal = observer(
                     viewModel={this.damFormModalViewModel}
                   />
                 }
-                dialogClassName={'modal-fullscreen'}
+                dialogClassName={' modal-80w '}
               />
             </Suspense>
           )}
@@ -209,7 +222,7 @@ const HomeFormModal = observer(
                 </Suspense>
                 <span className="ms-3 text-gray-dark py-1 d-inline-block">{t('txt_preview')}</span>
               </div>
-              {selectedCards.length < 2 && (
+              {selectedCards.length < 2 && !selectedCards[0].type && (
                 <div
                   className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
                   onClick={this.handleRename}
@@ -222,7 +235,7 @@ const HomeFormModal = observer(
               )}
               <div
                 className={`d-flex align-items-center rounded-1 px-4 pb-3  text-decoration-none w-100`}
-                onClick={openMoveToFolder}
+                onClick={this.damFormModalViewModel.openMoveToFolder}
               >
                 <Suspense fallback={''}>
                   <MoveFolderIcon className="stroke-dark " />
@@ -269,7 +282,7 @@ const HomeFormModal = observer(
                 body={
                   <div className="d-flex flex-column justify-content-center align-items-center pb-5">
                     <Image className="mb-3" src="/assets/images/ep_circle-close.png" />
-                    <h4 className="mb-4">{t('txt_are_you_sure')}</h4>
+                    <h4 className="mb-2">{t('txt_are_you_sure')}</h4>
                     <p className="text-center">
                       {this.damFormModalViewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE]
                         ? t('txt_delete_assets_popup_desc')
@@ -280,7 +293,7 @@ const HomeFormModal = observer(
                         <Button
                           text={t('txt_Cancel')}
                           onClick={this.damFormModalViewModel.closeDeleteModal}
-                          className="btn btn-outline-gray-300 bg-white text-blue-0 border "
+                          className="btn btn-outline-gray-300 bg-white text-body border-1 "
                         />
                       </div>
                       <div className="col-auto">
@@ -298,13 +311,13 @@ const HomeFormModal = observer(
           )}
 
           {showMoveToFolder && (
-            <div
-              id="contextMenuItemMoveToFolder"
-              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed `}
-              style={{ ...this.damListViewModel.actionState?.style }}
-            >
-              <MoveToFolder current={currentCollectionId} />
-            </div>
+            <ModalComponent
+              show={showMoveToFolder}
+              onHide={this.damFormModalViewModel.closeMoveToFolder}
+              contentClassName={'bg-white shadow'}
+              header={false}
+              body={<MoveToFolder current={currentCollectionId} />}
+            />
           )}
         </>
       );

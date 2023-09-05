@@ -8,6 +8,8 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { observer } from 'mobx-react';
 import styles from './table.module.scss';
 export const DND_ITEM_TYPE = 'thumb';
@@ -29,24 +31,28 @@ const FakeThumb = observer(({ id, index, isList }) => {
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
 
-  const item = selectedCards.find((selectedCard) => +selectedCard.id === +id);
-
   return (
     <>
       <span
-        className={`position-absolute rounded-2 top-0 start-0 w-100 h-100  user-select-none ${
-          isSelect ? 'border border-success' : ''
+        className={`position-absolute  top-0 start-0 w-100 h-100 user-select-none ${
+          isSelect ? 'border border-2  border-select-item' : ''
         } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
           checkBorderTop && isList ? 'border-top-0' : ''
-        } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}
+        } ${isList && isSelect ? ' border-start-0 border-end-0 ' : ''} ${styles.item_hover}`}
       ></span>
-      {item?.indexSelected && !isList ? (
+      {!isList && isSelect && (
+        <FontAwesomeIcon
+          icon={faSquareCheck}
+          className={`position-absolute top-0 icon-check border border-success end-0 m-2 text-success ${styles.icon_check}`}
+        />
+      )}
+      {/* {item?.indexSelected && !isList ? (
         <span
           className={`d-flex align-items-center justify-content-center fw-bold text-white bg-success rounded-circle pe-none user-select-none ${styles.count}`}
         >
           {item.indexSelected + 1}
         </span>
-      ) : null}
+      ) : null} */}
     </>
   );
 });
@@ -62,7 +68,7 @@ export const IndeterminateCheckbox = observer(({ index, dataLength }) => {
   return (
     <div className={styles.checkbox}>
       <input
-        className="form-check-input p-0 w-100 h-100"
+        className="form-check-input p-0 w-100 h-100 bg-transparent"
         checked={selectedIndex | (dataLength === selectedCards.length) ? true : false}
         onChange={() => {}}
         type="checkbox"
