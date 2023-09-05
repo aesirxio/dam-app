@@ -81,5 +81,7 @@
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_dimension": "Dimenzija",
   "txt_description" : "Opis",
-  "maximum_upload_size": "Maksimalna veličina za prijenos: 10,00 MB"
+  "maximum_upload_size": "Maksimalna veličina za prijenos: 10,00 MB",
+  "txt_keywords": "Ključne riječi",
+  "txt_tags" : "Oznake"
 }

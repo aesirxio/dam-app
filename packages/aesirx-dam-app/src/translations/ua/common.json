@@ -82,5 +82,7 @@
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_dimension": "Розмір",
   "txt_description" : "Опис",
-  "maximum_upload_size": "Максимальний розмір завантаження: 10,00 МБ"
+  "maximum_upload_size": "Максимальний розмір завантаження: 10,00 МБ",
+  "txt_keywords": "Ключові слова",
+  "txt_tags" : "Теги"
 }

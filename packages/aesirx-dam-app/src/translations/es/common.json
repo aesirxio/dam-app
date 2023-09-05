@@ -81,5 +81,7 @@
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_dimension": "Dimensión",
   "txt_description": "Descripción",
-  "maximum_upload_size": "Tamaño máximo de carga: 10,00 MB"
+  "maximum_upload_size": "Tamaño máximo de carga: 10,00 MB",
+  "txt_keywords": "Palabras clave",
+  "txt_tags": "Etiquetas"
 }

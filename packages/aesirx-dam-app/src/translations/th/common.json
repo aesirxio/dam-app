@@ -82,5 +82,7 @@
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_size": "มิติข้อมูล",
   "txt_description" : "คำอธิบาย",
-  "maximum_upload_size": "ขนาดอัพโหลดสูงสุด: 10.00 MB"
+  "maximum_upload_size": "ขนาดอัพโหลดสูงสุด: 10.00 MB",
+  "txt_keywords": "คำหลัก",
+  "txt_tags" : "แท็ก"
 }

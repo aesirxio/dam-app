@@ -24,8 +24,6 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from '../HomeForm/CollectionName';
 
-const Dropzone = React.lazy(() => import('components/Dropzone'));
-const EditingIcon = React.lazy(() => import('svg/EddingIcon'));
 const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
 const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
 const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));

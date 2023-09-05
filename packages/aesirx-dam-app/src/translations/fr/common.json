@@ -81,5 +81,7 @@
   "txt_name_can_not_blank": "Folder name can not be blank!",
   "txt_dimension": "Dimension",
   "txt_description" : "Description",
-  "maximum_upload_size": "Taille maximale de téléchargement : 10,00 Mo"
+  "maximum_upload_size": "Taille maximale de téléchargement : 10,00 Mo",
+  "txt_keywords": "Mots clés",
+  "txt_tags" : "Balises"
 }

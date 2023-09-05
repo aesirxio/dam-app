@@ -85,5 +85,7 @@
   "txt_click_to_change_image": "Klik for at ændre billede",
   "txt_dimension": "Dimension",
   "txt_description" : "Beskrivelse",
-  "maximum_upload_size": "Maksimal uploadstørrelse: 10,00 MB"
+  "maximum_upload_size": "Maksimal uploadstørrelse: 10,00 MB",
+  "txt_keywords": "Søgeord",
+  "txt_tags" : "Tags"
 }
