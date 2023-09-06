@@ -21,38 +21,6 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Image } from 'aesirx-uikit';
 import { faFolder } from '@fortawesome/free-regular-svg-icons';
-const dataMenu = [
-  // {
-  //   text: 'txt_menu_member',
-  //   link: '/',
-  //   icons: '/assets/images/member.svg',
-  //   icons_color: '/assets/images/member.svg',
-  // },
-  // {
-  //   text: 'txt_menu_import_export',
-  //   link: '/projects',
-  //   icons: '/assets/images/import.svg',
-  //   icons_color: '/assets/images/import.svg',
-  // },
-  // {
-  //   text: 'txt_menu_colection_transfer',
-  //   link: '/campaigns',
-  //   icons: '/assets/images/collection_transfer.svg',
-  //   icons_color: '/assets/images/collection_transfer.svg',
-  // },
-  {
-    text: 'txt_menu_setting',
-    link: '/setting',
-    icons: '/assets/images/setting.svg',
-    icons_color: '/assets/images/setting.svg',
-  },
-  // {
-  //   text: 'txt_menu_trash',
-  //   link: '/digital-assets',
-  //   icons: '/assets/images/trash.svg',
-  //   icons_color: '/assets/images/trash.svg',
-  // },
-];
 
 function CustomToggle({ children, eventKey, isActive }) {
   const [open, setOpen] = useState(false);

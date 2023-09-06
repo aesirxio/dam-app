@@ -65,15 +65,19 @@ export const IndeterminateCheckbox = observer(({ index, dataLength }) => {
   } = useDamViewModel();
   const selectedIndex = selectedCards.map((selectedCard) => +selectedCard.index).includes(+index);
 
+  const isChecked = selectedIndex | (dataLength === selectedCards.length) ? true : false;
+
   return (
-    <div className={styles.checkbox}>
-      <input
-        className="form-check-input p-0 w-100 h-100 bg-transparent"
-        checked={selectedIndex | (dataLength === selectedCards.length) ? true : false}
-        onChange={() => {}}
-        type="checkbox"
-      />
-    </div>
+    isChecked && (
+      <div className={styles.checkbox}>
+        <input
+          className="form-check-input p-0 w-100 h-100 bg-transparent"
+          checked={isChecked}
+          onChange={() => {}}
+          type="checkbox"
+        />
+      </div>
+    )
   );
 });
 

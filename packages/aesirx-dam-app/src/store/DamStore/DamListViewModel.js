@@ -17,7 +17,7 @@ import {
 class DamListViewModel {
   damStore = null;
   collections = [];
-  status = PAGE_STATUS.READY;
+  status = PAGE_STATUS.LOADING;
   assets = [];
   tableRowHeader = null;
   dataFilter = {
@@ -87,6 +87,7 @@ class DamListViewModel {
   // end of intergate
 
   goToFolder = (collectionId, dataFilter = {}) => {
+    this.status = PAGE_STATUS.LOADING;
     this.isSearch = false;
 
     this.dataFilter = { ...this.dataFilter, ...dataFilter };
@@ -94,9 +95,7 @@ class DamListViewModel {
     //   (collection) => +collection.parent_id === +collectionId
     // );
     const isFetchAssets = this.assets.find((asset) => +asset.collection_id === +collectionId);
-    if (isFetchAssets && this.collections.length) {
-      this.status = PAGE_STATUS.LOADING;
-    }
+
     this.resetActionState();
 
     this.damStore.goToFolder(

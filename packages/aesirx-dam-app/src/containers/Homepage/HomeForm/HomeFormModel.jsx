@@ -124,10 +124,7 @@ const HomeFormModal = observer(
         showContextMenuItem,
         openModal,
         downloadFile,
-        // isEditCollection,
-        // showUpdateModal,
         showMoveToFolder,
-        openMoveToFolder,
       } = this.damFormModalViewModel;
       const {
         deleteItem,
