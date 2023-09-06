@@ -389,8 +389,8 @@ export default class DamStore {
       });
       if (responseDataFromLibrary?.assets || responseDataFromLibrary?.collections) {
         const homeDataModels = DamUtils.transformResponseIntoSearchItems([
-          ...responseDataFromLibrary?.assets,
-          ...responseDataFromLibrary?.collections,
+          ...(responseDataFromLibrary?.assets ?? []),
+          ...(responseDataFromLibrary?.collections ?? []),
         ]);
 
         return homeDataModels;
