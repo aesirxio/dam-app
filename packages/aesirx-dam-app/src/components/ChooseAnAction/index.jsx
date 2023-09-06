@@ -19,7 +19,7 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
       }}
       className="d-flex align-items-center text-decoration-none cursor-pointer choose-an-action justify-content-between w-100 h-100 px-3 mt-n1"
     >
-      <div className="pe-3 pt-1 pe-none">
+      <div className="pe-5 pt-1 pe-none">
         <p className="mb-0 text-body fw-normal fs-14">{t('txt_choose_an_action')}</p>
       </div>
       <i className="icons text-green pe-none">

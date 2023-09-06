@@ -439,24 +439,33 @@ const AesirXDamComponent = observer(
         },
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_owner')}</span>
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-center ps-3">
+              {t('txt_owner')}
+            </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
+          Cell: ({ row }) => (
+            <div className="d-flex justify-content-end">
+              <span className="fw-normal fs-14 ">{row.original[DAM_COLUMN_INDICATOR.OWNER]}</span>
+            </div>
+          ),
         },
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-end">
               {t('txt_last_modified')}
             </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-              {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
-                ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
-                    'DD MMM, YYYY'
-                  )
-                : null}
+              <div className="d-flex justify-content-end fs-14 fw-normal">
+                {row.original.modified_date_org
+                  ? moment(new Date(row.original.modified_date_org)).format(
+                      'hh:mm A | dddd, MMMM DD YYYY'
+                    )
+                  : null}
+              </div>
             </>
           ),
         },

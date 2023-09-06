@@ -398,7 +398,7 @@ const HomeList = observer(
                     ) : (
                       <Image
                         visibleByDefault
-                        wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center pe-none"
+                        wrapperClassName={`w-100 h-100 align-items-center justify-content-center pe-none ${styles.items_file}`}
                         src={utils.checkFileTypeFormData(row.original)}
                       />
                     )}
@@ -437,24 +437,34 @@ const HomeList = observer(
         },
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_owner')}</span>
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize ">
+              {t('txt_owner')}
+            </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
+          Cell: ({ row }) => (
+            <div className="">
+              {console.log(row.original)}
+              <span className="fw-normal fs-14 ">{row.original[DAM_COLUMN_INDICATOR.OWNER]}</span>
+            </div>
+          ),
         },
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize  ">
               {t('txt_last_modified')}
             </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-              {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
-                ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
-                    'DD MMM, YYYY'
-                  )
-                : null}
+              <div className="fs-14 fw-normal ">
+                {row.original.modified_date_org
+                  ? moment(new Date(row.original.modified_date_org)).format(
+                      'hh:mm A | dddd, MMMM DD YYYY'
+                    )
+                  : null}
+              </div>
             </>
           ),
         },
