@@ -43,7 +43,7 @@ const CollectionName = observer(({ item }) => {
     <Form.Control
       as={'input'}
       type={'text'}
-      className={`mw-80 text-body border-0 ps-2 form-control-dam ${
+      className={`mw-80 text-body border-0 ps-2 form-control-dam fs-14 fw-medium ${
         !damListViewModel.isList ? 'text-center mx-auto ' : ''
       }px-0 py-1 w-fit ${isFocus ? 'pe-auto border-1 border-thumb-name' : 'pe-none'} ${
         styles.input

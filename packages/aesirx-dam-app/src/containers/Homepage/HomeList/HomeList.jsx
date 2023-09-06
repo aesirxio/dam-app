@@ -340,7 +340,7 @@ const HomeList = observer(
         },
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_name')}</span>
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize">{t('txt_name')}</span>
           ),
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
@@ -368,9 +368,9 @@ const HomeList = observer(
                   <span
                     className={`${
                       this.damListViewModel.isList
-                        ? 'ms-32px text-body'
+                        ? 'ms-32px text-body '
                         : 'text-center text-body lcl lcl-2 d-block w-space'
-                    } w-100`}
+                    } w-100 fs-14 fw-normal`}
                   >
                     <CollectionName item={row.original} />
                     <span className="text-gray">
@@ -407,18 +407,18 @@ const HomeList = observer(
                     ) : (
                       <Image
                         visibleByDefault
-                        wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center pe-none"
+                        wrapperClassName={`w-100 h-100 align-items-center justify-content-center pe-none ${styles.items_file}`}
                         src={utils.checkFileTypeFormData(row.original)}
                       />
                     )}
                   </span>
 
                   <span
-                    className={
+                    className={`${
                       this.damListViewModel.isList
-                        ? 'ms-3 text-body'
+                        ? 'ms-3 text-body '
                         : 'w-100 lcl lcl-1 p-2 px-3 text-body'
-                    }
+                    } fs-14 fw-normal`}
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                   </span>
@@ -430,12 +430,12 @@ const HomeList = observer(
 
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_size')}</span>
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize">{t('txt_size')}</span>
           ),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
-              <span className="">
+              <span className=" fw-normal fs-14">
                 {row.original[DAM_ASSETS_FIELD_KEY.TYPE]
                   ? row.original[DAM_ASSETS_FIELD_KEY.FILE_SIZE]
                   : row.original[DAM_COLLECTION_FIELD_KEY.FILE_SIZE]}
@@ -446,62 +446,65 @@ const HomeList = observer(
         },
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_owner')}</span>
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-center ps-3">
+              {t('txt_owner')}
+            </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
+          Cell: ({ row }) => (
+            <div className="d-flex justify-content-end">
+              <span className="fw-normal fs-14 ">{row.original[DAM_COLUMN_INDICATOR.OWNER]}</span>
+            </div>
+          ),
         },
         {
           Header: (
-            <span className="fw-semibold text-gray-901 text-capitalize">
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-end">
               {t('txt_last_modified')}
             </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-              {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
-                ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
-                    'DD MMM, YYYY'
-                  )
-                : null}
+              <div className="d-flex justify-content-end fs-14 fw-normal">
+                {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
+                  ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
+                      'hh:mm A | dddd, MMMM DD YYYY'
+                    )
+                  : null}
+              </div>
             </>
           ),
         },
         {
-          Header: <span className="fw-semibold text-gray-901 text-capitalize"></span>,
+          Header: <span className="fw-semibold fs-14 text-gray-901 text-capitalize"></span>,
           accessor: 'contextMenuItem',
           Cell: ({}) => (
             <>
               {this.damListViewModel.isList && (
                 <div
-                  className={`d-flex align-items-center justify-content-center zindex-5 cursor-pointer position-relative zindex-5 `}
+                  className={`d-flex align-items-center justify-content-center cursor-pointer position-relative zindex-5 `}
                 >
-                  <div
-                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
-                    onClick={openModal}
-                  >
+                  <div className={`text-decoration-none px-2 text-center`} onClick={openModal}>
                     <Suspense fallback={''}>
                       <PreviewIcon className="stroke-dark" />
                     </Suspense>
                   </div>
                   <div
-                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    className={`text-decoration-none px-2 text-center`}
                     onClick={this.damFormModalViewModel.openMoveToFolder}
                   >
                     <Suspense fallback={''}>
                       <MoveFolderIcon className="stroke-dark" />
                     </Suspense>
                   </div>
-                  <div
-                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
-                    onClick={downloadFile}
-                  >
+                  <div className={`text-decoration-none px-2 text-center`} onClick={downloadFile}>
                     <Suspense fallback={''}>
                       <DownLoadIcon className="stroke-dark" />
                     </Suspense>
                   </div>
                   <div
-                    className={`d-flex align-items-center rounded-1 text-decoration-none w-100`}
+                    className={`text-decoration-none px-2 text-center`}
                     onClick={this.damFormModalViewModel.openDeleteModal}
                   >
                     <Suspense fallback={''}>

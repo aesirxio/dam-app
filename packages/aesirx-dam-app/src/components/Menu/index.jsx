@@ -148,20 +148,20 @@ const Menu = observer(
             <NavLink
               exact={true}
               to={'/' + link + '/' + parent_id.id}
-              className={`d-flex align-items-center rounded-1 px-3 py-2 text-white text-decoration-none ${
+              className={`d-flex align-items-center rounded-1 px-3 py-2 text-white ps-3 text-decoration-none ${
                 isActive && 'active'
               }`}
               activeClassName={`active`}
             >
               <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
-              <span className={`ms-3 py-1 d-inline-block col ${isActive ? 'text-green' : ''}`}>
+              <span className={`ms-2 py-1  d-inline-block col ${isActive ? 'text-green' : ''}`}>
                 {parent_id.name}
               </span>
             </NavLink>
           </CustomToggle>
 
           <Accordion.Collapse eventKey={parent_id?.id}>
-            <ul id="wr_list_menu" className="list-unstyled mb-0 px-2">
+            <ul id="wr_list_menu" className="list-unstyled mb-0 pe-2 ps-4">
               {filterCollectionsWithParentId.map((value, key) => {
                 return (
                   value.id && (
@@ -184,7 +184,7 @@ const Menu = observer(
           activeClassName={`active`}
         >
           <FontAwesomeIcon className="text-white px-2" icon={faFolder} />
-          <span className="ms-3 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
+          <span className="ms-2 py-1 d-inline-block col overflow-hidden">{parent_id.name}</span>
         </NavLink>
       ) : null;
     };
