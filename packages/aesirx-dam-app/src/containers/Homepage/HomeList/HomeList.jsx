@@ -478,8 +478,8 @@ const HomeList = observer(
         },
         {
           Header: <span className="fw-semibold fs-14 text-gray-901 text-capitalize"></span>,
-          accessor: 'contextMenuItem',
-          Cell: ({}) => (
+          id: 'contextMenuItem',
+          Cell: () => (
             <>
               {this.damListViewModel.isList && (
                 <div
