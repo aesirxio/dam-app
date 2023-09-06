@@ -18,6 +18,8 @@ class HomeUtils {
         return '/assets/images/xlsx.svg';
       case 'docx':
         return '/assets/images/word.svg';
+      case 'pptx':
+        return '/assets/images/pdf.svg';
       case 'pdf':
         return '/assets/images/pdf.svg';
       default:

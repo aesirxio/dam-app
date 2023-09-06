@@ -171,7 +171,7 @@ const HomeFormModal = observer(
                     viewModel={this.damFormModalViewModel}
                   />
                 }
-                dialogClassName={' modal-80w '}
+                dialogClassName={'modal-fullscreen'}
               />
             </Suspense>
           )}

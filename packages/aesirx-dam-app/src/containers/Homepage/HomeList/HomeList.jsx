@@ -370,10 +370,10 @@ const HomeList = observer(
                       this.damListViewModel.isList
                         ? 'ms-32px text-body '
                         : 'text-center text-body lcl lcl-2 d-block w-space'
-                    } w-100 fs-14 fw-normal`}
+                    } w-100 fs-6 fw-normal`}
                   >
                     <CollectionName item={row.original} />
-                    <span className="text-gray">
+                    <span className="text-gray-600 fs-14 fw-normal">
                       {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
                         ? !this.damListViewModel.isList &&
                           moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
@@ -466,9 +466,10 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
+            {console.log(row.original.modified_date_org)}
               <div className="d-flex justify-content-end fs-14 fw-normal">
-                {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
-                  ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
+                {row.original.modified_date_org
+                  ? moment(new Date(row.original.modified_date_org)).format(
                       'hh:mm A | dddd, MMMM DD YYYY'
                     )
                   : null}
