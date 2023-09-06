@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component, Suspense } from 'react';
+import React, { Component } from 'react';
 
 import {
   DAM_ASSETS_API_FIELD_KEY,
@@ -21,11 +21,7 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 import styles from './index.module.scss';
-
-const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
-const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
-const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));
-const DeleteIcon = React.lazy(() => import('svg/TrashIcon'));
+import Folder from 'svg/Folder';
 
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
@@ -332,7 +328,7 @@ const AesirXDamComponent = observer(
     render() {
       const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
       const { t } = this.props;
-      const { downloadFile, openModal } = this.damFormModalViewModel;
+
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
@@ -343,14 +339,12 @@ const AesirXDamComponent = observer(
         },
         {
           Header: (
-            <span className="fw-semibold fs-14 text-gray-901 text-capitalize">{t('txt_name')}</span>
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_name')}</span>
           ),
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
-              className={`d-flex w-100 ${
-                this.damListViewModel.isList ? '' : ' justify-content-center'
-              }`}
+              className={`d-flex  ${this.damListViewModel.isList ? '' : ' justify-content-center'}`}
             >
               {!row.original[DAM_ASSETS_FIELD_KEY.TYPE] &&
               !row.original[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL] ? (
@@ -362,21 +356,19 @@ const AesirXDamComponent = observer(
                       : 'd-flex flex-column align-items-center justify-content-center'
                   }`}
                 >
-                  <Image
-                    visibleByDefault
-                    alt={row.original.name}
-                    src="/assets/images/folder.svg"
-                    className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}
-                  />
+                  <div className={`${this.damListViewModel.isList ? '' : styles.folder} pe-none`}>
+                    <Folder />
+                  </div>
                   <span
+                    title={row.original[DAM_COLUMN_INDICATOR.NAME]}
                     className={`${
                       this.damListViewModel.isList
-                        ? 'ms-32px text-body '
-                        : 'text-center text-body lcl lcl-2 d-block w-space'
-                    } w-100 fs-6 fw-normal`}
+                        ? 'ms-32px text-color'
+                        : 'text-center text-color lcl lcl-2 w-100 d-block w-space'
+                    } w-100`}
                   >
                     <CollectionName item={row.original} />
-                    <span className="text-gray-600 fs-14 fw-normal">
+                    <span className="text-gray">
                       {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
                         ? !this.damListViewModel.isList &&
                           moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
@@ -389,7 +381,7 @@ const AesirXDamComponent = observer(
               ) : (
                 // file
                 <div
-                  className={`${
+                  className={`w-100 ${
                     this.damListViewModel.isList
                       ? 'd-flex align-items-center'
                       : 'd-flex flex-column align-items-center justify-content-center'
@@ -400,7 +392,6 @@ const AesirXDamComponent = observer(
                   >
                     {row.original?.[DAM_ASSETS_FIELD_KEY.TYPE] === 'image' ? (
                       <Image
-                        visibleByDefault
                         wrapperClassName="w-100 h-100 pe-none"
                         className="w-100 h-100 object-fit-cover"
                         src={`${row.original?.[DAM_ASSETS_FIELD_KEY.DOWNLOAD_URL]}?${moment(
@@ -408,20 +399,19 @@ const AesirXDamComponent = observer(
                         ).unix()}`}
                       />
                     ) : (
-                      <Image
-                        visibleByDefault
-                        wrapperClassName={`w-100 h-100 align-items-center justify-content-center pe-none ${styles.items_file}`}
-                        src={utils.checkFileTypeFormData(row.original)}
-                      />
+                      <div className="w-100 h-100 d-flex align-items-center justify-content-center pe-none">
+                        {utils.checkFileTypeFormData(row.original)}
+                      </div>
                     )}
                   </span>
 
                   <span
-                    className={`${
+                    title={row.original[DAM_COLUMN_INDICATOR.NAME]}
+                    className={
                       this.damListViewModel.isList
-                        ? 'ms-3 text-body '
-                        : 'w-100 lcl lcl-1 p-2 px-3 text-body'
-                    } fs-14 fw-normal`}
+                        ? 'ms-3 text-color'
+                        : 'd-block w-100 lcl lcl-1 p-2 text-color w-space'
+                    }
                   >
                     {row.original[DAM_COLUMN_INDICATOR.NAME]}
                   </span>
@@ -433,12 +423,12 @@ const AesirXDamComponent = observer(
 
         {
           Header: (
-            <span className="fw-semibold fs-14 text-gray-901 text-capitalize">{t('txt_size')}</span>
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_size')}</span>
           ),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
-              <span className=" fw-normal fs-14">
+              <span className="">
                 {row.original[DAM_ASSETS_FIELD_KEY.TYPE]
                   ? row.original[DAM_ASSETS_FIELD_KEY.FILE_SIZE]
                   : row.original[DAM_COLLECTION_FIELD_KEY.FILE_SIZE]}
@@ -469,7 +459,6 @@ const AesirXDamComponent = observer(
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-              {console.log(row.original.modified_date_org)}
               <div className="d-flex justify-content-end fs-14 fw-normal">
                 {row.original.modified_date_org
                   ? moment(new Date(row.original.modified_date_org)).format(
@@ -477,46 +466,6 @@ const AesirXDamComponent = observer(
                     )
                   : null}
               </div>
-            </>
-          ),
-        },
-        {
-          Header: <span className="fw-semibold fs-14 text-gray-901 text-capitalize"></span>,
-          id: 'contextMenuItem',
-          Cell: () => (
-            <>
-              {this.damListViewModel.isList && (
-                <div
-                  className={`d-flex align-items-center justify-content-center cursor-pointer position-relative zindex-5 `}
-                >
-                  <div className={`text-decoration-none px-2 text-center`} onClick={openModal}>
-                    <Suspense fallback={''}>
-                      <PreviewIcon className="stroke-dark" />
-                    </Suspense>
-                  </div>
-                  <div
-                    className={`text-decoration-none px-2 text-center`}
-                    onClick={this.damFormModalViewModel.openMoveToFolder}
-                  >
-                    <Suspense fallback={''}>
-                      <MoveFolderIcon className="stroke-dark" />
-                    </Suspense>
-                  </div>
-                  <div className={`text-decoration-none px-2 text-center`} onClick={downloadFile}>
-                    <Suspense fallback={''}>
-                      <DownLoadIcon className="stroke-dark" />
-                    </Suspense>
-                  </div>
-                  <div
-                    className={`text-decoration-none px-2 text-center`}
-                    onClick={this.damFormModalViewModel.openDeleteModal}
-                  >
-                    <Suspense fallback={''}>
-                      <DeleteIcon />
-                    </Suspense>
-                  </div>
-                </div>
-              )}
             </>
           ),
         },
