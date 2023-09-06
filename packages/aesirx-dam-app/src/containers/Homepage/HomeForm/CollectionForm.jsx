@@ -103,7 +103,7 @@ class HomeForm extends Component {
                 <Button
                   text={t('txt_Cancel')}
                   onClick={this.props.close}
-                  className="btn btn-outline-gray-300 bg-white text-blue-0 w-100"
+                  className="btn btn-outline-gray-300 bg-white text-blue-0 w-100  border-1"
                 />
               </div>
               <div className="col-3">

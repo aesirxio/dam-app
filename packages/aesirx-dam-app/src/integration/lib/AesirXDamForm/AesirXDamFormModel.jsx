@@ -280,7 +280,7 @@ const AesirXDamFormModal = observer(
                         <Button
                           text={t('txt_Cancel')}
                           onClick={this.damFormModalViewModel.closeDeleteModal}
-                          className="btn btn-outline-gray-300 bg-white text-blue-0 border "
+                          className="btn btn-outline-gray-300 bg-white text-blue-0 border-1 "
                         />
                       </div>
                       <div className="col-auto">
