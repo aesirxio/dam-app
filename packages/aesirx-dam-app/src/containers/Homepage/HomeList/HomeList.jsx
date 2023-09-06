@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import '../index.scss';
 
 import {
@@ -15,7 +15,7 @@ import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import ComponentNoData from 'components/ComponentNoData';
-import { history, Image } from 'aesirx-uikit';
+import { Spinner, PAGE_STATUS, history, Image } from 'aesirx-uikit';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import styles from '../index.module.scss';
@@ -23,6 +23,11 @@ import utils from '../HomeUtils/HomeUtils';
 import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from '../HomeForm/CollectionName';
+
+const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
+const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
+const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));
+const DeleteIcon = React.lazy(() => import('svg/TrashIcon'));
 
 const HomeList = observer(
   class HomeList extends Component {
@@ -44,7 +49,7 @@ const HomeList = observer(
       const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-
+      this.damListViewModel.setLoading();
       this.damListViewModel.goToFolder(currentCollectionId);
     }
 
@@ -322,9 +327,13 @@ const HomeList = observer(
     };
 
     render() {
-      const { assets, collections, isSearch } = this.damListViewModel;
+      const { assets, status, collections, isSearch } = this.damListViewModel;
       const { t } = this.props;
 
+      if (status === PAGE_STATUS.LOADING) {
+        return <Spinner />;
+      }
+      const { downloadFile, openModal } = this.damFormModalViewModel;
       const tableRowHeader = [
         {
           id: 'selection',
@@ -457,7 +466,7 @@ const HomeList = observer(
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-            {console.log(row.original.modified_date_org)}
+              {console.log(row.original.modified_date_org)}
               <div className="d-flex justify-content-end fs-14 fw-normal">
                 {row.original.modified_date_org
                   ? moment(new Date(row.original.modified_date_org)).format(
@@ -551,6 +560,7 @@ const HomeList = observer(
                 dataAssets={handleAssets}
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
+                isThumb={true}
                 isList={this.damListViewModel.isList}
                 dataThumb={[
                   'selection',

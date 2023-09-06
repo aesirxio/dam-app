@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 
 import {
   DAM_ASSETS_API_FIELD_KEY,
@@ -21,7 +21,11 @@ import { withDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 import styles from './index.module.scss';
-import Folder from 'svg/Folder';
+
+const MoveFolderIcon = React.lazy(() => import('svg/MoveFolderIcon'));
+const PreviewIcon = React.lazy(() => import('svg/EyeIcon'));
+const DownLoadIcon = React.lazy(() => import('svg/DownloadIcon'));
+const DeleteIcon = React.lazy(() => import('svg/TrashIcon'));
 
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
@@ -328,7 +332,7 @@ const AesirXDamComponent = observer(
     render() {
       const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
       const { t } = this.props;
-
+      const { downloadFile, openModal } = this.damFormModalViewModel;
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
@@ -465,7 +469,7 @@ const AesirXDamComponent = observer(
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-            {console.log(row.original.modified_date_org)}
+              {console.log(row.original.modified_date_org)}
               <div className="d-flex justify-content-end fs-14 fw-normal">
                 {row.original.modified_date_org
                   ? moment(new Date(row.original.modified_date_org)).format(

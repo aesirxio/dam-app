@@ -106,7 +106,7 @@ const AesirXDamActionBar = observer(
                 className=" btn-success"
               />
             </Dropzone>
-            <HomeFormModal />
+            <AesirXDamFormModel />
           </div>
         </>
       );
