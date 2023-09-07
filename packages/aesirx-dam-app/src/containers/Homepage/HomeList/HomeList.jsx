@@ -324,6 +324,9 @@ const HomeList = observer(
     render() {
       const { assets, collections, isSearch } = this.damListViewModel;
       const { t } = this.props;
+      const shortenString = (str, first, last) => {
+        return str?.substring(0, first) + '...' + str?.substring(str.length - last);
+      };
 
       const tableRowHeader = [
         {
@@ -361,10 +364,10 @@ const HomeList = observer(
                       this.damListViewModel.isList
                         ? 'ms-32px text-body'
                         : 'text-center text-body lcl lcl-2 d-block w-space'
-                    } w-100`}
+                    } w-100 `}
                   >
                     <CollectionName item={row.original} />
-                    <span className="text-gray">
+                    <span className="text-gray-600 fs-14 fw-normal">
                       {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
                         ? !this.damListViewModel.isList &&
                           moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
@@ -405,13 +408,16 @@ const HomeList = observer(
                   </span>
 
                   <span
-                    className={
+                    className={`${
                       this.damListViewModel.isList
                         ? 'ms-3 text-body'
                         : 'w-100 lcl lcl-1 p-2 px-3 text-body'
-                    }
+                    } fs-14 fw-normal`}
                   >
-                    {row.original[DAM_COLUMN_INDICATOR.NAME]}
+                    {!this.damListViewModel.isList &&
+                    row.original[DAM_COLUMN_INDICATOR.NAME].length > 20
+                      ? shortenString(row.original[DAM_COLUMN_INDICATOR.NAME], 20, 0)
+                      : row.original[DAM_COLUMN_INDICATOR.NAME]}
                   </span>
                 </div>
               )}
@@ -425,7 +431,7 @@ const HomeList = observer(
           ),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
-            <div className="d-flex">
+            <div className="d-flex fs-14 fw-normal">
               <span className="">
                 {row.original[DAM_ASSETS_FIELD_KEY.TYPE]
                   ? row.original[DAM_ASSETS_FIELD_KEY.FILE_SIZE]
@@ -437,28 +443,27 @@ const HomeList = observer(
         },
         {
           Header: (
-            <span className="fw-semibold fs-14 text-gray-901 text-capitalize ">
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-center ">
               {t('txt_owner')}
             </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
           Cell: ({ row }) => (
-            <div className="">
-              {console.log(row.original)}
+            <div className="d-flex justify-content-center ms-3">
               <span className="fw-normal fs-14 ">{row.original[DAM_COLUMN_INDICATOR.OWNER]}</span>
             </div>
           ),
         },
         {
           Header: (
-            <span className="fw-semibold fs-14 text-gray-901 text-capitalize  ">
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-end me-5">
               {t('txt_last_modified')}
             </span>
           ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-              <div className="fs-14 fw-normal ">
+              <div className="fs-14 fw-normal d-flex justify-content-end me-5 ">
                 {row.original.modified_date_org
                   ? moment(new Date(row.original.modified_date_org)).format(
                       'hh:mm A | dddd, MMMM DD YYYY'

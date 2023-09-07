@@ -290,14 +290,14 @@ const HomeFormModal = observer(
                         <Button
                           text={t('txt_Cancel')}
                           onClick={this.damFormModalViewModel.closeDeleteModal}
-                          className="btn btn-outline-gray-300 bg-white text-body border-1 "
+                          className="btn btn-outline-gray-300 bg-white text-body fw-semibold border-1 "
                         />
                       </div>
                       <div className="col-auto">
                         <Button
                           text={t('txt_yes_delete')}
                           onClick={deleteItem}
-                          className="btn btn-danger "
+                          className="btn btn-danger fw-semibold "
                         />
                       </div>
                     </div>

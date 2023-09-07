@@ -43,7 +43,7 @@ const FakeThumb = observer(({ id, index, isList }) => {
       {!isList && isSelect && (
         <FontAwesomeIcon
           icon={faSquareCheck}
-          className={`position-absolute top-0 icon-check border border-success end-0 m-2  text-success ${styles.icon_check}`}
+          className={`position-absolute top-0 icon-check border border-success end-0 m-2 text-success ${styles.icon_check}`}
         />
       )}
       {/* {item?.indexSelected && !isList ? (

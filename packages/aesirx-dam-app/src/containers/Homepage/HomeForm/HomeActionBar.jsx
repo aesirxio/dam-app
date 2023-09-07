@@ -88,14 +88,14 @@ const HomeActionBar = observer(
               onClick={this.handleCreateFolder}
               iconStart={faFolder}
               text="txt_create_folder"
-              className="btn-outline-gray-300 bg-white text-body border-1 me-3"
+              className="btn-outline-gray-300 bg-white text-body border-1 me-3 fw-semibold"
             />
             <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}
                 text={t('txt_upload_file')}
-                className=" btn-success"
+                className=" btn-success fw-semibold"
               />
             </Dropzone>
             <HomeFormModal />
