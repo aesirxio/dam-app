@@ -3,7 +3,6 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 @import 'aesirx-uikit/dist/utils/bootstrap.scss';
-@import '~bootstrap/scss/tooltip';
 
 .dam-integrate-layout {
   @include media-breakpoint-down(xxl) {
@@ -50,19 +49,18 @@
       display: none !important;
     }
   }
-}
-
- #contextMenuItem {
-  > div:not(:last-child) {
-    svg {
-      path {
-        fill: $gray-900;
+  #contextMenuItem {
+    > div:not(:last-child) {
+      svg {
+        path {
+          fill: $gray-900;
+        }
       }
-    }
-    .stroke-dark {
-      path {
-        stroke: $gray-900;
-        fill: transparent;
+      .stroke-dark {
+        path {
+          stroke: $gray-900;
+          fill: transparent;
+        }
       }
     }
   }

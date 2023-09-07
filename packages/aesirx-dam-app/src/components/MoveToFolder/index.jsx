@@ -104,7 +104,7 @@ const MoveToFolder = observer(({ current = 0 }) => {
                     <Tooltip
                       id={`folder_${collection.id}`}
                       className={`zindex-5 text-white px-2 rounded-2 bg-gray-dark
-                        ${mapDataSelectCards.includes(+collection?.id) ? '' : 'zindex-5'}
+                        ${mapDataSelectCards.includes(+collection?.id) ? '' : 'd-none'}
                         `}
                     >
                       {t('txt_can_not_move_to_itself')}
