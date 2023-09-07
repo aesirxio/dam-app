@@ -12,6 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { observer } from 'mobx-react';
 import styles from './table.module.scss';
+import { useTranslation } from 'react-i18next';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 export const DND_ITEM_TYPE = 'thumb';
 let timer = 0;
 let delay = 200;
@@ -210,67 +212,26 @@ const Thumb = observer(
     }, []);
 
     drag(drop(ref));
+    const { t } = useTranslation();
+    const tooltip = (
+      <Tooltip id={`tooltip-${row.original.id}`}>
+        <p className="mb-0 fs-12">{t('double_click_to_edit')}</p>
+        <p className="mb-0 fs-12">{t('right-click_to_get_a_list_of_actions')}</p>
+      </Tooltip>
+    );
 
     return isList ? (
-      <tr
-        key={row.getRowProps().key}
-        {...row.getRowProps()}
-        className={`position-relative item_thumb cursor-move ${
-          isOver ? 'border border-success bg-success-05' : 'border-none'
-        } ${className}`}
-        onDoubleClick={() => {
-          clearTimeout(timer);
-          prevent = true;
-          onDoubleClick(row.original);
-        }}
-        onClick={(e) => {
-          timer = setTimeout(function () {
-            if (!prevent) {
-              onSelect(e);
-            }
-            prevent = false;
-          }, delay);
-        }}
-        onContextMenu={(e) => {
-          onRightClickItem(e, { ...row.original, index });
-        }}
-        style={{ opacity }}
-        type={type}
-        ref={ref}
-      >
-        {newRowCells.map((cell, _index) => {
-          if (cell.column.id === 'selection') {
-            return (
-              <td key={_index} {...cell.getCellProps()} style={{ width: 64 }}>
-                <IndeterminateCheckbox index={index} />
-              </td>
-            );
-          } else {
-            return (
-              <td key={_index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
-                {cell.render('Cell')}
-                <FakeThumb id={+row.original.id} index={index} isList={true} />
-              </td>
-            );
-          }
-        })}
-      </tr>
-    ) : (
-      <div style={{ opacity }} className={className}>
-        <div
-          className={`${
-            isOver ? 'border-success bg-success-05' : 'bg-white border-thumb'
-          } position-relative item_thumb d-flex border-1  cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column `}
-          onContextMenu={(e) => {
-            onRightClickItem(e, { ...row.original, index });
-          }}
-          ref={ref}
+      <OverlayTrigger placement="top" overlay={tooltip}>
+        <tr
+          key={row.getRowProps().key}
+          {...row.getRowProps()}
+          className={`position-relative item_thumb cursor-move ${
+            isOver ? 'border border-success bg-success-05' : 'border-none'
+          } ${className}`}
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
-            if (!isEditCollection) {
-              onDoubleClick(row.original);
-            }
+            onDoubleClick(row.original);
           }}
           onClick={(e) => {
             timer = setTimeout(function () {
@@ -280,12 +241,64 @@ const Thumb = observer(
               prevent = false;
             }, delay);
           }}
+          onContextMenu={(e) => {
+            onRightClickItem(e, { ...row.original, index });
+          }}
+          style={{ opacity }}
           type={type}
+          ref={ref}
         >
-          <ThumbContainer newRowCells={newRowCells} />
-          <FakeThumb id={+row.original.id} />
+          {newRowCells.map((cell, _index) => {
+            if (cell.column.id === 'selection') {
+              return (
+                <td key={_index} {...cell.getCellProps()} style={{ width: 64 }}>
+                  <IndeterminateCheckbox index={index} />
+                </td>
+              );
+            } else {
+              return (
+                <td key={_index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
+                  {cell.render('Cell')}
+                  <FakeThumb id={+row.original.id} index={index} isList={true} />
+                </td>
+              );
+            }
+          })}
+        </tr>
+      </OverlayTrigger>
+    ) : (
+      <OverlayTrigger placement="top" overlay={tooltip}>
+        <div style={{ opacity }} className={className}>
+          <div
+            className={`${
+              isOver ? 'border-success bg-success-05' : 'bg-white border-thumb'
+            } position-relative item_thumb d-flex border-1  cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column `}
+            onContextMenu={(e) => {
+              onRightClickItem(e, { ...row.original, index });
+            }}
+            ref={ref}
+            onDoubleClick={() => {
+              clearTimeout(timer);
+              prevent = true;
+              if (!isEditCollection) {
+                onDoubleClick(row.original);
+              }
+            }}
+            onClick={(e) => {
+              timer = setTimeout(function () {
+                if (!prevent) {
+                  onSelect(e);
+                }
+                prevent = false;
+              }, delay);
+            }}
+            type={type}
+          >
+            <ThumbContainer newRowCells={newRowCells} />
+            <FakeThumb id={+row.original.id} />
+          </div>
         </div>
-      </div>
+      </OverlayTrigger>
     );
   }
 );
