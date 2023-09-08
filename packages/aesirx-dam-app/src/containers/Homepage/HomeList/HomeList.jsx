@@ -356,6 +356,9 @@ const HomeList = observer(
     render() {
       const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
       const { t } = this.props;
+      const shortenString = (str, first, last) => {
+        return str?.substring(0, first) + '...' + str?.substring(str.length - last);
+      };
 
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
