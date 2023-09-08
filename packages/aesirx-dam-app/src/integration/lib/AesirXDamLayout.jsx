@@ -9,9 +9,9 @@ import { DamStoreProvider } from 'store/DamStore/DamViewModelContextProvider';
 import DamViewModel from 'store/DamStore/DamViewModel';
 import DamStore from 'store/DamStore/DamStore';
 
-import AesirXDamComponent from './AesirXDamComponent';
 import AesirXDamActionBar from './AesirXDamForm/AesirXDamActionBar';
 import { useThemeContext } from 'aesirx-uikit';
+import HomeList from 'containers/Homepage/HomeList/HomeList';
 
 const damStore = new DamStore();
 const damsViewModel = new DamViewModel(damStore);
@@ -29,7 +29,7 @@ const AesirXDamLayout = (props) => {
                 <div className="d-flex align-items-center justify-content-between mb-4">
                   <AesirXDamActionBar {...props} />
                 </div>
-                <AesirXDamComponent {...props} />
+                <HomeList {...props} />
               </div>
             </div>
           </div>
