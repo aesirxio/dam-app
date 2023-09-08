@@ -91,15 +91,14 @@ const AesirXDamActionBar = observer(
       return (
         <>
           <BreadCrumbs handleLink={this.handleLinkBreadCrumb} data={breadcrumb} />
-
           <div className="d-flex justify-content-end col-auto">
             <ButtonNormal
               onClick={this.handleCreateFolder}
               iconStart={faFolder}
               text="txt_create_folder"
-              className="btn-outline-gray-300 bg-select-control-background text-blue-0 me-3"
+              className="btn-outline-gray-300 bg-white text-body border-1 me-3"
             />
-            <Dropzone noDrag={true} createAssets={this.handleCreateAssets} accept={this.accept}>
+            <Dropzone noDrag={true} createAssets={this.handleCreateAssets}>
               <ButtonNormal
                 onClick={() => {}}
                 iconStart={faPlus}

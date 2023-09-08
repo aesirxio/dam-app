@@ -198,14 +198,14 @@ class HomeForm extends Component {
                 <Button
                   text={t('txt_Cancel')}
                   onClick={closeModal}
-                  className="btn btn-outline-gray-300 bg-white text-blue-0 w-100"
+                  className="btn btn-outline-gray-300 bg-white text-body w-100 fw-semibold border-gray-600"
                 />
               </div>
               <div className="col-xxl-4 col-xl-5 col-6">
                 <Button
                   text={t('txt_save_update')}
                   onClick={this.handleOnSubmit}
-                  className="btn btn-success w-100"
+                  className="btn btn-success w-100 fw-semibold"
                 />
               </div>
             </div>

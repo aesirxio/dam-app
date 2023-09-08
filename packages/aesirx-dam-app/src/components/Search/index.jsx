@@ -57,7 +57,7 @@ const Search = observer(() => {
       <button
         type="button"
         id="button-search"
-        className="btn btn_search bg-body border-0 col-auto text-green"
+        className="btn btn_search bg-body border-0 col-auto text-green ps-4"
       >
         <FontAwesomeIcon icon={faSearch} />
       </button>
