@@ -83,5 +83,7 @@
   "txt_description" : "Opis",
   "maximum_upload_size": "Maksimalna veličina za prijenos: 10,00 MB",
   "txt_keywords": "Ključne riječi",
-  "txt_tags" : "Oznake"
+  "txt_tags" : "Oznake",
+  "double_click_to_edit" : "Dvaput kliknite za uređivanje",
+  "right-click_to_get_a_list_of_actions" : "Desni klik za dobivanje popisa radnji"
 }

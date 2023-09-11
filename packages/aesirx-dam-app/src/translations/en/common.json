@@ -88,5 +88,7 @@
   "txt_description" : "Description",
   "maximum_upload_size": "Maximum upload size: 10.00 MB",
   "txt_keywords": "Keywords",
-  "txt_tags" : "Tags"
+  "txt_tags" : "Tags",
+  "double_click_to_edit" : "Double click to edit",
+  "right-click_to_get_a_list_of_actions" : "Right click to get a list of actions"
 }
