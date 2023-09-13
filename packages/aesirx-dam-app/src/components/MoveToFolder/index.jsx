@@ -95,7 +95,6 @@ const MoveToFolder = observer(({ current = 0 }) => {
       <div className={`w-100 ${styles.list}`}>
         {collections.map((collection, index) => {
           if (+collection?.parent_id === (currentCollection.id ? +currentCollection.id : 0)) {
-            console.log(collection, 'tesst');
             return (
               collection?.name && (
                 <OverlayTrigger

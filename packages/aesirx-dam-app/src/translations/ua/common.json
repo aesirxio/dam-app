@@ -84,5 +84,7 @@
   "txt_description" : "Опис",
   "maximum_upload_size": "Максимальний розмір завантаження: 10,00 МБ",
   "txt_keywords": "Ключові слова",
-  "txt_tags" : "Теги"
+  "txt_tags" : "Теги",
+  "double_click_to_edit" : "Двічі клацніть, щоб редагувати",
+  "right-click_to_get_a_list_of_actions" : "Клацніть правою кнопкою миші, щоб отримати список дій"
 }

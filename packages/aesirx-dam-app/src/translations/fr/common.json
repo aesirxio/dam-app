@@ -83,5 +83,7 @@
   "txt_description" : "Description",
   "maximum_upload_size": "Taille maximale de téléchargement : 10,00 Mo",
   "txt_keywords": "Mots clés",
-  "txt_tags" : "Balises"
+  "txt_tags" : "Balises",
+  "double_click_to_edit" : "Double-cliquez pour éditer",
+  "right-click_to_get_a_list_of_actions" : "Cliquez avec le bouton droit pour obtenir une liste d'actions"
 }
