@@ -399,9 +399,11 @@ const AesirXDamComponent = observer(
                         ).unix()}`}
                       />
                     ) : (
-                      <div className="w-100 h-100 d-flex align-items-center justify-content-center pe-none">
-                        {utils.checkFileTypeFormData(row.original)}
-                      </div>
+                      <Image
+                        visibleByDefault
+                        wrapperClassName={`w-100 h-100 align-items-center justify-content-center pe-none ${styles.items_file}`}
+                        src={utils.checkFileTypeFormData(row.original)}
+                      />
                     )}
                   </span>
 
