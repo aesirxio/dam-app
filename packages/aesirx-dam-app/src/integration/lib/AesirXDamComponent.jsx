@@ -227,100 +227,98 @@ const AesirXDamComponent = observer(
 
     handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
       const { assets, collections, isSearch, damLinkFolder } = this.damListViewModel;
-        const collectionId = damLinkFolder.split('/');
+      const collectionId = damLinkFolder.split('/');
 
-        let handleCollections = [];
-        let handleAssets = [];
-        if (!isNaN(+collectionId[collectionId.length - 1])) {
-          handleAssets = assets.filter(
-            (asset) =>
-              +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
-          );
+      let handleCollections = [];
+      let handleAssets = [];
+      if (!isNaN(+collectionId[collectionId.length - 1])) {
+        handleAssets = assets.filter(
+          (asset) =>
+            +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === +collectionId[collectionId.length - 1]
+        );
+        handleCollections = collections.filter(
+          (collection) =>
+            +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
+            +collectionId[collectionId.length - 1]
+        );
+      } else {
+        if (isSearch) {
+          handleAssets = assets;
+          handleCollections = collections;
+        } else {
+          handleAssets = assets.filter((asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0);
           handleCollections = collections.filter(
-            (collection) =>
-              +collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] ===
-              +collectionId[collectionId.length - 1]
+            (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
+          );
+        }
+      }
+      let newSelectedCards;
+
+      const cards = [...handleCollections, ...handleAssets].map((item, i) => ({
+        ...item,
+        index: i,
+      }));
+      const card = index < 0 ? '' : cards[index];
+      const newLastSelectedIndex = index;
+      if (!cmdKey && !shiftKey && !ctrlKey && !contextClick) {
+        newSelectedCards = [card];
+      } else if (shiftKey) {
+        if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(index, this.damListViewModel.actionState.lastSelectedIndex)
           );
         } else {
-          if (isSearch) {
-            handleAssets = assets;
-            handleCollections = collections;
-          } else {
-            handleAssets = assets.filter(
-              (asset) => +asset[DAM_ASSETS_FIELD_KEY.COLLECTION_ID] === 0
-            );
-            handleCollections = collections.filter(
-              (collection) => collection[DAM_COLLECTION_FIELD_KEY.PARENT_ID] === 0
-            );
-          }
+          newSelectedCards = [].concat.apply(
+            this.damListViewModel.actionState.selectedCards,
+            cards.slice(this.damListViewModel.actionState.lastSelectedIndex + 1, index + 1)
+          );
         }
-        let newSelectedCards;
-
-        const cards = [...handleCollections, ...handleAssets].map((item, i) => ({
-          ...item,
-          index: i,
-        }));
-        const card = index < 0 ? '' : cards[index];
-        const newLastSelectedIndex = index;
-        if (!cmdKey && !shiftKey && !ctrlKey && !contextClick) {
+      } else if (cmdKey || ctrlKey) {
+        const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
+          (f) => f.id === card.id
+        );
+        // If found remove it to unselect it.
+        if (foundIndex >= 0) {
+          newSelectedCards = [
+            ...this.damListViewModel.actionState.selectedCards.slice(0, foundIndex),
+            ...this.damListViewModel.actionState.selectedCards.slice(foundIndex + 1),
+          ];
+        } else {
+          newSelectedCards = [...this.damListViewModel.actionState.selectedCards, card];
+        }
+      } else if (contextClick) {
+        const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
+          (f) => f.id === card.id
+        );
+        // If found remove it to unselect it.
+        if (foundIndex >= 0) {
+          newSelectedCards = [...this.damListViewModel.actionState.selectedCards];
+        } else {
           newSelectedCards = [card];
-        } else if (shiftKey) {
-          if (this.damListViewModel.actionState.lastSelectedIndex >= index) {
-            newSelectedCards = [].concat.apply(
-              this.damListViewModel.actionState.selectedCards,
-              cards.slice(index, this.damListViewModel.actionState.lastSelectedIndex)
-            );
-          } else {
-            newSelectedCards = [].concat.apply(
-              this.damListViewModel.actionState.selectedCards,
-              cards.slice(this.damListViewModel.actionState.lastSelectedIndex + 1, index + 1)
-            );
-          }
-        } else if (cmdKey || ctrlKey) {
-          const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
-            (f) => f.id === card.id
-          );
-          // If found remove it to unselect it.
-          if (foundIndex >= 0) {
-            newSelectedCards = [
-              ...this.damListViewModel.actionState.selectedCards.slice(0, foundIndex),
-              ...this.damListViewModel.actionState.selectedCards.slice(foundIndex + 1),
-            ];
-          } else {
-            newSelectedCards = [...this.damListViewModel.actionState.selectedCards, card];
-          }
-        } else if (contextClick) {
-          const foundIndex = this.damListViewModel.actionState.selectedCards.findIndex(
-            (f) => f.id === card.id
-          );
-          // If found remove it to unselect it.
-          if (foundIndex >= 0) {
-            newSelectedCards = [...this.damListViewModel.actionState.selectedCards];
-          } else {
-            newSelectedCards = [card];
-          }
         }
+      }
 
-        const finalList = cards
-          ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
-          : [];
+      const finalList = cards
+        ? cards.filter((f) => newSelectedCards.find((a) => a.id === f.id))
+        : [];
 
-        this.damListViewModel.setActionState({
-          selectedCards: finalList,
-          lastSelectedIndex: newLastSelectedIndex,
-        });
+      this.damListViewModel.setActionState({
+        selectedCards: finalList,
+        lastSelectedIndex: newLastSelectedIndex,
+      });
 
-        if (!this.isMutil) {
-          if (this.props.onSelect) {
-            const filterCollection = finalList.filter(
-              (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
-            );
+      if (!this.isMutil) {
+        if (this.props.onSelect) {
+          const filterCollection = finalList.filter(
+            (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
+          );
 
-            return this.props.onSelect(filterCollection);
-          }
+          return this.props.onSelect(filterCollection);
         }
+      }
     };
-    
+
     handleClickOutSite = (e) => {
       e.preventDefault();
       const inside = e.target.closest('.item_thumb');
@@ -336,7 +334,7 @@ const AesirXDamComponent = observer(
         const selectedCards = this.damListViewModel.actionState.selectedCards || [];
 
         const filterCollection = selectedCards.filter((collection) => collection?.id);
-        
+
         if (filterCollection.length > 0) {
           this.props.onSelect(filterCollection);
         }
