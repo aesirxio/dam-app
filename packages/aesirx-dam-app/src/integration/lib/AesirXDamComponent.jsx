@@ -22,6 +22,7 @@ import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 import styles from './index.module.scss';
 import Folder from 'svg/Folder';
+import { Button } from 'react-bootstrap';
 
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
@@ -29,15 +30,17 @@ const AesirXDamComponent = observer(
     damformModalViewModal = null;
     type = '';
     toolbar = true;
+    isMulti = false;
 
     constructor(props) {
       super(props);
-      const { viewModel, type, toolbar } = props;
+      const { viewModel, type, toolbar, isMulti } = props;
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
       this.type = type ?? '';
       this.toolbar = toolbar ?? true;
+      this.isMulti = isMulti ?? false;
     }
 
     componentDidMount() {
@@ -76,7 +79,6 @@ const AesirXDamComponent = observer(
           return arr.concat(el);
         }, []);
     };
-
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = this.damListViewModel.damLinkFolder.split('/');
@@ -225,7 +227,6 @@ const AesirXDamComponent = observer(
 
     handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
       const { assets, collections, isSearch, damLinkFolder } = this.damListViewModel;
-
       const collectionId = damLinkFolder.split('/');
 
       let handleCollections = [];
@@ -306,11 +307,15 @@ const AesirXDamComponent = observer(
         selectedCards: finalList,
         lastSelectedIndex: newLastSelectedIndex,
       });
-      if (this.props.onSelect) {
-        const filterCollection = finalList.filter(
-          (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
-        );
-        return this.props.onSelect(filterCollection);
+
+      if (!this.isMulti) {
+        if (this.props.onSelect) {
+          const filterCollection = finalList.filter(
+            (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
+          );
+
+          return this.props.onSelect(filterCollection);
+        }
       }
     };
 
@@ -324,11 +329,21 @@ const AesirXDamComponent = observer(
         });
       }
     };
+    handleSelectClick = () => {
+      if (this.props.onSelect) {
+        const selectedCards = this.damListViewModel.actionState.selectedCards || [];
+
+        const filterCollection = selectedCards.filter((collection) => collection?.id);
+
+        if (filterCollection.length > 0) {
+          this.props.onSelect(filterCollection);
+        }
+      }
+    };
 
     render() {
       const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
       const { t } = this.props;
-
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
@@ -535,6 +550,16 @@ const AesirXDamComponent = observer(
                 dataAssets={handleAssets}
                 toolbar={this.toolbar}
               />
+              {this.isMulti && this.damListViewModel.actionState.selectedCards.length > 0 && (
+                <div className="position-relative mb-3">
+                  <Button
+                    className="btn btn-success position-absolute zindex-5 bottom-0 end-0"
+                    onClick={this.handleSelectClick}
+                  >
+                    {`Choose ${this.damListViewModel.actionState.selectedCards.length} items`}
+                  </Button>
+                </div>
+              )}
             </>
           ) : (
             <ComponentNoData

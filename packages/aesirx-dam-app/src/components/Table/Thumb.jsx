@@ -3,13 +3,11 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { observer } from 'mobx-react';
 import styles from './table.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -19,12 +17,13 @@ let timer = 0;
 let delay = 200;
 let prevent = false;
 
-const FakeThumb = observer(({ id, index, isList }) => {
+const FakeThumb = observer(({ id, index, isList, dataLength }) => {
   const {
     damListViewModel: {
       actionState: { selectedCards = [] },
     },
   } = useDamViewModel();
+
   const isSelect = selectedCards.map((selectedCard) => +selectedCard.id).includes(+id);
   const checkBorderBottom = selectedCards
     .map((selectedCard) => +selectedCard.index)
@@ -32,29 +31,40 @@ const FakeThumb = observer(({ id, index, isList }) => {
   const checkBorderTop = selectedCards
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
+  const isChecked = isSelect | (dataLength === selectedCards.length) ? true : false;
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   return (
     <>
       <span
-        className={`position-absolute  top-0 start-0 w-100 h-100 user-select-none ${
-          isSelect ? 'border border-2  border-select-item' : ''
+        className={`position-absolute top-0 start-0 zindex-2 w-100 h-100 user-select-none ${
+          isSelect ? 'border border-2 border-select-item' : ''
         } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
           checkBorderTop && isList ? 'border-top-0' : ''
         } ${isList && isSelect ? ' border-start-0 border-end-0 ' : ''} ${styles.item_hover}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       ></span>
-      {!isList && isSelect && (
-        <FontAwesomeIcon
-          icon={faSquareCheck}
-          className={`position-absolute top-0 icon-check border border-success end-0 m-2 text-success ${styles.icon_check}`}
-        />
-      )}
-      {/* {item?.indexSelected && !isList ? (
-        <span
-          className={`d-flex align-items-center justify-content-center fw-bold text-white bg-success rounded-circle pe-none user-select-none ${styles.count}`}
+      {!isList && (isSelect || isHovered) && (
+        <div
+          className={`${styles.checkbox} position-absolute top-0 icon-check zindex-1 border border-success end-0 m-2 text-success`}
         >
-          {item.indexSelected + 1}
-        </span>
-      ) : null} */}
+          <input
+            className="form-check-input zindex-5 p-1 w-100 h-100 bg-transparent"
+            checked={isChecked}
+            onChange={() => {}}
+            type="checkbox"
+          />
+        </div>
+      )}
     </>
   );
 });
@@ -190,8 +200,8 @@ const Thumb = observer(
       }),
     });
 
-    const onSelect = (e) => {
-      onSelectionChange(index, e.metaKey, e.shiftKey, e.ctrlKey);
+    const onSelect = () => {
+      onSelectionChange(index, true, false, false);
     };
 
     useEffect(() => {
