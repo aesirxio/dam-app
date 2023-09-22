@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, { useMemo } from 'react';
+import React, {  useEffect, useMemo } from 'react';
 import { useTable } from 'react-table';
 
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
@@ -16,7 +16,7 @@ import ListCheck from '../../svg/ListCheck';
 import ThumbNails from '../../svg/ThumbNails';
 import Dropzone from 'components/Dropzone';
 
-import { AesirXSelect, PAGE_STATUS, Spinner } from 'aesirx-uikit';
+import { AesirXSelect, PAGE_STATUS, Spinner, history } from 'aesirx-uikit';
 
 import ComponentNoData from '../ComponentNoData';
 import Thumb from './Thumb';
@@ -43,7 +43,6 @@ const Table = ({
   dataCollections,
   onSelectionChange,
   toolbar = true,
-  // dataAssets,
 }) => {
   const { t } = useTranslation();
 
@@ -131,6 +130,30 @@ const Table = ({
     listViewModel.moveToFolder(dragIndex, hoverIndex);
   };
 
+  const mainElement = document.getElementsByClassName('main-content')[0];
+
+  const handleScroll = () => {
+    if (
+      mainElement.scrollHeight - mainElement.scrollTop - mainElement.clientHeight < 300 &&
+      listViewModel.status !== PAGE_STATUS.LOADING &&
+      !isLoadmore
+    ) {
+      const collectionId = history.location.pathname.split('/');
+      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+        ? collectionId[collectionId.length - 1]
+        : 0;
+
+      const limitStart =
+        listViewModel.dataFilter.limitAsset + listViewModel.dataFilter['limitstart'];
+      listViewModel.goToFolder(currentCollection, { 'limitstart': limitStart }, true);
+    }
+  };
+
+  useEffect(() => {
+    mainElement.addEventListener('scroll', handleScroll);
+    return () => mainElement.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={`mb-4 zindex-3 ${classNameTable}`}>
@@ -197,7 +220,6 @@ const Table = ({
         <Spinner />
       ) : (
         <>
-          {' '}
           <ThumbDragLayer />
           {isList ? (
             <div className="py-3 rounded-3 col">
@@ -364,6 +386,7 @@ const Table = ({
                 : null}
             </div>
           )}
+
           {rows.length === 0 ? (
             <>
               <p

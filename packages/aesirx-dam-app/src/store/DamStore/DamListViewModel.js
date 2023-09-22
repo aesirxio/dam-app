@@ -25,6 +25,8 @@ class DamListViewModel {
     'list[ordering]': '',
     'list[direction]': '',
     'filter[search]': '',
+    'limitAsset': 100,
+    'limitstart': 0,
   };
 
   isList = false;
@@ -86,15 +88,15 @@ class DamListViewModel {
   };
   // end of intergate
 
-  goToFolder = (collectionId, dataFilter = {}) => {
+  goToFolder = (collectionId, dataFilter = {}, fetchAssets = false) => {
     this.status = PAGE_STATUS.LOADING;
     this.isSearch = false;
 
     this.dataFilter = { ...this.dataFilter, ...dataFilter };
-    // const isFetchCollections = this.collections.find(
-    //   (collection) => +collection.parent_id === +collectionId
-    // );
-    const isFetchAssets = this.assets.find((asset) => +asset.collection_id === +collectionId);
+
+    const isFetchAssets = fetchAssets
+      ? false
+      : this.assets.find((asset) => +asset.collection_id === +collectionId);
 
     this.resetActionState();
 
@@ -161,29 +163,6 @@ class DamListViewModel {
         this.callbackOnErrorHandler
       ),
       'promise'
-    );
-  };
-
-  getAssets = (collectionId, dataFilter) => {
-    this.status = PAGE_STATUS.LOADING;
-    this.dataFilter = { ...this.dataFilter, dataFilter };
-    this.damStore.getAssets(
-      collectionId,
-      this.dataFilter,
-      this.callBackOnAssetsCreateSuccessHandler,
-      this.callbackOnErrorHandler
-    );
-  };
-
-  filterAssets = (collectionId, dataFilter) => {
-    this.status = PAGE_STATUS.LOADING;
-    this.dataFilter = { ...this.dataFilter, ...dataFilter };
-
-    this.damStore.getAssets(
-      collectionId,
-      this.dataFilter,
-      this.callBackOnAssetsCreateSuccessHandler,
-      this.callbackOnErrorHandler
     );
   };
 
