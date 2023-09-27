@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 3, see LICENSE.
  */
 
-import React, {  useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTable } from 'react-table';
 
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
@@ -135,17 +135,21 @@ const Table = ({
   const handleScroll = () => {
     if (
       mainElement.scrollHeight - mainElement.scrollTop - mainElement.clientHeight < 300 &&
-      listViewModel.status !== PAGE_STATUS.LOADING &&
-      !isLoadmore
+      listViewModel.status !== PAGE_STATUS.LOADING
     ) {
-      const collectionId = history.location.pathname.split('/');
-      const currentCollection = !isNaN(collectionId[collectionId.length - 1])
-        ? collectionId[collectionId.length - 1]
-        : 0;
-
       const limitStart =
-        listViewModel.dataFilter.limitAsset + listViewModel.dataFilter['limitstart'];
-      listViewModel.goToFolder(currentCollection, { 'limitstart': limitStart }, true);
+        listViewModel.dataFilter['list[limit]'] + listViewModel.dataFilter['list[start]'];
+
+        console.log('limitStart', limitStart, listViewModel.totalAsset)
+
+      if (limitStart < listViewModel.totalAsset) {
+        const collectionId = history.location.pathname.split('/');
+        const currentCollection = !isNaN(collectionId[collectionId.length - 1])
+          ? collectionId[collectionId.length - 1]
+          : 0;
+
+        listViewModel.goToFolder(currentCollection, { 'list[start]': limitStart }, true);
+      }
     }
   };
 

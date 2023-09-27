@@ -25,8 +25,8 @@ class DamListViewModel {
     'list[ordering]': '',
     'list[direction]': '',
     'filter[search]': '',
-    'limitAsset': 100,
-    'limitstart': 0,
+    'list[limit]': 2,
+    'list[start]': 0,
   };
 
   isList = false;
@@ -45,6 +45,9 @@ class DamListViewModel {
     isDragging: false,
     style: {},
   };
+
+  totalAsset = 0;
+
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
@@ -316,6 +319,10 @@ class DamListViewModel {
       }
       if (data.assets.length) {
         this.assets = [...this.assets, ...data.assets];
+
+        if (data?.totalAsset) {
+          this.totalAsset = data?.totalAsset;
+        }
       }
     } else {
       this.status = PAGE_STATUS.ERROR;
