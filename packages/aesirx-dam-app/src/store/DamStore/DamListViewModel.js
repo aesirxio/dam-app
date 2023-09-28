@@ -25,7 +25,7 @@ class DamListViewModel {
     'list[ordering]': '',
     'list[direction]': '',
     'filter[search]': '',
-    'list[limit]': 2,
+    'list[limit]': 50,
     'list[start]': 0,
   };
 
