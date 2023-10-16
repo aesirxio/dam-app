@@ -19,8 +19,8 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => {
       }}
       className="d-flex align-items-center text-decoration-none cursor-pointer choose-an-action justify-content-between w-100 h-100 px-3 mt-n1"
     >
-      <div className="pe-3 pe-none">
-        <p className="mb-0 text-blue-0 fw-semibold fs-14">{t('txt_choose_an_action')}</p>
+      <div className="pe-5 pt-1 pe-none">
+        <p className="mb-0 text-body fw-normal fs-14">{t('txt_choose_an_action')}</p>
       </div>
       <i className="icons text-green pe-none">
         <FontAwesomeIcon icon={faChevronDown} />
@@ -33,7 +33,6 @@ const ChooseAction = observer(() => {
   const { t } = useTranslation();
   const { openDeleteModal, openMoveToFolder, downloadFile } =
     useDamViewModel().getDamFormViewModel();
-  const { setActionState } = useDamViewModel().getDamListViewModel();
 
   const Action = useMemo(() => ({
     id: 'action',
@@ -49,33 +48,7 @@ const ChooseAction = observer(() => {
       {
         label: t('txt_move_to_folder'),
         value: t('txt_move_to_folder'),
-        onSelect: (e) => {
-          const innerHeight = window.innerHeight;
-          const innerWidth = window.innerWidth;
-          let style = {
-            transition: 'none',
-            top: e.clientY,
-            left: e.clientX,
-          };
-          if (e.clientX + 200 > innerWidth) {
-            style = {
-              ...style,
-              right: innerWidth - e.clientX,
-              left: 'unset',
-            };
-          }
-          if (e.clientY + 260 > innerHeight) {
-            style = {
-              ...style,
-              bottom: innerHeight - e.clientY,
-              top: 'unset',
-            };
-          }
-          setActionState({
-            style: style,
-          });
-          openMoveToFolder();
-        },
+        onSelect: openMoveToFolder,
       },
       {
         label: t('txt_download'),

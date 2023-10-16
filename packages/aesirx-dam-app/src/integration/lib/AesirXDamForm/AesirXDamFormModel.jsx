@@ -280,7 +280,7 @@ const AesirXDamFormModal = observer(
                         <Button
                           text={t('txt_Cancel')}
                           onClick={this.damFormModalViewModel.closeDeleteModal}
-                          className="btn btn-outline-gray-300 bg-white text-blue-0 border "
+                          className="btn btn-outline-gray-300 bg-white text-blue-0 border-1 "
                         />
                       </div>
                       <div className="col-auto">
@@ -298,13 +298,13 @@ const AesirXDamFormModal = observer(
           ) : null}
 
           {showMoveToFolder && (
-            <div
-              id="contextMenuItemMoveToFolder"
-              className={`d-flex align-items-center justify-content-center bg-white shadow-sm rounded-2 flex-column zindex-5 position-fixed `}
-              style={{ ...this.damListViewModel.actionState?.style }}
-            >
-              <MoveToFolder current={currentCollectionId} />
-            </div>
+            <ModalComponent
+              show={showMoveToFolder}
+              onHide={this.damFormModalViewModel.closeMoveToFolder}
+              contentClassName={'bg-white shadow'}
+              header={false}
+              body={<MoveToFolder current={currentCollectionId} />}
+            />
           )}
         </>
       );

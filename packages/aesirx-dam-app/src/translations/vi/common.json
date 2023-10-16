@@ -79,5 +79,12 @@
   "txt_remember_me": "Lưu mật khẩu",
   "txt_by": "bởi",
   "txt_can_not_move_to_itself": "Không thể duy chuyển tới chính nó",
-  "txt_name_can_not_blank": "Tên thư mục không thể để trống!"
+  "txt_name_can_not_blank": "Tên thư mục không thể để trống!",
+  "txt_dimension": "Kích thước",
+  "txt_description" : "Mô tả",
+  "maximum_upload_size": "Kích thước tải lên tối đa: 10,00 MB",
+  "txt_keywords": "Từ khóa",
+  "txt_tags" : "Thẻ",
+  "double_click_to_edit" : "Nhấp đúp để chỉnh sửa",
+  "right-click_to_get_a_list_of_actions" : "Nhấp chuột phải để xem danh sách hành động"
 }

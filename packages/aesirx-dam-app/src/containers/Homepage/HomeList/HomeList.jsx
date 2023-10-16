@@ -15,7 +15,7 @@ import { observer } from 'mobx-react';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import ComponentNoData from 'components/ComponentNoData';
-import { Spinner, PAGE_STATUS, history, Image } from 'aesirx-uikit';
+import { history, Image } from 'aesirx-uikit';
 import Table from 'components/Table';
 import { DAM_COLUMN_INDICATOR } from 'constants/DamConstant';
 import styles from '../index.module.scss';
@@ -35,6 +35,7 @@ const HomeList = observer(
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
+      this.damFormModalViewModel = viewModel ? viewModel.getDamFormViewModel() : null;
     }
 
     componentDidMount() {
@@ -43,7 +44,7 @@ const HomeList = observer(
       const currentCollectionId = !isNaN(collectionId[collectionId.length - 1])
         ? collectionId[collectionId.length - 1]
         : 0;
-      this.damListViewModel.setLoading();
+
       this.damListViewModel.goToFolder(currentCollectionId);
     }
 
@@ -71,8 +72,14 @@ const HomeList = observer(
       } else {
         this.damFormModalViewModal.closeContextMenu();
         this.damFormModalViewModal.closeContextMenuItem();
-        this.damFormModalViewModal.closeMoveToFolder();
+        // this.damFormModalViewModal.closeMoveToFolder();
       }
+    };
+
+    handleRename = () => {
+      this.damFormModalViewModel.setOnEditCollection();
+      this.damFormModalViewModel.closeContextMenuItem();
+      document.querySelector(`#id_${this.damFormModalViewModel.damEditdata?.id}`).focus();
     };
 
     handleSelect = (data) => {
@@ -315,18 +322,20 @@ const HomeList = observer(
     };
 
     render() {
-      const { assets, status, collections, isSearch } = this.damListViewModel;
+      const { assets, collections, isSearch } = this.damListViewModel;
       const { t } = this.props;
+      const shortenString = (str, first, last) => {
+        return str?.substring(0, first) + '...' + str?.substring(str.length - last);
+      };
 
-      if (status === PAGE_STATUS.LOADING) {
-        return <Spinner />;
-      }
       const tableRowHeader = [
         {
           id: 'selection',
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_name')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
@@ -353,12 +362,12 @@ const HomeList = observer(
                   <span
                     className={`${
                       this.damListViewModel.isList
-                        ? 'ms-32px text-color'
-                        : 'text-center text-color lcl lcl-2 d-block w-space'
-                    } w-100`}
+                        ? 'ms-32px text-body'
+                        : 'text-center text-body lcl lcl-2 d-block w-space'
+                    } w-100 `}
                   >
                     <CollectionName item={row.original} />
-                    <span className="text-gray">
+                    <span className="text-gray-600 fs-14 fw-normal">
                       {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
                         ? !this.damListViewModel.isList &&
                           moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
@@ -392,20 +401,23 @@ const HomeList = observer(
                     ) : (
                       <Image
                         visibleByDefault
-                        wrapperClassName="w-100 h-100 d-flex align-items-center justify-content-center pe-none"
+                        wrapperClassName={`w-100 h-100 align-items-center justify-content-center pe-none ${styles.items_file}`}
                         src={utils.checkFileTypeFormData(row.original)}
                       />
                     )}
                   </span>
 
                   <span
-                    className={
+                    className={`${
                       this.damListViewModel.isList
-                        ? 'ms-3 text-color'
-                        : 'w-100 lcl lcl-1 p-2 text-color'
-                    }
+                        ? 'ms-3 text-body'
+                        : 'w-100 lcl lcl-1 p-2 px-3 text-body'
+                    } fs-14 fw-normal`}
                   >
-                    {row.original[DAM_COLUMN_INDICATOR.NAME]}
+                    {!this.damListViewModel.isList &&
+                    row.original[DAM_COLUMN_INDICATOR.NAME].length > 20
+                      ? shortenString(row.original[DAM_COLUMN_INDICATOR.NAME], 20, 0)
+                      : row.original[DAM_COLUMN_INDICATOR.NAME]}
                   </span>
                 </div>
               )}
@@ -414,10 +426,12 @@ const HomeList = observer(
         },
 
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_size')}</span>,
+          Header: (
+            <span className="fw-semibold text-gray-901 text-capitalize">{t('txt_size')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
-            <div className="d-flex">
+            <div className="d-flex fs-14 fw-normal">
               <span className="">
                 {row.original[DAM_ASSETS_FIELD_KEY.TYPE]
                   ? row.original[DAM_ASSETS_FIELD_KEY.FILE_SIZE]
@@ -428,19 +442,34 @@ const HomeList = observer(
           ),
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_owner')}</span>,
+          Header: (
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-center ">
+              {t('txt_owner')}
+            </span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
+          Cell: ({ row }) => (
+            <div className="d-flex justify-content-center ms-3">
+              <span className="fw-normal fs-14 ">{row.original[DAM_COLUMN_INDICATOR.OWNER]}</span>
+            </div>
+          ),
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
+          Header: (
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-end me-5">
+              {t('txt_last_modified')}
+            </span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-              {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
-                ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
-                    'DD MMM, YYYY'
-                  )
-                : null}
+              <div className="fs-14 fw-normal d-flex justify-content-end me-5 ">
+                {row.original.modified_date_org
+                  ? moment(new Date(row.original.modified_date_org)).format(
+                      'hh:mm A | dddd, MMMM DD YYYY'
+                    )
+                  : null}
+              </div>
             </>
           ),
         },
@@ -487,7 +516,6 @@ const HomeList = observer(
                 dataAssets={handleAssets}
                 tableRowHeader={tableRowHeader}
                 onSelect={this.handleSelect}
-                isThumb={true}
                 isList={this.damListViewModel.isList}
                 dataThumb={[
                   'selection',

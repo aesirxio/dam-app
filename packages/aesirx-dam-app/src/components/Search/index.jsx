@@ -52,12 +52,12 @@ const Search = observer(() => {
 
   return (
     <div
-      className={`input-group rounded-3 d-flex mb-0 pe-2 wr_input_search bg-theme ${styles.width}`}
+      className={`input-group rounded-2 d-flex mb-0 pe-2 wr_input_search bg-body ${styles.width}`}
     >
       <button
         type="button"
         id="button-search"
-        className="btn btn_search border-0 col-auto text-green"
+        className="btn btn_search bg-body border-0 col-auto text-green ps-4"
       >
         <FontAwesomeIcon icon={faSearch} />
       </button>
@@ -72,7 +72,7 @@ const Search = observer(() => {
         options={options}
         className="col bg-theme"
         inputProps={{
-          className: `border-0 w-100 shadow-none bg-theme fw-semibold ${styles.input}`,
+          className: `border-0 w-100 shadow-none bg-body rounded-2 fw-semibold ${styles.input}`,
         }}
         onKeyDown={handleKeyDown}
         onChange={handleChange}

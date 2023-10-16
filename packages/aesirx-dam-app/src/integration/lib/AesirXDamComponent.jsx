@@ -22,6 +22,7 @@ import moment from 'moment';
 import CollectionName from 'containers/Homepage/HomeForm/CollectionName';
 import styles from './index.module.scss';
 import Folder from 'svg/Folder';
+import { Button } from 'react-bootstrap';
 
 const AesirXDamComponent = observer(
   class AesirXDamComponent extends Component {
@@ -29,15 +30,17 @@ const AesirXDamComponent = observer(
     damformModalViewModal = null;
     type = '';
     toolbar = true;
+    isMulti = false;
 
     constructor(props) {
       super(props);
-      const { viewModel, type, toolbar } = props;
+      const { viewModel, type, toolbar, isMulti } = props;
       this.viewModel = viewModel ? viewModel : null;
       this.damListViewModel = this.viewModel ? this.viewModel.getDamListViewModel() : null;
       this.damFormModalViewModal = this.viewModel ? this.viewModel.getDamFormViewModel() : null;
       this.type = type ?? '';
       this.toolbar = toolbar ?? true;
+      this.isMulti = isMulti ?? false;
     }
 
     componentDidMount() {
@@ -63,7 +66,7 @@ const AesirXDamComponent = observer(
       } else {
         this.damFormModalViewModal.closeContextMenu();
         this.damFormModalViewModal.closeContextMenuItem();
-        this.damFormModalViewModal.closeMoveToFolder();
+        // this.damFormModalViewModal.closeMoveToFolder();
       }
     };
 
@@ -76,7 +79,6 @@ const AesirXDamComponent = observer(
           return arr.concat(el);
         }, []);
     };
-
     handleCreateAssets = (data) => {
       if (data) {
         const collectionId = this.damListViewModel.damLinkFolder.split('/');
@@ -225,7 +227,6 @@ const AesirXDamComponent = observer(
 
     handleItemSelection = (index, cmdKey, shiftKey, ctrlKey, contextClick = false) => {
       const { assets, collections, isSearch, damLinkFolder } = this.damListViewModel;
-
       const collectionId = damLinkFolder.split('/');
 
       let handleCollections = [];
@@ -306,11 +307,15 @@ const AesirXDamComponent = observer(
         selectedCards: finalList,
         lastSelectedIndex: newLastSelectedIndex,
       });
-      if (this.props.onSelect) {
-        const filterCollection = finalList.filter(
-          (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
-        );
-        return this.props.onSelect(filterCollection);
+
+      if (!this.isMulti) {
+        if (this.props.onSelect) {
+          const filterCollection = finalList.filter(
+            (collection) => collection[DAM_ASSETS_FIELD_KEY.TYPE]
+          );
+
+          return this.props.onSelect(filterCollection);
+        }
       }
     };
 
@@ -324,11 +329,21 @@ const AesirXDamComponent = observer(
         });
       }
     };
+    handleSelectClick = () => {
+      if (this.props.onSelect) {
+        const selectedCards = this.damListViewModel.actionState.selectedCards || [];
+
+        const filterCollection = selectedCards.filter((collection) => collection?.id);
+
+        if (filterCollection.length > 0) {
+          this.props.onSelect(filterCollection);
+        }
+      }
+    };
 
     render() {
       const { assets, status, collections, isSearch } = this.viewModel.damListViewModel;
       const { t } = this.props;
-
       if (status === PAGE_STATUS.LOADING) {
         return <Spinner />;
       }
@@ -338,7 +353,9 @@ const AesirXDamComponent = observer(
           id: 'selection',
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_name')}</span>,
+          Header: (
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize">{t('txt_name')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.NAME, // accessor is the "key" in the data
           Cell: ({ row }) => (
             <div
@@ -397,9 +414,11 @@ const AesirXDamComponent = observer(
                         ).unix()}`}
                       />
                     ) : (
-                      <div className="w-100 h-100 d-flex align-items-center justify-content-center pe-none">
-                        {utils.checkFileTypeFormData(row.original)}
-                      </div>
+                      <Image
+                        visibleByDefault
+                        wrapperClassName={`w-100 h-100 align-items-center justify-content-center pe-none ${styles.items_file}`}
+                        src={utils.checkFileTypeFormData(row.original)}
+                      />
                     )}
                   </span>
 
@@ -420,7 +439,9 @@ const AesirXDamComponent = observer(
         },
 
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_size')}</span>,
+          Header: (
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize">{t('txt_size')}</span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.FILE_SIZE,
           Cell: ({ row }) => (
             <div className="d-flex">
@@ -434,19 +455,34 @@ const AesirXDamComponent = observer(
           ),
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_owner')}</span>,
+          Header: (
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-center ">
+              {t('txt_owner')}
+            </span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.OWNER,
+          Cell: ({ row }) => (
+            <div className="d-flex justify-content-center ms-3">
+              <span className="fw-normal fs-14 ">{row.original[DAM_COLUMN_INDICATOR.OWNER]}</span>
+            </div>
+          ),
         },
         {
-          Header: <span className="text-uppercase text-gray-901">{t('txt_last_modified')}</span>,
+          Header: (
+            <span className="fw-semibold fs-14 text-gray-901 text-capitalize d-flex justify-content-end me-5">
+              {t('txt_last_modified')}
+            </span>
+          ),
           accessor: DAM_COLUMN_INDICATOR.LAST_MODIFIED,
           Cell: ({ row }) => (
             <>
-              {row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED]
-                ? moment(new Date(row.original[DAM_COLUMN_INDICATOR.LAST_MODIFIED])).format(
-                    'DD MMM, YYYY'
-                  )
-                : null}
+              <div className="fs-14 fw-normal d-flex justify-content-end me-5 ">
+                {row.original.modified_date_org
+                  ? moment(new Date(row.original.modified_date_org)).format(
+                      'hh:mm A | dddd, MMMM DD YYYY'
+                    )
+                  : null}
+              </div>
             </>
           ),
         },
@@ -514,6 +550,16 @@ const AesirXDamComponent = observer(
                 dataAssets={handleAssets}
                 toolbar={this.toolbar}
               />
+              {this.isMulti && this.damListViewModel.actionState.selectedCards.length > 0 && (
+                <div className="position-relative mb-3">
+                  <Button
+                    className="btn btn-success position-absolute zindex-5 bottom-0 end-0"
+                    onClick={this.handleSelectClick}
+                  >
+                    {`Choose ${this.damListViewModel.actionState.selectedCards.length} items`}
+                  </Button>
+                </div>
+              )}
             </>
           ) : (
             <ComponentNoData

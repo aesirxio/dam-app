@@ -43,11 +43,11 @@ const CollectionName = observer(({ item }) => {
     <Form.Control
       as={'input'}
       type={'text'}
-      className={`mw-80 text-blue-0 border-0 ${
-        !damListViewModel.isList ? 'text-center mx-auto ' : ''
-      } bg-transparent px-0 py-1 w-fit ${
-        isFocus ? 'pe-auto border-1 border-thumb-name' : 'pe-none'
-      } ${styles.input}`}
+      className={`mw-80 text-body border-0 ps-2 form-control-dam  fw-medium ${
+        !damListViewModel.isList ? 'text-center mx-auto fs-6' : 'fs-14 '
+      }px-0 py-1 w-fit ${isFocus ? 'pe-auto border-1 border-thumb-name' : 'pe-none'} ${
+        styles.input
+      }`}
       id={`id_${item[DAM_COLUMN_INDICATOR.ID]}`}
       // defaultValue={value}
       value={value}

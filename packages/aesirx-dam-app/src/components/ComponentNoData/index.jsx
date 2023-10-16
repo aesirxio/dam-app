@@ -29,9 +29,10 @@ class ComponentNoData extends Component {
               </p>
               <p className="fs-5 text-gray">{t('txt_or')}</p>
               <Dropzone noDrag={true} isBtn={true} createAssets={createAssets}>
-                <p className="text-blue-6 btn fw-semibold bg-white btn-white border mx-auto w-248">
+                <p className="text-blue-6 btn fw-semibold bg-white btn-white border-1 mx-auto w-248">
                   {t('txt_select_file')}
                 </p>
+                <p className="text-gray-600 fw-normal pt-1">{t('maximum_upload_size')}</p>
               </Dropzone>
             </div>
           </div>

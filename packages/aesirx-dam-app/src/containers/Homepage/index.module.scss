@@ -88,7 +88,7 @@
     &:hover {
       span {
         font-weight: 600;
-        color: var(--bs-green) !important;
+        color: var(--aesirxui-green) !important;
       }
     }
   }
@@ -99,4 +99,7 @@
       }
     }
   }
+}
+.items_file{
+  display: flex !important;
 }

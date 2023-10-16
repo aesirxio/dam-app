@@ -17,7 +17,7 @@ import {
 class DamListViewModel {
   damStore = null;
   collections = [];
-  status = PAGE_STATUS.READY;
+  status = PAGE_STATUS.LOADING;
   assets = [];
   tableRowHeader = null;
   dataFilter = {
@@ -25,6 +25,8 @@ class DamListViewModel {
     'list[ordering]': '',
     'list[direction]': '',
     'filter[search]': '',
+    'list[limit]': 50,
+    'list[start]': 0,
   };
 
   isList = false;
@@ -43,6 +45,9 @@ class DamListViewModel {
     isDragging: false,
     style: {},
   };
+
+  totalAsset = 0;
+
   constructor(damStore) {
     makeAutoObservable(this);
     this.damStore = damStore;
@@ -86,17 +91,16 @@ class DamListViewModel {
   };
   // end of intergate
 
-  goToFolder = (collectionId, dataFilter = {}) => {
+  goToFolder = (collectionId, dataFilter = {}, fetchAssets = false) => {
+    this.status = PAGE_STATUS.LOADING;
     this.isSearch = false;
 
     this.dataFilter = { ...this.dataFilter, ...dataFilter };
-    // const isFetchCollections = this.collections.find(
-    //   (collection) => +collection.parent_id === +collectionId
-    // );
-    const isFetchAssets = this.assets.find((asset) => +asset.collection_id === +collectionId);
-    if (isFetchAssets && this.collections.length) {
-      this.status = PAGE_STATUS.LOADING;
-    }
+
+    const isFetchAssets = fetchAssets
+      ? false
+      : this.assets.find((asset) => +asset.collection_id === +collectionId);
+
     this.resetActionState();
 
     this.damStore.goToFolder(
@@ -162,29 +166,6 @@ class DamListViewModel {
         this.callbackOnErrorHandler
       ),
       'promise'
-    );
-  };
-
-  getAssets = (collectionId, dataFilter) => {
-    this.status = PAGE_STATUS.LOADING;
-    this.dataFilter = { ...this.dataFilter, dataFilter };
-    this.damStore.getAssets(
-      collectionId,
-      this.dataFilter,
-      this.callBackOnAssetsCreateSuccessHandler,
-      this.callbackOnErrorHandler
-    );
-  };
-
-  filterAssets = (collectionId, dataFilter) => {
-    this.status = PAGE_STATUS.LOADING;
-    this.dataFilter = { ...this.dataFilter, ...dataFilter };
-
-    this.damStore.getAssets(
-      collectionId,
-      this.dataFilter,
-      this.callBackOnAssetsCreateSuccessHandler,
-      this.callbackOnErrorHandler
     );
   };
 
@@ -338,6 +319,10 @@ class DamListViewModel {
       }
       if (data.assets.length) {
         this.assets = [...this.assets, ...data.assets];
+
+        if (data?.totalAsset) {
+          this.totalAsset = data?.totalAsset;
+        }
       }
     } else {
       this.status = PAGE_STATUS.ERROR;

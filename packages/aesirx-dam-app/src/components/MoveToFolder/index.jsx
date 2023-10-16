@@ -1,9 +1,4 @@
-import {
-  faAngleRight,
-  faArrowLeft,
-  faFolder as faFolderSolid,
-} from '@fortawesome/free-solid-svg-icons';
-import { faFolder } from '@fortawesome/free-regular-svg-icons';
+import { faAngleRight, faArrowLeft, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { observer } from 'mobx-react';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -12,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import styles from './index.module.scss';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
-
+import { Image } from 'aesirx-uikit';
 let moveToFolder_timer = 0;
 let moveToFolder_delay = 200;
 let moveToFolder_prevent = false;
@@ -86,16 +81,16 @@ const MoveToFolder = observer(({ current = 0 }) => {
   };
 
   return (
-    <div className="bg-white border zindex-5 shadow-sm rounded-3">
-      <div className={`w-100 border-0 border-bottom btn w-100 d-flex h-48px align-items-center `}>
+    <div className="bg-white">
+      <div className={` border-0  py-0 btn d-flex  align-items-center `}>
         <FontAwesomeIcon
           onClick={() => goToFolder()}
           className={`text-gray-dark cursor-pointer px-2 ${
-            !currentCollection ? 'pe-none opacity-0' : null
+            !currentCollection ? 'pe-none opacity-0 d-none' : null
           }`}
           icon={faArrowLeft}
         />
-        <span className="ps-3 m-0 text-gray-dark fw-semibold">{t('txt_move_to_folder')} </span>
+        <span className=" m-0 text-gray-dark fs-24 fw-medium">{t('txt_move_to_folder')} </span>
       </div>
       <div className={`w-100 ${styles.list}`}>
         {collections.map((collection, index) => {
@@ -122,8 +117,8 @@ const MoveToFolder = observer(({ current = 0 }) => {
                         styles.item
                       } ${
                         selectCollection?.id === collection?.id
-                          ? `btn-success text-white fw-semibold ${styles.active}`
-                          : 'btn-outline-light text-gray-dark'
+                          ? `bg-color-blue-9 rounded-2 text-gray-dark fw-semibold ${styles.active}`
+                          : 'btn-outline-light rounded-2 text-gray-dark'
                       } ${mapDataSelectCards.includes(+collection?.id) ? styles.disabled : ''}`}
                       disabled={mapDataSelectCards.includes(+collection?.id) ? true : false}
                       onDoubleClick={() => {
@@ -142,16 +137,22 @@ const MoveToFolder = observer(({ current = 0 }) => {
                     >
                       <>
                         {selectCollection?.id === collection?.id ? (
-                          <FontAwesomeIcon className="text-white px-2" icon={faFolderSolid} />
+                          <FontAwesomeIcon className="text-green " icon={faCircleCheck} />
                         ) : (
-                          <FontAwesomeIcon className="text-gray-dark px-2" icon={faFolder} />
+                          <Image
+                            visibleByDefault
+                            src="/assets/images/folder.svg"
+                            className="pe-none"
+                            width={20}
+                            height={20}
+                          />
                         )}
 
                         <span className="ps-3">{collection.name}</span>
                         <FontAwesomeIcon
                           size={'lg'}
                           className={`px-2 ms-auto ${
-                            selectCollection?.id === collection?.id ? `text-white` : 'text-green'
+                            selectCollection?.id === collection?.id ? `text-green` : 'd-none'
                           }`}
                           icon={faAngleRight}
                         />
@@ -164,9 +165,9 @@ const MoveToFolder = observer(({ current = 0 }) => {
           }
         })}
       </div>
-      <div className="d-flex border-top px-2 py-1 justify-content-end align-items-center border-bottom">
+      <div className="d-flex  px-2 pb-3 mb-3 pt-2 justify-content-end align-items-center">
         <button className="m-0 btn py-2 btn-outline-secondary" onClick={closeMoveToFolder}>
-          {t('txt_cancel')}
+          <span className="text-body">{t('txt_cancel')}</span>
         </button>
 
         <OverlayTrigger

@@ -3,24 +3,27 @@
  * @copyright   Copyright (C) 2022 AesirX. All rights reserved.
  * @license     GNU General Public License version 3, see LICENSE.
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useDrag, useDrop } from 'react-dnd';
 import { DAM_ASSETS_FIELD_KEY } from 'aesirx-lib';
 import { useDamViewModel } from 'store/DamStore/DamViewModelContextProvider';
 import { observer } from 'mobx-react';
 import styles from './table.module.scss';
+import { useTranslation } from 'react-i18next';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 export const DND_ITEM_TYPE = 'thumb';
 let timer = 0;
 let delay = 200;
 let prevent = false;
 
-const FakeThumb = observer(({ id, index, isList }) => {
+const FakeThumb = observer(({ id, index, isList, dataLength }) => {
   const {
     damListViewModel: {
       actionState: { selectedCards = [] },
     },
   } = useDamViewModel();
+
   const isSelect = selectedCards.map((selectedCard) => +selectedCard.id).includes(+id);
   const checkBorderBottom = selectedCards
     .map((selectedCard) => +selectedCard.index)
@@ -28,25 +31,40 @@ const FakeThumb = observer(({ id, index, isList }) => {
   const checkBorderTop = selectedCards
     .map((selectedCard) => +selectedCard.index)
     .includes(+index - 1);
+  const isChecked = isSelect | (dataLength === selectedCards.length) ? true : false;
+  const [isHovered, setIsHovered] = useState(false);
 
-  const item = selectedCards.find((selectedCard) => +selectedCard.id === +id);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   return (
     <>
       <span
-        className={`position-absolute rounded-2 top-0 start-0 w-100 h-100  user-select-none ${
-          isSelect ? 'border border-success' : ''
+        className={`position-absolute top-0 start-0 zindex-2 w-100 h-100 user-select-none ${
+          isSelect ? 'border border-2 border-select-item' : ''
         } ${checkBorderBottom && isList ? 'border-bottom-0' : ''} ${
           checkBorderTop && isList ? 'border-top-0' : ''
-        } ${isList && isSelect ? 'bg-success-05' : ''} ${styles.item_hover}`}
+        } ${isList && isSelect ? ' border-start-0 border-end-0 ' : ''} ${styles.item_hover}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       ></span>
-      {item?.indexSelected && !isList ? (
-        <span
-          className={`d-flex align-items-center justify-content-center fw-bold text-white bg-success rounded-circle pe-none user-select-none ${styles.count}`}
+      {!isList && (isSelect || isHovered) && (
+        <div
+          className={`${styles.checkbox} position-absolute top-0 icon-check zindex-1 border border-success end-0 m-2 text-success`}
         >
-          {item.indexSelected + 1}
-        </span>
-      ) : null}
+          <input
+            className="form-check-input zindex-5 p-1 w-100 h-100 bg-transparent"
+            checked={isChecked}
+            onChange={() => {}}
+            type="checkbox"
+          />
+        </div>
+      )}
     </>
   );
 });
@@ -59,15 +77,19 @@ export const IndeterminateCheckbox = observer(({ index, dataLength }) => {
   } = useDamViewModel();
   const selectedIndex = selectedCards.map((selectedCard) => +selectedCard.index).includes(+index);
 
+  const isChecked = selectedIndex | (dataLength === selectedCards.length) ? true : false;
+
   return (
-    <div className={styles.checkbox}>
-      <input
-        className="form-check-input p-0 w-100 h-100"
-        checked={selectedIndex | (dataLength === selectedCards.length) ? true : false}
-        onChange={() => {}}
-        type="checkbox"
-      />
-    </div>
+    isChecked && (
+      <div className={styles.checkbox}>
+        <input
+          className="form-check-input p-0 w-100 h-100 bg-transparent"
+          checked={isChecked}
+          onChange={() => {}}
+          type="checkbox"
+        />
+      </div>
+    )
   );
 });
 
@@ -178,8 +200,8 @@ const Thumb = observer(
       }),
     });
 
-    const onSelect = (e) => {
-      onSelectionChange(index, e.metaKey, e.shiftKey, e.ctrlKey);
+    const onSelect = () => {
+      onSelectionChange(index, true, false, false);
     };
 
     useEffect(() => {
@@ -200,67 +222,26 @@ const Thumb = observer(
     }, []);
 
     drag(drop(ref));
+    const { t } = useTranslation();
+    const tooltip = (
+      <Tooltip id={`tooltip-${row.original.id}`}>
+        <p className="mb-0 fs-12">{t('double_click_to_edit')}</p>
+        <p className="mb-0 fs-12">{t('right-click_to_get_a_list_of_actions')}</p>
+      </Tooltip>
+    );
 
     return isList ? (
-      <tr
-        key={row.getRowProps().key}
-        {...row.getRowProps()}
-        className={`position-relative item_thumb cursor-move ${
-          isOver ? 'border border-success bg-success-05' : 'border-none'
-        } ${className}`}
-        onDoubleClick={() => {
-          clearTimeout(timer);
-          prevent = true;
-          onDoubleClick(row.original);
-        }}
-        onClick={(e) => {
-          timer = setTimeout(function () {
-            if (!prevent) {
-              onSelect(e);
-            }
-            prevent = false;
-          }, delay);
-        }}
-        onContextMenu={(e) => {
-          onRightClickItem(e, { ...row.original, index });
-        }}
-        style={{ opacity }}
-        type={type}
-        ref={ref}
-      >
-        {newRowCells.map((cell, _index) => {
-          if (cell.column.id === 'selection') {
-            return (
-              <td key={_index} {...cell.getCellProps()} style={{ width: 64 }}>
-                <IndeterminateCheckbox index={index} />
-              </td>
-            );
-          } else {
-            return (
-              <td key={_index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
-                {cell.render('Cell')}
-                <FakeThumb id={+row.original.id} index={index} isList={true} />
-              </td>
-            );
-          }
-        })}
-      </tr>
-    ) : (
-      <div style={{ opacity }} className={className}>
-        <div
-          className={`${
-            isOver ? 'border-success bg-success-05' : 'bg-white border-thumb'
-          } position-relative item_thumb d-flex border-1  cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column `}
-          onContextMenu={(e) => {
-            onRightClickItem(e, { ...row.original, index });
-          }}
-          ref={ref}
+      <OverlayTrigger placement="top" overlay={tooltip}>
+        <tr
+          key={row.getRowProps().key}
+          {...row.getRowProps()}
+          className={`position-relative item_thumb cursor-move ${
+            isOver ? 'border border-success bg-success-05' : 'border-none'
+          } ${className}`}
           onDoubleClick={() => {
             clearTimeout(timer);
             prevent = true;
-            if (!isEditCollection) {
-              onDoubleClick(row.original);
-            }
+            onDoubleClick(row.original);
           }}
           onClick={(e) => {
             timer = setTimeout(function () {
@@ -270,12 +251,64 @@ const Thumb = observer(
               prevent = false;
             }, delay);
           }}
+          onContextMenu={(e) => {
+            onRightClickItem(e, { ...row.original, index });
+          }}
+          style={{ opacity }}
           type={type}
+          ref={ref}
         >
-          <ThumbContainer newRowCells={newRowCells} />
-          <FakeThumb id={+row.original.id} />
+          {newRowCells.map((cell, _index) => {
+            if (cell.column.id === 'selection') {
+              return (
+                <td key={_index} {...cell.getCellProps()} style={{ width: 64 }}>
+                  <IndeterminateCheckbox index={index} />
+                </td>
+              );
+            } else {
+              return (
+                <td key={_index} {...cell.getCellProps()} className="fw-normal px-2 py-3">
+                  {cell.render('Cell')}
+                  <FakeThumb id={+row.original.id} index={index} isList={true} />
+                </td>
+              );
+            }
+          })}
+        </tr>
+      </OverlayTrigger>
+    ) : (
+      <OverlayTrigger placement="top" overlay={tooltip}>
+        <div style={{ opacity }} className={className}>
+          <div
+            className={`${
+              isOver ? 'border-success bg-success-05' : 'bg-white border-thumb'
+            } position-relative item_thumb d-flex border-1  cursor-move align-items-center justify-content-center shadow-sm h-100 rounded-2 overflow-hidden flex-column `}
+            onContextMenu={(e) => {
+              onRightClickItem(e, { ...row.original, index });
+            }}
+            ref={ref}
+            onDoubleClick={() => {
+              clearTimeout(timer);
+              prevent = true;
+              if (!isEditCollection) {
+                onDoubleClick(row.original);
+              }
+            }}
+            onClick={(e) => {
+              timer = setTimeout(function () {
+                if (!prevent) {
+                  onSelect(e);
+                }
+                prevent = false;
+              }, delay);
+            }}
+            type={type}
+          >
+            <ThumbContainer newRowCells={newRowCells} />
+            <FakeThumb id={+row.original.id} />
+          </div>
         </div>
-      </div>
+      </OverlayTrigger>
     );
   }
 );

@@ -48,6 +48,7 @@ export default class DamStore {
     try {
       let collections = [];
       let assets = [];
+      let totalAsset = 0;
       const damService = new AesirxDamApiService();
       if (isFetchCollection) {
         const responsedDataCollectionFromLibary = await damService.getCollections(
@@ -72,11 +73,17 @@ export default class DamStore {
           );
           assets = [...assetsData];
         }
+
+        if (responsedDataAssetsFromLibary?.pagination) {
+          totalAsset = responsedDataAssetsFromLibary?.pagination?.totalItems;
+        }
       }
+
       runInAction(() => {
         callbackOnSuccess({
-          collections: collections,
-          assets: assets,
+          collections,
+          assets,
+          totalAsset,
         });
       });
     } catch (error) {
@@ -389,8 +396,8 @@ export default class DamStore {
       });
       if (responseDataFromLibrary?.assets || responseDataFromLibrary?.collections) {
         const homeDataModels = DamUtils.transformResponseIntoSearchItems([
-          ...responseDataFromLibrary?.assets,
-          ...responseDataFromLibrary?.collections,
+          ...(responseDataFromLibrary?.assets ?? []),
+          ...(responseDataFromLibrary?.collections ?? []),
         ]);
 
         return homeDataModels;

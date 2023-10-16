@@ -49,19 +49,18 @@
       display: none !important;
     }
   }
-}
-
-.dark #contextMenuItem {
-  > div:not(:last-child) {
-    svg {
-      path {
-        fill: #fff;
+  #contextMenuItem {
+    > div:not(:last-child) {
+      svg {
+        path {
+          fill: $gray-900;
+        }
       }
-    }
-    .stroke-dark {
-      path {
-        stroke: #fff;
-        fill: transparent;
+      .stroke-dark {
+        path {
+          stroke: $gray-900;
+          fill: transparent;
+        }
       }
     }
   }

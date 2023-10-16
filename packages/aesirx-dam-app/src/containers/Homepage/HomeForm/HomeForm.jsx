@@ -44,6 +44,11 @@ class HomeForm extends Component {
         this.props.viewModel.damEditdata?.[DAM_COLLECTION_FIELD_KEY.FILE_SIZE],
       [DAM_ASSETS_FIELD_KEY.TYPE]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE],
       [DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]: this.props.viewModel.damEditdata?.modified_date_org,
+      [DAM_ASSETS_FIELD_KEY.DESCRIPTION]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.DESCRIPTION],
+      [DAM_ASSETS_FIELD_KEY.KEYWORDS]:
+        this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.KEYWORDS],
+      [DAM_ASSETS_FIELD_KEY.TAGS]: this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TAGS],
     };
   }
 
@@ -102,7 +107,7 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.TYPE],
             disabled: true,
-            className: `col-6 ${
+            className: `col-6 file_type ${
               this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? '' : 'd-none'
             }`,
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
@@ -113,7 +118,15 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value: this.formPropsData[DAM_ASSETS_FIELD_KEY.FILE_SIZE] + ' kb',
             disabled: true,
-            className: 'col-6',
+            className: 'col-6 file_size',
+            inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
+          },
+          {
+            label: t('txt_dimension'),
+            disabled: true,
+            type: FORM_FIELD_TYPE.INPUT,
+            value: ' ',
+            className: 'col-6 dimension ',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
           },
           {
@@ -122,11 +135,9 @@ class HomeForm extends Component {
             type: FORM_FIELD_TYPE.INPUT,
             value:
               this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED] &&
-              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format(
-                'DD MMM, YYYY h:mm:ss'
-              ),
+              moment(this.formPropsData[DAM_ASSETS_FIELD_KEY.LAST_MODIFIED]).format('DD MMM, YYYY'),
             disabled: true,
-            className: 'col-12',
+            className: 'col-6 last_modified ',
             inputClassName: 'bg-transparent border-0 p-0 text-gray-dark',
           },
         ],
@@ -148,7 +159,7 @@ class HomeForm extends Component {
     return (
       <>
         <div className="row pb-3 h-100">
-          <div className="col-lg-9 col-12 h-auto">
+          <div className="col-lg-9 col-12 ">
             <div className={`d-flex align-items-center justify-content-center h-100 `}>
               {!this.props.viewModel.damEditdata?.[DAM_ASSETS_FIELD_KEY.TYPE] ? (
                 <Image
@@ -182,19 +193,19 @@ class HomeForm extends Component {
                   return arr.concat(el);
                 }, [])}
             </div>
-            <div className="row justify-content-end">
+            <div className="row justify-content-end pt-5">
               <div className="col-xxl-4 col-xl-5 col-6">
                 <Button
                   text={t('txt_Cancel')}
                   onClick={closeModal}
-                  className="btn btn-outline-gray-300 bg-white text-blue-0 w-100"
+                  className="btn btn-outline-gray-300 bg-white text-body w-100 fw-semibold border-gray-600"
                 />
               </div>
               <div className="col-xxl-4 col-xl-5 col-6">
                 <Button
                   text={t('txt_save_update')}
                   onClick={this.handleOnSubmit}
-                  className="btn btn-success w-100"
+                  className="btn btn-success w-100 fw-semibold"
                 />
               </div>
             </div>

@@ -78,5 +78,12 @@
   "txt_drop_to_upload": "Soltar para subir",
   "txt_digital_assets_media": "Medios de recursos digitales",
   "txt_can_not_move_to_itself": "Can not move to itself",
-  "txt_name_can_not_blank": "Folder name can not be blank!"
+  "txt_name_can_not_blank": "Folder name can not be blank!",
+  "txt_dimension": "Dimensión",
+  "txt_description": "Descripción",
+  "maximum_upload_size": "Tamaño máximo de carga: 10,00 MB",
+  "txt_keywords": "Palabras clave",
+  "txt_tags": "Etiquetas",
+  "double_click_to_edit": "Doble clic para editar",
+  "right-click_to_get_a_list_of_actions": "Haz clic derecho para obtener una lista de acciones"
 }
