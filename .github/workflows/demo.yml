@@ -2,7 +2,7 @@ name: demo
 on:
   push:
     tags:
-      - "*"
+      - '*'
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -17,8 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-            fetch-depth: 0
-            ref: master
+          fetch-depth: 0
+          ref: master
 
       - uses: actions/setup-node@v3
         with:

@@ -7,9 +7,21 @@ COPY nx.json .
 COPY package.json .
 COPY yarn.lock .
 
-COPY ./packages/aesirx-dam-app/package.json ./packages/aesirx-dam-app/package.json
+COPY ./packages/aesirx-dam-app ./packages/aesirx-dam-app
 COPY ./packages/aesirx-lib ./packages/aesirx-lib
 COPY ./packages/aesirx-uikit ./packages/aesirx-uikit
+
+RUN apk add --update --no-cache \
+    make \
+    g++ \
+    jpeg-dev \
+    cairo-dev \
+    giflib-dev \
+    pango-dev \
+    libtool \
+    autoconf \
+    automake \
+    py3-pip
 
 RUN yarn install --frozen-lockfile --network-timeout 600000
 
@@ -21,6 +33,7 @@ RUN apk add --no-cache git
 
 # Cache and Install dependencies
 COPY --from=deps ./app/node_modules ./node_modules
+COPY --from=deps ./app/packages/aesirx-dam-app/dist ./packages/aesirx-dam-app/dist
 COPY --from=deps ./app/packages/aesirx-lib/dist ./packages/aesirx-lib/dist
 COPY --from=deps ./app/packages/aesirx-uikit/dist ./packages/aesirx-uikit/dist
 
