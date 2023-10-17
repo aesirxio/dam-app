@@ -68,7 +68,7 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
           strategy: upgrade
           ignore-scripts: false
-          package: ./packages/aesirx-dma-app
+          package: ./packages/aesirx-dam-app
 
       - name: Release note
         uses: ncipollo/release-action@v1
