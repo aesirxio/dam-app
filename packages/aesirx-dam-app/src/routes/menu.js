@@ -1,5 +1,3 @@
-
-
 const settingMenu = [
   {
     name: 'profile',
