@@ -1,4 +1,4 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
+
 
 const settingMenu = [
   {
