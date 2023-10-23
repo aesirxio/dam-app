@@ -6,3 +6,7 @@
 	path = packages/aesirx-lib
 	url = https://github.com/aesirxio/aesirx-lib.git
 	branch = develop
+[submodule "packages/aesirx-sso"]
+	path = packages/aesirx-sso
+	url = https://github.com/aesirxio/sso.git
+	branch = develop

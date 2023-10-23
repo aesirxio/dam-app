@@ -90,5 +90,6 @@
   "txt_keywords": "Keywords",
   "txt_tags" : "Tags",
   "double_click_to_edit" : "Double click to edit",
-  "right-click_to_get_a_list_of_actions" : "Right click to get a list of actions"
+  "right-click_to_get_a_list_of_actions" : "Right click to get a list of actions",
+  "txt_sso" : "Single Sign On"
 }
