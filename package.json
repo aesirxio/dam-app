@@ -4,7 +4,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "nx": "16.3.2"
+    "nx": "18.3.4"
   },
   "resolutions": {
     "@yarnpkg/parsers": "3.0.0-rc.48.1",
