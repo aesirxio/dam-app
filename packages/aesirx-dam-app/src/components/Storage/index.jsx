@@ -14,6 +14,23 @@ import { DAM_SUBSCIPTION_FIELD_KEY } from 'aesirx-lib';
 import DamStore from 'store/DamStore/DamStore';
 import storage from './storage.svg';
 
+const gigabyte = 1000000000;
+const mbToByte = 1000000;
+
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return 0;
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return {
+    usageValue: parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) ?? 0,
+    usageType: sizes[i] ?? 'KB',
+  };
+}
+
 const calculatorPercentage = (a, b) => {
   return (a / b) * 100 ?? 0;
 };
@@ -25,14 +42,21 @@ const Storage = () => {
   const getSubscription = async () => {
     try {
       const store = new DamStore();
-      const subscriptionFromLibrary = await store.getSubscription();
-      if (subscriptionFromLibrary) {
-        const damSubscirption = subscriptionFromLibrary?.find((item) => {
-          if (item[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.type === 'product-aesirx-dam') {
-            return item;
-          }
+      const subscriptionDetail = await store.getSubscription();
+      const usage = subscriptionDetail[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE];
+      const limit = subscriptionDetail[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT];
+      if (usage != undefined && limit != undefined) {
+        const percentage = calculatorPercentage(usage, limit);
+        const isGb = limit >= gigabyte;
+        const convertUsage = formatBytes(usage);
+        const convertLimit = isGb ? limit / gigabyte : limit / mbToByte;
+        setSubscription({
+          [DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE]: convertUsage.usageValue,
+          [DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT]: convertLimit,
+          limit_type: isGb ? 'GB' : 'MB',
+          usage_type: convertUsage.usageType,
+          percentage: percentage,
         });
-        setSubscription(damSubscirption);
       }
     } catch (error) {
       console.log(error);
@@ -59,49 +83,25 @@ const Storage = () => {
           className="progress-bar bg-cyan"
           role="progressbar"
           style={{
-            width: `${calculatorPercentage(
-              subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
-                DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
-              ],
-              subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
-                DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
-              ]
-            )}%`,
+            width: `${subscription?.percentage ?? 0}%`,
           }}
           aria-label="Basic example"
-          aria-valuenow={calculatorPercentage(
-            subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
-              DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
-            ],
-            subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
-              DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
-            ]
-          )}
+          aria-valuenow={subscription?.percentage ?? 0}
           aria-valuemin="0"
           aria-valuemax="100"
         ></div>
       </div>
       <p className="mb-0 d-flex flex-wrap ">
         <span className="text-white fs-14">
-          {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
-            DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
-          ]
-            ? subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT]?.[
-                DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE
-              ]
+          {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE]
+            ? subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PRODUCT_STORAGE_USAGE]
             : 0}
-          {'MB '}
-          {t('txt_of')}{' '}
-          {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
-            DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
-          ]
-            ? subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
-                DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
-              ]
+          {subscription?.usage_type ?? 'MB'} {t('txt_of')}{' '}
+          {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT]
+            ? subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT]
             : 0}
-          {'MB '}
-          {t('txt_used')}
-          {/* {subscription?.[DAM_SUBSCIPTION_FIELD_KEY.PACKAGE]?.[
+          {subscription?.limit_type ?? 'MB'} {t('txt_used')}
+          {/* {subscription?.[
               DAM_SUBSCIPTION_FIELD_KEY.PACKAGE_STORAGE_LIMIT
             ] ?? 'Unlimited'} */}
         </span>
