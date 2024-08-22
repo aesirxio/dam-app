@@ -106,7 +106,7 @@ const Storage = () => {
             ] ?? 'Unlimited'} */}
         </span>
         <a
-          href="https://dam.aesirx.io/#packages"
+          href="https://dapp.shield.aesirx.io/licenses"
           className="text-cyan text-decoration-underline fs-14 d-inline-block ps-1"
           target="_blank"
           rel="noreferrer"
