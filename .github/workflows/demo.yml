@@ -1,21 +1,22 @@
 name: demo
+
 on:
   push:
     tags:
-      - '*'
+      - "*"
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: demo
     env:
       CI: false
-      REACT_APP_ENDPOINT_URL: ${{ secrets.REACT_APP_ENDPOINT_URL }}
       REACT_APP_DEMO_USER: ${{ secrets.REACT_APP_DEMO_USER }}
       REACT_APP_DEMO_PASSWORD: ${{ secrets.REACT_APP_DEMO_PASSWORD }}
       REACT_APP_SSO_CLIENT_ID: ${{ secrets.REACT_APP_SSO_CLIENT_ID }}
       REACT_APP_SSO_CLIENT_SECRET: ${{ secrets.REACT_APP_SSO_CLIENT_SECRET }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: master
@@ -25,7 +26,7 @@ jobs:
           node-version: 16
 
       - run: git submodule update --init --recursive
-      - run: yarn install
+      - run: yarn install --frozen-lockfile
       - run: yarn build
 
       - name: Install SSH Key
@@ -38,4 +39,4 @@ jobs:
         run: ssh-keyscan -p ${{ secrets.SSH_PORT}} -H ${{ secrets.SSH_HOST }}  >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./packages/aesirx-dam-app/build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}
