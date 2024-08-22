@@ -15,10 +15,11 @@
     "postcss": "^8",
     "nth-check": "^2.0.1",
     "clipboardy": "3.0.0",
-    "tsup": "6"
+    "tsup": "6",
+    "@types/react": "^18"
   },
   "scripts": {
-    "prepare": "nx run aesirx-lib:build && nx run aesirx-uikit:build && nx run-many -t build:lib --exclude aesirx-uikit aesirx-lib aesirx-dam-app",
+    "prepare": "nx run aesirx-lib:build && nx run aesirx-sso:build && nx run aesirx-uikit:build  && nx run-many -t build:lib --exclude aesirx-uikit aesirx-lib aesirx-dam-app",
     "dev": "nx run-many -t dev",
     "dev:lib": "nx run aesirx-dam-app:dev:lib",
     "build": "nx run aesirx-dam-app:build",

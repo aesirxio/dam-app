@@ -85,5 +85,6 @@
   "txt_keywords": "Ključne riječi",
   "txt_tags" : "Oznake",
   "double_click_to_edit" : "Dvaput kliknite za uređivanje",
-  "right-click_to_get_a_list_of_actions" : "Desni klik za dobivanje popisa radnji"
+  "right-click_to_get_a_list_of_actions" : "Desni klik za dobivanje popisa radnji",
+  "txt_sso" : "Jednostruka prijava"
 }

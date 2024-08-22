@@ -6,6 +6,7 @@
 import React, { lazy } from 'react';
 import { LoginPage, ProfilePage } from 'aesirx-uikit';
 import { Redirect } from 'react-router-dom';
+import { SSOConfig } from 'aesirx-sso';
 
 const DashboardPage = lazy(() => import('../containers/Homepage'));
 
@@ -35,6 +36,11 @@ const settingRoutes = [
     path: '/profile',
     exact: false,
     main: () => <ProfilePage />,
+  },
+  {
+    path: '/sso',
+    exact: false,
+    main: () => <SSOConfig />,
   },
 ];
 

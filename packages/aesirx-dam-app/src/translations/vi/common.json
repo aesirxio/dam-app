@@ -86,5 +86,6 @@
   "txt_keywords": "Từ khóa",
   "txt_tags" : "Thẻ",
   "double_click_to_edit" : "Nhấp đúp để chỉnh sửa",
-  "right-click_to_get_a_list_of_actions" : "Nhấp chuột phải để xem danh sách hành động"
+  "right-click_to_get_a_list_of_actions" : "Nhấp chuột phải để xem danh sách hành động",
+  "txt_sso" : "Đăng nhập một lần"
 }
