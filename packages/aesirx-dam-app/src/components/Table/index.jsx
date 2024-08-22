@@ -140,7 +140,7 @@ const Table = ({
       const limitStart =
         listViewModel.dataFilter['list[limit]'] + listViewModel.dataFilter['list[start]'];
 
-        console.log('limitStart', limitStart, listViewModel.totalAsset)
+      console.log('limitStart', limitStart, listViewModel.totalAsset);
 
       if (limitStart < listViewModel.totalAsset) {
         const collectionId = history.location.pathname.split('/');
