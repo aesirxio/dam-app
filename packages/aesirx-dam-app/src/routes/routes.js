@@ -6,8 +6,9 @@
 import React, { lazy } from 'react';
 import { LoginPage, ProfilePage } from 'aesirx-uikit';
 import { Redirect } from 'react-router-dom';
-import { SSOConfig } from 'aesirx-sso';
-
+const SSOConfig = lazy(() =>
+  import('aesirx-sso').then((module) => ({ default: module.SSOConfig }))
+);
 const DashboardPage = lazy(() => import('../containers/Homepage'));
 
 const authRoutes = [
