@@ -85,5 +85,6 @@
   "txt_keywords": "Mots clés",
   "txt_tags" : "Balises",
   "double_click_to_edit" : "Double-cliquez pour éditer",
-  "right-click_to_get_a_list_of_actions" : "Cliquez avec le bouton droit pour obtenir une liste d'actions"
+  "right-click_to_get_a_list_of_actions" : "Cliquez avec le bouton droit pour obtenir une liste d'actions",
+  "txt_sso" : "Authentification unique"
 }

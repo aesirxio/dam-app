@@ -85,5 +85,6 @@
   "txt_keywords": "Palabras clave",
   "txt_tags": "Etiquetas",
   "double_click_to_edit": "Doble clic para editar",
-  "right-click_to_get_a_list_of_actions": "Haz clic derecho para obtener una lista de acciones"
+  "right-click_to_get_a_list_of_actions": "Haz clic derecho para obtener una lista de acciones",
+  "txt_sso": "Inicio de sesión único"
 }
