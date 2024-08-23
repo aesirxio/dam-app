@@ -10,6 +10,7 @@ COPY yarn.lock .
 COPY ./packages/aesirx-dam-app ./packages/aesirx-dam-app
 COPY ./packages/aesirx-lib ./packages/aesirx-lib
 COPY ./packages/aesirx-uikit ./packages/aesirx-uikit
+COPY ./packages/aesirx-sso ./packages/aesirx-sso
 
 RUN apk add --update --no-cache \
     make \
@@ -36,6 +37,7 @@ COPY --from=deps ./app/node_modules ./node_modules
 COPY --from=deps ./app/packages/aesirx-dam-app/dist ./packages/aesirx-dam-app/dist
 COPY --from=deps ./app/packages/aesirx-lib/dist ./packages/aesirx-lib/dist
 COPY --from=deps ./app/packages/aesirx-uikit/dist ./packages/aesirx-uikit/dist
+COPY --from=deps ./app/packages/aesirx-sso/build ./packages/aesirx-sso/build
 
 # Copy app files
 COPY ./.git ./
@@ -44,6 +46,7 @@ COPY ./package.json ./
 
 COPY ./packages/aesirx-lib/package.json ./packages/aesirx-lib/package.json
 COPY ./packages/aesirx-uikit/package.json ./packages/aesirx-uikit/package.json
+COPY ./packages/aesirx-sso/package.json ./packages/aesirx-sso/package.json
 
 COPY ./packages/aesirx-dam-app/package.json ./packages/aesirx-dam-app/
 COPY ./packages/aesirx-dam-app/craco.config.js ./packages/aesirx-dam-app/
